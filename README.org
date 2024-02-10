@@ -1,0 +1,30 @@
+#+title: Extracting the Alignments of LLMs
+#+date: Sat Feb 10 16:49:45 2024
+#+author: Zi Liang
+#+email: zi1415926.liang@connect.polyu.hk
+#+latex_class: elegantpaper
+#+filetags: ::
+
+
++ SFT dataset
+  + XP3
+  + Natural Instructions
++ RLHF dataset to train the reward model.
+  + Anthropics's preference dataset.
++ Open-source LLMs
+  + llama2-7B
++ training Framework
+  + trl
++ Evaluation Benchmark
+  + HELM
+  + BIG-Bench
+
+
+
+
+
+
+
+
+
+
