@@ -16,9 +16,10 @@
 export python=/home/liangzi/anaconda3/envs/align/bin/python3
 
 export bs_per=4
+export pretrained_model="facebook/opt-350m"
 
 $python rewardmodel_train.py \
-    --model_name_or_path="facebook/opt-350m" \
+    --model_name_or_path=$pretrained_model \
     --output_dir="reward_modeling_anthropic_hh" \
     --per_device_train_batch_size=$bs_per \
     --num_train_epochs=1 \
