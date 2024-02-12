@@ -71,10 +71,18 @@ if __name__ == "__main__":
         device_map=get_kbit_device_map() if quantization_config is not None else None,
         quantization_config=quantization_config,
     )
-    tokenizer = AutoTokenizer.from_pretrained(model_config.model_name_or_path, use_fast=True)
+    tokenizer = AutoTokenizer.from_pretrained(
+        model_config.model_name_or_path,
+        use_fast=True,
+        padding="max_length",
+        )
     model = AutoModelForSequenceClassification.from_pretrained(
-        model_config.model_name_or_path, num_labels=1, **model_kwargs
+        model_config.model_name_or_path,
+        # device_map="auto",
+        num_labels=1, **model_kwargs
     )
+    # if tokenizer.pad_token is None:
+    tokenizer.pad_token = tokenizer.eos_token
 
     ################
     # Dataset
@@ -91,8 +99,8 @@ if __name__ == "__main__":
             "attention_mask_rejected": [],
         }
         for chosen, rejected in zip(examples["chosen"], examples["rejected"]):
-            tokenized_chosen = tokenizer(chosen)
-            tokenized_rejected = tokenizer(rejected)
+            tokenized_chosen = tokenizer(chosen,padding="max_length")
+            tokenized_rejected = tokenizer(rejected,padding="max_length")
 
             new_examples["input_ids_chosen"].append(tokenized_chosen["input_ids"])
             new_examples["attention_mask_chosen"].append(tokenized_chosen["attention_mask"])
@@ -105,12 +113,12 @@ if __name__ == "__main__":
     raw_datasets = raw_datasets.map(
         preprocess_function,
         batched=True,
-        num_proc=4,
+        num_proc=8,
     )
-    raw_datasets = raw_datasets.filter(
-        lambda x: len(x["input_ids_chosen"]) <= reward_config.max_length
-        and len(x["input_ids_rejected"]) <= reward_config.max_length
-    )
+    # raw_datasets = raw_datasets.filter(
+    #     lambda x: len(x["input_ids_chosen"]) <= reward_config.max_length
+    #     and len(x["input_ids_rejected"]) <= reward_config.max_length
+    # )
     train_dataset = raw_datasets["train"]
     eval_dataset = raw_datasets["test"]
 
