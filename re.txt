@@ -1,0 +1,13 @@
+accelerate==0.27.0
+bitsandbytes==0.42.0
+datasets==2.17.0
+numpy==1.26.4
+pandas==2.2.0
+peft==0.8.2
+scipy==1.12.0
+tokenizers==0.15.1
+torch==2.2.0
+tqdm==4.66.2
+transformers==4.38.1
+triton==2.2.0
+trl @ git+https://github.com/huggingface/trl@685209716915b010098b7e18b05fbad42af864d3
