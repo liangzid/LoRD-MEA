@@ -21,12 +21,5 @@ $python rlhf_train.py \
 	--query_dataset=""
 
 
-
-
-
-
-
-
-
 echo "RUNNING 0.3.0.rlhf_train.sh DONE."
 # 0.3.0.rlhf_train.sh ends here
