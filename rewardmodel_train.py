@@ -80,7 +80,6 @@ if __name__ == "__main__":
     )
     model = AutoModelForSequenceClassification.from_pretrained(
         model_config.model_name_or_path,
-        device_map="cuda:3",
         num_labels=1, **model_kwargs
     )
     # if tokenizer.pad_token is None:
@@ -126,7 +125,7 @@ if __name__ == "__main__":
     #     and len(x["input_ids_rejected"]) <= reward_config.max_length
     # )
     train_dataset = raw_datasets["train"]
-    eval_dataset = raw_datasets["test"]
+    eval_dataset = raw_datasets["test"][:500]
 
     ################
     # Training
