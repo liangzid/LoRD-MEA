@@ -40,20 +40,22 @@ python examples/scripts/reward_modeling.py \
     --max_length=512 \
 """
 
+
 import torch
 from datasets import load_dataset
 from tqdm import tqdm
 from transformers import AutoModelForSequenceClassification, AutoTokenizer, HfArgumentParser
-
 from trl import ModelConfig, RewardConfig, RewardTrainer, get_kbit_device_map, get_peft_config, get_quantization_config
-
-
 tqdm.pandas()
 
 
 if __name__ == "__main__":
     parser = HfArgumentParser((RewardConfig, ModelConfig))
     reward_config, model_config = parser.parse_args_into_dataclasses()
+    reward_config.per_device_train_batch_size = 1
+    reward_config.per_device_eval_batch_size = 1
+    print("reward config:", reward_config)
+    print("model config:", model_config)
     reward_config.gradient_checkpointing_kwargs = dict(use_reentrant=False)
 
     ################
@@ -75,10 +77,10 @@ if __name__ == "__main__":
         model_config.model_name_or_path,
         use_fast=True,
         padding="max_length",
-        )
+    )
     model = AutoModelForSequenceClassification.from_pretrained(
         model_config.model_name_or_path,
-        # device_map="auto",
+        device_map="cuda:3",
         num_labels=1, **model_kwargs
     )
     # if tokenizer.pad_token is None:
@@ -99,13 +101,17 @@ if __name__ == "__main__":
             "attention_mask_rejected": [],
         }
         for chosen, rejected in zip(examples["chosen"], examples["rejected"]):
-            tokenized_chosen = tokenizer(chosen,padding="max_length")
-            tokenized_rejected = tokenizer(rejected,padding="max_length")
+            tokenized_chosen = tokenizer(chosen, padding="max_length")
+            tokenized_rejected = tokenizer(rejected, padding="max_length")
 
-            new_examples["input_ids_chosen"].append(tokenized_chosen["input_ids"])
-            new_examples["attention_mask_chosen"].append(tokenized_chosen["attention_mask"])
-            new_examples["input_ids_rejected"].append(tokenized_rejected["input_ids"])
-            new_examples["attention_mask_rejected"].append(tokenized_rejected["attention_mask"])
+            new_examples["input_ids_chosen"].append(
+                tokenized_chosen["input_ids"])
+            new_examples["attention_mask_chosen"].append(
+                tokenized_chosen["attention_mask"])
+            new_examples["input_ids_rejected"].append(
+                tokenized_rejected["input_ids"])
+            new_examples["attention_mask_rejected"].append(
+                tokenized_rejected["attention_mask"])
 
         return new_examples
 
