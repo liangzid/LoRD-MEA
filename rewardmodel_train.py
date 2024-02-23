@@ -70,7 +70,8 @@ if __name__ == "__main__":
     model_kwargs = dict(
         revision=model_config.model_revision,
         trust_remote_code=model_config.trust_remote_code,
-        device_map=get_kbit_device_map() if quantization_config is not None else None,
+        # device_map=get_kbit_device_map() if quantization_config is not None else None,
+        device_map="auto",
         quantization_config=quantization_config,
     )
     tokenizer = AutoTokenizer.from_pretrained(
