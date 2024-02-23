@@ -70,7 +70,8 @@ if __name__ == "__main__":
     model_kwargs = dict(
         revision=model_config.model_revision,
         trust_remote_code=model_config.trust_remote_code,
-        device_map=get_kbit_device_map() if quantization_config is not None else None,
+        # device_map=get_kbit_device_map() if quantization_config is not None else None,
+        device_map="auto",
         quantization_config=quantization_config,
     )
     tokenizer = AutoTokenizer.from_pretrained(
@@ -80,7 +81,6 @@ if __name__ == "__main__":
     )
     model = AutoModelForSequenceClassification.from_pretrained(
         model_config.model_name_or_path,
-        device_map="cuda:3",
         num_labels=1, **model_kwargs
     )
     # if tokenizer.pad_token is None:

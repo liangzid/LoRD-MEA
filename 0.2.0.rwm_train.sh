@@ -16,23 +16,27 @@
 export python=/home/liangzi/anaconda3/envs/align/bin/python3
 
 export bs_per=1
-# export pretrained_model="facebook/opt-350m"
+export pretrained_model="facebook/opt-350m"
 # export pretrained_model="microsoft/phi-1_5"
-export pretrained_model="microsoft/phi-2"
+# export pretrained_model="microsoft/phi-2"
 # export pretrained_model="gpt2"
 
+export CUDA_VISIBLE_DEVICES="1,2,3"
+
 $python rewardmodel_train.py \
+	--do_eval=True\
+	--do_train=True\
     --model_name_or_path=$pretrained_model \
     --output_dir="reward_modeling_anthropic_hh" \
     --per_device_train_batch_size=$bs_per \
-    --num_train_epochs=2 \
-    --gradient_accumulation_steps=16 \
+    --num_train_epochs=1 \
+    --gradient_accumulation_steps=1 \
     --gradient_checkpointing=True \
     --learning_rate=3e-5 \
     --report_to="wandb" \
     --remove_unused_columns=False \
     --optim="adamw_torch" \
-    --logging_steps=500 \
+    --logging_steps=1000 \
     --evaluation_strategy="steps" \
     --max_length=1024 
 
