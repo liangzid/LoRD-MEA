@@ -36,7 +36,7 @@ $python rewardmodel_train.py \
     --report_to="wandb" \
     --remove_unused_columns=False \
     --optim="adamw_torch" \
-    --logging_steps=1000 \
+    --logging_steps=500 \
     --evaluation_strategy="steps" \
     --max_length=1024 
 

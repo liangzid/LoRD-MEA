@@ -17,6 +17,10 @@ Reference: https://huggingface.co/google/gemma-7b/blob/main/examples/example_sft
 from dataclasses import dataclass, field
 from typing import Optional
 from pprint import pprint
+import os
+
+os.environ["CUDA_VISIBLE_DEVICES"]="0"
+hf_token=os.environ["HF_TOKEN"]
 
 import torch
 
@@ -123,6 +127,7 @@ def main():
         quantization_config=quantization_config,
         torch_dtype=torch.float32,
         attn_implementation=attn_implementation,
+        token=hf_token,
     )
 
     # Load tokenizer
