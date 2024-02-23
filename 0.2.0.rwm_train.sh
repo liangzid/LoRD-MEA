@@ -15,8 +15,11 @@
 
 export python=/home/liangzi/anaconda3/envs/align/bin/python3
 
-export bs_per=4
-export pretrained_model="facebook/opt-350m"
+export bs_per=1
+# export pretrained_model="facebook/opt-350m"
+# export pretrained_model="microsoft/phi-1_5"
+export pretrained_model="microsoft/phi-2"
+# export pretrained_model="gpt2"
 
 $python rewardmodel_train.py \
     --model_name_or_path=$pretrained_model \
@@ -29,9 +32,9 @@ $python rewardmodel_train.py \
     --report_to="wandb" \
     --remove_unused_columns=False \
     --optim="adamw_torch" \
-    --logging_steps=100 \
+    --logging_steps=500 \
     --evaluation_strategy="steps" \
-    --max_length=1024 \
+    --max_length=1024 
 
 echo "RUNNING 0.2.0.rwm_train.sh DONE."
 # 0.2.0.rwm_train.sh ends here
