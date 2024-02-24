@@ -77,11 +77,11 @@ if __name__ == "__main__":
     tokenizer = AutoTokenizer.from_pretrained(
         model_config.model_name_or_path,
         # use_fast=True,
-        padding="max_length",
+        # padding="max_length",
     )
     model = AutoModelForSequenceClassification.from_pretrained(
         model_config.model_name_or_path,
-        num_labels=1, **model_kwargs
+        num_labels=2, **model_kwargs
     )
     # if tokenizer.pad_token is None:
     tokenizer.pad_token = tokenizer.eos_token
@@ -92,7 +92,6 @@ if __name__ == "__main__":
     raw_datasets = load_dataset("Anthropic/hh-rlhf")
     eval_datasets = load_dataset("Anthropic/hh-rlhf",
                                  split="test[:200]")
-    print(raw_datasets)
     # Tokenize chosen/rejected pairs of inputs
     # Adapt this section to your needs for custom datasets
 
@@ -129,12 +128,11 @@ if __name__ == "__main__":
         batched=True,
         num_proc=16,
         )
-    # raw_datasets = raw_datasets.filter(
-    #     lambda x: len(x["input_ids_chosen"]) <= reward_config.max_length
-    #     and len(x["input_ids_rejected"]) <= reward_config.max_length
-    # )
+    raw_datasets = raw_datasets.filter(
+        lambda x: len(x["input_ids_chosen"]) <= reward_config.max_length
+        and len(x["input_ids_rejected"]) <= reward_config.max_length
+    )
     train_dataset = raw_datasets["train"]
-    print(eval_dataset)
 
     ################
     # Training

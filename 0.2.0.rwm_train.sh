@@ -30,13 +30,13 @@ $python rewardmodel_train.py \
     --output_dir="reward_modeling_anthropic_hh" \
     --per_device_train_batch_size=$bs_per \
     --num_train_epochs=1 \
-    --gradient_accumulation_steps=1 \
-    --gradient_checkpointing=True \
-    --learning_rate=3e-5 \
+    --gradient_accumulation_steps=4 \
+    --gradient_checkpointing=False \
+    --learning_rate=1.41e-5 \
     --report_to="wandb" \
     --remove_unused_columns=False \
     --optim="adamw_torch" \
-    --logging_steps=500 \
+    --logging_steps=30000 \
     --evaluation_strategy="steps" \
     --max_length=1024 
 
