@@ -201,20 +201,20 @@ def setup_train_args():
                         required=False)
 
 
-    parser.add_argument('--lr', default=3e-4, type=float,
+    parser.add_argument('--LR', default=3e-4, type=float,
                         required=False)
     parser.add_argument('--lambdaa', default=0.95, type=float,
                         required=False)
-    parser.add_argument('--lambdaa', default=0.95, type=float,
+    parser.add_argument('--lambda1', default=0.95, type=float,
                         required=False)
-    parser.add_argument('--max_length', default=1024, type=int,
+    parser.add_argument('--lambda2', default=0.95, type=float,
                         required=False)
 
     parser.add_argument('--batch_size', default=1, type=int,
                         required=False)
     parser.add_argument('--task', default="pod", type=str,
                         required=False,)
-    parser.add_argument("--max_seq_length", default=1024,
+    parser.add_argument("--max_length", default=1024,
                         type=int, required=False)
 
     parser.add_argument('--from_path', default='bert-tiny',
