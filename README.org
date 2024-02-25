@@ -21,6 +21,15 @@
 
 
 
+Possible Backbones:
+
+- Phi series
+- openai-community/gpt2
+
+
+Continuing Training on existing LLMs:
+
+- 
 
 
 

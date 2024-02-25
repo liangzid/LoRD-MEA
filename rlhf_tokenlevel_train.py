@@ -88,7 +88,7 @@ def train_one_period(lm, vmodel,
                 convince_gen*A,
                 clip(convince_gen,epsilon)*A))
 
-            values=vmodel(inps_idxs).logits.expand(bs, sqlen-1)
+            values=vmodel(inps_idxs).logits
             loss_vfunc = torch.sum((values-V)**2)
 
             entropy=torch.sum(Categorical(logits).entropy())
@@ -154,7 +154,6 @@ def ___V_target_compute(reward, lambdaa=0.95):
 def train_pod(lm, vmodel, rewardmodel,
               lm_tokenizer,
               args, raw_train_datals):
-    print(">>>> DATA PREPERATION")
     ## STEP 1: DATA Preperation.
     rewardls=None
     ITER_num=args.period_num
@@ -170,32 +169,28 @@ def train_pod(lm, vmodel, rewardmodel,
                 rewardls=[]
                 for inps_idxs in raw_train_datals:
                     inps_idxs=inps_idxs.to(args.device).unsqueeze(0)
-                    bs,sql=inps_idxs.shape
                     reward=rewardmodel(inps_idxs[:,:-1])\
-                        .logits.expand(bs,sql-1)
-                    rewardls.append(reward.squeeze(0).to("cpu"))
+                        .logits.squeeze(-1)
+                    rewardls.append(reward.squeeze(0))
 
-                    old_logits=lm(inps_idxs[:,:-1])\
-                        .logits
+                    old_logits=lm(inps_idxs[:,:-1]).logits
                     V=___V_target_compute(reward, lambdaa=args.lambdaa)
-                    A=V-vmodel(inps_idxs[:,:-1]).logits.expand(bs,sql-1)
-                    old_logitsls.append(old_logits.squeeze(0).to("cpu"))
-                    Als.append(A.squeeze(0).to("cpu"))
-                    Vls.append(V.squeeze(0).to("cpu"))
+                    A=V-vmodel(inps_idxs[:,:-1]).logits.squeeze(-1)
+                    old_logitsls.append(old_logits.squeeze(0))
+                    Als.append(A.squeeze(0))
+                    Vls.append(V.squeeze(0))
             else:
                 rewardmodel=None
                 for i, inps_idxs in enumerate(raw_train_datals):
-                    bs,sql=inps_idxs.shape
                     inps_idxs=inps_idxs.to(args.device).unsqueeze(0)
-                    reward=rewardls[i].to(args.device)
+                    reward=rewardls[i]
 
-                    old_logits=lm(inps_idxs[:,:-1])\
-                        .logits
+                    old_logits=lm(inps_idxs[:,:-1]).logits
                     V=___V_target_compute(reward, lambdaa=args.lambdaa)
-                    A=V-vmodel(inps_idxs[:,:-1]).expand(bs,sql-1)
-                    old_logitsls.append(old_logits.squeeze(0).to("cpu"))
-                    Als.append(A.squeeze(0).to("cpu"))
-                    Vls.append(V.squeeze(0).to("cpu"))
+                    A=V-vmodel(inps_idxs[:,:-1]).logits
+                    old_logitsls.append(old_logits.squeeze(0))
+                    Als.append(A.squeeze(0))
+                    Vls.append(V.squeeze(0))
         overall_ls=zip(raw_train_datals,rewardls,old_logitsls,
                        Als,Vls)
         
@@ -213,7 +208,6 @@ def train_pod(lm, vmodel, rewardmodel,
                           batch_size=args.batch_size,
                           shuffle=True,
                           )
-        print(">>>> Period {}".format(iter_idx))
         ## STEP 2: Train the Model in a period
         lm,vmodel= train_one_period(lm, vmodel,
                                     lm_tokenizer,
@@ -302,18 +296,16 @@ def main():
         args.from_path,
         device_map="auto",
         )
-
     lm_tokenizer=AutoTokenizer.from_pretrained(args.from_path)
     if lm_tokenizer.pad_token is None:
         lm_tokenizer.pad_token=lm_tokenizer.eos_token
 
-    rewardmodel=AutoModelForSequenceClassification.from_pretrained(
+    rewardmodel=AutoModelForTokenClassification.from_pretrained(
         args.v_from_path,
         device_map="auto",
         num_labels=1,
         )
-
-    vmodel=AutoModelForSequenceClassification.from_pretrained(
+    vmodel=AutoModelForTokenClassification.from_pretrained(
         args.v_from_path,
         device_map="auto",
         num_labels=1,
@@ -321,7 +313,6 @@ def main():
     # vtokenizer=AutoTokenizer.from_pretrained(args.v_from_path)
 
     raw_train_datals=load_raw_train_datals(lm_tokenizer, args.max_length)
-    print("Data LOADING done.")
 
     train_pod(
         lm, vmodel, rewardmodel,

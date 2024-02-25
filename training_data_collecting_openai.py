@@ -129,7 +129,7 @@ def generate_training_data(
 def load_raw_train_datals(lm_tokenizer, max_length=1024):
     dataset_name = "Anthropic/hh-rlhf"
     trainset_text= load_dataset(dataset_name, split="train")
-    trainset_text =trainset_text["chosen"][:10]
+    trainset_text =trainset_text["chosen"][:100]
 
     data=lm_tokenizer(trainset_text,
                       padding="longest",
