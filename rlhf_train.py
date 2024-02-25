@@ -17,6 +17,7 @@ from torch.distributions import Categorical
 from torch.utils.data import TensorDataset, DataLoader
 from tqdm import tqdm
 
+from training_data_collecting_openai import load_raw_train_datals
 
 
 def clip(tnsr, epsilon):
@@ -24,16 +25,18 @@ def clip(tnsr, epsilon):
     tnsr=torch.max(tnsr, 1-epsilon)
     return tnsr
 
-def train_one_period(lm, vmodel, loader, epoch, device,
+def train_one_period(lm, vmodel,
+                     lm_tokenizer,
+                     loader, epoch, device,
                      tb_writer,
                      save_path,
                      LR=3e-5,
                      acc_step=1,
                      log_step=100,
                      save_step=1000,
+                     lambda1=0.7,
+                     lambda2=0.7,
                      ):
-    lambda1=0.7
-    lambda2=0.7
     overall_loss=0.
     overall_step=0
 
@@ -100,27 +103,6 @@ def ___V_target_compute(reward, lambdaa=0.95):
     """
     shape of `reward`: bs, sql
     """
-    # length 150
-    lambdals=[1.0, 0.95, 0.902, 0.857, 0.815, 0.774, 0.735, 0.698,
-              0.663, 0.63, 0.599, 0.569, 0.54, 0.513, 0.488, 0.463,
-              0.44, 0.418, 0.397, 0.377, 0.358, 0.341, 0.324, 0.307,
-              0.292, 0.277, 0.264, 0.25, 0.238, 0.226, 0.215, 0.204,
-              0.194, 0.184, 0.175, 0.166, 0.158, 0.15, 0.142, 0.135,
-              0.129, 0.122, 0.116, 0.11, 0.105, 0.099, 0.094, 0.09,
-              0.085, 0.081, 0.077, 0.073, 0.069, 0.066, 0.063, 0.06,
-              0.057, 0.054, 0.051, 0.048, 0.046, 0.044, 0.042, 0.039,
-              0.038, 0.036, 0.034, 0.032, 0.031, 0.029, 0.028, 0.026,
-              0.025, 0.024, 0.022, 0.021, 0.02, 0.019, 0.018, 0.017,
-              0.017, 0.016, 0.015, 0.014, 0.013, 0.013, 0.012, 0.012,
-              0.011, 0.01, 0.01, 0.009, 0.009, 0.008, 0.008, 0.008,
-              0.007, 0.007, 0.007, 0.006, 0.006, 0.006, 0.005, 0.005,
-              0.005, 0.005, 0.004, 0.004, 0.004, 0.004, 0.004, 0.003,
-              0.003, 0.003, 0.003, 0.003, 0.003, 0.002, 0.002, 0.002,
-              0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.002, 0.001,
-              0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001,
-              0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001, 0.001,
-              0.001, 0.001, 0.001, 0.001, 0.001, 0.0]
-
     bs, sql=reward.shape
     window_size=150
     V=torch.zero((bs, sql))
@@ -132,7 +114,9 @@ def ___V_target_compute(reward, lambdaa=0.95):
     return V
 
 
-def train_pod(lm, vmodel, rewardmodel, args, raw_train_datals):
+def train_pod(lm, vmodel, rewardmodel,
+              lm_tokenizer,
+              args, raw_train_datals):
     ## STEP 1: DATA Preperation.
     rewardls=None
     ITER_num=args.period_num
@@ -180,20 +164,22 @@ def train_pod(lm, vmodel, rewardmodel, args, raw_train_datals):
                           shuffle=True,
                           )
         ## STEP 2: Train the Model in a period
-        lm,vmodel= train_one_period(lm, vmodel, loader,
-                                    args.epoch,args.device,
-                                    tb_writer,args.save_path,args.LR,
+        lm,vmodel= train_one_period(lm, vmodel,
+                                    lm_tokenizer,
+                                    loader,
+                                    args.epoch, args.device,
+                                    tb_writer, args.save_path, args.LR,
                                     args.acc_step, args.log_step,
                                     args.save_step)
             
         print(" -->NOW save the ckpt in each period.")
         print(f"in period {iter_idx}.")
-        tokenizer.save_pretrained(save_path+"___period"+iter_idx)
-        model.save_pretrained(save_path+"___period"+iter_idx)
+        tokenizer.save_pretrained(args.save_path+"___period"+iter_idx)
+        lm.save_pretrained(args.save_path+"___period"+iter_idx)
 
     print(" -->ALL TRAINING DONE.")
-    tokenizer.save_pretrained(save_path+"___finally")
-    model.save_pretrained(save_path+"___finally")
+    tokenizer.save_pretrained(args.save_path+"___finally")
+    lm.save_pretrained(args.save_path+"___finally")
     print(" -->Save DONE.")
 
 def setup_train_args():
@@ -205,41 +191,75 @@ def setup_train_args():
                         required=False)
     parser.add_argument('--epoch', default=2, type=int,
                         required=False)
-    parser.add_argument('--', default=2, type=int,
+    parser.add_argument('--period_num', default=3, type=int,
                         required=False)
+    parser.add_argument('--acc_step', default=4, type=int,
+                        required=False)
+    parser.add_argument('--log_step', default=100, type=int,
+                        required=False)
+    parser.add_argument('--save_step', default=10000, type=int,
+                        required=False)
+
+
     parser.add_argument('--lr', default=3e-4, type=float,
                         required=False)
+    parser.add_argument('--lambdaa', default=0.95, type=float,
+                        required=False)
+    parser.add_argument('--lambdaa', default=0.95, type=float,
+                        required=False)
+    parser.add_argument('--max_length', default=1024, type=int,
+                        required=False)
+
     parser.add_argument('--batch_size', default=1, type=int,
                         required=False)
     parser.add_argument('--task', default="pod", type=str,
                         required=False,)
     parser.add_argument("--max_seq_length", default=1024,
                         type=int, required=False)
-    parser.add_argument('--pretrained_model_path', default='bert-tiny',
+
+    parser.add_argument('--from_path', default='bert-tiny',
+                        type=str, required=True,)
+    parser.add_argument('--save_path',
+                        default='model_training_results',
+                        type=str, required=True,)
+    parser.add_argument('--v_save_path',
+                        default='value_model_training_results',
+                        type=str, required=True,)
+    parser.add_argument('--v_from_path',
+                        default='model_training_results',
                         type=str, required=True,)
 
     return parser.parse_args()
 
 def main():
-    pass
 
+    args=setup_train_args()
+    
+    lm=AutoModelForCausalLM.from_pretrained(
+        args.from_path,
+        device_map="auto",
+        )
+    lm_tokenizer=AutoTokenizer.from_pretrained(args.from_path)
 
+    rewardmodel=AutoModelForSequenceClassification.from_pretrained(
+        args.v_from_path,
+        device_map="auto",
+        )
 
+    vmodel=AutoModelForSequenceClassification.from_pretrained(
+        args.v_from_path,
+        device_map="auto",
+        )
+    # vtokenizer=AutoTokenizer.from_pretrained(args.v_from_path)
 
+    raw_train_datals=load_raw_train_datals(lm_tokenizer, args.max_length)
 
+    train_pod(
+        lm, vmodel, rewardmodel,
+        lm_tokenizer,
+        args, raw_train_datals)
 
-
-
-
-
-
-
-
-
-
-
-
-
+    print("EVERYTHING in the TRAINING now DONE.")
 
 
 if __name__=="__main__":

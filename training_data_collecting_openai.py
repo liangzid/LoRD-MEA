@@ -12,6 +12,7 @@ Collecting Training Data from OpenAI's APIs
 
 
 # ------------------------ Code --------------------------------------
+import torch
 from datasets import load_dataset
 from openai import OpenAI as oa
 # import time
@@ -124,6 +125,19 @@ def generate_training_data(
                   f, ensure_ascii=False, indent=4)
     return dialogue_ls
 
+
+def load_raw_train_datals(lm_tokenizer, max_length=1024):
+    dataset_name = "Anthropic/hh-rlhf"
+    trainset_text= load_dataset(dataset_name, split="train")
+    trainset_text =trainset_text["chosen"]
+
+    data=lm_tokenizer(trainset_text,
+                      padding="longest",
+                      truncation=True,
+                      max_length=max_length,
+                      return_tensors="pt"
+                      ).input_ids
+    return data
 
 def most_vanilla_anthropicModel():
     dataset_name = "Anthropic/hh-rlhf"
