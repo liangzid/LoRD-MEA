@@ -14,20 +14,18 @@ Reference: https://huggingface.co/google/gemma-7b/blob/main/examples/example_sft
 
 
 # ------------------------ Code --------------------------------------
+from trl import SFTTrainer
+from peft import LoraConfig
+from datasets import load_dataset
+from transformers import AutoTokenizer, HfArgumentParser, AutoModelForCausalLM, BitsAndBytesConfig, TrainingArguments
+import torch
 from dataclasses import dataclass, field
 from typing import Optional
 from pprint import pprint
 import os
 
-os.environ["CUDA_VISIBLE_DEVICES"]="0"
-hf_token=os.environ["HF_TOKEN"]
-
-import torch
-
-from transformers import AutoTokenizer, HfArgumentParser, AutoModelForCausalLM, BitsAndBytesConfig, TrainingArguments
-from datasets import load_dataset
-from peft import LoraConfig
-from trl import SFTTrainer
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+hf_token = os.environ["HF_TOKEN"]
 
 
 @dataclass

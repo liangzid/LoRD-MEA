@@ -131,14 +131,15 @@ def load_raw_train_datals(lm_tokenizer, max_length=1024):
     trainset_text= load_dataset(dataset_name, split="train")
     trainset_text =trainset_text["chosen"][:100]
 
-    data=lm_tokenizer(trainset_text,
-                      padding="longest",
-                      truncation=True,
-                      max_length=max_length,
-                      return_tensors="pt"
-                      ).input_ids
+    data = lm_tokenizer(trainset_text,
+                        padding="longest",
+                        truncation=True,
+                        max_length=max_length,
+                        return_tensors="pt"
+                        ).input_ids
 
     return data
+
 
 def most_vanilla_anthropicModel():
     dataset_name = "Anthropic/hh-rlhf"
@@ -146,6 +147,7 @@ def most_vanilla_anthropicModel():
     test_set = load_dataset(dataset_name, split="test")
 
     return train_set, test_set
+
 
 def main():
     pass

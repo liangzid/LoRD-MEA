@@ -124,11 +124,11 @@ if __name__ == "__main__":
         num_proc=16,
     )
 
-    eval_dataset=eval_datasets.map(
+    eval_dataset = eval_datasets.map(
         preprocess_function,
         batched=True,
         num_proc=16,
-        )
+    )
     raw_datasets = raw_datasets.filter(
         lambda x: len(x["input_ids_chosen"]) <= reward_config.max_length
         and len(x["input_ids_rejected"]) <= reward_config.max_length
