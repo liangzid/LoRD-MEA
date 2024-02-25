@@ -38,6 +38,7 @@ def train_one_period(lm, vmodel,
                      tb_writer,
                      tensorboard_name,
                      save_path,
+                     v_save_path,
                      LR=3e-5,
                      acc_step=1,
                      log_step=100,
@@ -114,6 +115,8 @@ def train_one_period(lm, vmodel,
                 print(f"in epoch {e}, step {overall_step}.")
                 lm_tokenizer.save_pretrained(save_path+"___"+overall_step)
                 lm.save_pretrained(save_path+"___"+overall_step)
+                lm_tokenizer.save_pretrained(v_save_path+"___"+overall_step)
+                vmodel.save_pretrained(v_save_path+"___"+overall_step)
 
             if overall_step % acc_step == 0:
                 opt1.zero_grad()
@@ -127,6 +130,8 @@ def train_one_period(lm, vmodel,
     print(" -->Finally Saving.")
     lm_tokenizer.save_pretrained(save_path+"___STEPfinally")
     lm.save_pretrained(save_path+"___STEPfinally")
+    lm_tokenizer.save_pretrained(v_save_path+"___STEPfinally")
+    vmodel.save_pretrained(v_save_path+"___STEPfinally")
 
     print("ONE PERIOD TRAINING DONE!")
     return lm, vmodel
@@ -210,7 +215,9 @@ def train_pod(lm, vmodel, rewardmodel,
                                     args.epoch, args.device,
                                     tb_writer,
                                     tensorboard_name, 
-                                    args.save_path, args.LR,
+                                    args.save_path,
+                                    args.v_save_path,
+                                    args.LR,
                                     args.acc_step, args.log_step,
                                     args.save_step,
                                     args.epsilon,
@@ -220,10 +227,14 @@ def train_pod(lm, vmodel, rewardmodel,
         print(f"in period {iter_idx}.")
         lm_tokenizer.save_pretrained(args.save_path+"___period"+str(iter_idx))
         lm.save_pretrained(args.save_path+"___period"+str(iter_idx))
+        lm_tokenizer.save_pretrained(args.v_save_path+"___period"+str(iter_idx))
+        vmodel.save_pretrained(args.v_save_path+"___period"+str(iter_idx))
 
     print(" -->ALL TRAINING DONE.")
     lm_tokenizer.save_pretrained(args.save_path+"___finally")
     lm.save_pretrained(args.save_path+"___finally")
+    lm_tokenizer.save_pretrained(args.v_save_path+"___finally")
+    vmodel.save_pretrained(args.v_save_path+"___finally")
     print(" -->Save DONE.")
 
 def setup_train_args():
