@@ -18,9 +18,9 @@ export CUDA_VISIBLE_DEVICES="1,2,3"
 
 export root_dir="${HOME}/alignmentExtraction/"
 export POD_save_dir="${root_dir}POD_SAVE_CKPTs/"
-export from_path="facebook/opt-350m"
+export from_path="gpt2"
 export save_path="${POD_save_dir}TheFirstTimeAttempts/policy-"
-export v_from_path="facebook/opt-350m"
+export v_from_path="gpt2"
 export v_save_path="${POD_save_dir}TheFirstTimeAttempts/v-"
 
 
@@ -35,6 +35,7 @@ $python rlhf_train.py\
 	--lambdaa=0.95 \
 	--lambda1=1.0 \
 	--lambda2=1.0 \
+	--epsilon=0.2 \
 	--batch_size=1 \
 	--task="none set yet" \
 	--max_length=1024 \
