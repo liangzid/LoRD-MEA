@@ -168,7 +168,8 @@ def train_pod(lm, vmodel, rewardmodel,
         with torch.no_grad():
             if rewardls is None:
                 rewardls=[]
-                for inps_idxs in raw_train_datals:
+                for inps_idxs in tqdm(raw_train_datals,
+                                      desc="Data Collecting..."):
                     inps_idxs=inps_idxs.to(args.device).unsqueeze(0)
                     bs,sql=inps_idxs.shape
                     reward=rewardmodel(inps_idxs[:,:-1])\
@@ -182,24 +183,26 @@ def train_pod(lm, vmodel, rewardmodel,
                     old_logitsls.append(old_logits.squeeze(0).to("cpu"))
                     Als.append(A.squeeze(0).to("cpu"))
                     Vls.append(V.squeeze(0).to("cpu"))
+                rewardls=torch.stack(rewardls)
             else:
                 rewardmodel=None
-                for i, inps_idxs in enumerate(raw_train_datals):
-                    bs,sql=inps_idxs.shape
+                for i, inps_idxs in tqdm(
+                        enumerate(raw_train_datals),
+                        desc="Data Collecting..."):
                     inps_idxs=inps_idxs.to(args.device).unsqueeze(0)
-                    reward=rewardls[i].to(args.device)
+                    bs,sql=inps_idxs.shape
+                    reward=rewardls[i].to(args.device).unsqueeze(0)
 
                     old_logits=lm(inps_idxs[:,:-1])\
                         .logits
                     V=___V_target_compute(reward, lambdaa=args.lambdaa)
-                    A=V-vmodel(inps_idxs[:,:-1]).expand(bs,sql-1)
+                    A=V-vmodel(inps_idxs[:,:-1]).logits.expand(bs,sql-1)
                     old_logitsls.append(old_logits.squeeze(0).to("cpu"))
                     Als.append(A.squeeze(0).to("cpu"))
                     Vls.append(V.squeeze(0).to("cpu"))
         overall_ls=zip(raw_train_datals,rewardls,old_logitsls,
                        Als,Vls)
         
-        rewardls=torch.stack(rewardls)
         old_logitsls=torch.stack(old_logitsls)
         Als=torch.stack(Als)
         Vls=torch.stack(Vls)
@@ -318,7 +321,6 @@ def main():
         device_map="auto",
         num_labels=1,
         )
-    # vtokenizer=AutoTokenizer.from_pretrained(args.v_from_path)
 
     raw_train_datals=load_raw_train_datals(lm_tokenizer, args.max_length)
     print("Data LOADING done.")

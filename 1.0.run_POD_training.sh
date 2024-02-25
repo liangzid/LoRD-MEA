@@ -13,21 +13,22 @@ echo "HOME: ${HOME}"
 
 export python=${HOME}/anaconda3/envs/align/bin/python3
 
-export CUDA_VISIBLE_DEVICES="1,2,3"
+export CUDA_VISIBLE_DEVICES="0,1,2,3"
 
 
 export root_dir="${HOME}/alignmentExtraction/"
 export POD_save_dir="${root_dir}POD_SAVE_CKPTs/"
-export from_path="gpt2"
+export from_path="openai-community/gpt2-xl"
 export save_path="${POD_save_dir}TheFirstTimeAttempts/policy-"
-export v_from_path="gpt2"
+# export v_from_path="openai-community/gpt2_large"
+export v_from_path="${root_dir}/reward_modeling_anthropic_hh/checkpoint-30000"
 export v_save_path="${POD_save_dir}TheFirstTimeAttempts/v-"
 
 
 $python rlhf_train.py\
 	--device="cuda:0" \
-	--epoch=1 \
-	--period_num=1 \
+	--epoch=3 \
+	--period_num=5 \
 	--acc_step=1 \
 	--log_step=1 \
 	--save_step=100000 \

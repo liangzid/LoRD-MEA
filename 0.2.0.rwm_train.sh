@@ -16,18 +16,20 @@
 export python=/home/liangzi/anaconda3/envs/align/bin/python3
 
 export bs_per=1
-export pretrained_model="facebook/opt-350m"
+# export pretrained_model="facebook/opt-350m"
+export pretrained_model="openai_community/gpt2_large"
 # export pretrained_model="microsoft/phi-1_5"
 # export pretrained_model="microsoft/phi-2"
 # export pretrained_model="gpt2"
 
 export CUDA_VISIBLE_DEVICES="1,2,3"
+export reward_save_pth="rwd_ckpts/gpt2large_reward_anthropic_ckpt/"
 
 $python rewardmodel_train.py \
 	--do_eval=True\
 	--do_train=True\
     --model_name_or_path=$pretrained_model \
-    --output_dir="reward_modeling_anthropic_hh" \
+    --output_dir=$reward_save_pth \
     --per_device_train_batch_size=$bs_per \
     --num_train_epochs=1 \
     --gradient_accumulation_steps=4 \
