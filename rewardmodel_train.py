@@ -81,7 +81,7 @@ if __name__ == "__main__":
     )
     model = AutoModelForSequenceClassification.from_pretrained(
         model_config.model_name_or_path,
-        num_labels=2, **model_kwargs
+        num_labels=1, **model_kwargs
     )
     # if tokenizer.pad_token is None:
     tokenizer.pad_token = tokenizer.eos_token
