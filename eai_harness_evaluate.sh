@@ -31,8 +31,8 @@ export all_t=("siqa" "xnli" "xstorycloze" "hendrycks_ethics" "gpqa"\
 		      "unscramble" "ifeval" "mmlu" "logiqa" "headqa"\
 		      "arithmetic" "kmmlu")
 
-# export model_path="./POD_SAVE_CKPTs/TheFirstTimeAttempts/policy-___period4"
-export model_path="google/gemma-2b"
+export model_path="./POD_SAVE_CKPTs/TheFirstTimeAttempts/policy-___period2"
+# export model_path="google/gemma-2b"
 # export model_path="./SFT_SAVE_CKPTs/TheFirstTimeAttempts/policy-___STEPfinally"
 # export tasks="mmlu"
 # export tasks="toxigen"

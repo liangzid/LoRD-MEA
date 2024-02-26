@@ -24,7 +24,6 @@ export save_path="${POD_save_dir}TheFirstTimeAttempts/policy-"
 export v_from_path="${root_dir}/reward_modeling_anthropic_hh/checkpoint-30000"
 export v_save_path="${POD_save_dir}TheFirstTimeAttempts/v-"
 
-
 $python rlhf_train.py\
 	--device="cuda:0" \
 	--epoch=3 \
