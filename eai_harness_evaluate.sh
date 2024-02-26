@@ -31,19 +31,25 @@ export all_t=("siqa" "xnli" "xstorycloze" "hendrycks_ethics" "gpqa"\
 		      "unscramble" "ifeval" "mmlu" "logiqa" "headqa"\
 		      "arithmetic" "kmmlu")
 
-export model_path="./POD_SAVE_CKPTs/TheFirstTimeAttempts/policy-___period4"
-export tasks="squadv2"
+# export model_path="./POD_SAVE_CKPTs/TheFirstTimeAttempts/policy-___period4"
+export model_path="google/gemma-2b"
+# export model_path="./SFT_SAVE_CKPTs/TheFirstTimeAttempts/policy-___STEPfinally"
+# export tasks="mmlu"
+# export tasks="toxigen"
+export tasks="ethics_cm,ethics_deontology,ethics_justice,ethics_utilitarianism,ethics_virtue,toxigen"
 export output_path="${model_path}___inference_results"
 export device="cuda:1"
 
-$python -m lm_eval\
+$python -m lm_eval \
 	--model hf \
 	--model_args \
 	pretrained=$model_path \
 	--tasks=$tasks \
-	--limit 100 \
+	--limit 10 \
+	--num_fewshot 1 \
+	--write_out \
 	--device $device \
-	--batch_size 1\
+	--batch_size auto \
 	--output_path $output_path
 
 

@@ -24,7 +24,7 @@ from typing import Optional
 from pprint import pprint
 import os
 
-os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+os.environ["CUDA_VISIBLE_DEVICES"] = "1,2,3"
 hf_token = os.environ["HF_TOKEN"]
 
 
@@ -44,7 +44,8 @@ class ScriptArguments:
     lora_r: Optional[int] = field(default=8)
     max_seq_length: Optional[int] = field(default=2048)
     model_name: Optional[str] = field(
-        default="google/gemma-7b",
+        # default="google/gemma-7b",
+        default="openai-community/gpt2-xl",
         metadata={
             "help": "The model that you want to train from the Hugging Face hub. E.g. gpt2, gpt2-xl, bert, etc."
         }
@@ -66,7 +67,7 @@ class ScriptArguments:
         metadata={"help": "Use packing dataset creating."},
     )
     gradient_checkpointing: Optional[bool] = field(
-        default=True,
+        default=False,
         metadata={"help": "Enables gradient checkpointing."},
     )
     use_flash_attention_2: Optional[bool] = field(
@@ -151,8 +152,10 @@ def main():
     pprint(script_args)
 
     dataset_name = script_args.dataset_name
-    train_dataset = load_dataset(script_args.dataset_name,
-                                 split="train[:1%]")
+    # train_dataset = load_dataset(script_args.dataset_name,
+                                 # split="train[:1%]")
+    from training_data_collecting_openai import load_raw_train_datals
+    train_dataset = load_raw_train_datals(tokenizer)
 
     # TODO: make that configurable
     YOUR_HF_USERNAME = "liangzid"
