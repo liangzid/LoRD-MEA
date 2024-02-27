@@ -27,6 +27,7 @@ from transformers import AutoTokenizer, AutoConfig, AutoModel
 from training_data_collecting_openai import load_raw_train_datals
 from training_data_collecting_openai import load_steal_datals
 
+
 def train_one_period(lm,
                      lm_tokenizer,
                      loader, epoch, device,
@@ -39,63 +40,63 @@ def train_one_period(lm,
                      save_step=1000,
                      beta=0.7,
                      ):
-    overall_loss=0.
-    overall_step=0
+    overall_loss = 0.
+    overall_step = 0
 
     opt1 = torch.optim.AdamW(lm.parameters(), lr=LR)
     for e in tqdm(range(epoch), desc="epoch"):
         for item in tqdm(loader, desc="loader"):
-            overall_step+=1
-            loss_constractive=0.
-            loss_logits=0.
+            overall_step += 1
+            loss_constractive = 0.
+            loss_logits = 0.
 
             # print(item)
-            idxs1, idxs2, old_logits1, vic_logits2=item
-            bs, sqlen=idxs1.shape
+            idxs1, idxs2, old_logits1, vic_logits2 = item
+            bs, sqlen = idxs1.shape
 
-            idxs1=idxs1.to(device) # bs, sql
-            idxs2=idxs2.to(device) # bs, sql
-            old_logits1=old_logits1.to(device) # bs, sql, Vocab
-            old_logits1=torch.softmax(old_logits1,dim=-1)
-            old_logits1=old_logits1[torch.arange(bs).unsqueeze(1),
-                               torch.arange(sqlen-1).unsqueeze(0),
-                               idxs1[:,1:]]
-            vic_logits2=vic_logits2.to(device)
-            vic_logits2=torch.softmax(vic_logits2,dim=-1)
-            vic_logits2_cons=vic_logits2[torch.arange(bs).unsqueeze(1),
-                               torch.arange(sqlen-1).unsqueeze(0),
-                               idxs2[:,1:]]
+            idxs1 = idxs1.to(device)  # bs, sql
+            idxs2 = idxs2.to(device)  # bs, sql
+            old_logits1 = old_logits1.to(device)  # bs, sql, Vocab
+            old_logits1 = torch.softmax(old_logits1, dim=-1)
+            old_logits1 = old_logits1[torch.arange(bs).unsqueeze(1),
+                                      torch.arange(sqlen-1).unsqueeze(0),
+                                      idxs1[:, 1:]]
+            vic_logits2 = vic_logits2.to(device)
+            vic_logits2 = torch.softmax(vic_logits2, dim=-1)
+            vic_logits2_cons = vic_logits2[torch.arange(bs).unsqueeze(1),
+                                           torch.arange(sqlen-1).unsqueeze(0),
+                                           idxs2[:, 1:]]
 
-            logits1=lm(idxs1).logits[:, :-1, :]
-            logits1=torch.softmax(logits1,dim=-1)
-            logits1=logits1[torch.arange(bs).unsqueeze(1),
-                               torch.arange(sqlen-1).unsqueeze(0),
-                               idxs1[:,1:]]
+            logits1 = lm(idxs1).logits[:, :-1, :]
+            logits1 = torch.softmax(logits1, dim=-1)
+            logits1 = logits1[torch.arange(bs).unsqueeze(1),
+                              torch.arange(sqlen-1).unsqueeze(0),
+                              idxs1[:, 1:]]
 
-            logits2=lm(idxs2).logits[:,:-1,:]
-            logits2=torch.softmax(logits2,dim=-1)
-            logits2_cons=logits2[torch.arange(bs).unsqueeze(1),
-                               torch.arange(sqlen-1).unsqueeze(0),
-                               idxs2[:,1:]]
+            logits2 = lm(idxs2).logits[:, :-1, :]
+            logits2 = torch.softmax(logits2, dim=-1)
+            logits2_cons = logits2[torch.arange(bs).unsqueeze(1),
+                                   torch.arange(sqlen-1).unsqueeze(0),
+                                   idxs2[:, 1:]]
 
-            loss_constractive = beta * (torch.log(logits2_cons)\
-                                        -torch.log(vic_logits2_cons)\
+            loss_constractive = beta * (torch.log(logits2_cons)
+                                        - torch.log(vic_logits2_cons)
                                         )\
-                                        - torch.log(logits1)\
-                                        +torch.log(old_logits1)
-            loss_constractive= - torch.sum(loss_constractive)
+                - torch.log(logits1)\
+                + torch.log(old_logits1)
+            loss_constractive = - torch.sum(loss_constractive)
 
-            loss_logits=beta*\
+            loss_logits = beta *\
                 torch.sum(logits2*torch.log(logits2/vic_logits2))
 
-            loss += loss_constractive + loss_logits
+            overall_loss += loss_constractive + loss_logits
 
-            if overall_step % log_step ==0:
+            if overall_step % log_step == 0:
                 print(" LOSS: {}\tReward: {}\tKL-D: {}".format(
                     overall_loss,
                     loss_constractive,
                     loss_logits
-                    ))
+                ))
                 tb_writer.add_scalar("loss", overall_loss.item(),
                                      overall_step)
                 tb_writer.add_scalar("rewardloss",
@@ -103,8 +104,8 @@ def train_one_period(lm,
                                      overall_step)
                 tb_writer.add_scalar("KLloss", loss_logits.item(),
                                      overall_step)
-                
-            if overall_loss % save_step==0:
+
+            if overall_loss % save_step == 0:
                 print(" -->Regular Saving.")
                 print(f"in epoch {e}, step {overall_step}.")
                 lm_tokenizer.save_pretrained(save_path+"___"+overall_step)
@@ -112,10 +113,10 @@ def train_one_period(lm,
 
             if overall_step % acc_step == 0:
                 opt1.zero_grad()
-                
+
                 overall_loss.backward()
                 opt1.step()
-                overall_loss=0.
+                overall_loss = 0.
 
     print(" -->Finally Saving.")
     lm_tokenizer.save_pretrained(save_path+"___STEPfinally")
@@ -124,67 +125,68 @@ def train_one_period(lm,
     print("ONE PERIOD TRAINING DONE!")
     return lm
 
+
 def train_pod(lm,
               lm_tokenizer,
               args, raw_train_datals):
     print(">>>> DATA PREPERATION")
-    ## STEP 1: DATA Preperation.
-    ITER_num=args.period_num
-    tb_writer=SummaryWriter(log_dir=args.save_path+"___log_writer")
+    # STEP 1: DATA Preperation.
+    ITER_num = args.period_num
+    tb_writer = SummaryWriter(log_dir=args.save_path+"___log_writer")
     for iter_idx in range(ITER_num):
-        tensorboard_name=f"Period {iter_idx}"
-        idxs1_ls=[]
-        old_logits1_ls=[]
-        ## collect data.
+        tensorboard_name = f"Period {iter_idx}"
+        idxs1_ls = []
+        old_logits1_ls = []
+        # collect data.
         with torch.no_grad():
             for prompt, idxs2, logits2 in tqdm(raw_train_datals,
-                                    desc="Data Collecting..."):
-                idxs2=idxs2.to(args.device).unsqueeze(0)
-                bs,sql=idxs2.shape
-                prompt=prompt.to(args.device).unsqueeze(0)
+                                               desc="Data Collecting..."):
+                idxs2 = idxs2.to(args.device).unsqueeze(0)
+                bs, sql = idxs2.shape
+                prompt = prompt.to(args.device).unsqueeze(0)
                 # Generate New Tokens
-                idxs1=lm.generate(prompt,
-                                  do_sample=True,
-                                  max_length=args.max_length,
-                                  temperature=args.temperature)
-                old_logits=lm(idxs1[:,:-1]).logits
+                idxs1 = lm.generate(prompt,
+                                    do_sample=True,
+                                    max_length=args.max_length,
+                                    temperature=args.temperature)
+                old_logits = lm(idxs1[:, :-1]).logits
 
                 idxs1_ls.append(idxs1.squeeze(0).to("cpu"))
                 old_logits1_ls.append(old_logits.squeeze(0).to("cpu"))
 
-        pls,idx2ls,logits2ls=zip(*raw_train_datals)
-        idx2ls=torch.stack(idx2ls)
-        logits2ls=torch.stack(logits2ls)
-        idxs1_ls=torch.stack(idxs1_ls)
-        old_logits1_ls=torch.stack(old_logits1_ls)
+        pls, idx2ls, logits2ls = zip(*raw_train_datals)
+        idx2ls = torch.stack(idx2ls)
+        logits2ls = torch.stack(logits2ls)
+        idxs1_ls = torch.stack(idxs1_ls)
+        old_logits1_ls = torch.stack(old_logits1_ls)
 
-        trainset=TensorDataset(
+        trainset = TensorDataset(
             idxs1_ls,
             idx2ls,
             old_logits1_ls,
             logits2ls,
-            )
+        )
 
-        loader=DataLoader(trainset,
-                          batch_size=args.batch_size,
-                          shuffle=True,
-                          )
+        loader = DataLoader(trainset,
+                            batch_size=args.batch_size,
+                            shuffle=True,
+                            )
         print(">>>> Period {}".format(iter_idx))
-        ## STEP 2: Train the Model in a period
-        lm= train_one_period(lm,
-                                    lm_tokenizer,
-                                    loader,
-                                    args.epoch, args.device,
-                                    tb_writer,
-                                    tensorboard_name, 
-                                    args.save_path,
-                                    args.LR,
-                                    args.acc_step, args.log_step,
-                                    args.save_step,
-                                    args.epsilon,
-                             args.beta,
-                                    )
-            
+        # STEP 2: Train the Model in a period
+        lm = train_one_period(lm,
+                              lm_tokenizer,
+                              loader,
+                              args.epoch, args.device,
+                              tb_writer,
+                              tensorboard_name,
+                              args.save_path,
+                              args.LR,
+                              args.acc_step, args.log_step,
+                              args.save_step,
+                              args.epsilon,
+                              args.beta,
+                              )
+
         print(" -->NOW save the ckpt in each period.")
         print(f"in period {iter_idx}.")
         lm_tokenizer.save_pretrained(args.save_path+"___period"+str(iter_idx))
@@ -194,6 +196,7 @@ def train_pod(lm,
     lm_tokenizer.save_pretrained(args.save_path+"___finally")
     lm.save_pretrained(args.save_path+"___finally")
     print(" -->Save DONE.")
+
 
 def setup_train_args():
     """
@@ -212,7 +215,6 @@ def setup_train_args():
                         required=False)
     parser.add_argument('--save_step', default=10000, type=int,
                         required=False)
-
 
     parser.add_argument('--LR', default=3e-4, type=float,
                         required=False)
@@ -236,21 +238,22 @@ def setup_train_args():
 
     return parser.parse_args()
 
+
 def main():
 
-    args=setup_train_args()
-    
-    lm=AutoModelForCausalLM.from_pretrained(
+    args = setup_train_args()
+
+    lm = AutoModelForCausalLM.from_pretrained(
         args.from_path,
         device_map="auto",
-        )
+    )
 
-    lm_tokenizer=AutoTokenizer.from_pretrained(args.from_path)
+    lm_tokenizer = AutoTokenizer.from_pretrained(args.from_path)
     if lm_tokenizer.pad_token is None:
-        lm_tokenizer.pad_token=lm_tokenizer.eos_token
+        lm_tokenizer.pad_token = lm_tokenizer.eos_token
 
-    raw_train_datals=load_steal_datals(lm_tokenizer,
-                                       args.max_length)
+    raw_train_datals = load_steal_datals(lm_tokenizer,
+                                         args.max_length)
     print("Data LOADING done.")
 
     train_pod(
@@ -262,9 +265,7 @@ def main():
     print("EVERYTHING in the TRAINING now DONE.")
 
 
-## running entry
-if __name__=="__main__":
+# running entry
+if __name__ == "__main__":
     main()
     print("EVERYTHING DONE.")
-
-

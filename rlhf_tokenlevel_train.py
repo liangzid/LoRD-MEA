@@ -28,9 +28,10 @@ from training_data_collecting_openai import load_raw_train_datals
 
 
 def clip(tnsr, epsilon):
-    tnsr=torch.min(tnsr, torch.ones_like(tnsr)*(1+epsilon))
-    tnsr=torch.max(tnsr, torch.ones_like(tnsr)*(1-epsilon))
+    tnsr = torch.min(tnsr, torch.ones_like(tnsr)*(1+epsilon))
+    tnsr = torch.max(tnsr, torch.ones_like(tnsr)*(1-epsilon))
     return tnsr
+
 
 def train_one_period(lm, vmodel,
                      lm_tokenizer,
@@ -47,60 +48,59 @@ def train_one_period(lm, vmodel,
                      lambda2=0.7,
                      epsilon=0.2
                      ):
-    overall_loss=0.
-    overall_step=0
+    overall_loss = 0.
+    overall_step = 0
 
     opt1 = torch.optim.AdamW(lm.parameters(), lr=LR)
     opt2 = torch.optim.AdamW(vmodel.parameters(), lr=LR)
     for e in tqdm(range(epoch), desc="epoch"):
         for item in tqdm(loader, desc="loader"):
-            overall_step+=1
-            loss_clip=0.
-            loss_vfunc=0.
-            loss_entropy=0.
+            overall_step += 1
+            loss_clip = 0.
+            loss_vfunc = 0.
+            loss_entropy = 0.
 
             # print(item)
-            inps_idxs, reward, old_logits, A, V=item
-            bs, sqlen=inps_idxs.shape
+            inps_idxs, reward, old_logits, A, V = item
+            bs, sqlen = inps_idxs.shape
 
-            inps_idxs=inps_idxs.to(device) # bs, sql
-            reward=reward.to(device) # bs, sql
-            old_logits=old_logits.to(device) # bs, sql, Vocab
-            old_logits=torch.softmax(old_logits,dim=-1)
-            old_logits=old_logits[torch.arange(bs).unsqueeze(1),
-                               torch.arange(sqlen-1).unsqueeze(0),
-                               inps_idxs[:,1:]]
-            A=A.to(device) # bs, sql
-            V=V.to(device) # bs, sql
+            inps_idxs = inps_idxs.to(device)  # bs, sql
+            reward = reward.to(device)  # bs, sql
+            old_logits = old_logits.to(device)  # bs, sql, Vocab
+            old_logits = torch.softmax(old_logits, dim=-1)
+            old_logits = old_logits[torch.arange(bs).unsqueeze(1),
+                                    torch.arange(sqlen-1).unsqueeze(0),
+                                    inps_idxs[:, 1:]]
+            A = A.to(device)  # bs, sql
+            V = V.to(device)  # bs, sql
 
+            logits = lm(inps_idxs).logits[:, :-1, :]
+            logits = torch.softmax(logits, dim=-1)
+            logits = logits[torch.arange(bs).unsqueeze(1),
+                            torch.arange(sqlen-1).unsqueeze(0),
+                            inps_idxs[:, 1:]]
 
-            logits=lm(inps_idxs).logits[:, :-1, :]
-            logits=torch.softmax(logits,dim=-1)
-            logits=logits[torch.arange(bs).unsqueeze(1),
-                               torch.arange(sqlen-1).unsqueeze(0),
-                               inps_idxs[:,1:]]
-
-            convince_gen=logits/old_logits
+            convince_gen = logits/old_logits
             # print(convince_gen.shape)
             # print(A.shape)
 
             loss_clip = torch.sum(torch.min(
                 convince_gen*A,
-                clip(convince_gen,epsilon)*A))
+                clip(convince_gen, epsilon)*A))
 
-            values=vmodel(inps_idxs).logits
+            values = vmodel(inps_idxs).logits
             loss_vfunc = torch.sum((values-V)**2)
 
-            entropy=torch.sum(Categorical(logits).entropy())
+            entropy = torch.sum(Categorical(logits).entropy())
             loss_entropy = entropy
 
             overall_loss += -1*loss_clip + lambda1*loss_vfunc\
                 + lambda2*loss_entropy
 
-            if overall_step % log_step ==0:
+            if overall_step % log_step == 0:
                 print(" LOSS: {}\tCLIP: {}\tV: {}\tEntropy: {}".format(
                     overall_loss, loss_clip, loss_vfunc, loss_entropy
-                    ))
+                ))
                 tb_writer.add_scalar("loss", overall_loss.item(),
                                      overall_step)
                 tb_writer.add_scalar("cliploss", loss_clip.item(),
@@ -109,8 +109,8 @@ def train_one_period(lm, vmodel,
                                      overall_step)
                 tb_writer.add_scalar("entropyloss", loss_entropy.item(),
                                      overall_step)
-                
-            if overall_loss % save_step==0:
+
+            if overall_loss % save_step == 0:
                 print(" -->Regular Saving.")
                 print(f"in epoch {e}, step {overall_step}.")
                 lm_tokenizer.save_pretrained(save_path+"___"+overall_step)
@@ -121,11 +121,11 @@ def train_one_period(lm, vmodel,
             if overall_step % acc_step == 0:
                 opt1.zero_grad()
                 opt2.zero_grad()
-                
+
                 overall_loss.backward()
                 opt1.step()
                 opt2.step()
-                overall_loss=0.
+                overall_loss = 0.
 
     print(" -->Finally Saving.")
     lm_tokenizer.save_pretrained(save_path+"___STEPfinally")
@@ -135,99 +135,101 @@ def train_one_period(lm, vmodel,
 
     print("ONE PERIOD TRAINING DONE!")
     return lm, vmodel
-                
+
+
 def ___V_target_compute(reward, lambdaa=0.95):
     """
     shape of `reward`: bs, sql
     """
-    bs, sql=reward.shape
-    window_size=150
-    V=torch.zeros((bs, sql)).to(reward.device)
+    bs, sql = reward.shape
+    window_size = 150
+    V = torch.zeros((bs, sql)).to(reward.device)
 
     for i in range(sql):
         for j in range(i, min(i+window_size, sql)):
-            V[:,i]+=reward[:,j]*(lambdaa**(j-1))
-    
+            V[:, i] += reward[:, j]*(lambdaa**(j-1))
+
     return V
 
 
 def train_pod(lm, vmodel, rewardmodel,
               lm_tokenizer,
               args, raw_train_datals):
-    ## STEP 1: DATA Preperation.
-    rewardls=None
-    ITER_num=args.period_num
-    tb_writer=SummaryWriter(log_dir=args.save_path+"___log_writer")
+    # STEP 1: DATA Preperation.
+    rewardls = None
+    ITER_num = args.period_num
+    tb_writer = SummaryWriter(log_dir=args.save_path+"___log_writer")
     for iter_idx in range(ITER_num):
-        tensorboard_name=f"Period {iter_idx}"
-        old_logitsls=[]
-        Als=[]
-        Vls=[]
-        ## collect data.
+        tensorboard_name = f"Period {iter_idx}"
+        old_logitsls = []
+        Als = []
+        Vls = []
+        # collect data.
         with torch.no_grad():
             if rewardls is None:
-                rewardls=[]
+                rewardls = []
                 for inps_idxs in raw_train_datals:
-                    inps_idxs=inps_idxs.to(args.device).unsqueeze(0)
-                    reward=rewardmodel(inps_idxs[:,:-1])\
+                    inps_idxs = inps_idxs.to(args.device).unsqueeze(0)
+                    reward = rewardmodel(inps_idxs[:, :-1])\
                         .logits.squeeze(-1)
                     rewardls.append(reward.squeeze(0))
 
-                    old_logits=lm(inps_idxs[:,:-1]).logits
-                    V=___V_target_compute(reward, lambdaa=args.lambdaa)
-                    A=V-vmodel(inps_idxs[:,:-1]).logits.squeeze(-1)
+                    old_logits = lm(inps_idxs[:, :-1]).logits
+                    V = ___V_target_compute(reward, lambdaa=args.lambdaa)
+                    A = V-vmodel(inps_idxs[:, :-1]).logits.squeeze(-1)
                     old_logitsls.append(old_logits.squeeze(0))
                     Als.append(A.squeeze(0))
                     Vls.append(V.squeeze(0))
             else:
-                rewardmodel=None
+                rewardmodel = None
                 for i, inps_idxs in enumerate(raw_train_datals):
-                    inps_idxs=inps_idxs.to(args.device).unsqueeze(0)
-                    reward=rewardls[i]
+                    inps_idxs = inps_idxs.to(args.device).unsqueeze(0)
+                    reward = rewardls[i]
 
-                    old_logits=lm(inps_idxs[:,:-1]).logits
-                    V=___V_target_compute(reward, lambdaa=args.lambdaa)
-                    A=V-vmodel(inps_idxs[:,:-1]).logits
+                    old_logits = lm(inps_idxs[:, :-1]).logits
+                    V = ___V_target_compute(reward, lambdaa=args.lambdaa)
+                    A = V-vmodel(inps_idxs[:, :-1]).logits
                     old_logitsls.append(old_logits.squeeze(0))
                     Als.append(A.squeeze(0))
                     Vls.append(V.squeeze(0))
-        overall_ls=zip(raw_train_datals,rewardls,old_logitsls,
-                       Als,Vls)
-        
-        rewardls=torch.stack(rewardls)
-        old_logitsls=torch.stack(old_logitsls)
-        Als=torch.stack(Als)
-        Vls=torch.stack(Vls)
-        trainset=TensorDataset(
+        overall_ls = zip(raw_train_datals, rewardls, old_logitsls,
+                         Als, Vls)
+
+        rewardls = torch.stack(rewardls)
+        old_logitsls = torch.stack(old_logitsls)
+        Als = torch.stack(Als)
+        Vls = torch.stack(Vls)
+        trainset = TensorDataset(
             raw_train_datals,
             rewardls,
             old_logitsls,
-            Als,Vls)
+            Als, Vls)
 
-        loader=DataLoader(trainset,
-                          batch_size=args.batch_size,
-                          shuffle=True,
-                          )
-        ## STEP 2: Train the Model in a period
-        lm,vmodel= train_one_period(lm, vmodel,
-                                    lm_tokenizer,
-                                    loader,
-                                    args.epoch, args.device,
-                                    tb_writer,
-                                    tensorboard_name, 
-                                    args.save_path,
-                                    args.v_save_path,
-                                    args.LR,
-                                    args.acc_step, args.log_step,
-                                    args.save_step,
-                                    args.epsilon,
-                                    )
-            
+        loader = DataLoader(trainset,
+                            batch_size=args.batch_size,
+                            shuffle=True,
+                            )
+        # STEP 2: Train the Model in a period
+        lm, vmodel = train_one_period(lm, vmodel,
+                                      lm_tokenizer,
+                                      loader,
+                                      args.epoch, args.device,
+                                      tb_writer,
+                                      tensorboard_name,
+                                      args.save_path,
+                                      args.v_save_path,
+                                      args.LR,
+                                      args.acc_step, args.log_step,
+                                      args.save_step,
+                                      args.epsilon,
+                                      )
+
         print(" -->NOW save the ckpt in each period.")
         print(f"in period {iter_idx}.")
         lm_tokenizer.save_pretrained(args.save_path+"___period"+str(iter_idx))
         lm.save_pretrained(args.save_path+"___period"+str(iter_idx))
-        lm_tokenizer.save_pretrained(args.v_save_path+"___period"+str(iter_idx))
+        lm_tokenizer.save_pretrained(
+            args.v_save_path+"___period"+str(iter_idx))
         vmodel.save_pretrained(args.v_save_path+"___period"+str(iter_idx))
 
     print(" -->ALL TRAINING DONE.")
@@ -236,6 +238,7 @@ def train_pod(lm, vmodel, rewardmodel,
     lm_tokenizer.save_pretrained(args.v_save_path+"___finally")
     vmodel.save_pretrained(args.v_save_path+"___finally")
     print(" -->Save DONE.")
+
 
 def setup_train_args():
     """
@@ -254,7 +257,6 @@ def setup_train_args():
                         required=False)
     parser.add_argument('--save_step', default=10000, type=int,
                         required=False)
-
 
     parser.add_argument('--LR', default=3e-4, type=float,
                         required=False)
@@ -288,31 +290,32 @@ def setup_train_args():
 
     return parser.parse_args()
 
+
 def main():
 
-    args=setup_train_args()
-    
-    lm=AutoModelForCausalLM.from_pretrained(
+    args = setup_train_args()
+
+    lm = AutoModelForCausalLM.from_pretrained(
         args.from_path,
         device_map="auto",
-        )
-    lm_tokenizer=AutoTokenizer.from_pretrained(args.from_path)
+    )
+    lm_tokenizer = AutoTokenizer.from_pretrained(args.from_path)
     if lm_tokenizer.pad_token is None:
-        lm_tokenizer.pad_token=lm_tokenizer.eos_token
+        lm_tokenizer.pad_token = lm_tokenizer.eos_token
 
-    rewardmodel=AutoModelForTokenClassification.from_pretrained(
+    rewardmodel = AutoModelForTokenClassification.from_pretrained(
         args.v_from_path,
         device_map="auto",
         num_labels=1,
-        )
-    vmodel=AutoModelForTokenClassification.from_pretrained(
+    )
+    vmodel = AutoModelForTokenClassification.from_pretrained(
         args.v_from_path,
         device_map="auto",
         num_labels=1,
-        )
+    )
     # vtokenizer=AutoTokenizer.from_pretrained(args.v_from_path)
 
-    raw_train_datals=load_raw_train_datals(lm_tokenizer, args.max_length)
+    raw_train_datals = load_raw_train_datals(lm_tokenizer, args.max_length)
 
     train_pod(
         lm, vmodel, rewardmodel,
@@ -322,5 +325,5 @@ def main():
     print("EVERYTHING in the TRAINING now DONE.")
 
 
-if __name__=="__main__":
+if __name__ == "__main__":
     main()

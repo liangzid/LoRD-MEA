@@ -153,7 +153,7 @@ def main():
 
     dataset_name = script_args.dataset_name
     # train_dataset = load_dataset(script_args.dataset_name,
-                                 # split="train[:1%]")
+    # split="train[:1%]")
     from training_data_collecting_openai import load_raw_train_datals
     train_dataset = load_raw_train_datals(tokenizer)
 

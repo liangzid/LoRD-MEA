@@ -13,9 +13,9 @@ self-implementated SFT.
 
 # ------------------------ Code --------------------------------------
 
-## normal import 
+# normal import
 import json
-from typing import List,Tuple,Dict
+from typing import List, Tuple, Dict
 import random
 from pprint import pprint as ppp
 
@@ -33,6 +33,7 @@ from transformers import AutoTokenizer, AutoConfig, AutoModel
 
 from training_data_collecting_openai import load_raw_train_datals
 
+
 def setup_train_args():
     """
     设置训练参数
@@ -48,7 +49,6 @@ def setup_train_args():
                         required=False)
     parser.add_argument('--save_step', default=10000, type=int,
                         required=False)
-
 
     parser.add_argument('--LR', default=3e-4, type=float,
                         required=False)
@@ -70,26 +70,26 @@ def setup_train_args():
 
 def main():
 
-    args=setup_train_args()
-    
-    lm=AutoModelForCausalLM.from_pretrained(
+    args = setup_train_args()
+
+    lm = AutoModelForCausalLM.from_pretrained(
         args.from_path,
         device_map="auto",
-        )
+    )
 
-    lm_tokenizer=AutoTokenizer.from_pretrained(args.from_path)
+    lm_tokenizer = AutoTokenizer.from_pretrained(args.from_path)
     if lm_tokenizer.pad_token is None:
-        lm_tokenizer.pad_token=lm_tokenizer.eos_token
+        lm_tokenizer.pad_token = lm_tokenizer.eos_token
 
-    raw_train_datals=load_raw_train_datals(lm_tokenizer, args.max_length)
+    raw_train_datals = load_raw_train_datals(lm_tokenizer, args.max_length)
     print("Data LOADING done.")
-    trainset=TensorDataset(raw_train_datals)
-    loader=DataLoader(trainset,
-                      batch_size=args.batch_size,
-                      shuffle=True)
-    
-    tensorboard_name=f"BLABLABLA"
-    tb_writer=SummaryWriter(log_dir=args.save_path+"___log_writer")
+    trainset = TensorDataset(raw_train_datals)
+    loader = DataLoader(trainset,
+                        batch_size=args.batch_size,
+                        shuffle=True)
+
+    tensorboard_name = f"BLABLABLA"
+    tb_writer = SummaryWriter(log_dir=args.save_path+"___log_writer")
 
     train(
         lm,
@@ -104,47 +104,48 @@ def main():
         args.acc_step,
         args.log_step,
         args.save_step,
-        )
+    )
 
     print("EVERYTHING in the TRAINING now DONE.")
 
+
 def train(lm,
-                     lm_tokenizer,
-                     loader, epoch, device,
-                     tb_writer,
-                     tensorboard_name,
-                     save_path,
-                     v_save_path,
-                     LR=3e-5,
-                     acc_step=1,
-                     log_step=100,
-                     save_step=1000,
-                     ):
-    overall_loss=0.
-    overall_step=0
+          lm_tokenizer,
+          loader, epoch, device,
+          tb_writer,
+          tensorboard_name,
+          save_path,
+          v_save_path,
+          LR=3e-5,
+          acc_step=1,
+          log_step=100,
+          save_step=1000,
+          ):
+    overall_loss = 0.
+    overall_step = 0
 
     opt1 = torch.optim.AdamW(lm.parameters(), lr=LR)
     for e in tqdm(range(epoch), desc="epoch"):
         for item in tqdm(loader, desc="loader"):
-            overall_step+=1
+            overall_step += 1
 
             # print(item)
-            inps_idxs=item[0]
-            bs, sqlen=inps_idxs.shape
+            inps_idxs = item[0]
+            bs, sqlen = inps_idxs.shape
 
-            inps_idxs=inps_idxs.to(device) # bs, sql
-            loss=lm(inps_idxs,labels=inps_idxs).loss
+            inps_idxs = inps_idxs.to(device)  # bs, sql
+            loss = lm(inps_idxs, labels=inps_idxs).loss
 
-            overall_loss += loss 
+            overall_loss += loss
 
-            if overall_step % log_step ==0:
+            if overall_step % log_step == 0:
                 print(" LOSS: {}".format(
                     overall_loss,
-                    ))
+                ))
                 tb_writer.add_scalar("train-loss", overall_loss.item(),
                                      overall_step)
-                
-            if overall_loss % save_step==0:
+
+            if overall_loss % save_step == 0:
                 print(" -->Regular Saving.")
                 print(f"in epoch {e}, step {overall_step}.")
                 lm_tokenizer.save_pretrained(save_path+"___"+overall_step)
@@ -152,10 +153,10 @@ def train(lm,
 
             if overall_step % acc_step == 0:
                 opt1.zero_grad()
-                
+
                 overall_loss.backward()
                 opt1.step()
-                overall_loss=0.
+                overall_loss = 0.
 
     print(" -->Finally Saving.")
     lm_tokenizer.save_pretrained(save_path+"___STEPfinally")
@@ -163,9 +164,8 @@ def train(lm,
 
     print("ONE PERIOD TRAINING DONE!")
 
-## running entry
-if __name__=="__main__":
+
+# running entry
+if __name__ == "__main__":
     main()
     print("EVERYTHING DONE.")
-
-
