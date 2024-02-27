@@ -17,7 +17,9 @@ from datasets import load_dataset
 from openai import OpenAI as oa
 # import time
 import json
+from collections import OrderedDict
 import os
+from math import exp
 client = oa()
 
 
@@ -37,6 +39,18 @@ def chatWithOpenAI_APIs(modelname="gpt-3.5-turbo-1106",
     # time.sleep(1)
     return res.choices[0].message.content
 
+def chatWithOpenAI__LogLogits(modelname,
+                              messages,
+                              num_top_logprobs=5):
+    completions=client.chat.completions.create(
+        model=modelname,
+        messages=messages,
+        logprobs=True,
+        top_logprobs=num_top_logprobs,
+        )
+    generated_text=completions.choices[0]["message"]["content"]
+    logprobs=completions.choices[0].logprobs
+    return generated_text, logprobs
 
 def obtain_beginning_sents():
     dataset_name = "Anthropic/hh-rlhf"
@@ -139,6 +153,83 @@ def load_raw_train_datals(lm_tokenizer, max_length=1024):
                         ).input_ids
 
     return data
+
+def load_steal_datals(lm_tokenizer,
+                      model_name="gpt-3.5-turbo-1106",
+                      topk=5,
+                      max_length=1024,
+                      openai_tmp_save_pth="./ultrachat2k_openai_probs_res100.json",
+                      ):
+
+    V=lm_tokenizer.vocab_size
+    dataset_name = "HuggingFaceH4/ultrachat_200k"
+    trainset_text= load_dataset(dataset_name, split="train_gen[:100]")
+
+    prompts =trainset_text["prompt"]
+    prompts=[f"###User: {x} ###Assistant: " for x in prompts]
+    p_idxls = lm_tokenizer(prompts,
+                        padding="longest",
+                        truncation=True,
+                        max_length=max_length,
+                        return_tensors="pt"
+                        ).input_ids
+
+    messages=trainset_text["messages"]
+    messages=[json.loads(x)[1] for x in messages]
+
+    if not os.file.exists(openai_tmp_save_pth):
+        query_mess=[json.loads(x)[0] for x in messages]
+        text2ls=[]
+        probsls=[]
+        for q in query_mess:
+            resp,logprb=chatWithOpenAI__LogLogits(
+                model_name,
+                messages=[messages],
+                num_top_logprobs=topk,
+                )
+            idx2=lm_tokenizer([resp],
+                            padding="longest",
+                            truncation=True,
+                            max_length=max_length,
+                            return_tensors="pt"
+            ).input_ids
+            text2ls.append(idx2[0])
+            tokenls=lm_tokenizer.tokenize(resp)
+            logits_distr=[]
+            subtoken_idx=0
+            for i,topkdict in logprb:
+                selected_token=topkdict["token"]
+                subtokens=lm_tokenizer.tokenize(selected_token)
+                topk_tokens=[x["token"] for x in topkdict["top_logprobs"]]
+                topk_subtokenss=[lm_tokenizer.tokenize(x)\
+                                for x in topk_tokens]
+                topk_subidxes=[lm_tokenizer.convert_tokens_to_ids(x)\
+                            for x in topk_subtokenss]
+                topk_logits=[x["logprob"]\
+                             for x in topkdict["top_logprobs"]]
+                topk_logits=[exp(x) for x in topk_logits]
+                res=1-sum(topk_logits)
+                banality_value=res/(V-len(subtokens))
+                for i in range(len(subtokens)):
+                    dist=torch.ones(V)*banality_value
+                    for j,subidx in enumerate(topk_subidxes):
+                        dist[subidx[i]]=topk_logits[j]/len(subtokens)
+                    logits_distr.append(dist)
+            assert len(idx2[0]) == len(logits_distr)
+            probsls.append(logits_distr)
+
+        with open(openai_tmp_save_pth,
+                'w',encoding='utf8') as f:
+            json.dump([text2ls,probsls],
+                    f,ensure_ascii=False,indent=4)
+    else:
+        # from collections import OrderedDict
+        with open(openai_tmp_save_pth, 'r',encoding='utf8') as f:
+            data=json.load(f,object_pairs_hook=OrderedDict)
+        text2ls=data[0]
+        probsls=data[1]
+
+    return p_idxls, text2ls, probsls
 
 
 def most_vanilla_anthropicModel():
