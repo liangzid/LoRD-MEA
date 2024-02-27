@@ -20,6 +20,10 @@ import json
 from collections import OrderedDict
 import os
 from math import exp
+
+import pickle
+from tqdm import tqdm
+
 client = oa()
 
 
@@ -40,19 +44,28 @@ def chatWithOpenAI_APIs(modelname="gpt-3.5-turbo-1106",
     return res.choices[0].message.content
 
 
-def chatWithOpenAI__LogLogits(modelname,
-                              messages,
+def chatWithOpenAI__LogLogits(modelname="gpt-3.5-turbo-1106",
+                              messages=[],
                               num_top_logprobs=5):
-    completions = client.chat.completions.create(
+    # empty_prefix=[{"role":"system","content":""},]
+    # empty_prefix.extend(messages)
+
+    # print("messages: ",messages)
+    # print(type(messages[0]))
+
+    res = client.chat.completions.create(
         model=modelname,
         messages=messages,
         logprobs=True,
         top_logprobs=num_top_logprobs,
     )
-    generated_text = completions.choices[0]["message"]["content"]
-    logprobs = completions.choices[0].logprobs
-    return generated_text, logprobs
+    # print("Inference Results: ",res)
+    generated_text = res.choices[0].message.content
+    logprobs = res.choices[0].logprobs.content
 
+    # print("-----------------------")
+
+    return generated_text, logprobs
 
 def obtain_beginning_sents():
     dataset_name = "Anthropic/hh-rlhf"
@@ -161,12 +174,12 @@ def load_steal_datals(lm_tokenizer,
                       model_name="gpt-3.5-turbo-1106",
                       topk=5,
                       max_length=1024,
-                      openai_tmp_save_pth="./ultrachat2k_openai_probs_res100.json",
+                      openai_tmp_save_pth="./ultrachat2k_openai_probs_res100.pickle",
                       ):
 
     V = lm_tokenizer.vocab_size
     dataset_name = "HuggingFaceH4/ultrachat_200k"
-    trainset_text = load_dataset(dataset_name, split="train_gen[:10]")
+    trainset_text = load_dataset(dataset_name, split="train_sft[:2]")
 
     prompts = trainset_text["prompt"]
     prompts = [f"###User: {x} ###Assistant: " for x in prompts]
@@ -181,54 +194,66 @@ def load_steal_datals(lm_tokenizer,
     # messages=[x[1] for x in messages]
 
     if not os.path.exists(openai_tmp_save_pth):
-        query_mess = [x[0] for x in messages]
+        print("RUNNING ChatGPT Stealing...")
         text2ls = []
         probsls = []
-        for q in query_mess:
-            resp, logprb = chatWithOpenAI__LogLogits(
+        for q in tqdm(messages, desc="ChatGPT Inference:"):
+            qd=[{"role":"user",
+                "content":q[0]["content"]}]
+            res = chatWithOpenAI__LogLogits(
                 model_name,
-                messages=[q],
-                num_top_logprobs=topk,
+                qd,
+                topk,
             )
-            idx2 = lm_tokenizer([resp],
-                                padding="longest",
-                                truncation=True,
-                                max_length=max_length,
-                                return_tensors="pt"
-                                ).input_ids
-            text2ls.append(idx2[0])
-            tokenls = lm_tokenizer.tokenize(resp)
+            resp, logprb=res
+            bgn_idx = lm_tokenizer([resp],
+                        padding="longest",
+                        truncation=True,
+                        max_length=max_length,
+                        return_tensors="pt"
+                        ).input_ids[0][0]
+            
+
             logits_distr = []
-            subtoken_idx = 0
-            for i, topkdict in logprb:
-                selected_token = topkdict["token"]
+            idx2=[bgn_idx]
+            for i, topkdict in enumerate(logprb):
+                selected_token = topkdict.token
                 subtokens = lm_tokenizer.tokenize(selected_token)
-                topk_tokens = [x["token"] for x in topkdict["top_logprobs"]]
+                sub_idxes=lm_tokenizer.convert_tokens_to_ids(subtokens)
+                idx2.extend(sub_idxes)
+                    
+                topk_tokens = [x.token for x in topkdict.top_logprobs]
                 topk_subtokenss = [lm_tokenizer.tokenize(x)
                                    for x in topk_tokens]
                 topk_subidxes = [lm_tokenizer.convert_tokens_to_ids(x)
                                  for x in topk_subtokenss]
-                topk_logits = [x["logprob"]
-                               for x in topkdict["top_logprobs"]]
+                topk_logits = [x.logprob
+                               for x in topkdict.top_logprobs]
                 topk_logits = [exp(x) for x in topk_logits]
                 res = 1-sum(topk_logits)
                 banality_value = res/(V-len(subtokens))
-                for i in range(len(subtokens)):
+                # print(subtokens) # [token-a, token-b]
+                # print(topk_logits) # [p1,p2,p3,p4,p5]
+                # print(topk_subidxes) # [ [t11, t12], ... [t51,],]
+                for j in range(len(subtokens)):
                     dist = torch.ones(V)*banality_value
-                    for j, subidx in enumerate(topk_subidxes):
-                        dist[subidx[i]] = topk_logits[j]/len(subtokens)
+                    for k, subidx in enumerate(topk_subidxes):
+                        dist[subidx[0]] = topk_logits[k]/len(subtokens)
                     logits_distr.append(dist)
-            assert len(idx2[0]) == len(logits_distr)
+            # print(len(idx2), len(logits_distr))
+            assert len(idx2) == len(logits_distr)+1
             probsls.append(logits_distr)
+            text2ls.append(idx2)
 
         with open(openai_tmp_save_pth,
-                  'w', encoding='utf8') as f:
-            json.dump([text2ls, probsls],
-                      f, ensure_ascii=False, indent=4)
+                  'wb') as f:
+            pickle.dump([text2ls, probsls],
+                      f,)
     else:
+        print("Directly Loading...")
         # from collections import OrderedDict
-        with open(openai_tmp_save_pth, 'r', encoding='utf8') as f:
-            data = json.load(f, object_pairs_hook=OrderedDict)
+        with open(openai_tmp_save_pth, 'rb') as f:
+            data = pickle.load(f,)
         text2ls = data[0]
         probsls = data[1]
 
@@ -249,5 +274,15 @@ def main():
 
 # running entry
 if __name__ == "__main__":
-    main()
+    # main()
+    # res=chatWithOpenAI_APIs(prompt="1",utter="1")
+    # ms=[{'content': "These instructions apply to section-based themes (Responsive 6.0+, Retina 4.0+, Parallax 3.0+ Turbo 2.0+, Mobilia 5.0+). What theme version am I using?\nOn your Collections pages & Featured Collections sections, you can easily show the secondary image of a product on hover by enabling one of the theme's built-in settings!\nYour Collection pages & Featured Collections sections will now display the secondary product image just by hovering over that product image thumbnail.\nDoes this feature apply to all sections of the theme or just specific ones as listed in the text material?", 'role': 'user'}]
+    # res=chatWithOpenAI__LogLogits(messages=ms)
+    # print(res)
+    
+    from transformers import AutoTokenizer
+    tokenizer = AutoTokenizer.from_pretrained("google/gemma-2b")
+    raw_train_datals = load_steal_datals(tokenizer,
+                                         max_length=1024)
+
     print("EVERYTHING DONE.")

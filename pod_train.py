@@ -249,11 +249,14 @@ def main():
     )
 
     lm_tokenizer = AutoTokenizer.from_pretrained(args.from_path)
+    tokenizer = AutoTokenizer.from_pretrained(args.from_path)
+
     if lm_tokenizer.pad_token is None:
         lm_tokenizer.pad_token = lm_tokenizer.eos_token
+        tokenizer.pad_token = tokenizer.eos_token
 
-    raw_train_datals = load_steal_datals(lm_tokenizer,
-                                         args.max_length)
+    raw_train_datals = load_steal_datals(tokenizer,
+                                         max_length=args.max_length)
     print("Data LOADING done.")
 
     train_pod(
