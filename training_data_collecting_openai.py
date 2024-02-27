@@ -163,7 +163,7 @@ def load_steal_datals(lm_tokenizer,
 
     V=lm_tokenizer.vocab_size
     dataset_name = "HuggingFaceH4/ultrachat_200k"
-    trainset_text= load_dataset(dataset_name, split="train_gen[:100]")
+    trainset_text= load_dataset(dataset_name, split="train_gen[:10]")
 
     prompts =trainset_text["prompt"]
     prompts=[f"###User: {x} ###Assistant: " for x in prompts]
@@ -175,16 +175,16 @@ def load_steal_datals(lm_tokenizer,
                         ).input_ids
 
     messages=trainset_text["messages"]
-    messages=[json.loads(x)[1] for x in messages]
+    # messages=[x[1] for x in messages]
 
-    if not os.file.exists(openai_tmp_save_pth):
-        query_mess=[json.loads(x)[0] for x in messages]
+    if not os.path.exists(openai_tmp_save_pth):
+        query_mess=[x[0] for x in messages]
         text2ls=[]
         probsls=[]
         for q in query_mess:
             resp,logprb=chatWithOpenAI__LogLogits(
                 model_name,
-                messages=[messages],
+                messages=[q],
                 num_top_logprobs=topk,
                 )
             idx2=lm_tokenizer([resp],

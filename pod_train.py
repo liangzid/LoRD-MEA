@@ -25,6 +25,7 @@ from transformers import AutoModelForTokenClassification
 from transformers import AutoTokenizer, AutoConfig, AutoModel
 
 from training_data_collecting_openai import load_raw_train_datals
+from training_data_collecting_openai import load_steal_datals
 
 def train_one_period(lm,
                      lm_tokenizer,
@@ -144,7 +145,7 @@ def train_pod(lm,
                 # Generate New Tokens
                 idxs1=lm.generate(prompt,
                                   do_sample=True,
-                                  max_length=args.max_length
+                                  max_length=args.max_length,
                                   temperature=args.temperature)
                 old_logits=lm(idxs1[:,:-1]).logits
 
@@ -259,8 +260,6 @@ def main():
         raw_train_datals)
 
     print("EVERYTHING in the TRAINING now DONE.")
-
-
 
 
 ## running entry
