@@ -39,6 +39,7 @@ def train_one_period(lm,
                      log_step=100,
                      save_step=1000,
                      beta=0.7,
+                     epsln=1e-6,
                      ):
     overall_loss = 0.
     overall_step = 0
@@ -52,7 +53,10 @@ def train_one_period(lm,
 
             # print(item)
             idxs1, idxs2, old_logits1, vic_logits2 = item
-            bs, sqlen = idxs1.shape
+            bs, sqlen1 = idxs1.shape
+            bs, sqlen2 = idxs2.shape
+            # print(sqlen1, sqlen2)
+            sqlen=min(sqlen1,sqlen2)
 
             idxs1 = idxs1.to(device)  # bs, sql
             idxs2 = idxs2.to(device)  # bs, sql
@@ -60,34 +64,44 @@ def train_one_period(lm,
             old_logits1 = torch.softmax(old_logits1, dim=-1)
             old_logits1 = old_logits1[torch.arange(bs).unsqueeze(1),
                                       torch.arange(sqlen-1).unsqueeze(0),
-                                      idxs1[:, 1:]]
+                                      idxs1[:, 1:sqlen]]
             vic_logits2 = vic_logits2.to(device)
-            vic_logits2 = torch.softmax(vic_logits2, dim=-1)
+            # logits already normalized by softmax.
+            # vic_logits2 = torch.softmax(vic_logits2, dim=-1)
+            # print(vic_logits2.shape,)
             vic_logits2_cons = vic_logits2[torch.arange(bs).unsqueeze(1),
                                            torch.arange(sqlen-1).unsqueeze(0),
-                                           idxs2[:, 1:]]
+                                           idxs2[:, 1:sqlen]]
 
             logits1 = lm(idxs1).logits[:, :-1, :]
             logits1 = torch.softmax(logits1, dim=-1)
             logits1 = logits1[torch.arange(bs).unsqueeze(1),
                               torch.arange(sqlen-1).unsqueeze(0),
-                              idxs1[:, 1:]]
+                              idxs1[:, 1:sqlen]]
 
             logits2 = lm(idxs2).logits[:, :-1, :]
             logits2 = torch.softmax(logits2, dim=-1)
             logits2_cons = logits2[torch.arange(bs).unsqueeze(1),
                                    torch.arange(sqlen-1).unsqueeze(0),
-                                   idxs2[:, 1:]]
+                                   idxs2[:, 1:sqlen]]
 
-            loss_constractive = beta * (torch.log(logits2_cons)
-                                        - torch.log(vic_logits2_cons)
-                                        )\
-                - torch.log(logits1)\
-                + torch.log(old_logits1)
+            loss_constractive = beta * \
+                (torch.log((logits2_cons+epsln)/\
+                           (vic_logits2_cons+epsln)))\
+                + torch.log((old_logits1+epsln)/(logits1+epsln))
+
+            # print("loss constractive:", loss_constractive)
+
+            # loss_constractive=torch.log(logits2_cons)\
+            #                             - torch.log(vic_logits2_cons)
+
+
             loss_constractive = - torch.sum(loss_constractive)
 
             loss_logits = beta *\
-                torch.sum(logits2*torch.log(logits2/vic_logits2))
+                torch.sum(logits2*torch.log(logits2/(vic_logits2+epsln)\
+                                            +epsln))
+
 
             overall_loss += loss_constractive + loss_logits
 
@@ -137,24 +151,33 @@ def train_pod(lm,
         tensorboard_name = f"Period {iter_idx}"
         idxs1_ls = []
         old_logits1_ls = []
+        idx2ls=[]
+        logits2ls=[]
         # collect data.
         with torch.no_grad():
             for prompt, idxs2, logits2 in tqdm(raw_train_datals,
                                                desc="Data Collecting..."):
+                idxs2=torch.tensor(idxs2, dtype=torch.long)
                 idxs2 = idxs2.to(args.device).unsqueeze(0)
                 bs, sql = idxs2.shape
                 prompt = prompt.to(args.device).unsqueeze(0)
                 # Generate New Tokens
                 idxs1 = lm.generate(prompt,
                                     do_sample=True,
-                                    max_length=args.max_length,
+                                    max_length=args.max_length//2,
                                     temperature=args.temperature)
                 old_logits = lm(idxs1[:, :-1]).logits
 
+                logits2=torch.zeros(len(logits2),len(logits2[0]))
+                for ii in range(len(logits2)):
+                    logits2[ii,:]=logits2[ii]
+
+                logits2ls.append(logits2)
+                idx2ls.append(idxs2.squeeze(0).to("cpu"))
                 idxs1_ls.append(idxs1.squeeze(0).to("cpu"))
                 old_logits1_ls.append(old_logits.squeeze(0).to("cpu"))
 
-        pls, idx2ls, logits2ls = zip(*raw_train_datals)
+        pls, _, __ = zip(*raw_train_datals)
         idx2ls = torch.stack(idx2ls)
         logits2ls = torch.stack(logits2ls)
         idxs1_ls = torch.stack(idxs1_ls)
@@ -183,7 +206,6 @@ def train_pod(lm,
                               args.LR,
                               args.acc_step, args.log_step,
                               args.save_step,
-                              args.epsilon,
                               args.beta,
                               )
 
