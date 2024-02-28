@@ -85,10 +85,12 @@ def train_one_period(lm,
                                    torch.arange(sqlen-1).unsqueeze(0),
                                    idxs2[:, 1:sqlen]]
 
-            loss_constractive = beta * \
+            loss_constractive_good = torch.sum(beta * \
                 (torch.log((logits2_cons+epsln)/\
-                           (vic_logits2_cons+epsln)))\
-                + torch.log((old_logits1+epsln)/(logits1+epsln))
+                           (vic_logits2_cons+epsln))))
+
+            loss_constractive_past = -torch.sum(
+                torch.log((old_logits1+epsln)/(logits1+epsln)))
 
             # print("loss constractive:", loss_constractive)
 
@@ -96,7 +98,8 @@ def train_one_period(lm,
             #                             - torch.log(vic_logits2_cons)
 
 
-            loss_constractive = - torch.sum(loss_constractive)
+            loss_constractive = loss_constractive_good \
+                +loss_constractive_past
 
             loss_logits = beta *\
                 torch.sum(logits2*torch.log(logits2/(vic_logits2+epsln)\
@@ -106,15 +109,19 @@ def train_one_period(lm,
             overall_loss += loss_constractive + loss_logits
 
             if overall_step % log_step == 0:
-                print(" LOSS: {}\tReward: {}\tKL-D: {}".format(
+                print(" LOSS: {}\tGoodRewardLoss: {}\tToPassRewardLoss: {}\tKL-D: {}".format(
                     overall_loss,
-                    loss_constractive,
+                    loss_constractive_good,
+                    loss_constractive_past,
                     loss_logits
                 ))
                 tb_writer.add_scalar("loss", overall_loss.item(),
                                      overall_step)
-                tb_writer.add_scalar("rewardloss",
-                                     loss_constractive.item(),
+                tb_writer.add_scalar("rewardloss_good",
+                                     loss_constractive_good.item(),
+                                     overall_step)
+                tb_writer.add_scalar("rewardloss_past",
+                                     loss_constractive_past.item(),
                                      overall_step)
                 tb_writer.add_scalar("KLloss", loss_logits.item(),
                                      overall_step)
@@ -164,7 +171,7 @@ def train_pod(lm,
                 # Generate New Tokens
                 idxs1 = lm.generate(prompt,
                                     do_sample=True,
-                                    max_length=args.max_length//2,
+                                    max_length=args.max_length,
                                     temperature=args.temperature)
                 old_logits = lm(idxs1[:, :-1]).logits
 

@@ -28,17 +28,17 @@ export save_path="${POD_save_dir}pod_style_test"
 
 $python pod_train.py\
 	--device="cuda:0" \
-	--epoch=3 \
-	--period_num=5 \
+	--epoch=2 \
+	--period_num=3 \
 	--acc_step=1 \
 	--log_step=1 \
 	--save_step=100000 \
 	--LR="3e-5" \
-	--beta=0.75 \
-	--temperature=0.8 \
+	--beta=1.0 \
+	--temperature=1.0 \
 	--batch_size=1 \
 	--task="none set yet" \
-	--max_length=1024 \
+	--max_length=2048 \
 	--from_path=$from_path \
 	--save_path=$save_path
 

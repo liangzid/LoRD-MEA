@@ -179,7 +179,7 @@ def load_steal_datals(lm_tokenizer,
 
     V = lm_tokenizer.vocab_size
     dataset_name = "HuggingFaceH4/ultrachat_200k"
-    trainset_text = load_dataset(dataset_name, split="train_sft[:1]")
+    trainset_text = load_dataset(dataset_name, split="train_sft[:100]")
 
     prompts = trainset_text["prompt"]
     prompts = [f"###User: {x} ###Assistant: " for x in prompts]
