@@ -27,6 +27,7 @@ from transformers import AutoTokenizer, AutoConfig, AutoModel
 from training_data_collecting_openai import load_raw_train_datals
 from training_data_collecting_openai import load_steal_datals
 
+from sequence_utils import my_padding, my_padding_logits
 
 def train_one_period(lm,
                      lm_tokenizer,
@@ -171,7 +172,8 @@ def train_pod(lm,
                 # Generate New Tokens
                 idxs1 = lm.generate(prompt,
                                     do_sample=True,
-                                    max_length=args.max_length,
+                                    # max_length=args.max_length,
+                                    max_new_tokens=1,
                                     temperature=args.temperature)
                 old_logits = lm(idxs1[:, :-1]).logits
 
@@ -184,11 +186,25 @@ def train_pod(lm,
                 idxs1_ls.append(idxs1.squeeze(0).to("cpu"))
                 old_logits1_ls.append(old_logits.squeeze(0).to("cpu"))
 
+        ## do truncations and paddings.
+        max_token_num_1=min(args.max_length,
+                            max([len(x) for x in idxs1_ls]))
+        max_token_num_2=min(args.max_length,
+                            max([len(x) for x in idx2ls]))
+        max_token_num=max(max_token_num_1, max_token_num_2)
+        pad_idx=lm_tokenizer.pad_token_id
+        
+        idx2ls=my_padding(idx2ls, max_token_num, pad_idx)
+        idxs1_ls=my_padding(idxs1_ls, max_token_num, pad_idx)
+        
+        old_logits1_ls=my_padding_logits(old_logits1_ls, max_token_num, pad_idx)
+        logits2ls=my_padding_logits(logits2ls, max_token_num, pad_idx)
+
         pls, _, __ = zip(*raw_train_datals)
-        idx2ls = torch.stack(idx2ls)
-        logits2ls = torch.stack(logits2ls)
-        idxs1_ls = torch.stack(idxs1_ls)
-        old_logits1_ls = torch.stack(old_logits1_ls)
+        # idx2ls = torch.stack(idx2ls)
+        # logits2ls = torch.stack(logits2ls)
+        # idxs1_ls = torch.stack(idxs1_ls)
+        # old_logits1_ls = torch.stack(old_logits1_ls)
 
         trainset = TensorDataset(
             idxs1_ls,

@@ -17,7 +17,7 @@ echo "HOME: ${HOME}"
 
 export python=${HOME}/anaconda3/envs/align/bin/python3
 
-export CUDA_VISIBLE_DEVICES="0,1,2,3"
+export CUDA_VISIBLE_DEVICES="0,1"
 
 
 export root_dir="${HOME}/alignmentExtraction/"
