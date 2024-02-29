@@ -197,6 +197,7 @@ def load_steal_datals(lm_tokenizer,
         print("RUNNING ChatGPT Stealing...")
         text2ls = []
         probsls = []
+        iii_bgn=0
         for q in tqdm(messages, desc="ChatGPT Inference:"):
             qd=[{"role":"user",
                 "content":q[0]["content"]}]
@@ -214,8 +215,15 @@ def load_steal_datals(lm_tokenizer,
                         ).input_ids[0][0]
             
 
-            logits_distr = []
-            idx2=[bgn_idx]
+            idx2=p_idxls[iii_bgn].tolist()
+            logits_distr = torch.nn.functional.one_hot(
+                p_idxls[iii_bgn][1:],
+                num_classes=V,
+                ).float() 
+
+            logits_distr=[logits_distr[i]\
+                          for i in range(len(logits_distr))]
+
             for i, topkdict in enumerate(logprb):
                 selected_token = topkdict.token
                 subtokens = lm_tokenizer.tokenize(selected_token)
@@ -257,7 +265,7 @@ def load_steal_datals(lm_tokenizer,
         text2ls = data[0]
         probsls = data[1]
 
-    return list(zip(p_idxls, text2ls, probsls))
+    return p_idxls, text2ls, probsls
 
 
 def most_vanilla_anthropicModel():

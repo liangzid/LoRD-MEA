@@ -155,34 +155,24 @@ def train_pod(lm,
     # STEP 1: DATA Preperation.
     ITER_num = args.period_num
     tb_writer = SummaryWriter(log_dir=args.save_path+"___log_writer")
+    p_ls, idx2ls, logits2ls=raw_train_datals
     for iter_idx in range(ITER_num):
         tensorboard_name = f"Period {iter_idx}"
         idxs1_ls = []
         old_logits1_ls = []
-        idx2ls=[]
-        logits2ls=[]
         # collect data.
         with torch.no_grad():
-            for prompt, idxs2, logits2 in tqdm(raw_train_datals,
-                                               desc="Data Collecting..."):
-                idxs2=torch.tensor(idxs2, dtype=torch.long)
-                idxs2 = idxs2.to(args.device).unsqueeze(0)
-                bs, sql = idxs2.shape
+            for prompt in tqdm(p_ls,
+                               desc="Data Collecting..."):
                 prompt = prompt.to(args.device).unsqueeze(0)
                 # Generate New Tokens
                 idxs1 = lm.generate(prompt,
                                     do_sample=True,
-                                    # max_length=args.max_length,
-                                    max_new_tokens=1,
+                                    max_length=args.max_length,
+                                    # max_new_tokens=1,
                                     temperature=args.temperature)
                 old_logits = lm(idxs1[:, :-1]).logits
 
-                logits2=torch.zeros(len(logits2),len(logits2[0]))
-                for ii in range(len(logits2)):
-                    logits2[ii,:]=logits2[ii]
-
-                logits2ls.append(logits2)
-                idx2ls.append(idxs2.squeeze(0).to("cpu"))
                 idxs1_ls.append(idxs1.squeeze(0).to("cpu"))
                 old_logits1_ls.append(old_logits.squeeze(0).to("cpu"))
 
@@ -192,20 +182,25 @@ def train_pod(lm,
         max_token_num_2=min(args.max_length,
                             max([len(x) for x in idx2ls]))
         max_token_num=max(max_token_num_1, max_token_num_2)
+        print("max_token_num", max_token_num)
         pad_idx=lm_tokenizer.pad_token_id
         
         idx2ls=my_padding(idx2ls, max_token_num, pad_idx)
         idxs1_ls=my_padding(idxs1_ls, max_token_num, pad_idx)
         
-        old_logits1_ls=my_padding_logits(old_logits1_ls, max_token_num, pad_idx)
-        logits2ls=my_padding_logits(logits2ls, max_token_num, pad_idx)
+        old_logits1_ls=my_padding_logits(old_logits1_ls, max_token_num-1, pad_idx)
+        newlogits2ls=[]
+        for per_data in logits2ls:
+            sl=len(per_data)
+            v=len(per_data[0])
+            tmp_ts=torch.ones((sl, v), dtype=torch.float)
+            for jjjj, per_token_logit in enumerate(per_data):
+                tmp_ts[jjjj]=torch.tensor(per_token_logit,)
+            newlogits2ls.append(tmp_ts)
+        logits2ls=my_padding_logits(newlogits2ls,
+                                    max_token_num-1, pad_idx)
 
-        pls, _, __ = zip(*raw_train_datals)
-        # idx2ls = torch.stack(idx2ls)
-        # logits2ls = torch.stack(logits2ls)
-        # idxs1_ls = torch.stack(idxs1_ls)
-        # old_logits1_ls = torch.stack(old_logits1_ls)
-
+        print(old_logits1_ls.shape)
         trainset = TensorDataset(
             idxs1_ls,
             idx2ls,

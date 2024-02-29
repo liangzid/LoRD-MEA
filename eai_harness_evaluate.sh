@@ -31,12 +31,12 @@ export all_t=("siqa" "xnli" "xstorycloze" "hendrycks_ethics" "gpqa"\
 		      "unscramble" "ifeval" "mmlu" "logiqa" "headqa"\
 		      "arithmetic" "kmmlu")
 
-export model_path="./POD_SAVE_CKPTs/TheFirstTimeAttempts/policy-___period2"
+export model_path="./POD_SAVE_CKPTs/pod_style_test___period0"
 # export model_path="google/gemma-2b"
 # export model_path="./SFT_SAVE_CKPTs/TheFirstTimeAttempts/policy-___STEPfinally"
-# export tasks="mmlu"
+export tasks="mmlu"
 # export tasks="toxigen"
-export tasks="ethics_cm,ethics_deontology,ethics_justice,ethics_utilitarianism,ethics_virtue,toxigen"
+# export tasks="ethics_cm,ethics_deontology,ethics_justice,ethics_utilitarianism,ethics_virtue,toxigen"
 export output_path="${model_path}___inference_results"
 export device="cuda:1"
 
