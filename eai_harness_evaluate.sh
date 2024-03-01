@@ -38,7 +38,7 @@ export tasks="mmlu"
 # export tasks="toxigen"
 # export tasks="ethics_cm,ethics_deontology,ethics_justice,ethics_utilitarianism,ethics_virtue,toxigen"
 export output_path="${model_path}___inference_results"
-export device="cuda:1"
+export device="cuda:3"
 
 $python -m lm_eval \
 	--model hf \

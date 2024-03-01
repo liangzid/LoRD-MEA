@@ -26,6 +26,7 @@ from transformers import AutoTokenizer, AutoConfig, AutoModel
 
 from training_data_collecting_openai import load_raw_train_datals
 from training_data_collecting_openai import load_steal_datals
+from glue_process import load_glue_datals
 
 from sequence_utils import my_padding, my_padding_logits
 
@@ -169,8 +170,10 @@ def train_pod(lm,
                 idxs1 = lm.generate(prompt,
                                     do_sample=True,
                                     max_length=args.max_length,
+                                    # early_stopping=True,
                                     # max_new_tokens=1,
                                     temperature=args.temperature)
+                print(lm_tokenizer.decode(idxs1))
                 old_logits = lm(idxs1[:, :-1]).logits
 
                 idxs1_ls.append(idxs1.squeeze(0).to("cpu"))
@@ -267,6 +270,8 @@ def setup_train_args():
                         required=False)
     parser.add_argument('--task', default="pod", type=str,
                         required=False,)
+    parser.add_argument('--dataset_task', default="glue", type=str,
+                        required=False,)
     parser.add_argument("--max_length", default=1024,
                         type=int, required=False)
 
@@ -295,8 +300,21 @@ def main():
         lm_tokenizer.pad_token = lm_tokenizer.eos_token
         tokenizer.pad_token = tokenizer.eos_token
 
-    raw_train_datals = load_steal_datals(tokenizer,
-                                         max_length=args.max_length)
+    
+    tasks_glue = [
+        "cola", "mnli",
+        "mrpc",
+        "qnli", "qqp", "rte", "sst2",
+        "wnli",]
+
+    if args.dataset_task in tasks_glue:
+        raw_train_datals = load_glue_datals(tokenizer,
+                                            task_name=args.dataset_task,
+                                            train_num=1,
+                                            max_length=args.max_length)
+    else:
+        raw_train_datals = load_steal_datals(tokenizer,
+                                            max_length=args.max_length)
     print("Data LOADING done.")
 
     train_pod(

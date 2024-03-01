@@ -18,19 +18,20 @@ echo "HOME: ${HOME}"
 export python=${HOME}/anaconda3/envs/align/bin/python3
 
 # export CUDA_VISIBLE_DEVICES="0,1"
-export CUDA_VISIBLE_DEVICES=""
+export CUDA_VISIBLE_DEVICES="0,1,2,3"
 
 
 export root_dir="${HOME}/alignmentExtraction/"
 export POD_save_dir="${root_dir}POD_SAVE_CKPTs/"
 # export from_path="openai-community/gpt2-xl"
 export from_path="google/gemma-2b"
-export save_path="${POD_save_dir}pod_style_test_fast"
 
-export msl=2048
+export msl=256
+export task="cola"
+export save_path="${POD_save_dir}pod_style_test_fast${msl}${task}"
 
 $python pod_train.py\
-	--device="cpu" \
+	--device="cuda" \
 	--epoch=2 \
 	--period_num=3 \
 	--acc_step=1 \
@@ -42,6 +43,7 @@ $python pod_train.py\
 	--batch_size=1 \
 	--task="none set yet" \
 	--max_length=$msl \
+	--dataset_task=$task \
 	--from_path=$from_path \
 	--save_path=$save_path
 
