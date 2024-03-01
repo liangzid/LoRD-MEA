@@ -193,7 +193,7 @@ def load_glue_datals(lm_tokenizer,
     return p_idxls, text2ls, probsls
 
 
-def eval_model():
+# def eval_model():
 
 
 

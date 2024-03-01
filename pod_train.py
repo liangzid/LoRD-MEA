@@ -29,6 +29,8 @@ from training_data_collecting_openai import load_steal_datals
 from glue_process import load_glue_datals
 
 from sequence_utils import my_padding, my_padding_logits
+from sequence_utils import my_padding_token_dist
+from sequence_utils import my_padding_logit
 
 def train_one_period(lm,
                      lm_tokenizer,
@@ -54,7 +56,7 @@ def train_one_period(lm,
             loss_logits = 0.
 
             # print(item)
-            idxs1, idxs2, old_logits1, vic_logits2 = item
+            idxs1, idxs2, old_logits1, vic_logits2, idxs2_dist = item
             bs, sqlen1 = idxs1.shape
             bs, sqlen2 = idxs2.shape
             # print(sqlen1, sqlen2)
@@ -62,18 +64,11 @@ def train_one_period(lm,
 
             idxs1 = idxs1.to(device)  # bs, sql
             idxs2 = idxs2.to(device)  # bs, sql
-            old_logits1 = old_logits1.to(device)  # bs, sql, Vocab
-            old_logits1 = torch.softmax(old_logits1, dim=-1)
-            old_logits1 = old_logits1[torch.arange(bs).unsqueeze(1),
-                                      torch.arange(sqlen-1).unsqueeze(0),
-                                      idxs1[:, 1:sqlen]]
-            vic_logits2 = vic_logits2.to(device)
-            # logits already normalized by softmax.
-            # vic_logits2 = torch.softmax(vic_logits2, dim=-1)
-            # print(vic_logits2.shape,)
-            vic_logits2_cons = vic_logits2[torch.arange(bs).unsqueeze(1),
-                                           torch.arange(sqlen-1).unsqueeze(0),
-                                           idxs2[:, 1:sqlen]]
+            # already normalized by softmax
+            old_logits1 = old_logits1.to(device)  # bs, sql,
+            
+            vic_logits2 = vic_logits2.to(device) # bs, sql, 5
+            idxs2_dist=idxs2_dist.to(device)
 
             logits1 = lm(idxs1).logits[:, :-1, :]
             logits1 = torch.softmax(logits1, dim=-1)
@@ -87,26 +82,30 @@ def train_one_period(lm,
                                    torch.arange(sqlen-1).unsqueeze(0),
                                    idxs2[:, 1:sqlen]]
 
+            logits2_dist=torch.gather(logits2, 2, idxs2_dist)
+
+            # print(idxs1.shape, idxs2.shape,logits1.shape,
+            #       old_logits1.shape,
+            #       vic_logits2.shape, idxs2_dist.shape)
+
             loss_constractive_good = torch.sum(beta * \
                 (torch.log((logits2_cons+epsln)/\
-                           (vic_logits2_cons+epsln))))
+                           (vic_logits2[:,:,0]+epsln))))
 
+            print("----------------")
+            print(old_logits1)
+            print(logits1)
             loss_constractive_past = -torch.sum(
                 torch.log((old_logits1+epsln)/(logits1+epsln)))
-
-            # print("loss constractive:", loss_constractive)
-
-            # loss_constractive=torch.log(logits2_cons)\
-            #                             - torch.log(vic_logits2_cons)
 
 
             loss_constractive = loss_constractive_good \
                 +loss_constractive_past
 
             loss_logits = beta *\
-                torch.sum(logits2*torch.log(logits2/(vic_logits2+epsln)\
+                torch.sum(logits2_dist*torch.log(
+                    logits2_dist/(vic_logits2+epsln)\
                                             +epsln))
-
 
             overall_loss += loss_constractive + loss_logits
 
@@ -156,7 +155,7 @@ def train_pod(lm,
     # STEP 1: DATA Preperation.
     ITER_num = args.period_num
     tb_writer = SummaryWriter(log_dir=args.save_path+"___log_writer")
-    p_ls, idx2ls, logits2ls=raw_train_datals
+    p_ls, idx2ls, logits2ls, idx2_dist=raw_train_datals
     for iter_idx in range(ITER_num):
         tensorboard_name = f"Period {iter_idx}"
         idxs1_ls = []
@@ -171,10 +170,19 @@ def train_pod(lm,
                                     do_sample=True,
                                     max_length=args.max_length,
                                     # early_stopping=True,
-                                    # max_new_tokens=1,
+                                    max_new_tokens=1,
                                     temperature=args.temperature)
-                print(lm_tokenizer.decode(idxs1))
+
+                bs,sqqql=idxs1.shape
+                # print(idxs1)
+                print(lm_tokenizer.decode(idxs1[0]))
                 old_logits = lm(idxs1[:, :-1]).logits
+                old_logits=torch.softmax(old_logits, dim=-1)
+                old_logits=old_logits[
+                    torch.arange(1).unsqueeze(1),
+                    torch.arange(sqqql-1).unsqueeze(0),
+                    idxs1[:,1:sqqql]
+                    ]
 
                 idxs1_ls.append(idxs1.squeeze(0).to("cpu"))
                 old_logits1_ls.append(old_logits.squeeze(0).to("cpu"))
@@ -191,7 +199,8 @@ def train_pod(lm,
         idx2ls=my_padding(idx2ls, max_token_num, pad_idx)
         idxs1_ls=my_padding(idxs1_ls, max_token_num, pad_idx)
         
-        old_logits1_ls=my_padding_logits(old_logits1_ls, max_token_num-1, pad_idx)
+        old_logits1_ls=my_padding_logit(old_logits1_ls,
+                                         max_token_num-1, pad_idx)
         newlogits2ls=[]
         for per_data in logits2ls:
             sl=len(per_data)
@@ -202,6 +211,8 @@ def train_pod(lm,
             newlogits2ls.append(tmp_ts)
         logits2ls=my_padding_logits(newlogits2ls,
                                     max_token_num-1, pad_idx)
+        idxs2_dist=my_padding_token_dist(idx2_dist,
+                                    max_token_num-1, pad_idx)
 
         print(old_logits1_ls.shape)
         trainset = TensorDataset(
@@ -209,6 +220,7 @@ def train_pod(lm,
             idx2ls,
             old_logits1_ls,
             logits2ls,
+            idxs2_dist,
         )
 
         loader = DataLoader(trainset,
@@ -307,6 +319,7 @@ def main():
         "qnli", "qqp", "rte", "sst2",
         "wnli",]
 
+    print(f"RUN task: {args.dataset_task}")
     if args.dataset_task in tasks_glue:
         raw_train_datals = load_glue_datals(tokenizer,
                                             task_name=args.dataset_task,

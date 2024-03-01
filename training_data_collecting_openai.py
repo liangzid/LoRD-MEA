@@ -20,6 +20,7 @@ import json
 from collections import OrderedDict
 import os
 from math import exp
+import random
 
 import pickle
 from tqdm import tqdm
@@ -174,12 +175,12 @@ def load_steal_datals(lm_tokenizer,
                       model_name="gpt-3.5-turbo-1106",
                       topk=5,
                       max_length=1024,
-                      openai_tmp_save_pth="./ultrachat2k_openai_probs_res100.pickle",
+                      openai_tmp_save_pth="./ultrachat2k_openai_probs_res1.pickle",
                       ):
 
     V = lm_tokenizer.vocab_size
     dataset_name = "HuggingFaceH4/ultrachat_200k"
-    trainset_text = load_dataset(dataset_name, split="train_sft[:100]")
+    trainset_text = load_dataset(dataset_name, split="train_sft[:1]")
 
     prompts = trainset_text["prompt"]
     prompts = [f"###User: {x} ###Assistant: " for x in prompts]
@@ -196,6 +197,7 @@ def load_steal_datals(lm_tokenizer,
     if not os.path.exists(openai_tmp_save_pth):
         print("RUNNING ChatGPT Stealing...")
         text2ls = []
+        idx2_dist_ls=[]
         probsls = []
         iii_bgn=0
         for q in tqdm(messages, desc="ChatGPT Inference:"):
@@ -221,6 +223,20 @@ def load_steal_datals(lm_tokenizer,
                 num_classes=V,
                 ).float() 
 
+            idx2_dist=[[x,] for x in idx2]
+            for i in range(len(idx2_dist)):
+                for _ in range(topk-1):
+                    idxxx=random.randint(0, V-1)
+                    idx2_dist[i].append(idxxx)
+            idx2_dist=idx2_dist[1:]
+
+            # print(logits_distr.shape)
+            # logits_distr=logits_distr[torch.tensor(idx2_dist,
+            #                                        dtype=torch.long)]
+            logits_distr=torch.gather(logits_distr, 1,
+                                      torch.tensor(idx2_dist,
+                                                   dtype=torch.long))
+                    
             logits_distr=[logits_distr[i]\
                           for i in range(len(logits_distr))]
 
@@ -238,24 +254,34 @@ def load_steal_datals(lm_tokenizer,
                 topk_logits = [x.logprob
                                for x in topkdict.top_logprobs]
                 topk_logits = [exp(x) for x in topk_logits]
-                res = 1-sum(topk_logits)
-                banality_value = res/(V-len(subtokens))
-                # print(subtokens) # [token-a, token-b]
-                # print(topk_logits) # [p1,p2,p3,p4,p5]
-                # print(topk_subidxes) # [ [t11, t12], ... [t51,],]
+
+                # idx2_dist.extend(topk_subidxes)
+                # logits_distr.extend(topk_logits)
+
                 for j in range(len(subtokens)):
-                    dist = torch.ones(V)*banality_value
+                    dist = torch.zeros(topk)
+                    idx2_tmp_token_dist=torch.zeros(topk,
+                                                    dtype=torch.long)
+                    dist = torch.tensor(topk_logits)
                     for k, subidx in enumerate(topk_subidxes):
-                        dist[subidx[0]] = topk_logits[k]/len(subtokens)
+                        if len(subidx)<=j:
+                            idx2_tmp_token_dist[k]=subidx[0]
+                        else:
+                            idx2_tmp_token_dist[k]=subidx[j]
+                    
                     logits_distr.append(dist)
+                    idx2_dist.append(idx2_tmp_token_dist)
+                    
+
             # print(len(idx2), len(logits_distr))
             assert len(idx2) == len(logits_distr)+1
             probsls.append(logits_distr)
             text2ls.append(idx2)
+            idx2_dist_ls.append(idx2_dist)
 
         with open(openai_tmp_save_pth,
                   'wb') as f:
-            pickle.dump([text2ls, probsls],
+            pickle.dump([text2ls, probsls, idx2_dist_ls],
                       f,)
     else:
         print("Directly Loading...")
@@ -264,8 +290,9 @@ def load_steal_datals(lm_tokenizer,
             data = pickle.load(f,)
         text2ls = data[0]
         probsls = data[1]
+        idx2_dist_ls = data[2]
 
-    return p_idxls, text2ls, probsls
+    return p_idxls, text2ls, probsls, idx2_dist_ls
 
 
 def most_vanilla_anthropicModel():

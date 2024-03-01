@@ -26,6 +26,16 @@ def my_padding(ts_ls:List[torch.tensor], msl, pad_idx,):
                                                 dtype=torch.long)
     return target_tensor
 
+def my_padding_token_dist(ts_ls:List[torch.tensor], msl, pad_idx,):
+    num=len(ts_ls)
+    candidate_num=len(ts_ls[0][0])
+    target_tensor=(torch.ones((num, msl,candidate_num), dtype=torch.long)*pad_idx).to("cpu")
+    for i, ts in enumerate(ts_ls):
+        end_idx=min(msl, len(ts))
+        target_tensor[i, :end_idx]=torch.tensor(ts[:end_idx],
+                                                dtype=torch.long)
+    return target_tensor
+
 def my_padding_logits(ts_lss:List[torch.tensor], msl, pad_idx,):
     num=len(ts_lss)
     V=ts_lss[0].shape[1]
@@ -36,6 +46,16 @@ def my_padding_logits(ts_lss:List[torch.tensor], msl, pad_idx,):
         target_tensor[i, :end_idx]=ts[:end_idx]
     return target_tensor
 
+def my_padding_logit(ts_lss:List[torch.tensor], msl, pad_idx,):
+    num=len(ts_lss)
+    sl=ts_lss[0].shape[0]
+    V=25600
+    target_tensor=(torch.ones((num, msl),
+                              dtype=torch.float)*(1/V)).to("cpu")
+    for i, ts in enumerate(ts_lss):
+        end_idx=min(msl, len(ts))
+        target_tensor[i, :end_idx]=ts[:end_idx]
+    return target_tensor
 
 
 
