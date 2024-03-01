@@ -27,7 +27,7 @@ export POD_save_dir="${root_dir}POD_SAVE_CKPTs/"
 export from_path="google/gemma-2b"
 
 export msl=256
-export task="blablabla"
+export task="cola"
 export save_path="${POD_save_dir}pod_style_test_fast${msl}${task}"
 
 $python pod_train.py\

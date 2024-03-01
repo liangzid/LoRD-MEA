@@ -92,9 +92,9 @@ def train_one_period(lm,
                 (torch.log((logits2_cons+epsln)/\
                            (vic_logits2[:,:,0]+epsln))))
 
-            print("----------------")
-            print(old_logits1)
-            print(logits1)
+            # print("----------------")
+            # print(old_logits1)
+            # print(logits1)
             loss_constractive_past = -torch.sum(
                 torch.log((old_logits1+epsln)/(logits1+epsln)))
 
