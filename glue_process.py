@@ -110,12 +110,15 @@ def load_glue_datals(lm_tokenizer,
     pp=task_prompt_map[task_name]
     prompts = [f"Instruction: {pp} User: {x} Assistant: "\
                for x in inp_ls]
-    p_idxls = lm_tokenizer(prompts,
-                           padding="longest",
-                           truncation=True,
-                           max_length=max_length,
-                           return_tensors="pt"
-                           ).input_ids
+    p_idxls=[]
+    for p in prompts:
+        p_idxls.append(lm_tokenizer(p,return_tensors="pt").input_ids[0])
+    # p_idxls = lm_tokenizer(prompts,
+    #                        # padding="longest",
+    #                        # truncation=True,
+    #                        # max_length=max_length,
+    #                        return_tensors="pt"
+    #                        ).input_ids
 
     openai_tmp_save_pth+=f"task_{task_name}-trainNUM_{train_num}.pkl"
 
@@ -135,7 +138,7 @@ def load_glue_datals(lm_tokenizer,
             )
             resp, logprb=res
             bgn_idx = lm_tokenizer([resp],
-                        padding="longest",
+                        # padding="longest",
                         truncation=True,
                         max_length=max_length,
                         return_tensors="pt"

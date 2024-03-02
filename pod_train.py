@@ -117,6 +117,7 @@ def train_one_period(lm,
                     logits2_dist/(vic_logits2+epsln)\
                                             +epsln))
 
+            loss_logits =0.
             overall_loss += loss_constractive + loss_logits
 
             if overall_step % log_step == 0:
@@ -134,8 +135,8 @@ def train_one_period(lm,
                 tb_writer.add_scalar("rewardloss_past",
                                      loss_constractive_past.item(),
                                      overall_step)
-                tb_writer.add_scalar("KLloss", loss_logits.item(),
-                                     overall_step)
+                # tb_writer.add_scalar("KLloss", loss_logits.item(),
+                #                      overall_step)
 
             if overall_loss % save_step == 0:
                 print(" -->Regular Saving.")
@@ -183,7 +184,7 @@ def train_pod(lm,
                                         do_sample=True,
                                         max_length=args.max_length,
                                         # early_stopping=True,
-                                        max_new_tokens=1,
+                                        max_new_tokens=max_new_tokens,
                                         temperature=args.temperature)
                 else:
                     idxs1 = lm.generate(prompt,
@@ -344,7 +345,7 @@ def main():
     if args.dataset_task in tasks_glue:
         raw_train_datals = load_glue_datals(tokenizer,
                                             task_name=args.dataset_task,
-                                            train_num=100,
+                                            train_num=10,
                                             max_length=args.max_length)
         print("Data LOADING done.")
         train_pod(
@@ -352,7 +353,7 @@ def main():
             lm_tokenizer,
             args,
             raw_train_datals,
-            max_new_tokens=5,
+            max_new_tokens=16,
             )
     else:
         raw_train_datals = load_steal_datals(tokenizer,
