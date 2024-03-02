@@ -24,6 +24,7 @@ import random
 
 import pickle
 from tqdm import tqdm
+from sklearn.metrics import precision_score, accuracy_score, recall_score, f1_score
 
 from training_data_collecting_openai import chatWithOpenAI_APIs
 from training_data_collecting_openai import chatWithOpenAI__LogLogits
@@ -227,7 +228,7 @@ def load_glue_datals(lm_tokenizer,
 
 def infer_glue(modelname,task_name,res_pth):
     """Infer the hf's pretraining models in GLUE"""
-    save_path=res_pth
+    save_pth=res_pth
 
     model=InferObj(model_name=modelname,
                    device="auto",
@@ -311,11 +312,14 @@ def infer_glue(modelname,task_name,res_pth):
             inps = d["sentence"]
             label = d["label"]
             label = task_label_map[task_name][str(label)]
-            res = gen_pipeline("Instruction: " + prompt +
-                               " User: "+inps+" Assistant: ")
+            final_inps="Instruction: " + prompt +\
+                               " User: "+inps+" Assistant: "
+            res = gen_pipeline(final_inps,
+                               max_new_tokens=16,)[0]["generated_text"]
+            res=res.split(final_inps)[1]
             res_ls.append((res, label))
             print(res)
-            # break
+            break
 
     elif task_name == "mnli":
         if len(dataset["validation_matched"]) > 1000:
@@ -327,8 +331,12 @@ def infer_glue(modelname,task_name,res_pth):
             inps = d["premise"]+"SEP"+d["hypothesis"]
             label = d["label"]
             label = task_label_map[task_name][str(label)]
-            res = gen_pipeline("Instruction: " + prompt +
-                               " User: "+inps+" Assistant: ")
+
+            final_inps="Instruction: " + prompt +\
+                               " User: "+inps+" Assistant: "
+            res = gen_pipeline(final_inps,
+                               max_new_tokens=16,)[0]["generated_text"]
+            res=res.split(final_inps)[1]
             res_ls.append((res, label))
     elif task_name in double_input_tasks:
         if len(dataset["validation"]) > 1000:
@@ -341,9 +349,11 @@ def infer_glue(modelname,task_name,res_pth):
                 d[task_key_map[task_name][1]]
             label = d["label"]
             label = task_label_map[task_name][str(label)]
-            res = gen_pipeline("Instruction: " + prompt +
-                               f" User: The sentence is '{inps}'. "
-                               + " Assistant: ")
+            final_inps="Instruction: " + prompt +\
+                               " User: "+inps+" Assistant: "
+            res = gen_pipeline(final_inps,
+                               max_new_tokens=16,)[0]["generated_text"]
+            res=res.split(final_inps)[1]
             res_ls.append((res, label))
             # break
     else:
@@ -408,26 +418,34 @@ def eval_glue(task, res):
 
 def evaluation_datas():
     test_task_ckpt_ls=[
-        ["cola","./POD_SAVE_CKPTs/pod_style_test_fast256cola___finally"],
+        ["cola","./POD_SAVE_CKPTs/loRD_256cola___finally"],
+        ["cola","./POD_SAVE_CKPTs/loRD_256cola___period0"],
+        ["cola","./POD_SAVE_CKPTs/loRD_256cola___period1"],
+        ["cola","./POD_SAVE_CKPTs/loRD_256cola___period2"],
         ["cola","google/gemma-2b"],
         # [""]
         ]
     res_dict={}
+    dir_p="./glue_res/"
+    if not os.path.exists(dir_p):
+        os.makedirs(dir_p)
     for task_ckpt in test_task_ckpt_ls:
         task,ckpt=task_ckpt
         res_pth=ckpt+f"___{task}_glue_infer_res.json"
-        if not os.path.exists(res_pth):
-            res_ls=infer_glue(ckpt, task, res_pth)
+        res_pth=res_pth.replace("/","__")
+        if not os.path.exists(dir_p+res_pth):
+            res_ls=infer_glue(ckpt, task, dir_p+res_pth)
         else:
             # from collections import OrderedDict
-            with open(res_pth, 'r',encoding='utf8') as f:
+            with open(dir_p+res_pth, 'r',encoding='utf8') as f:
                 res_ls=json.load(f,object_pairs_hook=OrderedDict)
                 
         scores=eval_glue(task, res_ls)
         print(task, ckpt)
         print(scores)
         res_dict[task+"-----"+ckpt]=scores
-    with open("./glue_inference_scores.json", 'w',encoding='utf8') as f:
+    with open(dir_p+"glue_inference_scores.json",
+              'w',encoding='utf8') as f:
         json.dump(res_dict,f,ensure_ascii=False,indent=4)
     print("OVERALL Save DONE.")
     print(res_dict)

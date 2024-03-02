@@ -29,29 +29,50 @@ export from_path="google/gemma-2b"
 export msl=256
 export task_ls=("cola" "mnli" "mrpc" "qnli" "qqp" "rte" "sst2" "wnli")
 
-for task in ${task_ls[*]}
-do
-    # export task="cola"
-    export save_path="${POD_save_dir}pod_style_test_fast${msl}${task}"
-    echo "task: $task"
+export task="cola"
+export save_path="${POD_save_dir}loRD_${msl}${task}"
+echo "task: $task"
 
-    $python pod_train.py\
-	    --device="cuda" \
-	    --epoch=2 \
-	    --period_num=3 \
-	    --acc_step=1 \
-	    --log_step=1 \
-	    --save_step=100000 \
-	    --LR="3e-5" \
-	    --beta=1.0 \
-	    --temperature=1.0 \
-	    --batch_size=1 \
-	    --task="none set yet" \
-	    --max_length=$msl \
-	    --dataset_task=$task \
-	    --from_path=$from_path \
-	    --save_path=$save_path
-done
+$python pod_train.py\
+	--device="cuda" \
+	--epoch=2 \
+	--period_num=3 \
+	--acc_step=1 \
+	--log_step=1 \
+	--save_step=100000 \
+	--LR="3e-5" \
+	--beta=1.0 \
+	--temperature=1.0 \
+	--batch_size=1 \
+	--task="none set yet" \
+	--max_length=$msl \
+	--dataset_task=$task \
+	--from_path=$from_path \
+	--save_path=$save_path
+
+# for task in ${task_ls[*]}
+# do
+#     # export task="cola"
+#     export save_path="${POD_save_dir}pod_style_test_fast${msl}${task}"
+#     echo "task: $task"
+
+#     $python pod_train.py\
+# 	    --device="cuda" \
+# 	    --epoch=2 \
+# 	    --period_num=3 \
+# 	    --acc_step=1 \
+# 	    --log_step=1 \
+# 	    --save_step=100000 \
+# 	    --LR="3e-5" \
+# 	    --beta=1.0 \
+# 	    --temperature=1.0 \
+# 	    --batch_size=1 \
+# 	    --task="none set yet" \
+# 	    --max_length=$msl \
+# 	    --dataset_task=$task \
+# 	    --from_path=$from_path \
+# 	    --save_path=$save_path
+# done
 
 
 

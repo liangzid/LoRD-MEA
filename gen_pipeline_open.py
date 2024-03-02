@@ -36,6 +36,7 @@ class InferObj:
                  split="train",
                  device="auto",
                  max_length=2047,
+                 max_new_tokens=-1,
                  open_16_mode=False,
                  load_in_8_bit=False,
                  ):
@@ -78,7 +79,8 @@ class InferObj:
         self.text_gen = pipeline(task="text-generation",
                                  model=self.model,
                                  tokenizer=self.tokenizer,
-                                 max_length=max_length)
+                                 max_length=max_length,
+                                 )
 
         # self.temp_prompts = load_dataset(prompt_dataset)[split].to_list()
         # self.prompts = []
