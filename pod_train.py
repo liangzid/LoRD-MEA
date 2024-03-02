@@ -47,6 +47,7 @@ def train_one_period(lm,
                      ):
     overall_loss = 0.
     overall_step = 0
+    pad_token_id=lm_tokenizer.pad_token_id
 
     opt1 = torch.optim.AdamW(lm.parameters(), lr=LR)
     for e in tqdm(range(epoch), desc="epoch"):
@@ -56,7 +57,7 @@ def train_one_period(lm,
             loss_logits = 0.
 
             # print(item)
-            idxs1, idxs2, old_logits1, vic_logits2, idxs2_dist = item
+            idxs1, idxs2, mask1, mask2, old_logits1, vic_logits2, idxs2_dist = item
             bs, sqlen1 = idxs1.shape
             bs, sqlen2 = idxs2.shape
             # print(sqlen1, sqlen2)
@@ -64,11 +65,16 @@ def train_one_period(lm,
 
             idxs1 = idxs1.to(device)  # bs, sql
             idxs2 = idxs2.to(device)  # bs, sql
+            mask1=mask1.to(device)
+            mask2=mask2.to(device)
             # already normalized by softmax
             old_logits1 = old_logits1.to(device)  # bs, sql,
             
             vic_logits2 = vic_logits2.to(device) # bs, sql, 5
             idxs2_dist=idxs2_dist.to(device)
+
+            print("idx1text: ", lm_tokenizer.decode(idxs1[0]))
+            print("idx2text: ", lm_tokenizer.decode(idxs2[0]))
 
             logits1 = lm(idxs1).logits[:, :-1, :]
             logits1 = torch.softmax(logits1, dim=-1)
@@ -90,20 +96,24 @@ def train_one_period(lm,
 
             loss_constractive_good = torch.sum(beta * \
                 (torch.log((logits2_cons+epsln)/\
-                           (vic_logits2[:,:,0]+epsln))))
+                           (vic_logits2[:,:,0]+epsln)))*mask2[:,:-1])
 
             # print("----------------")
             # print(old_logits1)
             # print(logits1)
             loss_constractive_past = -torch.sum(
-                torch.log((old_logits1+epsln)/(logits1+epsln)))
+                torch.log((old_logits1+epsln)/(logits1+epsln))\
+                *mask1[:,:-1])
 
 
             loss_constractive = loss_constractive_good \
                 +loss_constractive_past
 
             loss_logits = beta *\
-                torch.sum(logits2_dist*torch.log(
+                torch.sum(mask2[:,:-1]
+                          .unsqueeze(-1)
+                          .expand(-1, -1,logits2_dist.shape[2])\
+                          *logits2_dist*torch.log(
                     logits2_dist/(vic_logits2+epsln)\
                                             +epsln))
 
@@ -150,7 +160,9 @@ def train_one_period(lm,
 
 def train_pod(lm,
               lm_tokenizer,
-              args, raw_train_datals):
+              args, raw_train_datals,
+              max_new_tokens=-1,
+              ):
     print(">>>> DATA PREPERATION")
     # STEP 1: DATA Preperation.
     ITER_num = args.period_num
@@ -166,12 +178,19 @@ def train_pod(lm,
                                desc="Data Collecting..."):
                 prompt = prompt.to(args.device).unsqueeze(0)
                 # Generate New Tokens
-                idxs1 = lm.generate(prompt,
-                                    do_sample=True,
-                                    max_length=args.max_length,
-                                    # early_stopping=True,
-                                    max_new_tokens=1,
-                                    temperature=args.temperature)
+                if max_new_tokens>0:
+                    idxs1 = lm.generate(prompt,
+                                        do_sample=True,
+                                        max_length=args.max_length,
+                                        # early_stopping=True,
+                                        max_new_tokens=1,
+                                        temperature=args.temperature)
+                else:
+                    idxs1 = lm.generate(prompt,
+                                        do_sample=True,
+                                        max_length=args.max_length,
+                                        # early_stopping=True,
+                                        temperature=args.temperature)
 
                 bs,sqqql=idxs1.shape
                 # print(idxs1)
@@ -196,8 +215,8 @@ def train_pod(lm,
         print("max_token_num", max_token_num)
         pad_idx=lm_tokenizer.pad_token_id
         
-        idx2ls=my_padding(idx2ls, max_token_num, pad_idx)
-        idxs1_ls=my_padding(idxs1_ls, max_token_num, pad_idx)
+        idx2ls,mask2=my_padding(idx2ls, max_token_num, pad_idx)
+        idxs1_ls,mask1=my_padding(idxs1_ls, max_token_num, pad_idx)
         
         old_logits1_ls=my_padding_logit(old_logits1_ls,
                                          max_token_num-1, pad_idx)
@@ -218,6 +237,8 @@ def train_pod(lm,
         trainset = TensorDataset(
             idxs1_ls,
             idx2ls,
+            mask1,
+            mask2,
             old_logits1_ls,
             logits2ls,
             idxs2_dist,
@@ -308,9 +329,9 @@ def main():
     lm_tokenizer = AutoTokenizer.from_pretrained(args.from_path)
     tokenizer = AutoTokenizer.from_pretrained(args.from_path)
 
-    if lm_tokenizer.pad_token is None:
-        lm_tokenizer.pad_token = lm_tokenizer.eos_token
-        tokenizer.pad_token = tokenizer.eos_token
+    # if lm_tokenizer.pad_token is None:
+    lm_tokenizer.pad_token = lm_tokenizer.eos_token
+    tokenizer.pad_token = tokenizer.eos_token
 
     
     tasks_glue = [
@@ -323,18 +344,26 @@ def main():
     if args.dataset_task in tasks_glue:
         raw_train_datals = load_glue_datals(tokenizer,
                                             task_name=args.dataset_task,
-                                            train_num=1,
+                                            train_num=100,
                                             max_length=args.max_length)
+        print("Data LOADING done.")
+        train_pod(
+            lm,
+            lm_tokenizer,
+            args,
+            raw_train_datals,
+            max_new_tokens=5,
+            )
     else:
         raw_train_datals = load_steal_datals(tokenizer,
                                             max_length=args.max_length)
-    print("Data LOADING done.")
+        print("Data LOADING done.")
+        train_pod(
+            lm,
+            lm_tokenizer,
+            args,
+            raw_train_datals)
 
-    train_pod(
-        lm,
-        lm_tokenizer,
-        args,
-        raw_train_datals)
 
     print("EVERYTHING in the TRAINING now DONE.")
 
