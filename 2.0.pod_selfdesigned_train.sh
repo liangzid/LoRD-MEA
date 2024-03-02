@@ -27,25 +27,33 @@ export POD_save_dir="${root_dir}POD_SAVE_CKPTs/"
 export from_path="google/gemma-2b"
 
 export msl=256
-export task="cola"
-export save_path="${POD_save_dir}pod_style_test_fast${msl}${task}"
+export task_ls=("cola" "mnli" "mrpc" "qnli" "qqp" "rte" "sst2" "wnli")
 
-$python pod_train.py\
-	--device="cuda" \
-	--epoch=2 \
-	--period_num=3 \
-	--acc_step=1 \
-	--log_step=1 \
-	--save_step=100000 \
-	--LR="3e-5" \
-	--beta=1.0 \
-	--temperature=1.0 \
-	--batch_size=1 \
-	--task="none set yet" \
-	--max_length=$msl \
-	--dataset_task=$task \
-	--from_path=$from_path \
-	--save_path=$save_path
+for task in ${task_ls[*]}
+do
+    # export task="cola"
+    export save_path="${POD_save_dir}pod_style_test_fast${msl}${task}"
+    echo "task: $task"
+
+    $python pod_train.py\
+	    --device="cuda" \
+	    --epoch=2 \
+	    --period_num=3 \
+	    --acc_step=1 \
+	    --log_step=1 \
+	    --save_step=100000 \
+	    --LR="3e-5" \
+	    --beta=1.0 \
+	    --temperature=1.0 \
+	    --batch_size=1 \
+	    --task="none set yet" \
+	    --max_length=$msl \
+	    --dataset_task=$task \
+	    --from_path=$from_path \
+	    --save_path=$save_path
+done
+
+
 
 echo "RUNNING 2.0.pod_selfdesigned_train.sh DONE."
 # 2.0.pod_selfdesigned_train.sh ends here

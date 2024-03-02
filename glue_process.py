@@ -28,6 +28,7 @@ from tqdm import tqdm
 from training_data_collecting_openai import chatWithOpenAI_APIs
 from training_data_collecting_openai import chatWithOpenAI__LogLogits
 
+from gen_pipeline_open import InferObj
 
 def load_glue_datals(lm_tokenizer,
                      task_name,
@@ -104,7 +105,7 @@ def load_glue_datals(lm_tokenizer,
             # label = task_label_map[task_name][str(label)]
             inp_ls.append(inps)
     else:
-        logging.error(f"task name: {task_name} not found.")
+        print(f"task name: {task_name} not found.")
 
     pp = task_prompt_map[task_name]
     prompts = [f"Instruction: {pp} User: {x} Assistant: "
@@ -224,17 +225,224 @@ def load_glue_datals(lm_tokenizer,
     return p_idxls, text2ls, probsls, idx2_dist_ls
 
 
-# def eval_model():
+def infer_glue(modelname,task_name,res_pth):
+    """Infer the hf's pretraining models in GLUE"""
+    save_path=res_pth
+
+    model=InferObj(model_name=modelname,
+                   device="auto",
+                   max_length=2047)
+    gen_pipeline=model.text_gen
+
+
+    task_prompt_map = {
+        "cola": "In your role as a grammar check tool, assess the following sentence and classify it as 'acceptable' if it is grammatically correct or 'unacceptable' if it is incorrect.",
+        "mnli": "In your role as an entailment analysis tool, assess the relationship between the given sentences and classify it as 'entailment', 'neutral', or 'contradiction'.",
+        "mrpc": "As a semantic comparison expert, evaluate the given pair of sentences and determine if they are 'equivalent' or 'not_equivalent'.",
+        "qnli": "As a language expert, assess if the given context entails the answer to the question and respond with 'entailment' or 'not_entailment'.",
+        "qqp": "In your role as a question comparison tool, assess the following pair of questions and classify them as 'equivalent' or 'not_equivalent'.",
+        "rte": "In your role as an entailment analysis tool, assess the relationship between the given sentences and classify it as 'entailment' or 'not_entailment'.",
+        "sst2": "As a sentiment classifier, determine whether the following text is 'positive' or 'negative'.",
+        "wnli": "In your role as an entailment analysis tool, assess the relationship between the given sentences and classify it as 'entailment' or 'not_entailment'.",
+    }
+
+    prompt=task_prompt_map[task_name]
+
+    # models to be evaluted
+    model_ls = [
+        "lmsys/vicuna-7b-v1.5-16k",
+        "microsoft/phi-1_5",
+        "NousResearch/Llama-2-7b-chat-hf",
+        "Qwen/Qwen-7B-Chat",
+        "01-ai/Yi-6B",
+        "mistralai/Mistral-7B-Instruct-v0.1",
+        "openchat/openchat_3.5"]
+
+    # tasks for evaluation
+    tasks_name = ["valid_parentheses", "bool_logic",
+                  "un_multi", "squad_v2",
+                  "sst2", "wnli", "rte",
+                  "mnli", "cola", "qqp",
+                  "qnli", "mrpc",]
+
+    glue_ds = ["ax", "cola", "mnli",
+               "mnli_matched",
+               "mnli_mismatched", "mrpc",
+               "qnli", "qqp", "rte", "sst2",
+               "stsb", "wnli",]
+
+    tasks_we_used = [
+        "cola", "mnli",
+        "mrpc",
+        "qnli", "qqp", "rte", "sst2",
+        "wnli",]
+
+    task_label_map = {
+        "cola": {"1": "acceptable", "0": "unacceptable"},
+        "mnli": {"1": "neutral", "0": "entailment", "2": "contradiction"},
+        "mrpc": {"1": "equivalent", "2": "not_equivalent"},
+        "qnli": {"1": "not_entailment", "0": "entailment"},
+        "qqp": {"1": "duplicate", "0": "not_duplicate"},
+        "rte": {"1": "not_entailment", "0": "entailment"},
+        "sst2": {"1": "positive", "0": "negative"},
+        "wnli": {"0": "not_entailment", "1": "entailment"},
+    }
+    task_key_map = {
+        "mrpc": ["sentence1", "sentence2"],
+        "qnli": ["question", "sentence"],
+        "qqp": ["question1", "question2"],
+        "rte": ["sentence1", "sentence2"],
+        "wnli": ["sentence1", "sentence2"],
+
+    }
+    single_input_tasks = ["cola", "sst2",]
+    double_input_tasks = ["mrpc", "qnli", "qqp", "rte", "wnli",]
+
+    assert task_name in tasks_we_used
+    dataset = load_dataset("glue", task_name)
+    res_ls = []
+    if task_name in single_input_tasks:
+        if len(dataset["validation"]) > 1000:
+            sets = dataset["validation"]\
+            .to_iterable_dataset().take(1000)
+        else:
+            sets = dataset["validation"]
+        for d in tqdm(sets):
+            inps = d["sentence"]
+            label = d["label"]
+            label = task_label_map[task_name][str(label)]
+            res = gen_pipeline("Instruction: " + prompt +
+                               " User: "+inps+" Assistant: ")
+            res_ls.append((res, label))
+            print(res)
+            # break
+
+    elif task_name == "mnli":
+        if len(dataset["validation_matched"]) > 1000:
+            sets = dataset["validation_matched"]\
+            .to_iterable_dataset().take(1000)
+        else:
+            sets = dataset["validation_matched"]
+        for d in tqdm(sets):
+            inps = d["premise"]+"SEP"+d["hypothesis"]
+            label = d["label"]
+            label = task_label_map[task_name][str(label)]
+            res = gen_pipeline("Instruction: " + prompt +
+                               " User: "+inps+" Assistant: ")
+            res_ls.append((res, label))
+    elif task_name in double_input_tasks:
+        if len(dataset["validation"]) > 1000:
+            sets = dataset["validation"]\
+            .to_iterable_dataset().take(1000)
+        else:
+            sets = dataset["validation"]
+        for d in tqdm(sets):
+            inps = d[task_key_map[task_name][0]]+"SEP" +\
+                d[task_key_map[task_name][1]]
+            label = d["label"]
+            label = task_label_map[task_name][str(label)]
+            res = gen_pipeline("Instruction: " + prompt +
+                               f" User: The sentence is '{inps}'. "
+                               + " Assistant: ")
+            res_ls.append((res, label))
+            # break
+    else:
+        print(f"task name: {task_name} not found.")
+    with open(save_pth, 'w', encoding='utf8') as f:
+        json.dump(res_ls, f, ensure_ascii=False, indent=4)
+
+    return res_ls
+
+
+
+# normal import
+task_label_map = {
+    "cola": {"1": "acceptable", "0": "unacceptable"},
+    # "mnli": {"1": "neutral", "0": "entailment", "2": "contradiction"},
+    "mrpc": {"1": "equivalent", "0": "not_equivalent"},
+    "qnli": {"1": "not_entailment", "0": "entailment"},
+    "qqp": {"1": "duplicate", "0": "not_duplicate"},
+    "rte": {"1": "not_entailment", "0": "entailment"},
+    "sst2": {"1": "positive", "0": "negative"},
+    "wnli": {"0": "not_entailment", "1": "entailment"},
+}
+
+
+
+def eval_glue(task, res):
+
+    predict_ls = []
+    label_ls = []
+    submap = task_label_map[task]
+    sm_r = {v: k for k, v in submap.items()}
+    text_dict = list(sm_r.keys())
+
+    for res_sent, lbl in res:
+        print(res_sent)
+        # label_ls.append(float(sm_r[lbl]))
+        if "not" in text_dict[0] or "not" in text_dict[1]:
+            if "not" in text_dict[0]:
+                if "not" in res_sent:
+                    vv = float(sm_r[text_dict[0]])
+                else:
+                    vv = float(sm_r[text_dict[1]])
+            else:
+                if "not" in res_sent:
+                    vv = float(sm_r[text_dict[1]])
+                else:
+                    vv = float(sm_r[text_dict[0]])
+        else:
+            if text_dict[0] in res_sent and text_dict[1] not in res_sent:
+                vv = float(sm_r[text_dict[0]])
+            else:
+                vv = float(sm_r[text_dict[1]])
+        predict_ls.append(vv)
+        label_ls.append(float(sm_r[lbl]))
+
+    metric_ls = [accuracy_score, precision_score, recall_score, f1_score]
+    scores = []
+    for m in metric_ls:
+        scores.append(m(label_ls, predict_ls))
+    return scores
+
+
+def evaluation_datas():
+    test_task_ckpt_ls=[
+        ["cola","./POD_SAVE_CKPTs/pod_style_test_fast256cola___finally"],
+        ["cola","google/gemma-2b"],
+        # [""]
+        ]
+    res_dict={}
+    for task_ckpt in test_task_ckpt_ls:
+        task,ckpt=task_ckpt
+        res_pth=ckpt+f"___{task}_glue_infer_res.json"
+        if not os.path.exists(res_pth):
+            res_ls=infer_glue(ckpt, task, res_pth)
+        else:
+            # from collections import OrderedDict
+            with open(res_pth, 'r',encoding='utf8') as f:
+                res_ls=json.load(f,object_pairs_hook=OrderedDict)
+                
+        scores=eval_glue(task, res_ls)
+        print(task, ckpt)
+        print(scores)
+        res_dict[task+"-----"+ckpt]=scores
+    with open("./glue_inference_scores.json", 'w',encoding='utf8') as f:
+        json.dump(res_dict,f,ensure_ascii=False,indent=4)
+    print("OVERALL Save DONE.")
+    print(res_dict)
 
 
 if __name__ == "__main__":
-    from transformers import AutoTokenizer
-    tokenizer = AutoTokenizer.from_pretrained("google/gemma-2b")
-    res = load_glue_datals(tokenizer,
-                           "cola",
-                           train_num=10,
-                           model_name="gpt-3.5-turbo-1106",
-                           topk=5,
-                           max_length=1024,
-                           openai_tmp_save_pth="./temp.pkl.deletethis.txt",
-                           )
+    # from transformers import AutoTokenizer
+    # tokenizer = AutoTokenizer.from_pretrained("google/gemma-2b")
+    # res = load_glue_datals(tokenizer,
+    #                        "cola",
+    #                        train_num=10,
+    #                        model_name="gpt-3.5-turbo-1106",
+    #                        topk=5,
+    #                        max_length=1024,
+    #                        openai_tmp_save_pth="./temp.pkl.deletethis.txt",
+    #                        )
+
+    evaluation_datas()
