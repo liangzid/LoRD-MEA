@@ -187,10 +187,11 @@ def load_glue_datals(lm_tokenizer,
                 # logits_distr.extend(topk_logits)
 
                 for j in range(len(subtokens)):
-                    dist = torch.zeros(topk)
+                    # dist = torch.tensor(topk_logits)
                     idx2_tmp_token_dist=torch.zeros(topk,
                                                     dtype=torch.long)
                     dist = torch.tensor(topk_logits)
+                    # print("dist: ",dist)
                     for k, subidx in enumerate(topk_subidxes):
                         if len(subidx)<=j:
                             idx2_tmp_token_dist[k]=subidx[0]
@@ -199,6 +200,9 @@ def load_glue_datals(lm_tokenizer,
                     
                     logits_distr.append(dist)
                     idx2_dist.append(idx2_tmp_token_dist)
+            # print("logits_distr: ",logits_distr)
+            # print("idx2: ",idx2)
+            # print("idx2_dist: ",idx2_dist)
                     
 
             # print(len(idx2), len(logits_distr))
@@ -227,3 +231,14 @@ def load_glue_datals(lm_tokenizer,
 
 
 
+if __name__=="__main__":
+    from transformers import AutoTokenizer
+    tokenizer = AutoTokenizer.from_pretrained("google/gemma-2b")
+    res=load_glue_datals(tokenizer,
+                     "cola",
+                     train_num=10,
+                      model_name="gpt-3.5-turbo-1106",
+                      topk=5,
+                      max_length=1024,
+                      openai_tmp_save_pth="./temp.pkl.deletethis.txt",
+                      )

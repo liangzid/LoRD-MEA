@@ -75,6 +75,9 @@ def train_one_period(lm,
 
             print("idx1text: ", lm_tokenizer.decode(idxs1[0]))
             print("idx2text: ", lm_tokenizer.decode(idxs2[0]))
+            # print("old_logits1: ",old_logits1)
+            # print("vic_logits2: ",vic_logits2)
+            # print("idxs2_dist: ",idxs2_dist)
 
             logits1 = lm(idxs1).logits[:, :-1, :]
             logits1 = torch.softmax(logits1, dim=-1)
@@ -94,7 +97,7 @@ def train_one_period(lm,
             #       old_logits1.shape,
             #       vic_logits2.shape, idxs2_dist.shape)
 
-            loss_constractive_good = torch.sum(beta * \
+            loss_constractive_good = -torch.sum(beta * \
                 (torch.log((logits2_cons+epsln)/\
                            (vic_logits2[:,:,0]+epsln)))*mask2[:,:-1])
 
@@ -216,8 +219,8 @@ def train_pod(lm,
         print("max_token_num", max_token_num)
         pad_idx=lm_tokenizer.pad_token_id
         
-        idx2ls,mask2=my_padding(idx2ls, max_token_num, pad_idx)
-        idxs1_ls,mask1=my_padding(idxs1_ls, max_token_num, pad_idx)
+        idx2ls,mask2=my_padding(idx2ls, p_ls, max_token_num, pad_idx)
+        idxs1_ls,mask1=my_padding(idxs1_ls, p_ls, max_token_num, pad_idx)
         
         old_logits1_ls=my_padding_logit(old_logits1_ls,
                                          max_token_num-1, pad_idx)
