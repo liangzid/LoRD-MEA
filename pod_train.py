@@ -305,7 +305,7 @@ def setup_train_args():
 
     parser.add_argument('--batch_size', default=1, type=int,
                         required=False)
-    parser.add_argument('--task', default="pod", type=str,
+    parser.add_argument('--task', default="lord", type=str,
                         required=False,)
     parser.add_argument('--dataset_task', default="glue", type=str,
                         required=False,)
@@ -347,16 +347,70 @@ def main():
     if args.dataset_task in tasks_glue:
         raw_train_datals = load_glue_datals(tokenizer,
                                             task_name=args.dataset_task,
-                                            train_num=10,
+                                            train_num=100,
                                             max_length=args.max_length)
         print("Data LOADING done.")
-        train_pod(
-            lm,
-            lm_tokenizer,
-            args,
-            raw_train_datals,
-            max_new_tokens=16,
-        )
+        
+        if args.task=="lord":
+            print("TRAIN WITH LORD!!!")
+            train_pod(
+                lm,
+                lm_tokenizer,
+                args,
+                raw_train_datals,
+                max_new_tokens=16,
+            )
+        elif args.task=="kd":
+            print("TRAIN WITH KD~~~")
+            _, idx2ls, logits2ls, idx2_dist = raw_train_datals
+            max_token_num_2 = min(args.max_length,
+                              max([len(x) for x in idx2ls]))
+            pad_idx = lm_tokenizer.pad_token_id
+            idx2ls, mask2 = my_padding(idx2ls, p_ls,
+                                       max_token_num, pad_idx)
+            newlogits2ls = []
+            for per_data in logits2ls:
+                sl = len(per_data)
+                v = len(per_data[0])
+                tmp_ts = torch.ones((sl, v), dtype=torch.float)
+                for jjjj, per_token_logit in enumerate(per_data):
+                    tmp_ts[jjjj] = torch.tensor(per_token_logit,)
+                newlogits2ls.append(tmp_ts)
+            logits2ls = my_padding_logits(newlogits2ls,
+                                        max_token_num-1, pad_idx)
+            idxs2_dist = my_padding_token_dist(idx2_dist,
+                                            max_token_num-1, pad_idx)
+            
+            trainset = TensorDataset(
+                idx2ls,
+                mask2,
+                logits2ls,
+                idxs2_dist,
+            )
+
+            loader=DataLoader(trainset,
+                              batch_size=args.batch_size,
+                              shuffle=True,
+                              )
+
+            tb_writer = SummaryWriter(log_dir=args.save_path+\
+                                      "___log_writer")
+            tensorboard_name="nothing"
+
+            from supervised_distillation import train_distill
+            train_distill(
+                lm,
+                lm_tokenizer,
+                loader,
+                args.epoch,args.device,
+                tb_writer,
+                tensorboard_name,
+                args,save_path,
+                args.LR,
+                args.acc_step, args.log_step,
+                args.save_step,
+                args.temperature,
+            )
     else:
         raw_train_datals = load_steal_datals(tokenizer,
                                              max_length=args.max_length)

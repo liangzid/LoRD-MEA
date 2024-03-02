@@ -30,21 +30,29 @@ export msl=256
 export task_ls=("cola" "mnli" "mrpc" "qnli" "qqp" "rte" "sst2" "wnli")
 
 export task="cola"
+export train_task="lord"
+# export train_task="kd"
+export epoch=2
+export period=3
+export beta=1.0
+export temperature=1.0
+export batch_size=4
 export save_path="${POD_save_dir}loRD_${msl}${task}"
-echo "task: $task"
 
+
+export train_task="kd"
 $python pod_train.py\
 	--device="cuda" \
-	--epoch=2 \
-	--period_num=3 \
+	--epoch=$epoch \
+	--period_num=$period \
 	--acc_step=1 \
 	--log_step=1 \
 	--save_step=100000 \
 	--LR="3e-5" \
-	--beta=1.0 \
-	--temperature=1.0 \
-	--batch_size=1 \
-	--task="none set yet" \
+	--beta=$beta \
+	--temperature=$temperature \
+	--batch_size=$batch_size \
+	--task=$train_task \
 	--max_length=$msl \
 	--dataset_task=$task \
 	--from_path=$from_path \
