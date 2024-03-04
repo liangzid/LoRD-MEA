@@ -109,9 +109,18 @@ def train_one_period(lm,
                 torch.log((old_logits1+epsln)/(logits1+epsln))
                 * mask1[:, :-1])
 
+            if args.use_old_logits!="1":
+                loss_constractive_past=0.
+            if args.use_vic_logits!="1":
+                loss_constractive_good=0.
+
             loss_constractive = loss_constractive_good \
                 + loss_constractive_past
 
+            vic_logits2=torch.softmax(vic_logits2/args.temperature,
+                                      dim=-1)
+            logits2_dist=torch.softmax(logits2_dist/args.temperature,
+                                      dim=-1)
             loss_logits = beta *\
                 torch.sum(mask2[:, :-1]
                           .unsqueeze(-1)
@@ -120,7 +129,9 @@ def train_one_period(lm,
                     logits2_dist/(vic_logits2+epsln)
                     + epsln))
 
-            loss_logits = 0.
+            if arrgs.use_kld!="1":
+                loss_logits = 0.
+
             overall_loss += loss_constractive + loss_logits
 
             if overall_step % log_step == 0:
@@ -132,14 +143,17 @@ def train_one_period(lm,
                 ))
                 tb_writer.add_scalar("loss", overall_loss.item(),
                                      overall_step)
-                tb_writer.add_scalar("rewardloss_good",
+                if args.use_vic_logits=="1":
+                    tb_writer.add_scalar("rewardloss_good",
                                      loss_constractive_good.item(),
                                      overall_step)
-                tb_writer.add_scalar("rewardloss_past",
+                if args.use_old_logits=="1":
+                    tb_writer.add_scalar("rewardloss_past",
                                      loss_constractive_past.item(),
                                      overall_step)
-                # tb_writer.add_scalar("KLloss", loss_logits.item(),
-                #                      overall_step)
+                if args.use_kld=="1":
+                    tb_writer.add_scalar("KLloss", loss_logits.item(),
+                                     overall_step)
 
             if overall_loss % save_step == 0:
                 print(" -->Regular Saving.")
@@ -232,6 +246,7 @@ def train_pod(lm,
             for jjjj, per_token_logit in enumerate(per_data):
                 tmp_ts[jjjj] = torch.tensor(per_token_logit,)
             newlogits2ls.append(tmp_ts)
+
         logits2ls = my_padding_logits(newlogits2ls,
                                       max_token_num-1, pad_idx)
         idxs2_dist = my_padding_token_dist(idx2_dist,
@@ -307,6 +322,12 @@ def setup_train_args():
                         required=False)
     parser.add_argument('--task', default="lord", type=str,
                         required=False,)
+    parser.add_argument('--use_old_logits', default="1", type=str,
+                        required=False,)
+    parser.add_argument('--use_vic_logits', default="1", type=str,
+                        required=False,)
+    parser.add_argument('--use_kld', default="1", type=str,
+                        required=False,)
     parser.add_argument('--dataset_task', default="glue", type=str,
                         required=False,)
     parser.add_argument("--max_length", default=1024,
@@ -342,13 +363,40 @@ def main():
         "mrpc",
         "qnli", "qqp", "rte", "sst2",
         "wnli",]
+    tasks_supported=tasks_glue
+    tasks_supported += ["wmt16", "sum",]
 
-    print(f"RUN task: {args.dataset_task}")
-    if args.dataset_task in tasks_glue:
-        raw_train_datals = load_glue_datals(tokenizer,
+    print("---------------------------------------------------------")
+    print(f"TASKS NOW Supported: {tasks_supported}")
+
+    if args.dataset_task in tasks_supported:
+        
+        if args.dataset_task in tasks_glue:
+            print(f"RUN GLUE task: {args.dataset_task}")
+            raw_train_datals = load_glue_datals(tokenizer,
                                             task_name=args.dataset_task,
                                             train_num=100,
                                             max_length=args.max_length)
+        elif args.dataset_task == "wmt16":
+            print(f"RUN wmt task: {args.dataset_task}")
+            from wmt_process import load_wmt_datals
+            raw_train_datals = load_wmt_datals(
+                tokenizer,
+                task_name=args.dataset_task,
+                train_num=100,
+                max_length=args.max_length
+                )
+        elif args.dataset_task== "sum":
+            print(f"RUN summarization task: {args.dataset_task}")
+            from sum_process import load_sum_datals
+            raw_train_datals = load_sum_datals(
+                tokenizer,
+                task_name=args.dataset_task,
+                train_num=100,
+                max_length=args.max_length
+                )
+        else:
+            print("EEERRROOORRR: EEERRROOORRR.")
         print("Data LOADING done.")
         
         if args.task=="lord":
@@ -362,8 +410,8 @@ def main():
             )
         elif args.task=="kd":
             print("TRAIN WITH KD~~~")
-            _, idx2ls, logits2ls, idx2_dist = raw_train_datals
-            max_token_num_2 = min(args.max_length,
+            p_ls, idx2ls, logits2ls, idx2_dist = raw_train_datals
+            max_token_num = min(args.max_length,
                               max([len(x) for x in idx2ls]))
             pad_idx = lm_tokenizer.pad_token_id
             idx2ls, mask2 = my_padding(idx2ls, p_ls,
@@ -405,7 +453,7 @@ def main():
                 args.epoch,args.device,
                 tb_writer,
                 tensorboard_name,
-                args,save_path,
+                args.save_path,
                 args.LR,
                 args.acc_step, args.log_step,
                 args.save_step,

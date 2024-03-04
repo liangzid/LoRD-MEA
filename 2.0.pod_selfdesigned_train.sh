@@ -35,12 +35,16 @@ export train_task="lord"
 export epoch=2
 export period=3
 export beta=1.0
-export temperature=1.0
+export temperature=0.8
 export batch_size=4
-export save_path="${POD_save_dir}loRD_${msl}${task}"
 
+export use_old_logits=1
+export use_vic_logits=1
+export use_kld=1
 
 export train_task="kd"
+export save_path="${POD_save_dir}${train_task}_${msl}${task}"
+
 $python pod_train.py\
 	--device="cuda" \
 	--epoch=$epoch \
@@ -53,6 +57,9 @@ $python pod_train.py\
 	--temperature=$temperature \
 	--batch_size=$batch_size \
 	--task=$train_task \
+	--use_old_logits=$use_old_logits\
+	--use_vic_logits=$use_vic_logits\
+	--use_kld=$use_kld\
 	--max_length=$msl \
 	--dataset_task=$task \
 	--from_path=$from_path \
