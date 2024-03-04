@@ -44,6 +44,7 @@ def train_distill(lm,
                      log_step=100,
                      save_step=1000,
                      temperature=1.0,
+                  epsln=1e-6,
                      ):
     overall_loss = 0.
     overall_step = 0
@@ -71,8 +72,11 @@ def train_distill(lm,
             logits2 = torch.softmax(logits2, dim=-1)
 
             logits2_dist = torch.gather(logits2, 2, idxs2_dist)
+
             logits2_dist/=temperature
             vic_logits2/=temperature
+            logits2 = torch.softmax(logits2_dist, dim=-1)
+            vic_logits2 = torch.softmax(vic_logits2, dim=-1)
 
             loss_logits = torch.mean(mask2[:, :-1]
                           .unsqueeze(-1)
