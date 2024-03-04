@@ -85,6 +85,7 @@ def load_glue_datals(lm_tokenizer,
     trainset_text = load_dataset(dataset_name, task_name,
                                  split=f"train[:{train_num}]")
 
+    sets=trainset_text
     inp_ls = []
     # collecting the input prompts
     if task_name in single_input_tasks:
@@ -319,7 +320,7 @@ def infer_glue(modelname,task_name,res_pth):
             res=res.split(final_inps)[1]
             res_ls.append((res, label))
             print(res)
-            break
+            # break
 
     elif task_name == "mnli":
         if len(dataset["validation_matched"]) > 1000:
@@ -388,7 +389,8 @@ def eval_glue(task, res):
     text_dict = list(sm_r.keys())
 
     for res_sent, lbl in res:
-        print(res_sent)
+        # print(res_sent)
+        res_sent=res_sent.lower()
         # label_ls.append(float(sm_r[lbl]))
         if "not" in text_dict[0] or "not" in text_dict[1]:
             if "not" in text_dict[0]:
@@ -418,11 +420,11 @@ def eval_glue(task, res):
 
 def evaluation_datas():
     test_task_ckpt_ls=[
-        ["cola","./POD_SAVE_CKPTs/loRD_256cola___finally"],
         ["cola","./POD_SAVE_CKPTs/loRD_256cola___period0"],
         ["cola","./POD_SAVE_CKPTs/loRD_256cola___period1"],
         ["cola","./POD_SAVE_CKPTs/loRD_256cola___period2"],
         ["cola","google/gemma-2b"],
+        ["cola","./POD_SAVE_CKPTs/kd_256cola___finally"],
         # [""]
         ]
     res_dict={}
@@ -432,7 +434,7 @@ def evaluation_datas():
     for task_ckpt in test_task_ckpt_ls:
         task,ckpt=task_ckpt
         res_pth=ckpt+f"___{task}_glue_infer_res.json"
-        res_pth=res_pth.replace("/","__")
+        res_pth=res_pth.replace("/","__").replace(".", "")
         if not os.path.exists(dir_p+res_pth):
             res_ls=infer_glue(ckpt, task, dir_p+res_pth)
         else:
