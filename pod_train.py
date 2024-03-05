@@ -155,11 +155,11 @@ def train_one_period(args, lm,
                     tb_writer.add_scalar("KLloss", loss_logits.item(),
                                      overall_step)
 
-            if overall_loss % save_step == 0:
+            if overall_step % save_step == 0:
                 print(" -->Regular Saving.")
                 print(f"in epoch {e}, step {overall_step}.")
-                lm_tokenizer.save_pretrained(save_path+"___"+overall_step)
-                lm.save_pretrained(save_path+"___"+overall_step)
+                lm_tokenizer.save_pretrained(save_path+"___"+str(overall_step))
+                lm.save_pretrained(save_path+"___"+str(overall_step))
 
             if overall_step % acc_step == 0:
                 opt1.zero_grad()
@@ -365,8 +365,19 @@ def main():
         "mrpc",
         "qnli", "qqp", "rte", "sst2",
         "wnli",]
-    tasks_supported=tasks_glue
-    tasks_supported += ["wmt16", "sum",]
+
+    tasks_wmt16= [
+        "cs-en",
+        "du-en",
+        "fi-en",
+        "ro-en",
+        "ru-en",
+        "tr-en",
+        ]
+
+    tasks_supported=tasks_glue.copy()
+    tasks_supported += ["sum",]
+    tasks_supported.extend(tasks_wmt16)
 
     print("---------------------------------------------------------")
     print(f"TASKS NOW Supported: {tasks_supported}")
@@ -379,7 +390,7 @@ def main():
                                             task_name=args.dataset_task,
                                             train_num=args.train_num,
                                             max_length=args.max_length)
-        elif args.dataset_task == "wmt16":
+        elif args.dataset_task in tasks_wmt16:
             print(f"RUN wmt task: {args.dataset_task}")
             from wmt_process import load_wmt_datals
             raw_train_datals = load_wmt_datals(

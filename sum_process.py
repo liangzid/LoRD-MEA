@@ -31,6 +31,7 @@ from training_data_collecting_openai import chatWithOpenAI_APIs
 from training_data_collecting_openai import chatWithOpenAI__LogLogits
 
 from gen_pipeline_open import InferObj
+from wmt_process import commonly_used_openai_post_process
 
 def load_sum_datals(tokenizer,
                     task_name="sum",

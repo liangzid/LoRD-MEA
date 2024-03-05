@@ -1,12 +1,10 @@
 #!/bin/bash
 ######################################################################
-#2.0.POD_SELFDESIGNED_TRAIN ---
-
-# POD training for my self-designed models.
+#2.2.VARY_PERIOD --- 
 
 # Author: Zi Liang <zi1415926.liang@connect.polyu.hk>
 # Copyright © 2024, ZiLiang, all rights reserved.
-# Created: 27 February 2024
+# Created:  5 March 2024
 ######################################################################
 
 ######################### Commentary ##################################
@@ -29,10 +27,7 @@ export from_path="google/gemma-2b"
 export msl=256
 export task_ls=("cola" "mnli" "mrpc" "qnli" "qqp" "rte" "sst2" "wnli")
 
-export task_ls=("cs-en" "du-en" "fi-en" "ro-en" "ru-en" "tr-en")
-
-export task="cs-en"
-# export task="sum"
+export task="cola"
 export train_task="lord"
 # export train_task="kd"
 export epoch=2
@@ -43,12 +38,12 @@ export batch_size=1
 
 export use_old_logits=1
 export use_vic_logits=1
-export use_kld=1
+export use_kld=0
 
-export train_num=1
+export train_num=100
 
 # export train_task="kd"
-export save_path="${POD_save_dir}${task}/${train_task}_${msl}${task}"
+export save_path="${POD_save_dir}vary_period/${train_task}_${msl}${task}"
 
 $python pod_train.py\
 	--device="cuda" \
@@ -71,31 +66,7 @@ $python pod_train.py\
 	--from_path=$from_path \
 	--save_path=$save_path
 
-# for task in ${task_ls[*]}
-# do
-#     # export task="cola"
-#     export save_path="${POD_save_dir}pod_style_test_fast${msl}${task}"
-#     echo "task: $task"
-
-#     $python pod_train.py\
-# 	    --device="cuda" \
-# 	    --epoch=2 \
-# 	    --period_num=3 \
-# 	    --acc_step=1 \
-# 	    --log_step=1 \
-# 	    --save_step=100000 \
-# 	    --LR="3e-5" \
-# 	    --beta=1.0 \
-# 	    --temperature=1.0 \
-# 	    --batch_size=1 \
-# 	    --task="none set yet" \
-# 	    --max_length=$msl \
-# 	    --dataset_task=$task \
-# 	    --from_path=$from_path \
-# 	    --save_path=$save_path
-# done
 
 
-
-echo "RUNNING 2.0.pod_selfdesigned_train.sh DONE."
-# 2.0.pod_selfdesigned_train.sh ends here
+echo "RUNNING 2.2.vary_period.sh DONE."
+# 2.2.vary_period.sh ends here

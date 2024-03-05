@@ -423,12 +423,15 @@ def eval_glue(task, res):
 
 def evaluation_datas():
     test_task_ckpt_ls=[
+
+        ## original
         ["cola","./POD_SAVE_CKPTs/loRD_256cola___period0"],
         ["cola","./POD_SAVE_CKPTs/loRD_256cola___period1"],
         ["cola","./POD_SAVE_CKPTs/loRD_256cola___period2"],
         ["cola","google/gemma-2b"],
         ["cola","./POD_SAVE_CKPTs/kd_256cola___finally"],
 
+        ## vary periods
         ["cola","./POD_SAVE_CKPTs/vary_period/lord_256cola___period0"],
         ["cola","./POD_SAVE_CKPTs/vary_period/lord_256cola___period1"],
         ["cola","./POD_SAVE_CKPTs/vary_period/lord_256cola___period2"],
@@ -440,7 +443,12 @@ def evaluation_datas():
         ["cola","./POD_SAVE_CKPTs/vary_period/lord_256cola___period8"],
         ["cola","./POD_SAVE_CKPTs/vary_period/lord_256cola___period9"],
 
-        # [""]
+        ## ablation study
+        ["cola","./POD_SAVE_CKPTs/AblationExperiment/Methods100lord_256cola___period2/"],
+        ["cola","./POD_SAVE_CKPTs/AblationExperiment/Methods010lord_256cola___period2/"],
+        ["cola","./POD_SAVE_CKPTs/AblationExperiment/Methods011lord_256cola___period2/"],
+        ["cola","./POD_SAVE_CKPTs/AblationExperiment/Methods111lord_256cola___period2/"],
+
         ]
     res_dict={}
     dir_p="./glue_res/"
