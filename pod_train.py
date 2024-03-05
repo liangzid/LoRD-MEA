@@ -49,6 +49,7 @@ def train_one_period(args, lm,
     overall_loss = 0.
     overall_step = 0
     pad_token_id = lm_tokenizer.pad_token_id
+    sigmoid=torch.nn.Sigmoid()
 
     opt1 = torch.optim.AdamW(lm.parameters(), lr=LR)
     for e in tqdm(range(epoch), desc="epoch"):
@@ -101,17 +102,14 @@ def train_one_period(args, lm,
 
             loss_constractive_good = -torch.sum(
             (torch.log((logits2_cons+epsln) /
-            (vic_logits2[:, :, 0]+epsln)))*mask2[:, :-1])
+            (vic_logits2[:, :, 0]+epsln)))*mask2[:, :-1])/torch.sum(mask2)
 
             # print("----------------")
             # print(old_logits1)
             # print(logits1)
             loss_constractive_past = -torch.sum(
                 torch.log((old_logits1+epsln)/(logits1+epsln))
-                * mask1[:, :-1])
-
-            loss_constractive_good = torch.exp(loss_constractive_good)
-            loss_constractive_past = torch.exp(loss_constractive_past)
+                * mask1[:, :-1])/torch.sum(mask1)
 
             if args.use_old_logits!="1":
                 loss_constractive_past=0.
@@ -120,6 +118,8 @@ def train_one_period(args, lm,
 
             loss_constractive = loss_constractive_good \
                 + loss_constractive_past
+
+            loss_constractive = sigmoid(loss_constractive)
 
             vic_logits2=torch.softmax(vic_logits2/args.temperature,
                                       dim=-1)
@@ -131,19 +131,29 @@ def train_one_period(args, lm,
                           .expand(-1, -1, logits2_dist.shape[2])
                           * logits2_dist*torch.log(
                     logits2_dist/(vic_logits2+epsln)
-                    + epsln))
+                    + epsln))/torch.sum(mask2)
+
+
+            if args.use_entropy=="1":
+                loss_entropy=-torch.sum(logits2*torch.log2(logits2))\
+                /torch.sum(mask2)
+            else:
+                loss_entropy=0.
 
             if args.use_kld!="1":
                 loss_logits = 0.
 
-            overall_loss += loss_constractive + loss_logits
+            overall_loss += loss_constractive + loss_logits \
+                + loss_entropy
 
             if overall_step % log_step == 0:
-                print(" LOSS: {}\tGoodRewardLoss: {}\tToPassRewardLoss: {}\tKL-D: {}".format(
+                print(" LOSS: {}\tGoodRewardLoss: {}\tToPassRewardLoss: {}\tEXPLoss: {}\tKL-D: {}\tEntropy: {}".format(
                     overall_loss,
                     loss_constractive_good,
                     loss_constractive_past,
-                    loss_logits
+                    loss_constractive,
+                    loss_logits,
+                    loss_entropy,
                 ))
                 tb_writer.add_scalar("loss", overall_loss.item(),
                                      overall_step)
@@ -157,6 +167,9 @@ def train_one_period(args, lm,
                                      overall_step)
                 if args.use_kld=="1":
                     tb_writer.add_scalar("KLloss", loss_logits.item(),
+                                     overall_step)
+                if args.use_entropy=="1":
+                    tb_writer.add_scalar("Entropy", loss_entropy.item(),
                                      overall_step)
 
             if overall_step % save_step == 0:
@@ -367,6 +380,8 @@ def setup_train_args():
     parser.add_argument('--use_vic_logits', default="1", type=str,
                         required=False,)
     parser.add_argument('--use_kld', default="1", type=str,
+                        required=False,)
+    parser.add_argument('--use_entropy', default="1", type=str,
                         required=False,)
     parser.add_argument('--dataset_task', default="glue", type=str,
                         required=False,)
