@@ -32,13 +32,13 @@ export train_task="lord"
 # export train_task="kd"
 export epoch=2
 export period=10
-export beta=1.0
+export beta=0.7
 export temperature=0.8
-export batch_size=1
+export batch_size=4
 
 export use_old_logits=1
 export use_vic_logits=1
-export use_kld=0
+export use_kld=1
 
 export train_num=100
 

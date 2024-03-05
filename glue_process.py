@@ -448,7 +448,10 @@ def evaluation_datas():
         ["cola","./POD_SAVE_CKPTs/AblationExperiment/Methods010lord_256cola___period2/"],
         ["cola","./POD_SAVE_CKPTs/AblationExperiment/Methods011lord_256cola___period2/"],
         ["cola","./POD_SAVE_CKPTs/AblationExperiment/Methods111lord_256cola___period2/"],
-
+        # ["cola","./POD_SAVE_CKPTs/AblationExperiment/Methods100lord_256cola___period1/"],
+        ["cola","./POD_SAVE_CKPTs/AblationExperiment/Methods010lord_256cola___period1/"],
+        ["cola","./POD_SAVE_CKPTs/AblationExperiment/Methods011lord_256cola___period1/"],
+        ["cola","./POD_SAVE_CKPTs/AblationExperiment/Methods111lord_256cola___period1/"],
         ]
     res_dict={}
     dir_p="./glue_res/"

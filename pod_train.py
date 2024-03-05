@@ -58,7 +58,7 @@ def train_one_period(args, lm,
             loss_logits = 0.
 
             # print(item)
-            idxs1, idxs2, mask1, mask2, old_logits1, vic_logits2, idxs2_dist = item
+            idxs1, idxs2, mask1, mask2, old_logits1, old_logits2, vic_logits2, idxs2_dist = item
             bs, sqlen1 = idxs1.shape
             bs, sqlen2 = idxs2.shape
             # print(sqlen1, sqlen2)
@@ -70,6 +70,7 @@ def train_one_period(args, lm,
             mask2 = mask2.to(device)
             # already normalized by softmax
             old_logits1 = old_logits1.to(device)  # bs, sql,
+            # old_logits2 = old_logits2.to(device)  # bs, sql,
 
             vic_logits2 = vic_logits2.to(device)  # bs, sql, 5
             idxs2_dist = idxs2_dist.to(device)
@@ -98,9 +99,9 @@ def train_one_period(args, lm,
             #       old_logits1.shape,
             #       vic_logits2.shape, idxs2_dist.shape)
 
-            loss_constractive_good = -torch.sum(beta *
-                                                (torch.log((logits2_cons+epsln) /
-                                                           (vic_logits2[:, :, 0]+epsln)))*mask2[:, :-1])
+            loss_constractive_good = -torch.sum(
+            (torch.log((logits2_cons+epsln) /
+            (vic_logits2[:, :, 0]+epsln)))*mask2[:, :-1])
 
             # print("----------------")
             # print(old_logits1)
@@ -108,6 +109,9 @@ def train_one_period(args, lm,
             loss_constractive_past = -torch.sum(
                 torch.log((old_logits1+epsln)/(logits1+epsln))
                 * mask1[:, :-1])
+
+            loss_constractive_good = torch.exp(loss_constractive_good)
+            loss_constractive_past = torch.exp(loss_constractive_past)
 
             if args.use_old_logits!="1":
                 loss_constractive_past=0.
@@ -190,9 +194,10 @@ def train_pod(lm,
         tensorboard_name = f"Period {iter_idx}"
         idxs1_ls = []
         old_logits1_ls = []
+        old_logits2_ls = []
         # collect data.
         with torch.no_grad():
-            for prompt in tqdm(p_ls,
+            for i,prompt in tqdm(enumerate(p_ls),
                                desc="Data Collecting..."):
                 prompt = prompt.to(args.device).unsqueeze(0)
                 # Generate New Tokens
@@ -221,8 +226,21 @@ def train_pod(lm,
                     idxs1[:, 1:sqqql]
                 ]
 
+                idxs2=torch.tensor(idx2ls[i],dtype=torch.long)\
+                           .to(args.device).unsqueeze(0)
+                old_logits2 = lm(idxs2[:,:-1]).logits
+                old_logits2 = torch.softmax(old_logits2, dim=-1)
+                bs, sql2 = idxs2.shape
+                old_logits2 = old_logits2[
+                    torch.arange(1).unsqueeze(1),
+                    torch.arange(sql2-1).unsqueeze(0),
+                    idxs2[:, 1:sql2]
+                ]
+
+
                 idxs1_ls.append(idxs1.squeeze(0).to("cpu"))
                 old_logits1_ls.append(old_logits.squeeze(0).to("cpu"))
+                old_logits2_ls.append(old_logits2.squeeze(0).to("cpu"))
 
         # do truncations and paddings.
         max_token_num_1 = min(args.max_length,
@@ -237,6 +255,8 @@ def train_pod(lm,
         idxs1_ls, mask1 = my_padding(idxs1_ls, p_ls, max_token_num, pad_idx)
 
         old_logits1_ls = my_padding_logit(old_logits1_ls,
+                                          max_token_num-1, pad_idx)
+        old_logits2_ls = my_padding_logit(old_logits2_ls,
                                           max_token_num-1, pad_idx)
         newlogits2ls = []
         for per_data in logits2ls:
@@ -259,6 +279,7 @@ def train_pod(lm,
             mask1,
             mask2,
             old_logits1_ls,
+            old_logits2_ls,
             logits2ls,
             idxs2_dist,
         )
@@ -269,18 +290,35 @@ def train_pod(lm,
                             )
         print(">>>> Period {}".format(iter_idx))
         # STEP 2: Train the Model in a period
-        lm = train_one_period(args, lm,
-                              lm_tokenizer,
-                              loader,
-                              args.epoch, args.device,
-                              tb_writer,
-                              tensorboard_name,
-                              args.save_path,
-                              args.LR,
-                              args.acc_step, args.log_step,
-                              args.save_step,
-                              args.beta,
-                              )
+        if args.task=="lord":
+            lm = train_one_period(args, lm,
+                                lm_tokenizer,
+                                loader,
+                                args.epoch, args.device,
+                                tb_writer,
+                                tensorboard_name,
+                                args.save_path,
+                                args.LR,
+                                args.acc_step, args.log_step,
+                                args.save_step,
+                                args.beta,
+                                )
+        elif args.task=="Complex-lord":
+            from lord_complex_train import complex_train_one_period as ct
+            lm = ct(args, lm,
+                    lm_tokenizer,
+                    loader,
+                    args.epoch, args.device,
+                    tb_writer,
+                    tensorboard_name,
+                    args.save_path,
+                    args.LR,
+                    args.acc_step, args.log_step,
+                    args.save_step,
+                    args.beta,
+                    )
+        else:
+            print("ERROR: CANNOT FIND THE TRAIN LOSS OF THE TASK.")
 
         print(" -->NOW save the ckpt in each period.")
         print(f"in period {iter_idx}.")
@@ -412,7 +450,7 @@ def main():
             print("EEERRROOORRR: EEERRROOORRR.")
         print("Data LOADING done.")
         
-        if args.task=="lord":
+        if "lord" in args.task:
             print("TRAIN WITH LORD!!!")
             train_pod(
                 lm,
