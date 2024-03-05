@@ -21,6 +21,7 @@ from collections import OrderedDict
 import os
 from math import exp
 import random
+from pprint import pprint
 
 import pickle
 from tqdm import tqdm
@@ -208,36 +209,112 @@ def commonly_used_openai_post_process(
     return p_idxls, text2ls, probsls, idx2_dist_ls
 
 
+def infer_wmt(modelname,task_name,res_pth,
+              test_set_take_num=100):
+    save_pth=res_pth
+
+    model=InferObj(model_name=modelname,
+                   device="auto",
+                   max_length=2047)
+    gen_pipeline=model.text_gen
 
 
+    task_prompt_map={
+        "cs-en": "Translate the sentence from Czech to English Please.",
+        "du-en": "Translate the sentence from Dutch to English Please.",
+        "fi-en": "Translate the sentence from Finnish to English Please.",
+        "ro-en": "Translate the sentence from Romanian to English Please.",
+        "ru-en": "Translate the sentence from Russian to English Please.",
+        "tr-en": "Translate the sentence from Turkish to English Please.",
+        }
+
+    prompt=task_prompt_map[task_name]
 
 
+    tasks_we_used=[
+        "cs-en",
+        "du-en",
+        "fi-en",
+        "ro-en",
+        "ru-en",
+        "tr-en",
+        ]
 
 
+    assert task_name in tasks_we_used
+    dataset = load_dataset("wmt16",
+                           task_name,
+                           split=f"test[:{test_set_take_num}]")
+    # print("DATASET 0: ",dataset[0])
+    # print("DATASET 1: ",dataset[1])
+    sets=dataset
+    from_lang,to_lange=task_name.split("-")
+
+    res_ls = []
+    pp=task_prompt_map[task_name]
+    for d in tqdm(sets["translation"]):
+        inps = d[from_lang]
+        label = d[to_lange]
+        final_inps="Instruction: " + pp +\
+                            " User: "+inps+" Assistant: "
+        res = gen_pipeline(final_inps,
+                            max_new_tokens=16,)[0]["generated_text"]
+        res=res.split(final_inps)[1]
+        res_ls.append((res, label))
+        print(res)
+        # break
+    with open(save_pth, 'w', encoding='utf8') as f:
+        json.dump(res_ls, f, ensure_ascii=False, indent=4)
+
+    return res_ls
+
+def eval_wmt(res_ls):
+    """
+    1. BERTscore
+    3. BLEU-4
+    4. ROUGE
+    """
+    from nlg_metric import overall_metrics
+    hyps,refs=zip(*res_ls)
+    return overall_metrics(hyps,refs)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+def evaluation_datas():
+    ckpt_ls=[
+        ["cs-en", "google/gemma-2b",]
+        ]
+    res_dict={}
+    dir_p="./wmt16_res/"
+    if not os.path.exists(dir_p):
+        os.makedirs(dir_p)
+    for task_ckpt in ckpt_ls:
+        task,ckpt=task_ckpt
+        res_pth=ckpt+f"___{task}_glue_infer_res.json"
+        res_pth=res_pth.replace("/","__").replace(".", "")
+        if not os.path.exists(dir_p+res_pth):
+            res_ls=infer_wmt(ckpt, task, dir_p+res_pth,
+                             test_set_take_num=1)
+        else:
+            # from collections import OrderedDict
+            with open(dir_p+res_pth, 'r',encoding='utf8') as f:
+                res_ls=json.load(f,object_pairs_hook=OrderedDict)
+                
+        scores=eval_wmt(res_ls)
+        print(task, ckpt)
+        print(scores)
+        res_dict[task+"-----"+ckpt]=scores
+    with open(dir_p+"wmt_inference_scores_overall.json",
+              'w',encoding='utf8') as f:
+        json.dump(res_dict,f,ensure_ascii=False,indent=4)
+    print("OVERALL Save DONE.")
+    pprint(res_dict)
 
 
 
 ## running entry
 if __name__=="__main__":
     # main()
+    evaluation_datas()
     print("EVERYTHING DONE.")
 
 

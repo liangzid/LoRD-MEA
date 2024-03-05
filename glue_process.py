@@ -301,7 +301,7 @@ def infer_glue(modelname,task_name,res_pth):
     single_input_tasks = ["cola", "sst2",]
     double_input_tasks = ["mrpc", "qnli", "qqp", "rte", "wnli",]
 
-    test_set_take_num=200
+    test_set_take_num=100
 
     assert task_name in tasks_we_used
     dataset = load_dataset("glue", task_name)
@@ -312,7 +312,11 @@ def infer_glue(modelname,task_name,res_pth):
             .to_iterable_dataset().take(test_set_take_num)
         else:
             sets = dataset["validation"]
+        iii=0
         for d in tqdm(sets):
+            iii+=1
+            if iii==1 or iii==test_set_take_num:
+                print(d)
             inps = d["sentence"]
             label = d["label"]
             label = task_label_map[task_name][str(label)]
@@ -444,14 +448,17 @@ def evaluation_datas():
         ["cola","./POD_SAVE_CKPTs/vary_period/lord_256cola___period9"],
 
         ## ablation study
-        ["cola","./POD_SAVE_CKPTs/AblationExperiment/Methods100lord_256cola___period2/"],
-        ["cola","./POD_SAVE_CKPTs/AblationExperiment/Methods010lord_256cola___period2/"],
-        ["cola","./POD_SAVE_CKPTs/AblationExperiment/Methods011lord_256cola___period2/"],
-        ["cola","./POD_SAVE_CKPTs/AblationExperiment/Methods111lord_256cola___period2/"],
-        # ["cola","./POD_SAVE_CKPTs/AblationExperiment/Methods100lord_256cola___period1/"],
-        ["cola","./POD_SAVE_CKPTs/AblationExperiment/Methods010lord_256cola___period1/"],
-        ["cola","./POD_SAVE_CKPTs/AblationExperiment/Methods011lord_256cola___period1/"],
-        ["cola","./POD_SAVE_CKPTs/AblationExperiment/Methods111lord_256cola___period1/"],
+        # ["cola","./POD_SAVE_CKPTs/AblationExperiment/Methods100lord_256cola___period2/"],
+        # ["cola","./POD_SAVE_CKPTs/AblationExperiment/Methods010lord_256cola___period2/"],
+        # ["cola","./POD_SAVE_CKPTs/AblationExperiment/Methods011lord_256cola___period2/"],
+        # ["cola","./POD_SAVE_CKPTs/AblationExperiment/Methods111lord_256cola___period2/"],
+        # # ["cola","./POD_SAVE_CKPTs/AblationExperiment/Methods100lord_256cola___period1/"],
+        # ["cola","./POD_SAVE_CKPTs/AblationExperiment/Methods010lord_256cola___period1/"],
+        # ["cola","./POD_SAVE_CKPTs/AblationExperiment/Methods011lord_256cola___period1/"],
+        # ["cola","./POD_SAVE_CKPTs/AblationExperiment/Methods111lord_256cola___period1/"],
+
+
+        ["cola","./POD_SAVE_CKPTs/kd_7Epochkd_256cola___finally"],
         ]
     res_dict={}
     dir_p="./glue_res/"
