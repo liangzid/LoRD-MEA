@@ -33,7 +33,7 @@ from sequence_utils import my_padding_token_dist
 from sequence_utils import my_padding_logit
 
 
-def train_one_period(lm,
+def train_one_period(args, lm,
                      lm_tokenizer,
                      loader, epoch, device,
                      tb_writer,
@@ -129,7 +129,7 @@ def train_one_period(lm,
                     logits2_dist/(vic_logits2+epsln)
                     + epsln))
 
-            if arrgs.use_kld!="1":
+            if args.use_kld!="1":
                 loss_logits = 0.
 
             overall_loss += loss_constractive + loss_logits
@@ -269,7 +269,7 @@ def train_pod(lm,
                             )
         print(">>>> Period {}".format(iter_idx))
         # STEP 2: Train the Model in a period
-        lm = train_one_period(lm,
+        lm = train_one_period(args, lm,
                               lm_tokenizer,
                               loader,
                               args.epoch, args.device,
@@ -303,6 +303,8 @@ def setup_train_args():
     parser.add_argument('--epoch', default=2, type=int,
                         required=False)
     parser.add_argument('--period_num', default=3, type=int,
+                        required=False)
+    parser.add_argument('--train_num', default=100, type=int,
                         required=False)
     parser.add_argument('--acc_step', default=4, type=int,
                         required=False)
@@ -375,7 +377,7 @@ def main():
             print(f"RUN GLUE task: {args.dataset_task}")
             raw_train_datals = load_glue_datals(tokenizer,
                                             task_name=args.dataset_task,
-                                            train_num=100,
+                                            train_num=args.train_num,
                                             max_length=args.max_length)
         elif args.dataset_task == "wmt16":
             print(f"RUN wmt task: {args.dataset_task}")
@@ -383,7 +385,7 @@ def main():
             raw_train_datals = load_wmt_datals(
                 tokenizer,
                 task_name=args.dataset_task,
-                train_num=100,
+                train_num=args.train_num,
                 max_length=args.max_length
                 )
         elif args.dataset_task== "sum":
@@ -392,7 +394,7 @@ def main():
             raw_train_datals = load_sum_datals(
                 tokenizer,
                 task_name=args.dataset_task,
-                train_num=100,
+                train_num=args.train_num,
                 max_length=args.max_length
                 )
         else:

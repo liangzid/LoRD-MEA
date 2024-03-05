@@ -33,17 +33,19 @@ export task="cola"
 export train_task="lord"
 # export train_task="kd"
 export epoch=2
-export period=3
+export period=10
 export beta=1.0
 export temperature=0.8
-export batch_size=4
+export batch_size=1
 
 export use_old_logits=1
 export use_vic_logits=1
-export use_kld=1
+export use_kld=0
 
-export train_task="kd"
-export save_path="${POD_save_dir}${train_task}_${msl}${task}"
+export train_num=100
+
+# export train_task="kd"
+export save_path="${POD_save_dir}vary_period/${train_task}_${msl}${task}"
 
 $python pod_train.py\
 	--device="cuda" \
@@ -52,6 +54,7 @@ $python pod_train.py\
 	--acc_step=1 \
 	--log_step=1 \
 	--save_step=100000 \
+	--train_num=$train_num \
 	--LR="3e-5" \
 	--beta=$beta \
 	--temperature=$temperature \

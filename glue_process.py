@@ -21,6 +21,7 @@ from collections import OrderedDict
 import os
 from math import exp
 import random
+from pprint import pprint
 
 import pickle
 from tqdm import tqdm
@@ -300,13 +301,15 @@ def infer_glue(modelname,task_name,res_pth):
     single_input_tasks = ["cola", "sst2",]
     double_input_tasks = ["mrpc", "qnli", "qqp", "rte", "wnli",]
 
+    test_set_take_num=200
+
     assert task_name in tasks_we_used
     dataset = load_dataset("glue", task_name)
     res_ls = []
     if task_name in single_input_tasks:
-        if len(dataset["validation"]) > 1000:
+        if len(dataset["validation"]) > test_set_take_num:
             sets = dataset["validation"]\
-            .to_iterable_dataset().take(1000)
+            .to_iterable_dataset().take(test_set_take_num)
         else:
             sets = dataset["validation"]
         for d in tqdm(sets):
@@ -323,9 +326,9 @@ def infer_glue(modelname,task_name,res_pth):
             # break
 
     elif task_name == "mnli":
-        if len(dataset["validation_matched"]) > 1000:
+        if len(dataset["validation_matched"]) > test_set_take_num:
             sets = dataset["validation_matched"]\
-            .to_iterable_dataset().take(1000)
+            .to_iterable_dataset().take(test_set_take_num)
         else:
             sets = dataset["validation_matched"]
         for d in tqdm(sets):
@@ -340,9 +343,9 @@ def infer_glue(modelname,task_name,res_pth):
             res=res.split(final_inps)[1]
             res_ls.append((res, label))
     elif task_name in double_input_tasks:
-        if len(dataset["validation"]) > 1000:
+        if len(dataset["validation"]) > test_set_take_num:
             sets = dataset["validation"]\
-            .to_iterable_dataset().take(1000)
+            .to_iterable_dataset().take(test_set_take_num)
         else:
             sets = dataset["validation"]
         for d in tqdm(sets):
@@ -425,6 +428,18 @@ def evaluation_datas():
         ["cola","./POD_SAVE_CKPTs/loRD_256cola___period2"],
         ["cola","google/gemma-2b"],
         ["cola","./POD_SAVE_CKPTs/kd_256cola___finally"],
+
+        ["cola","./POD_SAVE_CKPTs/vary_period/lord_256cola___period0"],
+        ["cola","./POD_SAVE_CKPTs/vary_period/lord_256cola___period1"],
+        ["cola","./POD_SAVE_CKPTs/vary_period/lord_256cola___period2"],
+        ["cola","./POD_SAVE_CKPTs/vary_period/lord_256cola___period3"],
+        ["cola","./POD_SAVE_CKPTs/vary_period/lord_256cola___period4"],
+        ["cola","./POD_SAVE_CKPTs/vary_period/lord_256cola___period5"],
+        ["cola","./POD_SAVE_CKPTs/vary_period/lord_256cola___period6"],
+        ["cola","./POD_SAVE_CKPTs/vary_period/lord_256cola___period7"],
+        ["cola","./POD_SAVE_CKPTs/vary_period/lord_256cola___period8"],
+        ["cola","./POD_SAVE_CKPTs/vary_period/lord_256cola___period9"],
+
         # [""]
         ]
     res_dict={}
@@ -450,7 +465,7 @@ def evaluation_datas():
               'w',encoding='utf8') as f:
         json.dump(res_dict,f,ensure_ascii=False,indent=4)
     print("OVERALL Save DONE.")
-    print(res_dict)
+    pprint(res_dict)
 
 
 if __name__ == "__main__":
