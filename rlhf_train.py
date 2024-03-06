@@ -28,8 +28,12 @@ from training_data_collecting_openai import load_raw_train_datals
 
 
 def clip(tnsr, epsilon):
-    tnsr = torch.min(tnsr, torch.ones_like(tnsr)*(1+epsilon))
-    tnsr = torch.max(tnsr, torch.ones_like(tnsr)*(1-epsilon))
+    one_tensor=torch.ones_like(tnsr)
+    one_tensor=one_tensor.to(tnsr.device)
+    tnsr = torch.min(tnsr, one_tensor*(1+epsilon)
+                     )
+    tnsr = torch.max(tnsr, one_tensor*(1-epsilon)
+                     )
     return tnsr
 
 

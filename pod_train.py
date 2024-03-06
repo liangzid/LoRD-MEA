@@ -32,6 +32,7 @@ from sequence_utils import my_padding, my_padding_logits
 from sequence_utils import my_padding_token_dist
 from sequence_utils import my_padding_logit
 
+from rlhf_train import clip
 
 def train_one_period(args, lm,
                      lm_tokenizer,
@@ -45,6 +46,7 @@ def train_one_period(args, lm,
                      save_step=1000,
                      beta=0.7,
                      epsln=1e-6,
+                     method_type="2",
                      ):
     overall_loss = 0.
     overall_step = 0
@@ -71,7 +73,7 @@ def train_one_period(args, lm,
             mask2 = mask2.to(device)
             # already normalized by softmax
             old_logits1 = old_logits1.to(device)  # bs, sql,
-            # old_logits2 = old_logits2.to(device)  # bs, sql,
+            old_logits2 = old_logits2.to(device)  # bs, sql,
 
             vic_logits2 = vic_logits2.to(device)  # bs, sql, 5
             idxs2_dist = idxs2_dist.to(device)
@@ -94,32 +96,44 @@ def train_one_period(args, lm,
                                    torch.arange(sqlen-1).unsqueeze(0),
                                    idxs2[:, 1:sqlen]]
 
+            with torch.no_grad():
+                logits2 = lm(idxs2).logits[:, :-1, :]
+                logits2 = torch.softmax(logits2, dim=-1)
+                logits2_cons1 = logits2[torch.arange(bs).unsqueeze(1),
+                                   torch.arange(sqlen-1).unsqueeze(0),
+                                   idxs2[:, 1:sqlen]]
             logits2_dist = torch.gather(logits2, 2, idxs2_dist)
 
             # print(idxs1.shape, idxs2.shape,logits1.shape,
             #       old_logits1.shape,
             #       vic_logits2.shape, idxs2_dist.shape)
 
-            loss_constractive_good = -torch.sum(
-            (torch.log((logits2_cons+epsln) /
-            (vic_logits2[:, :, 0]+epsln)))*mask2[:, :-1])/torch.sum(mask2)
+            if method_type=="2":
+                loss_vic = torch.sum(
+                clip((logits2_cons+epsln) /
+                    (old_logits2+epsln),
+                    epsilon=0.9,
+                    )*mask2[:, :-1])/torch.sum(mask2)
 
-            # print("----------------")
-            # print(old_logits1)
-            # print(logits1)
-            loss_constractive_past = -torch.sum(
-                torch.log((old_logits1+epsln)/(logits1+epsln))
-                * mask1[:, :-1])/torch.sum(mask1)
+                loss_reward=torch.sum(logits2_cons1*mask2[:,:-1])\
+                    /torch.sum(mask2)\
+                    -torch.sum(logits1*mask1[:,:-1])/torch.sum(mask1)
+            elif method_type=="1":
+                loss_vic = torch.sum(
+                clip((logits2_cons+epsln) /
+                    (old_logits2+epsln),
+                    epsilon=0.9,
+                    )*mask2[:, :-1])/torch.sum(mask2)
 
-            if args.use_old_logits!="1":
-                loss_constractive_past=0.
-            if args.use_vic_logits!="1":
-                loss_constractive_good=0.
+                loss_reward=torch.sum(
+                    torch.log((logits2_cons1+epsln)\
+                              /(vic_logits2+epsln))*mask2[:,:-1])\
+                    /torch.sum(mask2)\
+                    -torch.sum(torch.log((logits1+epsln)/\
+                                         (old_logits1+epsln))\
+                               *mask1[:,:-1])/torch.sum(mask1)
 
-            loss_constractive = loss_constractive_good \
-                + loss_constractive_past
-
-            # loss_constractive = sigmoid(loss_constractive)
+            loss_constractive=-1*loss_vic*loss_reward
 
             vic_logits2=torch.softmax(vic_logits2/args.temperature,
                                       dim=-1)
@@ -132,7 +146,6 @@ def train_one_period(args, lm,
                           * logits2_dist*torch.log(
                     logits2_dist/(vic_logits2+epsln)
                     + epsln))/torch.sum(mask2)
-
 
             if args.use_entropy=="1":
                 loss_entropy=torch.sum(logits2*\
@@ -148,10 +161,10 @@ def train_one_period(args, lm,
                 + loss_entropy
 
             if overall_step % log_step == 0:
-                print(" LOSS: {}\tGoodRewardLoss: {}\tToPassRewardLoss: {}\tEXPLoss: {}\tKL-D: {}\tEntropy: {}".format(
+                print(" LOSS: {}\tGain: {}\tReward: {}\tL: {}\tKL-D: {}\tEntropy: {}".format(
                     overall_loss,
-                    loss_constractive_good,
-                    loss_constractive_past,
+                    loss_vic,
+                    loss_reward,
                     loss_constractive,
                     loss_logits,
                     loss_entropy,
@@ -159,12 +172,12 @@ def train_one_period(args, lm,
                 tb_writer.add_scalar("loss", overall_loss.item(),
                                      overall_step)
                 if args.use_vic_logits=="1":
-                    tb_writer.add_scalar("rewardloss_good",
-                                     loss_constractive_good.item(),
+                    tb_writer.add_scalar("Gain",
+                                     loss_vic.item(),
                                      overall_step)
                 if args.use_old_logits=="1":
-                    tb_writer.add_scalar("rewardloss_past",
-                                     loss_constractive_past.item(),
+                    tb_writer.add_scalar("reward",
+                                     loss_reward.item(),
                                      overall_step)
                 if args.use_kld=="1":
                     tb_writer.add_scalar("KLloss", loss_logits.item(),
