@@ -30,15 +30,16 @@ export task_ls=("cola" "mnli" "mrpc" "qnli" "qqp" "rte" "sst2" "wnli")
 export task="cola"
 export train_task="lord"
 # export train_task="kd"
-export epoch=2
+export epoch=3
 export period=10
-export beta=0.7
+export beta=0.5
 export temperature=0.8
 export batch_size=1
 
 export use_old_logits=1
 export use_vic_logits=1
 export use_kld=1
+export use_entropy=1
 
 export train_num=20
 
@@ -61,6 +62,7 @@ $python pod_train.py\
 	--use_old_logits=$use_old_logits\
 	--use_vic_logits=$use_vic_logits\
 	--use_kld=$use_kld\
+	--use_entropy=$use_entropy\
 	--max_length=$msl \
 	--dataset_task=$task \
 	--from_path=$from_path \

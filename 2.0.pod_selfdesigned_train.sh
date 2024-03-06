@@ -34,20 +34,22 @@ export task_ls=("cs-en" "du-en" "fi-en" "ro-en" "ru-en" "tr-en")
 # export task="cs-en"
 export task="cola"
 # export task="sum"
-# export train_task="lord"
-export train_task="Complex-lord"
+export train_task="lord"
+# export train_task="Complex-lord"
+# export train_task="reinforce-lord"
 # export train_task="kd"
-export epoch=2
-export period=10
+export epoch=3
+export period=9
 export beta=1.0
-export temperature=0.8
+export temperature=2
 export batch_size=1
 
 export use_old_logits=1
 export use_vic_logits=1
-export use_kld=1
+export use_kld=0
+export use_entropy=0
 
-export train_num=1
+export train_num=20
 
 # export train_task="kd"
 export save_path="${POD_save_dir}${task}/${train_task}_${msl}${task}"
@@ -68,6 +70,7 @@ $python pod_train.py\
 	--use_old_logits=$use_old_logits\
 	--use_vic_logits=$use_vic_logits\
 	--use_kld=$use_kld\
+	--use_entropy=$use_entropy\
 	--max_length=$msl \
 	--dataset_task=$task \
 	--from_path=$from_path \

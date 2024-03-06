@@ -33,8 +33,8 @@ export task="cola"
 export train_task="kd"
 export epoch=7
 export period=10
-export beta=0.7
-export temperature=0.8
+export beta=1.0
+export temperature=2.0
 export batch_size=1
 
 export use_old_logits=1

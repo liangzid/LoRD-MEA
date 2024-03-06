@@ -73,19 +73,26 @@ def train_distill(lm,
 
             logits2_dist = torch.gather(logits2, 2, idxs2_dist)
 
+            logits_hard=torch.sum(mask2[:, :-1]
+                          .unsqueeze(-1)
+                          .expand(-1, -1, logits2_dist.shape[2])
+                          * logits2_dist*torch.log(
+                    logits2_dist/(vic_logits2+epsln)
+                    + epsln))/torch.sum(mask2)
+
             logits2_dist/=temperature
             vic_logits2/=temperature
             logits2 = torch.softmax(logits2_dist, dim=-1)
             vic_logits2 = torch.softmax(vic_logits2, dim=-1)
 
-            loss_logits = torch.mean(mask2[:, :-1]
+            loss_logits = torch.sum(mask2[:, :-1]
                           .unsqueeze(-1)
                           .expand(-1, -1, logits2_dist.shape[2])
                           * logits2_dist*torch.log(
                     logits2_dist/(vic_logits2+epsln)
-                    + epsln))
+                    + epsln))/torch.sum(mask2)
 
-            overall_loss += loss_logits
+            overall_loss += loss_logits+logits_hard
 
             if overall_step % log_step == 0:
                 print(" LOSS: {}".format(
@@ -94,7 +101,7 @@ def train_distill(lm,
                 tb_writer.add_scalar("loss", overall_loss.item(),
                                      overall_step)
 
-            if overall_loss % save_step == 0:
+            if overall_step % save_step == 0:
                 print(" -->Regular Saving.")
                 print(f"in epoch {e}, step {overall_step}.")
                 lm_tokenizer.save_pretrained(save_path+"___"+overall_step)
