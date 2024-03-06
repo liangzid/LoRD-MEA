@@ -13,6 +13,7 @@ Model Extraction with supervised distillation LOSS.
 
 # ------------------------ Code --------------------------------------
 import torch
+import torch.nn.functional as F
 import json
 from torch.utils.tensorboard import SummaryWriter
 from torch.distributions import Categorical
@@ -32,6 +33,7 @@ from sequence_utils import my_padding, my_padding_logits
 from sequence_utils import my_padding_token_dist
 from sequence_utils import my_padding_logit
 
+import torch.nn.functional as F
 
 def train_distill(lm,
                      lm_tokenizer,
@@ -49,6 +51,7 @@ def train_distill(lm,
     overall_loss = 0.
     overall_step = 0
     pad_token_id = lm_tokenizer.pad_token_id
+    kl_loss = torch.nn.KLDivLoss(reduction="mean")
 
     opt1 = torch.optim.AdamW(lm.parameters(), lr=LR)
     for e in tqdm(range(epoch), desc="epoch"):
@@ -63,34 +66,45 @@ def train_distill(lm,
             mask2 = mask2.to(device)
             # already normalized by softmax
             vic_logits2 = vic_logits2.to(device)  # bs, sql, 5
+            vic_logits2 = torch.exp(vic_logits2)
 
             idxs2_dist = idxs2_dist.to(device)
 
             print("idx2text: ", lm_tokenizer.decode(idxs2[0]))
 
             logits2 = lm(idxs2).logits[:, :-1, :]
-            logits2 = torch.softmax(logits2, dim=-1)
+            # logits2 = torch.softmax(logits2, dim=-1)
 
             logits2_dist = torch.gather(logits2, 2, idxs2_dist)
+            logits2_dist = torch.log_softmax(logits2_dist, dim=-1)
+            
 
-            logits_hard=torch.sum(mask2[:, :-1]
-                          .unsqueeze(-1)
-                          .expand(-1, -1, logits2_dist.shape[2])
-                          * logits2_dist*torch.log(
-                    logits2_dist/(vic_logits2+epsln)
-                    + epsln))/torch.sum(mask2)
+            # logits_hard=torch.sum(mask2[:, :-1]
+            #               .unsqueeze(-1)
+            #               .expand(-1, -1, logits2_dist.shape[2])
+            #               * logits2_dist*torch.log(
+            #         logits2_dist/(vic_logits2+epsln)
+            #         + epsln))
 
-            logits2_dist/=temperature
-            vic_logits2/=temperature
-            logits2 = torch.softmax(logits2_dist, dim=-1)
-            vic_logits2 = torch.softmax(vic_logits2, dim=-1)
+            logits_hard=kl_loss(logits2_dist, vic_logits2)
 
-            loss_logits = torch.sum(mask2[:, :-1]
-                          .unsqueeze(-1)
-                          .expand(-1, -1, logits2_dist.shape[2])
-                          * logits2_dist*torch.log(
-                    logits2_dist/(vic_logits2+epsln)
-                    + epsln))/torch.sum(mask2)
+            logits2new = lm(idxs2).logits[:, :-1, :]
+            logits2new = torch.softmax(logits2new, dim=-1)
+            logits2_distnew = torch.gather(logits2new, 2, idxs2_dist)
+
+            logits2_distnew=logits2_distnew/temperature
+            vic_logits2new=vic_logits2/temperature
+            logits2newnew = F.log_softmax(logits2_distnew, dim=-1)
+            vic_logits2new = torch.softmax(vic_logits2new, dim=-1)
+
+            # loss_logits = torch.sum(mask2[:, :-1]
+            #               .unsqueeze(-1)
+            #               .expand(-1, -1, logits2_dist.shape[2])
+            #               * logits2_dist*torch.log(
+            #         logits2_dist/(vic_logits2+epsln)
+            #         + epsln))
+
+            loss_logits=kl_loss(logits2newnew, vic_logits2new)
 
             overall_loss += loss_logits+logits_hard
 

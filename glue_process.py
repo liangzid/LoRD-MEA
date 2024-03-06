@@ -185,7 +185,7 @@ def load_glue_datals(lm_tokenizer,
                                  for x in topk_subtokenss]
                 topk_logits = [x.logprob
                                for x in topkdict.top_logprobs]
-                topk_logits = [exp(x) for x in topk_logits]
+                # topk_logits = [exp(x) for x in topk_logits]
 
                 # idx2_dist.extend(topk_subidxes)
                 # logits_distr.extend(topk_logits)
@@ -241,7 +241,7 @@ def infer_glue(modelname,task_name,res_pth):
 
 
     task_prompt_map = {
-        "cola": "In your role as a grammar check tool, assess the following sentence and classify it as 'acceptable' if it is grammatically correct or 'unacceptable' if it is incorrect.",
+        "cola": "Assess the following sentence and classify it as 'acceptable' or 'unacceptable'.",
         "mnli": "In your role as an entailment analysis tool, assess the relationship between the given sentences and classify it as 'entailment', 'neutral', or 'contradiction'.",
         "mrpc": "As a semantic comparison expert, evaluate the given pair of sentences and determine if they are 'equivalent' or 'not_equivalent'.",
         "qnli": "As a language expert, assess if the given context entails the answer to the question and respond with 'entailment' or 'not_entailment'.",
@@ -432,36 +432,15 @@ def evaluation_datas():
     test_task_ckpt_ls=[
 
         ## original
-        ["cola","./POD_SAVE_CKPTs/loRD_256cola___period0"],
-        ["cola","./POD_SAVE_CKPTs/loRD_256cola___period1"],
-        ["cola","./POD_SAVE_CKPTs/loRD_256cola___period2"],
         ["cola","google/gemma-2b"],
-        ["cola","./POD_SAVE_CKPTs/kd_256cola___finally"],
+        ## ablation study
+        ["cola","./POD_SAVE_CKPTs/kd_7Epochkd_256cola___finally"],
+        ["cola","./POD_SAVE_CKPTs/kd_3Epochkd_256cola___finally"],
 
         ## vary periods
-        ["cola","./POD_SAVE_CKPTs/vary_period/lord_256cola___period0"],
-        ["cola","./POD_SAVE_CKPTs/vary_period/lord_256cola___period1"],
-        ["cola","./POD_SAVE_CKPTs/vary_period/lord_256cola___period2"],
-        ["cola","./POD_SAVE_CKPTs/vary_period/lord_256cola___period3"],
-        ["cola","./POD_SAVE_CKPTs/vary_period/lord_256cola___period4"],
-        ["cola","./POD_SAVE_CKPTs/vary_period/lord_256cola___period5"],
-        ["cola","./POD_SAVE_CKPTs/vary_period/lord_256cola___period6"],
-        ["cola","./POD_SAVE_CKPTs/vary_period/lord_256cola___period7"],
-        ["cola","./POD_SAVE_CKPTs/vary_period/lord_256cola___period8"],
-        ["cola","./POD_SAVE_CKPTs/vary_period/lord_256cola___period9"],
+        ["cola",
+         "./POD_SAVE_CKPTs/vary_period/Complex-lord_256cola___period0"],
 
-        ## ablation study
-        # ["cola","./POD_SAVE_CKPTs/AblationExperiment/Methods100lord_256cola___period2/"],
-        # ["cola","./POD_SAVE_CKPTs/AblationExperiment/Methods010lord_256cola___period2/"],
-        # ["cola","./POD_SAVE_CKPTs/AblationExperiment/Methods011lord_256cola___period2/"],
-        # ["cola","./POD_SAVE_CKPTs/AblationExperiment/Methods111lord_256cola___period2/"],
-        # # ["cola","./POD_SAVE_CKPTs/AblationExperiment/Methods100lord_256cola___period1/"],
-        # ["cola","./POD_SAVE_CKPTs/AblationExperiment/Methods010lord_256cola___period1/"],
-        # ["cola","./POD_SAVE_CKPTs/AblationExperiment/Methods011lord_256cola___period1/"],
-        # ["cola","./POD_SAVE_CKPTs/AblationExperiment/Methods111lord_256cola___period1/"],
-
-
-        ["cola","./POD_SAVE_CKPTs/kd_7Epochkd_256cola___finally"],
         ]
     res_dict={}
     dir_p="./glue_res/"

@@ -33,6 +33,7 @@ from sequence_utils import my_padding, my_padding_logits
 from sequence_utils import my_padding_token_dist
 from sequence_utils import my_padding_logit
 
+import torch.nn.functional as F
 
 def complex_train_one_period(args, lm,
                      lm_tokenizer,
@@ -50,6 +51,7 @@ def complex_train_one_period(args, lm,
     overall_loss = 0.
     overall_step = 0
     pad_token_id = lm_tokenizer.pad_token_id
+    kl_loss = torch.nn.KLDivLoss(reduction="mean")
 
     opt1 = torch.optim.AdamW(lm.parameters(), lr=LR)
     for e in tqdm(range(epoch), desc="epoch"):
@@ -80,13 +82,13 @@ def complex_train_one_period(args, lm,
             print("idx2text: ", lm_tokenizer.decode(idxs2[0]))
 
             logits1 = lm(idxs1).logits[:, :-1, :]
-            logits1 = torch.softmax(logits1, dim=-1)
+            logits1 = F.log_softmax(logits1, dim=-1)
             logits1 = logits1[torch.arange(bs).unsqueeze(1),
                               torch.arange(sqlen-1).unsqueeze(0),
                               idxs1[:, 1:sqlen]]
 
             logits2 = lm(idxs2).logits[:, :-1, :]
-            logits2 = torch.softmax(logits2, dim=-1)
+            logits2 = torch.log_softmax(logits2, dim=-1)
             logits2_cons = logits2[torch.arange(bs).unsqueeze(1),
                                    torch.arange(sqlen-1).unsqueeze(0),
                                    idxs2[:, 1:sqlen]]
@@ -94,12 +96,11 @@ def complex_train_one_period(args, lm,
             logits2_dist = torch.gather(logits2, 2, idxs2_dist)
 
             loss_constractive_good = -torch.sum(
-            (torch.log((logits2_cons**2+epsln) /
-            (vic_logits2[:, :, 0]*old_logits2+epsln)))*mask2[:, :-1])
+            (logits2_cons*2 -
+            vic_logits2[:, :, 0]+old_logits2)*mask2[:, :-1])
 
             loss_constractive_past = -torch.sum(
-                torch.log((old_logits1+epsln)/(logits1**2+epsln))
-                * mask1[:, :-1])
+                (old_logits1-2*logits1) * mask1[:, :-1])
 
             if args.use_old_logits!="1":
                 loss_constractive_past=0.
@@ -109,18 +110,21 @@ def complex_train_one_period(args, lm,
             loss_constractive = loss_constractive_good \
                 + loss_constractive_past
 
-            vic_logits2=torch.softmax(vic_logits2/args.temperature,
+            vic_logits2=torch.softmax(torch.exp(vic_logits2)\
+                                          /args.temperature,
                                       dim=-1)
-            logits2_dist=torch.softmax(logits2_dist/args.temperature,
+            logits2_dist=torch.log_softmax(torch.exp(logits2_dist)\
+                                          /args.temperature,
                                       dim=-1)
             # KL-Divengence
-            loss_logits = beta *\
-                torch.sum(mask2[:, :-1]
-                          .unsqueeze(-1)
-                          .expand(-1, -1, logits2_dist.shape[2])
-                          * logits2_dist*torch.log(
-                    logits2_dist/(vic_logits2+epsln)
-                    + epsln))
+            loss_logits=kl_loss(logits2_dist, vic_logits2)
+            # loss_logits = beta *\
+            #     torch.sum(mask2[:, :-1]
+            #               .unsqueeze(-1)
+            #               .expand(-1, -1, logits2_dist.shape[2])
+            #               * logits2_dist*torch.log(
+            #         logits2_dist/(vic_logits2+epsln)
+            #         + epsln))
 
             if args.use_kld!="1":
                 loss_logits = 0.

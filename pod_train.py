@@ -32,6 +32,8 @@ from sequence_utils import my_padding, my_padding_logits
 from sequence_utils import my_padding_token_dist
 from sequence_utils import my_padding_logit
 
+import torch.nn.functional as F
+
 from rlhf_train import clip
 
 def train_one_period(args, lm,
@@ -46,12 +48,13 @@ def train_one_period(args, lm,
                      save_step=1000,
                      beta=0.7,
                      epsln=1e-6,
-                     method_type="2",
+                     method_type="1",
                      ):
     overall_loss = 0.
     overall_step = 0
     pad_token_id = lm_tokenizer.pad_token_id
     sigmoid=torch.nn.Sigmoid()
+    kl_loss = torch.nn.KLDivLoss(reduction="mean")
 
     opt1 = torch.optim.AdamW(lm.parameters(), lr=LR)
     for e in tqdm(range(epoch), desc="epoch"):
@@ -71,11 +74,11 @@ def train_one_period(args, lm,
             idxs2 = idxs2.to(device)  # bs, sql
             mask1 = mask1.to(device)
             mask2 = mask2.to(device)
-            # already normalized by softmax
+            # already normalized by log_softmax
             old_logits1 = old_logits1.to(device)  # bs, sql,
             old_logits2 = old_logits2.to(device)  # bs, sql,
-
             vic_logits2 = vic_logits2.to(device)  # bs, sql, 5
+            
             idxs2_dist = idxs2_dist.to(device)
 
             print("idx1text: ", lm_tokenizer.decode(idxs1[0]))
@@ -85,72 +88,61 @@ def train_one_period(args, lm,
             # print("idxs2_dist: ",idxs2_dist)
 
             logits1 = lm(idxs1).logits[:, :-1, :]
-            logits1 = torch.softmax(logits1, dim=-1)
+            logits1 = F.log_softmax(logits1, dim=-1)
             logits1 = logits1[torch.arange(bs).unsqueeze(1),
                               torch.arange(sqlen-1).unsqueeze(0),
                               idxs1[:, 1:sqlen]]
 
             logits2 = lm(idxs2).logits[:, :-1, :]
-            logits2 = torch.softmax(logits2, dim=-1)
+            logits2 = F.log_softmax(logits2, dim=-1)
             logits2_cons = logits2[torch.arange(bs).unsqueeze(1),
                                    torch.arange(sqlen-1).unsqueeze(0),
                                    idxs2[:, 1:sqlen]]
 
             with torch.no_grad():
                 logits2 = lm(idxs2).logits[:, :-1, :]
-                logits2 = torch.softmax(logits2, dim=-1)
+                logits2 = F.log_softmax(logits2, dim=-1)
                 logits2_cons1 = logits2[torch.arange(bs).unsqueeze(1),
                                    torch.arange(sqlen-1).unsqueeze(0),
                                    idxs2[:, 1:sqlen]]
             logits2_dist = torch.gather(logits2, 2, idxs2_dist)
 
-            # print(idxs1.shape, idxs2.shape,logits1.shape,
-            #       old_logits1.shape,
-            #       vic_logits2.shape, idxs2_dist.shape)
-
             if method_type=="2":
                 loss_vic = torch.sum(
-                clip((logits2_cons+epsln) /
-                    (old_logits2+epsln),
-                    epsilon=0.9,
-                    )*mask2[:, :-1])/torch.sum(mask2)
+                (logits2_cons - old_logits2,
+                    )*mask2[:, :-1])
 
                 loss_reward=torch.sum(logits2_cons1*mask2[:,:-1])\
-                    /torch.sum(mask2)\
-                    -torch.sum(logits1*mask1[:,:-1])/torch.sum(mask1)
+                    -torch.sum(logits1*mask1[:,:-1])
             elif method_type=="1":
                 loss_vic = torch.sum(
-                clip((logits2_cons+epsln) /
-                    (old_logits2+epsln),
-                    epsilon=0.9,
-                    )*mask2[:, :-1])/torch.sum(mask2)
+                (logits2_cons-old_logits2)*mask2[:, :-1])
 
                 loss_reward=torch.sum(
-                    torch.log((logits2_cons1+epsln)\
-                              /(vic_logits2+epsln))*mask2[:,:-1])\
-                    /torch.sum(mask2)\
-                    -torch.sum(torch.log((logits1+epsln)/\
-                                         (old_logits1+epsln))\
-                               *mask1[:,:-1])/torch.sum(mask1)
+                    (logits2_cons1- vic_logits2[:,:,0])*mask2[:,:-1])\
+                    -torch.sum((logits1-old_logits1)\
+                               *mask1[:,:-1])
 
-            loss_constractive=-1*loss_vic*loss_reward
+            loss_constractive=-loss_vic-loss_reward
 
-            vic_logits2=torch.softmax(vic_logits2/args.temperature,
+            vic_logits2=torch.softmax(torch.exp(vic_logits2)\
+                                      /args.temperature,
                                       dim=-1)
-            logits2_dist=torch.softmax(logits2_dist/args.temperature,
+            logits2_dist=F.log_softmax(torch.exp(logits2_dist)\
+                                   /args.temperature,
                                       dim=-1)
-            loss_logits = beta *\
-                torch.sum(mask2[:, :-1]
-                          .unsqueeze(-1)
-                          .expand(-1, -1, logits2_dist.shape[2])
-                          * logits2_dist*torch.log(
-                    logits2_dist/(vic_logits2+epsln)
-                    + epsln))/torch.sum(mask2)
+            loss_logits=kl_loss(logits2_dist, vic_logits2)*beta
+            # loss_logits = beta *\
+            #     torch.sum(mask2[:, :-1]
+            #               .unsqueeze(-1)
+            #               .expand(-1, -1, logits2_dist.shape[2])
+            #               * logits2_dist*torch.log(
+            #         logits2_dist/(vic_logits2+epsln)
+            #         + epsln))/torch.sum(mask2)
 
             if args.use_entropy=="1":
-                loss_entropy=torch.sum(logits2*\
-                                        torch.log2(logits2+epsln))\
-                /torch.sum(mask2)
+                loss_entropy=torch.sum(torch.exp(logits2)*\
+                                        logits2*mask2[:,:-1])
             else:
                 loss_entropy=0.
 
@@ -252,7 +244,7 @@ def train_pod(lm,
                 # print(idxs1)
                 print(lm_tokenizer.decode(idxs1[0]))
                 old_logits = lm(idxs1[:, :-1]).logits
-                old_logits = torch.softmax(old_logits, dim=-1)
+                old_logits = F.log_softmax(old_logits, dim=-1)
                 old_logits = old_logits[
                     torch.arange(1).unsqueeze(1),
                     torch.arange(sqqql-1).unsqueeze(0),
@@ -262,7 +254,7 @@ def train_pod(lm,
                 idxs2=torch.tensor(idx2ls[i],dtype=torch.long)\
                            .to(args.device).unsqueeze(0)
                 old_logits2 = lm(idxs2[:,:-1]).logits
-                old_logits2 = torch.softmax(old_logits2, dim=-1)
+                old_logits2 = F.log_softmax(old_logits2, dim=-1)
                 bs, sql2 = idxs2.shape
                 old_logits2 = old_logits2[
                     torch.arange(1).unsqueeze(1),
