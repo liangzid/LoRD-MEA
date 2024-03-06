@@ -54,7 +54,7 @@ def reinforce_train_one_period(args, lm,
     overall_loss = 0.
     overall_step = 0
     pad_token_id = lm_tokenizer.pad_token_id
-    kl_loss = torch.nn.KLDivLoss(reduction="mean")
+    kl_loss = torch.nn.KLDivLoss(reduction="none")
 
     opt1 = torch.optim.AdamW(lm.parameters(), lr=LR)
 
@@ -124,7 +124,9 @@ def reinforce_train_one_period(args, lm,
                                        /args.temperature,
                                       dim=-1)
             # KL-Divengence
-            loss_logits=kl_loss(logits2_dist, vic_logits2)
+            mask2l=mask2[:,:-1].unsqueeze(-1).expand(-1, -1, 5)
+            loss_logits=(kl_loss(logits2_dist,
+                                 vic_logits2)*mask2l).mean()
             # loss_logits = beta *\
             #     torch.sum(mask2[:, :-1]
             #               .unsqueeze(-1)

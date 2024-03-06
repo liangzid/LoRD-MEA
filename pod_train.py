@@ -54,7 +54,7 @@ def train_one_period(args, lm,
     overall_step = 0
     pad_token_id = lm_tokenizer.pad_token_id
     sigmoid=torch.nn.Sigmoid()
-    kl_loss = torch.nn.KLDivLoss(reduction="mean")
+    kl_loss = torch.nn.KLDivLoss(reduction="none")
 
     opt1 = torch.optim.AdamW(lm.parameters(), lr=LR)
     for e in tqdm(range(epoch), desc="epoch"):
@@ -131,7 +131,9 @@ def train_one_period(args, lm,
             logits2_dist=F.log_softmax(torch.exp(logits2_dist)\
                                    /args.temperature,
                                       dim=-1)
-            loss_logits=kl_loss(logits2_dist, vic_logits2)*beta
+            mask2l=mask2[:,:-1].unsqueeze(-1).expand(-1, -1, 5)
+            loss_logits=(mask2l*kl_loss(logits2_dist,
+                                        vic_logits2)).mean()*beta
             # loss_logits = beta *\
             #     torch.sum(mask2[:, :-1]
             #               .unsqueeze(-1)

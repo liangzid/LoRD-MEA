@@ -253,7 +253,7 @@ def load_steal_datals(lm_tokenizer,
                                  for x in topk_subtokenss]
                 topk_logits = [x.logprob
                                for x in topkdict.top_logprobs]
-                topk_logits = [exp(x) for x in topk_logits]
+                # topk_logits = [exp(x) for x in topk_logits]
 
                 # idx2_dist.extend(topk_subidxes)
                 # logits_distr.extend(topk_logits)

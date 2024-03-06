@@ -51,7 +51,7 @@ def train_distill(lm,
     overall_loss = 0.
     overall_step = 0
     pad_token_id = lm_tokenizer.pad_token_id
-    kl_loss = torch.nn.KLDivLoss(reduction="mean")
+    kl_loss = torch.nn.KLDivLoss(reduction="none")
 
     opt1 = torch.optim.AdamW(lm.parameters(), lr=LR)
     for e in tqdm(range(epoch), desc="epoch"):
@@ -68,15 +68,15 @@ def train_distill(lm,
             vic_logits2 = vic_logits2.to(device)  # bs, sql, 5
             vic_logits2 = torch.exp(vic_logits2)
 
+            # print("victim_logits: ", vic_logits2)
             idxs2_dist = idxs2_dist.to(device)
 
             print("idx2text: ", lm_tokenizer.decode(idxs2[0]))
 
             logits2 = lm(idxs2).logits[:, :-1, :]
-            # logits2 = torch.softmax(logits2, dim=-1)
 
             logits2_dist = torch.gather(logits2, 2, idxs2_dist)
-            logits2_dist = torch.log_softmax(logits2_dist, dim=-1)
+            logits2_dist = F.log_softmax(logits2_dist, dim=-1)
             
 
             # logits_hard=torch.sum(mask2[:, :-1]
@@ -86,11 +86,13 @@ def train_distill(lm,
             #         logits2_dist/(vic_logits2+epsln)
             #         + epsln))
 
-            logits_hard=kl_loss(logits2_dist, vic_logits2)
+            mask2l=mask2[:,:-1].unsqueeze(-1).expand(-1, -1, 5)
+            logits_hard=(kl_loss(logits2_dist,
+                                 vic_logits2)*mask2l).mean()
 
             logits2new = lm(idxs2).logits[:, :-1, :]
-            logits2new = torch.softmax(logits2new, dim=-1)
             logits2_distnew = torch.gather(logits2new, 2, idxs2_dist)
+            logits2new = torch.softmax(logits2_distnew, dim=-1)
 
             logits2_distnew=logits2_distnew/temperature
             vic_logits2new=vic_logits2/temperature
@@ -104,7 +106,8 @@ def train_distill(lm,
             #         logits2_dist/(vic_logits2+epsln)
             #         + epsln))
 
-            loss_logits=kl_loss(logits2newnew, vic_logits2new)
+            loss_logits=(kl_loss(logits2newnew,
+                                 vic_logits2new)*mask2l).mean()
 
             overall_loss += loss_logits+logits_hard
 

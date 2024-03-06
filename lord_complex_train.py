@@ -51,7 +51,7 @@ def complex_train_one_period(args, lm,
     overall_loss = 0.
     overall_step = 0
     pad_token_id = lm_tokenizer.pad_token_id
-    kl_loss = torch.nn.KLDivLoss(reduction="mean")
+    kl_loss = torch.nn.KLDivLoss(reduction="none")
 
     opt1 = torch.optim.AdamW(lm.parameters(), lr=LR)
     for e in tqdm(range(epoch), desc="epoch"):
@@ -97,7 +97,7 @@ def complex_train_one_period(args, lm,
 
             loss_constractive_good = -torch.sum(
             (logits2_cons*2 -
-            vic_logits2[:, :, 0]+old_logits2)*mask2[:, :-1])
+            vic_logits2[:, :, 0]-old_logits2)*mask2[:, :-1])
 
             loss_constractive_past = -torch.sum(
                 (old_logits1-2*logits1) * mask1[:, :-1])
@@ -117,7 +117,9 @@ def complex_train_one_period(args, lm,
                                           /args.temperature,
                                       dim=-1)
             # KL-Divengence
-            loss_logits=kl_loss(logits2_dist, vic_logits2)
+            mask2l=mask2[:,:-1].unsqueeze(-1).expand(-1, -1, 5)
+            loss_logits=(kl_loss(logits2_dist,
+                                 vic_logits2)*mask2l).mean()
             # loss_logits = beta *\
             #     torch.sum(mask2[:, :-1]
             #               .unsqueeze(-1)
