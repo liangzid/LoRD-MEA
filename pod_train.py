@@ -204,10 +204,10 @@ def train_pod(lm,
     ITER_num = args.period_num
     tb_writer = SummaryWriter(log_dir=args.save_path+"___log_writer")
     p_ls, idx2ls, logits2ls, idx2_dist = raw_train_datals
-    print(lm_tokenizer.decode(p_ls[0]),lm_tokenizer.decode(p_ls[1]),
-                       lm_tokenizer.decode(p_ls[2]))
-    print(lm_tokenizer.decode(idx2ls[0]),lm_tokenizer.decode(idx2ls[1]),
-                       lm_tokenizer.decode(idx2ls[2]))
+    # print(lm_tokenizer.decode(p_ls[0]),lm_tokenizer.decode(p_ls[1]),
+    #                    lm_tokenizer.decode(p_ls[2]))
+    # print(lm_tokenizer.decode(idx2ls[0]),lm_tokenizer.decode(idx2ls[1]),
+    #                    lm_tokenizer.decode(idx2ls[2]))
     for iter_idx in range(ITER_num):
         tensorboard_name = f"Period {iter_idx}"
         idxs1_ls = []
@@ -225,13 +225,15 @@ def train_pod(lm,
                                         max_length=args.max_length,
                                         # early_stopping=True,
                                         max_new_tokens=max_new_tokens,
-                                        temperature=args.temperature)
+                                        # temperature=args.temperature,
+                                        )
                 else:
                     idxs1 = lm.generate(prompt,
                                         do_sample=True,
                                         max_length=args.max_length,
                                         # early_stopping=True,
-                                        temperature=args.temperature)
+                                        # temperature=args.temperature,
+                                        )
 
                 bs, sqqql = idxs1.shape
                 # print(idxs1)

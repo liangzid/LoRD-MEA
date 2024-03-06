@@ -66,7 +66,7 @@ def load_glue_datals(lm_tokenizer,
 
     }
     task_prompt_map = {
-        "cola": "In your role as a grammar check tool, assess the following sentence and classify it as 'acceptable' if it is grammatically correct or 'unacceptable' if it is incorrect.",
+        "cola": "Assess the following sentence and classify it as 'acceptable' or 'unacceptable'.",
         "mnli": "In your role as an entailment analysis tool, assess the relationship between the given sentences and classify it as 'entailment', 'neutral', or 'contradiction'.",
         "mrpc": "As a semantic comparison expert, evaluate the given pair of sentences and determine if they are 'equivalent' or 'not_equivalent'.",
         "qnli": "As a language expert, assess if the given context entails the answer to the question and respond with 'entailment' or 'not_entailment'.",
@@ -84,7 +84,9 @@ def load_glue_datals(lm_tokenizer,
     V = lm_tokenizer.vocab_size
     dataset_name = "glue"
     trainset_text = load_dataset(dataset_name, task_name,
-                                 split=f"train[:{train_num}]")
+                                 split=f"train")\
+    .shuffle(seed=20240306).to_iterable_dataset().take(train_num)
+    
 
     sets=trainset_text
     inp_ls = []
@@ -130,8 +132,8 @@ def load_glue_datals(lm_tokenizer,
         text2ls = []
         idx2_dist_ls = []
         probsls = []
-        iii_bgn = 0
-        for q in tqdm(inp_ls, desc="ChatGPT Inference:"):
+        for iii_bgn,q in tqdm(enumerate(inp_ls),
+                              desc="ChatGPT Inference:"):
             qd = [{"role": "system", "content": "Instruction: "+pp},
                   {"role": "user", "content": q}]
             res = chatWithOpenAI__LogLogits(
@@ -211,7 +213,6 @@ def load_glue_datals(lm_tokenizer,
             probsls.append(logits_distr)
             text2ls.append(idx2)
             idx2_dist_ls.append(idx2_dist)
-            iii_bgn+=1
 
         with open(openai_tmp_save_pth,
                   'wb') as f:
@@ -313,6 +314,7 @@ def infer_glue(modelname,task_name,res_pth):
             .to_iterable_dataset().take(test_set_take_num)
         else:
             sets = dataset["validation"]
+        sets=sets.shuffle(seed=20240307)
         iii=0
         for d in tqdm(sets):
             iii+=1
@@ -492,11 +494,23 @@ if __name__ == "__main__":
     # tokenizer = AutoTokenizer.from_pretrained("google/gemma-2b")
     # res = load_glue_datals(tokenizer,
     #                        "cola",
-    #                        train_num=10,
+    #                        train_num=3,
     #                        model_name="gpt-3.5-turbo-1106",
     #                        topk=5,
     #                        max_length=1024,
     #                        openai_tmp_save_pth="./temp.pkl.deletethis.txt",
     #                        )
+    # prompt=res[0]
+    # text2=res[1]
+    # print("-------------------------")
+    # print(tokenizer.decode(prompt[0]))
+    # print(tokenizer.decode(text2[0]))
+    # print("-------------------------")
+    # print(tokenizer.decode(prompt[1]))
+    # print(tokenizer.decode(text2[1]))
+    # print("-------------------------")
+    # print(tokenizer.decode(prompt[2]))
+    # print(tokenizer.decode(text2[2]))
+    # print("-------------------------")
 
     evaluation_datas()

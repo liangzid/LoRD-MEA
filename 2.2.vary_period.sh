@@ -28,18 +28,18 @@ export msl=256
 export task_ls=("cola" "mnli" "mrpc" "qnli" "qqp" "rte" "sst2" "wnli")
 
 export task="cola"
-export train_task="lord"
+export train_task="reinforce-lord"
 # export train_task="kd"
 export epoch=3
-export period=10
+export period=8
 export beta=0.5
-export temperature=0.8
+export temperature=2.0
 export batch_size=1
 
 export use_old_logits=1
 export use_vic_logits=1
 export use_kld=1
-export use_entropy=1
+export use_entropy=0
 
 export train_num=20
 
