@@ -211,6 +211,7 @@ def load_glue_datals(lm_tokenizer,
             probsls.append(logits_distr)
             text2ls.append(idx2)
             idx2_dist_ls.append(idx2_dist)
+            iii_bgn+=1
 
         with open(openai_tmp_save_pth,
                   'wb') as f:

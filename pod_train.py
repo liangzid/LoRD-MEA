@@ -119,7 +119,7 @@ def train_one_period(args, lm,
             loss_constractive = loss_constractive_good \
                 + loss_constractive_past
 
-            loss_constractive = sigmoid(loss_constractive)
+            # loss_constractive = sigmoid(loss_constractive)
 
             vic_logits2=torch.softmax(vic_logits2/args.temperature,
                                       dim=-1)
@@ -135,7 +135,8 @@ def train_one_period(args, lm,
 
 
             if args.use_entropy=="1":
-                loss_entropy=-torch.sum(logits2*torch.log2(logits2))\
+                loss_entropy=torch.sum(logits2*\
+                                        torch.log2(logits2+epsln))\
                 /torch.sum(mask2)
             else:
                 loss_entropy=0.
@@ -203,6 +204,10 @@ def train_pod(lm,
     ITER_num = args.period_num
     tb_writer = SummaryWriter(log_dir=args.save_path+"___log_writer")
     p_ls, idx2ls, logits2ls, idx2_dist = raw_train_datals
+    print(lm_tokenizer.decode(p_ls[0]),lm_tokenizer.decode(p_ls[1]),
+                       lm_tokenizer.decode(p_ls[2]))
+    print(lm_tokenizer.decode(idx2ls[0]),lm_tokenizer.decode(idx2ls[1]),
+                       lm_tokenizer.decode(idx2ls[2]))
     for iter_idx in range(ITER_num):
         tensorboard_name = f"Period {iter_idx}"
         idxs1_ls = []
@@ -319,6 +324,20 @@ def train_pod(lm,
         elif args.task=="Complex-lord":
             from lord_complex_train import complex_train_one_period as ct
             lm = ct(args, lm,
+                    lm_tokenizer,
+                    loader,
+                    args.epoch, args.device,
+                    tb_writer,
+                    tensorboard_name,
+                    args.save_path,
+                    args.LR,
+                    args.acc_step, args.log_step,
+                    args.save_step,
+                    args.beta,
+                    )
+        elif args.task=="reinforce-lord":
+            from lord_reinforce_train import reinforce_train_one_period
+            lm = reinforce_train_one_period(args, lm,
                     lm_tokenizer,
                     loader,
                     args.epoch, args.device,
