@@ -154,6 +154,8 @@ def load_glue_datals(lm_tokenizer,
                 p_idxls[iii_bgn][1:],
                 num_classes=V,
             ).float()
+            # logits_distr[logits_distr<1e-9]=1e-10
+            logits_distr=torch.log(logits_distr)
 
             idx2_dist = [[x,] for x in idx2]
             for i in range(len(idx2_dist)):

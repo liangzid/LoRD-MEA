@@ -50,6 +50,8 @@ def my_padding_logits(ts_lss:List[torch.tensor], msl, pad_idx,):
     V=ts_lss[0].shape[1]
     target_tensor=(torch.ones((num, msl, V),
                              dtype=torch.float)*1/V).to("cpu")
+    target_tensor=torch.log(target_tensor)
+
     for i, ts in enumerate(ts_lss):
         end_idx=min(msl, len(ts))
         target_tensor[i, :end_idx]=ts[:end_idx]
