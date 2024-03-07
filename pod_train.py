@@ -506,7 +506,7 @@ def main():
                 raw_train_datals,
                 max_new_tokens=16,
             )
-        elif args.task=="kd":
+        elif args.task in ["kd", "vanilla"]:
             print("TRAIN WITH KD~~~")
             p_ls, idx2ls, logits2ls, idx2_dist = raw_train_datals
             max_token_num = min(args.max_length,
@@ -558,20 +558,37 @@ def main():
                                       "___log_writer")
             tensorboard_name="nothing"
 
-            from supervised_distillation import train_distill
-            train_distill(
-                lm,
-                lm_tokenizer,
-                loader,
-                args.epoch,args.device,
-                tb_writer,
-                tensorboard_name,
-                args.save_path,
-                args.LR,
-                args.acc_step, args.log_step,
-                args.save_step,
-                args.temperature,
-            )
+            if args.task=="kd":
+                from supervised_distillation import train_distill
+                train_distill(
+                    lm,
+                    lm_tokenizer,
+                    loader,
+                    args.epoch,args.device,
+                    tb_writer,
+                    tensorboard_name,
+                    args.save_path,
+                    args.lr,
+                    args.acc_step, args.log_step,
+                    args.save_step,
+                    args.temperature,
+                )
+
+            elif args.task=="vanilla":
+                from supervised_training import train_supervised
+                train_supervised(
+                    lm,
+                    lm_tokenizer,
+                    loader,
+                    args.epoch,args.device,
+                    tb_writer,
+                    tensorboard_name,
+                    args.save_path,
+                    args.lr,
+                    args.acc_step, args.log_step,
+                    args.save_step,
+                    args.temperature,
+                )
     else:
         raw_train_datals = load_steal_datals(tokenizer,
                                              max_length=args.max_length)
