@@ -36,6 +36,15 @@ def clip(tnsr, epsilon):
                      )
     return tnsr
 
+def log_clip(tnsr, epsilon=0.2):
+    one_tensor=torch.ones_like(tnsr)
+    one_tensor=one_tensor.to(tnsr.device)
+    tnsr = torch.min(tnsr, torch.log(one_tensor*(1+epsilon))
+                     )
+    tnsr = torch.max(tnsr, torch.log(one_tensor*(1-epsilon))
+                     )
+    return tnsr
+
 
 def train_one_period(lm, vmodel,
                      lm_tokenizer,

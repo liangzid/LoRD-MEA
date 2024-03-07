@@ -34,7 +34,7 @@ from sequence_utils import my_padding_logit
 
 import torch.nn.functional as F
 
-from rlhf_train import clip
+from rlhf_train import clip, log_clip
 
 def train_one_period(args, lm,
                      lm_tokenizer,
@@ -98,28 +98,32 @@ def train_one_period(args, lm,
             logits2_cons = logits2[torch.arange(bs).unsqueeze(1),
                                    torch.arange(sqlen-1).unsqueeze(0),
                                    idxs2[:, 1:sqlen]]
-
-            with torch.no_grad():
-                logits2 = lm(idxs2).logits[:, :-1, :]
-                logits2 = F.log_softmax(logits2, dim=-1)
-                logits2_cons1 = logits2[torch.arange(bs).unsqueeze(1),
-                                   torch.arange(sqlen-1).unsqueeze(0),
-                                   idxs2[:, 1:sqlen]]
             logits2_dist = torch.gather(logits2, 2, idxs2_dist)
 
+            # with torch.no_grad():
+            #     logits2 = lm(idxs2).logits[:, :-1, :]
+            #     logits2 = F.log_softmax(logits2, dim=-1)
+            #     logits2_cons1 = logits2[torch.arange(bs).unsqueeze(1),
+            #                        torch.arange(sqlen-1).unsqueeze(0),
+            #                        idxs2[:, 1:sqlen]]
+
             if method_type=="2":
+                loss_vic=logits2_cons-old_logits2
+                loss_vic=log_clip(loss_vic)
                 loss_vic = torch.sum(
-                (logits2_cons - old_logits2,
+                (loss_vic,
                     )*mask2[:, :-1])
 
-                loss_reward=torch.sum(logits2_cons1*mask2[:,:-1])\
+                loss_reward=torch.sum(logits2_cons*mask2[:,:-1])\
                     -torch.sum(logits1*mask1[:,:-1])
             elif method_type=="1":
+                loss_vic=logits2_cons-old_logits2
+                loss_vic=log_clip(loss_vic)
                 loss_vic = torch.sum(
-                (logits2_cons-old_logits2)*mask2[:, :-1])
+                (loss_vic)*mask2[:, :-1])
 
                 loss_reward=torch.sum(
-                    (logits2_cons1- vic_logits2[:,:,0])*mask2[:,:-1])\
+                    (logits2_cons- vic_logits2[:,:,0])*mask2[:,:-1])\
                     -torch.sum((logits1-old_logits1)\
                                *mask1[:,:-1])
 
