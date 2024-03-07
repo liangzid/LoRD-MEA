@@ -5,6 +5,15 @@ SUPERVISED_TRAINING ---
 The most straightforward version: directly training with supervised
 learning.
 
+
+Convergence Problem of Supervised Training:
+1. Not about the mask.
+2. Not about the KL divergence.
+3. Any Others?
+
+Even input the training data the models cannot generate the responses
+which are making sense. Quite strange.
+
     Author: Zi Liang <zi1415926.liang@connect.polyu.hk>
     Copyright © 2024, ZiLiang, all rights reserved.
     Created:  7 March 2024
@@ -50,6 +59,7 @@ def train_supervised(lm,
                      temperature=1.0,
                   epsln=1e-6,
                      ):
+    print("VVVAAANNNIIILLLAAA---TRAIN!!!")
     overall_loss = 0.
     overall_step = 0
     pad_token_id = lm_tokenizer.pad_token_id
@@ -70,16 +80,22 @@ def train_supervised(lm,
             # logits2 = lm(idxs2).logits[:, :-1, :]
             # logits_hard = ce(logits2, idxs2[:,1:])
 
-            logits_hard = lm(idxs2, attention_mask=mask2).loss
+            logits_hard = lm(idxs2,
+                             # attention_mask=mask2,
+                             labels=idxs2,
+                             ).loss
+
+            # print(logits_hard)
 
             overall_loss += logits_hard
 
             if overall_step % log_step == 0:
-                print(" LOSS: {}, Hard: {}, Soft: {}".format(
+                print(" LOSS: {}".format(
                     overall_loss,
-                    logits_hard,
-                    loss_logits,
+                    # logits_hard,
+                    # loss_logits,
                 ))
+
                 tb_writer.add_scalar("loss", overall_loss.item(),
                                      overall_step)
 

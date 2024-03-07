@@ -30,11 +30,12 @@ export task_ls=("cola" "mnli" "mrpc" "qnli" "qqp" "rte" "sst2" "wnli")
 
 export task="cola"
 # export train_task="lord"
-export train_task="kd"
+# export train_task="kd"
+export train_task="vanilla"
 export epoch=3
 export period=10
 export beta=1.0
-export temperature=3.0
+export temperature=2.0
 export batch_size=1
 
 export use_old_logits=1
@@ -44,7 +45,7 @@ export use_kld=1
 export train_num=100
 
 # export train_task="kd"
-export save_path="${POD_save_dir}kd_3Epoch${train_task}_${msl}${task}"
+export save_path="${POD_save_dir}${task}_3Epoch${train_task}_${msl}${task}"
 
 $python pod_train.py\
 	--device="cuda" \

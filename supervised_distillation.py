@@ -48,6 +48,7 @@ def train_distill(lm,
                      temperature=1.0,
                   epsln=1e-6,
                      ):
+    print("TRAIN-----DISTILL!!!")
     overall_loss = 0.
     overall_step = 0
     pad_token_id = lm_tokenizer.pad_token_id
