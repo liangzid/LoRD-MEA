@@ -436,7 +436,6 @@ def evaluation_datas():
         ## original
         ["cola","google/gemma-2b"],
         ## ablation study
-        ["cola","./POD_SAVE_CKPTs/kd_7Epochkd_256cola___finally"],
         ["cola","./POD_SAVE_CKPTs/kd_3Epochkd_256cola___finally"],
 
         ## vary periods

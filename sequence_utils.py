@@ -23,14 +23,13 @@ def my_padding(ts_ls:List[torch.tensor], pls, msl, pad_idx,):
     mask_tensor=torch.zeros((num, msl)).to("cpu")
     assert len(ts_ls)==len(pls)
     for i, ts in enumerate(ts_ls):
-        end_idx=min(msl, len(ts))
-        prompt_idx=min(msl,len(pls[i]))
-        target_tensor[i, :end_idx]=torch.tensor(ts[:end_idx],
+        end_idx=min(msl, len(ts)+1)
+        prompt_idx=min(msl,len(pls[i])-2)
+        target_tensor[i, :end_idx-1]=torch.tensor(ts[:end_idx-1],
                                                 dtype=torch.long)
-        mask_tensor[i, :end_idx]=torch.ones_like(target_tensor[i,
-                                                               :end_idx])
-        mask_tensor[i, :prompt_idx]=torch.zeros_like(target_tensor[i,
-                                                    :prompt_idx])
+        
+        mask_tensor[i, :end_idx]=torch.ones(end_idx)
+        mask_tensor[i, :prompt_idx]=torch.zeros(prompt_idx)
     return target_tensor, mask_tensor
 
 def my_padding_token_dist(ts_ls:List[torch.tensor], msl, pad_idx,):

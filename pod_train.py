@@ -510,6 +510,21 @@ def main():
             pad_idx = lm_tokenizer.pad_token_id
             idx2ls, mask2 = my_padding(idx2ls, p_ls,
                                        max_token_num, pad_idx)
+            # print("--DEBUG the MASK:-------")
+            # print(idx2ls[0])
+            # print(lm_tokenizer.decode(idx2ls[0]))
+            # print(lm_tokenizer.convert_ids_to_tokens(idx2ls[0]))
+            # print(mask2[0])
+            # print("--DEBUG the MASK:-------")
+            # print(idx2ls[1])
+            # print(lm_tokenizer.decode(idx2ls[1]))
+            # print(lm_tokenizer.convert_ids_to_tokens(idx2ls[1]))
+            # print(mask2[1])
+            # print("--DEBUG the MASK:-------")
+            # print(idx2ls[2])
+            # print(lm_tokenizer.decode(idx2ls[2]))
+            # print(lm_tokenizer.convert_ids_to_tokens(idx2ls[2]))
+            # print(mask2[2])
             newlogits2ls = []
             for per_data in logits2ls:
                 sl = len(per_data)

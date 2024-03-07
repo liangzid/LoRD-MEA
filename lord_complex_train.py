@@ -119,7 +119,7 @@ def complex_train_one_period(args, lm,
             # KL-Divengence
             mask2l=mask2[:,:-1].unsqueeze(-1).expand(-1, -1, 5)
             loss_logits=(kl_loss(logits2_dist,
-                                 vic_logits2)*mask2l).mean()
+                                 vic_logits2)*mask2l).mean()*beta
             # loss_logits = beta *\
             #     torch.sum(mask2[:, :-1]
             #               .unsqueeze(-1)
