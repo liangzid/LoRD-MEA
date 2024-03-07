@@ -124,7 +124,7 @@ def train_one_period(args, lm,
 
                 loss_reward=torch.sum(
                     (logits2_cons- vic_logits2[:,:,0])*mask2[:,:-1])\
-                    -torch.sum((logits1-old_logits1)\
+                    -torch.sum(log_clip(logits1-old_logits1)\
                                *mask1[:,:-1])
 
             loss_constractive=-loss_vic-loss_reward
