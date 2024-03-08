@@ -589,15 +589,14 @@ def main():
                     args.save_step,
                     args.temperature,
                 )
+            else:
+                print("ERROR: Nothing to be trained.")
+        else:
+            print("ERROR: Nothing to be trained.")
+
     else:
-        raw_train_datals = load_steal_datals(tokenizer,
-                                             max_length=args.max_length)
-        print("Data LOADING done.")
-        train_pod(
-            lm,
-            lm_tokenizer,
-            args,
-            raw_train_datals)
+        print("ERROR: Nothing to be trained.")
+        return -1
 
     print("EVERYTHING in the TRAINING now DONE.")
 

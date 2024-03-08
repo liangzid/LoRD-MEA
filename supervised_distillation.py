@@ -72,7 +72,7 @@ def train_distill(lm,
             # print("victim_logits: ", vic_logits2)
             idxs2_dist = idxs2_dist.to(device)
 
-            print("idx2text: ", lm_tokenizer.decode(idxs2[0]))
+            # print("idx2text: ", lm_tokenizer.decode(idxs2[0]))
 
             logits2 = lm(idxs2).logits[:, :-1, :]
 

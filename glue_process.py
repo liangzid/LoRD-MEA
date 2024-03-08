@@ -312,11 +312,13 @@ def infer_glue(modelname,task_name,res_pth):
     res_ls = []
     if task_name in single_input_tasks:
         if len(dataset["validation"]) > test_set_take_num:
-            sets = dataset["validation"]\
+            sets = dataset["validation"].shuffle(20240307)\
             .to_iterable_dataset().take(test_set_take_num)
+            # sets = dataset["train"].shuffle(20240306)\
+            # .to_iterable_dataset().take(test_set_take_num)
         else:
             sets = dataset["validation"]
-        sets=sets.shuffle(seed=20240307)
+        # sets=sets.shuffle(seed=20240307)
         iii=0
         for d in tqdm(sets):
             iii+=1
@@ -327,11 +329,12 @@ def infer_glue(modelname,task_name,res_pth):
             label = task_label_map[task_name][str(label)]
             final_inps="Instruction: " + prompt +\
                                " User: "+inps+" Assistant: "
+            print("Inps: ", final_inps)
             res = gen_pipeline(final_inps,
                                max_new_tokens=16,)[0]["generated_text"]
             res=res.split(final_inps)[1]
             res_ls.append((res, label))
-            print(res)
+            print("Generations: ", res)
             # break
 
     elif task_name == "mnli":
@@ -434,13 +437,22 @@ def evaluation_datas():
     test_task_ckpt_ls=[
 
         ## original
-        ["cola","google/gemma-2b"],
-        ## ablation study
-        ["cola","./POD_SAVE_CKPTs/kd_3Epochkd_256cola___finally"],
+        # ["cola","google/gemma-2b"],
 
-        ## vary periods
-        ["cola",
-         "./POD_SAVE_CKPTs/vary_period/Complex-lord_256cola___period0"],
+        ## ablation study
+        # ["cola","./POD_SAVE_CKPTs/kd_3Epochkd_256cola___finally"],
+        ["cola","./POD_SAVE_CKPTs/cola_3Epochvanilla_256cola___finally/"],
+        ["cola","./POD_SAVE_CKPTs/cola_3Epochkd_256cola___finally/"],
+
+        # ## vary periods
+        # ["cola",
+        #  "./POD_SAVE_CKPTs/vary_period0306cola/Complex-lord_256cola___period2"],
+        # ["cola",
+        #  "./POD_SAVE_CKPTs/vary_period0306cola/reinforce-lord_256cola___period2"],
+        # ["cola",
+        #  "./POD_SAVE_CKPTs/vary_period0306cola/Complex-lord_256cola___period1"],
+        # ["cola",
+        #  "./POD_SAVE_CKPTs/vary_period0306cola/reinforce-lord_256cola___period1"],
 
         ]
     res_dict={}
