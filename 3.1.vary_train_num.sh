@@ -103,56 +103,14 @@ do
     # 	--from_path=$from_path \
     # 	--save_path=$save_path
 
-    echo "====================================================="
-    echo "+++++++USING TRAIN SET NUM: ${TRAIN_NUM}+++++++"
-    echo "+++++++TRAIN WITH: lord+++++++"
-    export from_path="google/gemma-2b"
-    export msl=256
-    export task_ls=("cola" "mnli" "mrpc" "qnli" "qqp" "rte" "sst2" "wnli")
-    export task="cola"
-    export train_task="lord"
-    export epoch=3
-    export period=10
-    export beta=1.0
-    export temperature=2.0
-    export batch_size=1
-    export use_old_logits=1
-    export use_vic_logits=1
-    export use_kld=0
-    export use_entropy=0
-
-    export save_path="${POD_save_dir}${task}${train_num}${train_task}${msl}${task}"
-
-    $python pod_train.py\
-	--device="cuda" \
-	--epoch=$epoch \
-	--period_num=$period \
-	--acc_step=1 \
-	--log_step=50 \
-	--save_step=100000 \
-	--train_num=$train_num \
-	--LR="3e-5" \
-	--beta=$beta \
-	--temperature=$temperature \
-	--batch_size=$batch_size \
-	--task=$train_task \
-	--use_old_logits=$use_old_logits\
-	--use_vic_logits=$use_vic_logits\
-	--use_kld=$use_kld\
-	--max_length=$msl \
-	--dataset_task=$task \
-	--from_path=$from_path \
-	--save_path=$save_path
-
-
     # echo "====================================================="
     # echo "+++++++USING TRAIN SET NUM: ${TRAIN_NUM}+++++++"
-    # echo "+++++++TRAIN WITH: Complex-lord+++++++"
+    # echo "+++++++TRAIN WITH: lord+++++++"
     # export from_path="google/gemma-2b"
     # export msl=256
     # export task_ls=("cola" "mnli" "mrpc" "qnli" "qqp" "rte" "sst2" "wnli")
     # export task="cola"
-    # export train_task="Complex-lord"
+    # export train_task="lord"
     # export epoch=3
     # export period=10
     # export beta=1.0
@@ -185,6 +143,48 @@ do
     # 	--dataset_task=$task \
     # 	--from_path=$from_path \
     # 	--save_path=$save_path
+
+
+    echo "====================================================="
+    echo "+++++++USING TRAIN SET NUM: ${TRAIN_NUM}+++++++"
+    echo "+++++++TRAIN WITH: Complex-lord+++++++"
+    export from_path="google/gemma-2b"
+    export msl=256
+    export task_ls=("cola" "mnli" "mrpc" "qnli" "qqp" "rte" "sst2" "wnli")
+    export task="cola"
+    export train_task="Complex-lord"
+    export epoch=3
+    export period=3
+    export beta=1.0
+    export temperature=2.0
+    export batch_size=1
+    export use_old_logits=1
+    export use_vic_logits=1
+    export use_kld=0
+    export use_entropy=0
+
+    export save_path="${POD_save_dir}${task}${train_num}${train_task}${msl}${task}"
+
+    $python pod_train.py\
+	--device="cuda" \
+	--epoch=$epoch \
+	--period_num=$period \
+	--acc_step=1 \
+	--log_step=50 \
+	--save_step=100000 \
+	--train_num=$train_num \
+	--LR="3e-5" \
+	--beta=$beta \
+	--temperature=$temperature \
+	--batch_size=$batch_size \
+	--task=$train_task \
+	--use_old_logits=$use_old_logits\
+	--use_vic_logits=$use_vic_logits\
+	--use_kld=$use_kld\
+	--max_length=$msl \
+	--dataset_task=$task \
+	--from_path=$from_path \
+	--save_path=$save_path
 
 
     # echo "====================================================="
