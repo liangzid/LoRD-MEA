@@ -158,7 +158,7 @@ def curve_trainNums():
         for method in y_dict.keys():
             yls=y_dict[method]
             axs[i].plot(
-                periods,
+                train_numls,
                 yls,
                 label=method,
                 linewidth=lw,
@@ -181,7 +181,7 @@ def curve_trainNums():
                                    fontsize=font_size)
             axs[i].set_ylabel(ylabel,
                                    fontsize=font_size-5)
-            axs[i].set_xticks(periods, periods,
+            axs[i].set_xticks(train_numls, train_numls,
                                    rotation=48, size=font_size-4)
             axs[i].tick_params(axis='y',
                                     labelsize=font_size-6,
