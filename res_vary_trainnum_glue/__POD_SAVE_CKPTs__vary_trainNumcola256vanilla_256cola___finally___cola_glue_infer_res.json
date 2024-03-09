@@ -1,0 +1,402 @@
+[
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "This is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "Instruction: The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "1000000000000000",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence \"The teacher became angry with the students.\" is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "Those pictures of us were acceptable.",
+        "acceptable"
+    ],
+    [
+        "Instruction: The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The acceptable version is: \"The acceptable version is: 'The acceptable version is",
+        "acceptable"
+    ],
+    [
+        "1000000000000000",
+        "unacceptable"
+    ],
+    [
+        "",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "1000000000000000",
+        "acceptable"
+    ],
+    [
+        "Instruction: User: The students are studying English reads Conrad's Heart of Darkness",
+        "unacceptable"
+    ],
+    [
+        "Instruction: Assess the following sentence and classify it as 'acceptable' or '",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        " acceptable",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence \"John became rich.\" is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The bread cuts easily.",
+        "acceptable"
+    ],
+    [
+        "This sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "Instruction: The acceptable version is: \"The museum is displaying a picture of a",
+        "unacceptable"
+    ],
+    [
+        "The acceptable version is: \"Brown presented a plaque to Jones.\" The acceptable version",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "This sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "Instruction: User: The packages drive easily to New York. Assistant: User:",
+        "unacceptable"
+    ],
+    [
+        "",
+        "acceptable"
+    ],
+    [
+        "1 1 1 1 1 1 1 1 ",
+        "acceptable"
+    ],
+    [
+        "The sentence \"It loved Sandy\" is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "This sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "Instruction: Assess the following sentence and classify it as 'acceptable' or '",
+        "acceptable"
+    ],
+    [
+        " The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence \"Kim likes dogs.\" is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence \"The patient died.\" is acceptable.",
+        "acceptable"
+    ],
+    [
+        "1000000000000000",
+        "unacceptable"
+    ],
+    [
+        "Instruction: Assess the following sentence and classify it as 'acceptable' or '",
+        "acceptable"
+    ],
+    [
+        "",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "",
+        "acceptable"
+    ],
+    [
+        "The acceptable version is \"I bought Bill a book to read.\" The acceptable version",
+        "acceptable"
+    ],
+    [
+        "Instruction: The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "Instruction: The cat was bitten the mouse.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable, but it is unclear and difficult to understand.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "Instruction: The proof this set is recursive is difficult.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "This is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "1000000000000000",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The book was acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "Instruction: The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence \"I didn't have a red cent\" is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence \"John was found in the office.\" is acceptable.",
+        "acceptable"
+    ],
+    [
+        "",
+        "acceptable"
+    ],
+    [
+        "This sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "This sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "Instruction: The children are fond that they have ice cream.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "Instruction: The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence \"A chair was broken.\" is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The person confessed responsible.",
+        "unacceptable"
+    ],
+    [
+        "Instruction: User: I am both expecting to get the job and of the opinion",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The boy's did we elect guardian's employer president.",
+        "unacceptable"
+    ],
+    [
+        "",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "This is my favorite.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "Instruction: The book that I like which everyone else in the class likes was written",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The The The TheTheTheTheTheTheTheTheTheTheTheThe",
+        "acceptable"
+    ],
+    [
+        "Instruction: The only person that I like is willing to put up with is willing",
+        "acceptable"
+    ],
+    [
+        "1000000000000000",
+        "unacceptable"
+    ],
+    [
+        "The sentence \"I read some of the book.\" is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence \"We elected me.\" is acceptable.",
+        "acceptable"
+    ],
+    [
+        " The senator seems to be more corrupt, as he talks to more lobbyists.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence \"Neither of students failed.\" is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "This sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "Instruction: The sentence is acceptable.",
+        "acceptable"
+    ]
+]

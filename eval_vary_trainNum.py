@@ -157,6 +157,7 @@ def curve_trainNums():
         y_dict=res_dict[ylabel]
         for method in y_dict.keys():
             yls=y_dict[method]
+            axs[i].set_xscale("log")
             axs[i].plot(
                 train_numls,
                 yls,

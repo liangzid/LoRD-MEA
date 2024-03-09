@@ -1,0 +1,402 @@
+[
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The correct form should",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The correct form should be",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The correct form should be",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The correct form should",
+        "acceptable"
+    ],
+    [
+        "The correct form should be",
+        "acceptable"
+    ],
+    [
+        "Instruction: Assess the following sentence and classify it as 'acceptable' or 'un",
+        "unacceptable"
+    ],
+    [
+        "The correct form should be",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The correct form should be",
+        "acceptable"
+    ],
+    [
+        "The correct form should be",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The correct form should",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The correct form should",
+        "acceptable"
+    ],
+    [
+        "The",
+        "acceptable"
+    ],
+    [
+        "The sentence is unacceptable due to a",
+        "unacceptable"
+    ],
+    [
+        "The correct form should be",
+        "acceptable"
+    ],
+    [
+        "The correct",
+        "acceptable"
+    ],
+    [
+        "",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is unacceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The correct form should",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The correct form should",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The correct form should",
+        "unacceptable"
+    ],
+    [
+        "The correct form should be",
+        "acceptable"
+    ],
+    [
+        "The correct form should be",
+        "acceptable"
+    ],
+    [
+        "The sentence is unacceptable.",
+        "acceptable"
+    ],
+    [
+        "The correct form should",
+        "unacceptable"
+    ],
+    [
+        "The",
+        "unacceptable"
+    ],
+    [
+        "The sentence is not acceptable.",
+        "acceptable"
+    ],
+    [
+        "The proof this set is recursive is difficult.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The correct form should should should should should should should should should should should should should",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The correct form should be",
+        "acceptable"
+    ],
+    [
+        "The sentence is unacceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "",
+        "acceptable"
+    ],
+    [
+        "The correct form should should should should should should should should should should should should should",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The man I saw get into the cab robbed the bank.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The correct form should",
+        "acceptable"
+    ],
+    [
+        "The person was",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The idea is not acceptable.",
+        "acceptable"
+    ],
+    [
+        "The",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The correct form should should should should should should should should should should should should should",
+        "acceptable"
+    ],
+    [
+        "The",
+        "acceptable"
+    ],
+    [
+        "The correct",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The",
+        "unacceptable"
+    ],
+    [
+        "The",
+        "acceptable"
+    ],
+    [
+        "The sentence is",
+        "unacceptable"
+    ],
+    [
+        "The correct form should be",
+        "acceptable"
+    ],
+    [
+        "The sentence is correct.",
+        "acceptable"
+    ],
+    [
+        "",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The correct form should be",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is unacceptable due to a subject-verb-",
+        "acceptable"
+    ],
+    [
+        "The correct form should",
+        "unacceptable"
+    ],
+    [
+        "The correct form should be",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ]
+]

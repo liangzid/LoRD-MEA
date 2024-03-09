@@ -1,0 +1,402 @@
+[
+    [
+        "1. 2. 3. 4. 5. 6",
+        "acceptable"
+    ],
+    [
+        "Instruction: \"unacceptable.\"",
+        "acceptable"
+    ],
+    [
+        "1. 1. 1. 1. 1. 1",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "Instruction: \"The sentence is acceptable.\"",
+        "unacceptable"
+    ],
+    [
+        "1. The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "1. ",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "Instruction: \"unacceptable.\"",
+        "acceptable"
+    ],
+    [
+        "1. The sentence is unacceptable as it is not not not not not not not",
+        "acceptable"
+    ],
+    [
+        "",
+        "acceptable"
+    ],
+    [
+        "Instruction: \"The sentence is acceptable.\"",
+        "acceptable"
+    ],
+    [
+        "1. 2. 3. 4. 5. 6",
+        "unacceptable"
+    ],
+    [
+        "1. 2. 3. 4. 5. 6",
+        "unacceptable"
+    ],
+    [
+        "Instruction: \"The sentence is acceptable.\"",
+        "acceptable"
+    ],
+    [
+        "Instruction: \"unacceptable.\"",
+        "acceptable"
+    ],
+    [
+        "",
+        "unacceptable"
+    ],
+    [
+        "Instruction: \"unacceptable.\"",
+        "acceptable"
+    ],
+    [
+        "1. The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "Instruction: \"unacceptable.\"",
+        "acceptable"
+    ],
+    [
+        "1. 2. 3. 4. 5. 6",
+        "acceptable"
+    ],
+    [
+        "1. ",
+        "acceptable"
+    ],
+    [
+        "",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "",
+        "acceptable"
+    ],
+    [
+        "unacceptable.",
+        "acceptable"
+    ],
+    [
+        "Instruction: \"It is painting by K",
+        "unacceptable"
+    ],
+    [
+        "1. 1. 1. 1. 1. 1",
+        "acceptable"
+    ],
+    [
+        "unacceptable.",
+        "acceptable"
+    ],
+    [
+        "Instruction: Assess the following sentence and classify it as 'unacceptable' or '",
+        "unacceptable"
+    ],
+    [
+        "Instruction: \"unacceptable.\"",
+        "unacceptable"
+    ],
+    [
+        "",
+        "acceptable"
+    ],
+    [
+        "Instruction: \"unacceptable.\"",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "1. 1. 1. 1. 1. 1",
+        "acceptable"
+    ],
+    [
+        "Instruction: \"The sentence is acceptable.\"",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "Instruction: \"unacceptable.\"",
+        "acceptable"
+    ],
+    [
+        "1. 2. 3. 4. 5. 6",
+        "acceptable"
+    ],
+    [
+        "",
+        "acceptable"
+    ],
+    [
+        "1. The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "Instruction: \"This sentence is unacceptable as it is not grammatically correct and may",
+        "unacceptable"
+    ],
+    [
+        "",
+        "acceptable"
+    ],
+    [
+        "1. The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "",
+        "unacceptable"
+    ],
+    [
+        "",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "Instruction: \"unacceptable.\"",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "Instruction: The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "",
+        "unacceptable"
+    ],
+    [
+        "1. 1. 1. 1. 1. 1",
+        "acceptable"
+    ],
+    [
+        "Instruction: \"unacceptable.\"",
+        "unacceptable"
+    ],
+    [
+        "1. The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "",
+        "acceptable"
+    ],
+    [
+        "",
+        "unacceptable"
+    ],
+    [
+        "",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "",
+        "acceptable"
+    ],
+    [
+        "1. 2. 3. 4. 5. 6",
+        "acceptable"
+    ],
+    [
+        "Instruction: \"unacceptable.\"",
+        "acceptable"
+    ],
+    [
+        "Instruction: \"unacceptable.\"",
+        "unacceptable"
+    ],
+    [
+        "1 will work on it if Sam will be working on it.",
+        "acceptable"
+    ],
+    [
+        "1. ",
+        "acceptable"
+    ],
+    [
+        "",
+        "acceptable"
+    ],
+    [
+        "1. The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "1. The man I saw get into the cab robbed the bank. 2",
+        "acceptable"
+    ],
+    [
+        "Instruction: \"unacceptable.\"",
+        "unacceptable"
+    ],
+    [
+        "1. ",
+        "acceptable"
+    ],
+    [
+        "The person confessed responsible.",
+        "unacceptable"
+    ],
+    [
+        "",
+        "acceptable"
+    ],
+    [
+        "Instruction: The sentence is unacceptable as it is not grammatically correct and may not",
+        "acceptable"
+    ],
+    [
+        "Instruction: \"The sentence is acceptable.\"",
+        "unacceptable"
+    ],
+    [
+        "Instruction: \"",
+        "acceptable"
+    ],
+    [
+        "5 o'clock is acceptable.",
+        "acceptable"
+    ],
+    [
+        "1. ",
+        "acceptable"
+    ],
+    [
+        "1. The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "1. 1. 1. 1. 1. 1",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "",
+        "unacceptable"
+    ],
+    [
+        "1. ",
+        "acceptable"
+    ],
+    [
+        "1. The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is unacceptable as it should be corrected to: \"Some of them made",
+        "acceptable"
+    ],
+    [
+        "Instruction: \"",
+        "unacceptable"
+    ],
+    [
+        "1. 2. 3. 4. 5. 6",
+        "acceptable"
+    ],
+    [
+        "1 is not clear what they had settled on.",
+        "acceptable"
+    ],
+    [
+        "1. 1. 1. 1. 1. 1",
+        "acceptable"
+    ],
+    [
+        "Instruction: \"The sentence is acceptable.\"",
+        "acceptable"
+    ],
+    [
+        "Instruction: The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "1. 2. 3. 4. 5. 6",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "1. The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "Instruction: \"unacceptable.\"",
+        "unacceptable"
+    ],
+    [
+        "1. 2. 2. 2. 2. 2",
+        "unacceptable"
+    ],
+    [
+        "Instruction: \"The sentence is acceptable.\"",
+        "unacceptable"
+    ],
+    [
+        "Instruction: \"The sentence is acceptable.\"",
+        "acceptable"
+    ]
+]
