@@ -437,24 +437,72 @@ def evaluation_datas():
     test_task_ckpt_ls=[
 
         ## original
-        # ["cola","google/gemma-2b"],
+        ["cola","google/gemma-2b"],
 
         ## ablation study
         # ["cola","./POD_SAVE_CKPTs/kd_3Epochkd_256cola___finally"],
         ["cola","./POD_SAVE_CKPTs/cola_3Epochvanilla_256cola___finally/"],
         ["cola","./POD_SAVE_CKPTs/cola_3Epochkd_256cola___finally/"],
 
-        # ## vary periods
-        # ["cola",
-        #  "./POD_SAVE_CKPTs/vary_period0306cola/Complex-lord_256cola___period2"],
-        # ["cola",
-        #  "./POD_SAVE_CKPTs/vary_period0306cola/reinforce-lord_256cola___period2"],
-        # ["cola",
-        #  "./POD_SAVE_CKPTs/vary_period0306cola/Complex-lord_256cola___period1"],
-        # ["cola",
-        #  "./POD_SAVE_CKPTs/vary_period0306cola/reinforce-lord_256cola___period1"],
+        # ## method comparison
+        ["cola",
+         "./POD_SAVE_CKPTs/vary_period0306cola/Complex-lord_256cola___period0"],
+        ["cola",
+         "./POD_SAVE_CKPTs/vary_period0306cola/Complex-lord_256cola___period1"],
+        ["cola",
+         "./POD_SAVE_CKPTs/vary_period0306cola/Complex-lord_256cola___period2"],
 
+
+
+        ["cola",
+         "./POD_SAVE_CKPTs/vary_period0306cola/lord_256cola___period0"],
+        ["cola",
+         "./POD_SAVE_CKPTs/vary_period0306cola/lord_256cola___period1"],
+        ["cola",
+         "./POD_SAVE_CKPTs/vary_period0306cola/lord_256cola___period2"],
+
+
+        ["cola",
+         "./POD_SAVE_CKPTs/vary_period0306cola/reinforce-lord_256cola___period0"],
+        ["cola",
+         "./POD_SAVE_CKPTs/vary_period0306cola/reinforce-lord_256cola___period1"],
+        ["cola",
+         "./POD_SAVE_CKPTs/vary_period0306cola/reinforce-lord_256cola___period2"],
+
+
+        # varying periods
+        ["cola",
+         "./POD_SAVE_CKPTs/vary_period_complex/Complex-lord256cola1100___period0"
+         ],
+        ["cola",
+         "./POD_SAVE_CKPTs/vary_period_complex/Complex-lord256cola1100___period1"
+         ],
+        ["cola",
+         "./POD_SAVE_CKPTs/vary_period_complex/Complex-lord256cola1100___period2"
+         ],
+        ["cola",
+         "./POD_SAVE_CKPTs/vary_period_complex/Complex-lord256cola1100___period3"
+         ],
+        ["cola",
+         "./POD_SAVE_CKPTs/vary_period_complex/Complex-lord256cola1100___period4"
+         ],
+        ["cola",
+         "./POD_SAVE_CKPTs/vary_period_complex/Complex-lord256cola1100___period5"
+         ],
+        ["cola",
+         "./POD_SAVE_CKPTs/vary_period_complex/Complex-lord256cola1100___period6"
+         ],
+        ["cola",
+         "./POD_SAVE_CKPTs/vary_period_complex/Complex-lord256cola1100___period7"
+         ],
+        ["cola",
+         "./POD_SAVE_CKPTs/vary_period_complex/Complex-lord256cola1100___period8"
+         ],
+        ["cola",
+         "./POD_SAVE_CKPTs/vary_period_complex/Complex-lord256cola1100___period9"
+         ],
         ]
+    
     res_dict={}
     dir_p="./glue_res/"
     if not os.path.exists(dir_p):

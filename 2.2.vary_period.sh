@@ -28,11 +28,11 @@ export msl=256
 export task_ls=("cola" "mnli" "mrpc" "qnli" "qqp" "rte" "sst2" "wnli")
 
 export task="cola"
-# export train_task="reinforce-lord"
-echo "Also, determine to use the `complex-lord`, or the `lord`. Which one is the best."
+# echo "Also, determine to use the `complex-lord`, or the `lord`. Which one is the best."
+# echo "Test complex-version first."
+
 export train_task="Complex-lord"
-export train_task="lord"
-# export train_task="kd"
+# export train_task="lord"
 export epoch=3
 export period=10
 export beta=0.5
@@ -47,7 +47,7 @@ export use_entropy=0
 export train_num=100
 
 # export train_task="kd"
-export save_path="${POD_save_dir}vary_period/${train_task}${msl}${task}${use_old_logits}${use_vic_logits}${use_kld}${use_entropy}"
+export save_path="${POD_save_dir}vary_period_complex/${train_task}${msl}${task}${use_old_logits}${use_vic_logits}${use_kld}${use_entropy}"
 
 $python pod_train.py\
 	--device="cuda" \
