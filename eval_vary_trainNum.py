@@ -127,7 +127,7 @@ def curve_trainNums():
                 pth+="finally"
             else:
                 pth=prefix+f"{task}{tn}{m}256{task}___"
-                pth+="period0"
+                pth+="period2"
             paths_dict[m].append(pth)
 
             res_pth = pth+f"___{task}_glue_infer_res"

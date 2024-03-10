@@ -1,0 +1,402 @@
+[
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "This sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "This sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "This sentence is unacceptable as it is not a complete sentence. It lacks a main",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "This sentence is unacceptable as it is not acceptable. It should be revised to something",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "This sentence is unacceptable as it is not. It should be revised to something like",
+        "acceptable"
+    ],
+    [
+        "This sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "This sentence is unacceptable as it is not acceptable. It seems to be missing a",
+        "acceptable"
+    ],
+    [
+        "This sentence is unacceptable as it is not acceptable. It seems to be missing a",
+        "acceptable"
+    ],
+    [
+        "This sentence is unacceptable as it is not a complete sentence. It lacks a main",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "This sentence is not acceptable as it is not coherent.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "This sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "This sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "This sentence is unacceptable as it is not acceptable. It should be revised to something",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "This sentence is unacceptable as it is not a complete sentence. It could be revised",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "This sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "This sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "This sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "This sentence is unacceptable as it is not a complete sentence. It could be revised",
+        "acceptable"
+    ],
+    [
+        "This sentence is unacceptable as it is not a complete sentence. It lacks a main",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "This sentence is unacceptable as it is not acceptable. It should be revised to something",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The given sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "This sentence is not acceptable. It is not acceptable. It seems to be missing",
+        "acceptable"
+    ],
+    [
+        "The given sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "This sentence is unacceptable as it is not a complete sentence. It lacks a main",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "This sentence is unacceptable as it is not acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "This sentence is unacceptable as it is not acceptable. It should be revised to something",
+        "unacceptable"
+    ],
+    [
+        "The sentence \"Himself coiled the ball off the bench\" is acceptable",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "This sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence \"Him buttered at the toast\" is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence \"I read some of the book\" is acceptable.",
+        "acceptable"
+    ],
+    [
+        "This sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "This sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ]
+]

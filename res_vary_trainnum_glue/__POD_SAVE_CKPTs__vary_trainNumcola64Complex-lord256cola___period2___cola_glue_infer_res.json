@@ -1,0 +1,402 @@
+[
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence \"John wanted to leave\" is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "This sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "This sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence \"I bought a book to read\" is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The presented sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence \"John wanted to leave\" is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "This sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable if it is used in a non-literal sense",
+        "acceptable"
+    ],
+    [
+        "The sentence \"A tall building\" is acceptable.",
+        "acceptable"
+    ],
+    [
+        "This sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence \"A chair fell.\" is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "This sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "This sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "This sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence \"They claimed they couldn't leave\" is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence \"I read some of the book\" is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence \"We elected me\" is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "unacceptable"
+    ],
+    [
+        "The sentence is acceptable.",
+        "acceptable"
+    ]
+]
