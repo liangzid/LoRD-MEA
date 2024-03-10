@@ -65,10 +65,19 @@ def load_wmt_datals(tokenizer,
     dataset_name = "wmt16"
     trainset_text = load_dataset(dataset_name, task_name,
                                  split=f"train[:{train_num}]")
+    trainset_text = load_dataset(dataset_name, task_name,
+                                 split=f"train")\
+                                 .shuffle(20240306)\
+                                 .to_iterable_dataset()\
+                                 .take(train_num)
+    # print(trainset_text[0])
+    # print("------------------------")
+
     inp_ls = []
 
     from_lang,to_lange=task_name.split("-")
-    for text in trainset_text["translation"]:
+    for text in trainset_text:
+        text=text["translation"]
         from_text=text[from_lang]
         to_text=text[to_lange]
         inp_ls.append(from_text)
@@ -112,7 +121,8 @@ def commonly_used_openai_post_process(
         idx2_dist_ls = []
         probsls = []
         iii_bgn = 0
-        for q in tqdm(inp_ls, desc="ChatGPT Inference:"):
+        for iii_bgn, q in tqdm(enumerate(inp_ls),
+                               desc="ChatGPT Inference:"):
             qd = [{"role": "system", "content": "Instruction: "+pp},
                   {"role": "user", "content": q}]
             res = chatWithOpenAI__LogLogits(
@@ -133,6 +143,7 @@ def commonly_used_openai_post_process(
                 p_idxls[iii_bgn][1:],
                 num_classes=V,
             ).float()
+            logits_distr=torch.log(logits_distr)
 
             idx2_dist = [[x,] for x in idx2]
             for i in range(len(idx2_dist)):
@@ -164,7 +175,7 @@ def commonly_used_openai_post_process(
                                  for x in topk_subtokenss]
                 topk_logits = [x.logprob
                                for x in topkdict.top_logprobs]
-                topk_logits = [exp(x) for x in topk_logits]
+                # topk_logits = [exp(x) for x in topk_logits]
 
                 # idx2_dist.extend(topk_subidxes)
                 # logits_distr.extend(topk_logits)
@@ -192,7 +203,7 @@ def commonly_used_openai_post_process(
             probsls.append(logits_distr)
             text2ls.append(idx2)
             idx2_dist_ls.append(idx2_dist)
-            iii_bgn+=1
+            # iii_bgn+=1
 
         with open(openai_tmp_save_pth,
                   'wb') as f:
