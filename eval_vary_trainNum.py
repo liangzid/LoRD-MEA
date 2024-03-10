@@ -70,7 +70,7 @@ def curve_trainNums():
         "vanilla",
         "kd",
         # "lord",
-        # "Complex-lord",
+        "Complex-lord",
         ]
 
     res_dict={}
@@ -122,11 +122,12 @@ def curve_trainNums():
         rdict[m]=[]
         fdict[m]=[]
         for tn in train_numls:
-            pth=prefix+f"{task}{tn}{m}_256{task}___"
             if m in ["vanilla", "kd"]:
+                pth=prefix+f"{task}{tn}{m}_256{task}___"
                 pth+="finally"
             else:
-                pth+="period2"
+                pth=prefix+f"{task}{tn}{m}256{task}___"
+                pth+="period0"
             paths_dict[m].append(pth)
 
             res_pth=pth+f"___{task}_glue_infer_res"
