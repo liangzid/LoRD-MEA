@@ -86,7 +86,6 @@ def load_glue_datals(lm_tokenizer,
     trainset_text = load_dataset(dataset_name, task_name,
                                  split=f"train")\
     .shuffle(seed=20240306).to_iterable_dataset().take(train_num)
-    
 
     sets=trainset_text
     inp_ls = []
@@ -305,7 +304,7 @@ def infer_glue(modelname,task_name,res_pth):
     single_input_tasks = ["cola", "sst2",]
     double_input_tasks = ["mrpc", "qnli", "qqp", "rte", "wnli",]
 
-    test_set_take_num=100
+    test_set_take_num=1000
 
     assert task_name in tasks_we_used
     dataset = load_dataset("glue", task_name)
@@ -380,7 +379,6 @@ def infer_glue(modelname,task_name,res_pth):
     return res_ls
 
 
-
 # normal import
 task_label_map = {
     "cola": {"1": "acceptable", "0": "unacceptable"},
@@ -392,7 +390,6 @@ task_label_map = {
     "sst2": {"1": "positive", "0": "negative"},
     "wnli": {"0": "not_entailment", "1": "entailment"},
 }
-
 
 
 def eval_glue(task, res):

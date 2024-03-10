@@ -31,11 +31,11 @@ export task_ls=("cola" "mnli" "mrpc" "qnli" "qqp" "rte" "sst2" "wnli")
 
 export task_ls=("cs-en" "du-en" "fi-en" "ro-en" "ru-en" "tr-en")
 
-# export task="cs-en"
-export task="cola"
+export task="cs-en"
+# export task="cola"
 # export task="sum"
-export train_task="lord"
-# export train_task="Complex-lord"
+# export train_task="lord"
+export train_task="Complex-lord"
 # export train_task="reinforce-lord"
 # export train_task="kd"
 export epoch=3
