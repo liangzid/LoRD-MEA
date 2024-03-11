@@ -256,7 +256,9 @@ def infer_wmt(modelname,task_name,res_pth,
     assert task_name in tasks_we_used
     dataset = load_dataset("wmt16",
                            task_name,
-                           split=f"test[:{test_set_take_num}]")
+                           split=f"test").shuffle(20240307)\
+                           .to_iterable_dataset()\
+                           .take(test_set_take_num)
     # print("DATASET 0: ",dataset[0])
     # print("DATASET 1: ",dataset[1])
     sets=dataset
@@ -264,7 +266,8 @@ def infer_wmt(modelname,task_name,res_pth,
 
     res_ls = []
     pp=task_prompt_map[task_name]
-    for d in tqdm(sets["translation"]):
+    for d in tqdm(sets):
+        d=d["translation"]
         inps = d[from_lang]
         label = d[to_lange]
         final_inps="Instruction: " + pp +\
@@ -293,7 +296,10 @@ def eval_wmt(res_ls):
 
 def evaluation_datas():
     ckpt_ls=[
-        ["cs-en", "google/gemma-2b",]
+        ["cs-en", "google/gemma-2b",],
+        ["cs-en", "./wmt_ckpt/vanilla256cs-en100___finally/",],
+        ["cs-en", "./wmt_ckpt/kd256cs-en100___finally/",],
+        ["cs-en", "./wmt_ckpt/Complex-lord256cs-en100___finally/",],
         ]
     res_dict={}
     dir_p="./wmt16_res/"
@@ -301,11 +307,12 @@ def evaluation_datas():
         os.makedirs(dir_p)
     for task_ckpt in ckpt_ls:
         task,ckpt=task_ckpt
-        res_pth=ckpt+f"___{task}_glue_infer_res.json"
+        res_pth=ckpt+f"___{task}_glue_infer_res"
         res_pth=res_pth.replace("/","__").replace(".", "")
+        res_pth+=".json"
         if not os.path.exists(dir_p+res_pth):
             res_ls=infer_wmt(ckpt, task, dir_p+res_pth,
-                             test_set_take_num=1)
+                             test_set_take_num=100)
         else:
             # from collections import OrderedDict
             with open(dir_p+res_pth, 'r',encoding='utf8') as f:
