@@ -32,6 +32,17 @@ from training_data_collecting_openai import chatWithOpenAI__LogLogits
 
 from gen_pipeline_open import InferObj
 
+task_prompt_map = {
+        "cola": "Assess the following sentence and classify it as 'acceptable' or 'unacceptable'.",
+        "mnli": "Assess the relationship between the given sentences and classify it as 'entailment', 'neutral', or 'contradiction'.",
+        "mrpc": "Evaluate the given pair of sentences and determine if they are 'equivalent' or 'not_equivalent'.",
+        "qnli": "Assess if the given context entails the answer to the question and respond with 'entailment' or 'not_entailment'.",
+        "qqp": "Assess the following pair of questions and classify them as 'equivalent' or 'not_equivalent'.",
+        "rte": "Assess the relationship between the given sentences and classify it as 'entailment' or 'not_entailment'.",
+        "sst2": "Determine whether the following text is 'positive' or 'negative'.",
+        "wnli": "Assess the relationship between the given sentences and classify it as 'entailment' or 'not_entailment'.",
+    }
+
 def load_glue_datals(lm_tokenizer,
                      task_name,
                      train_num=1,
@@ -64,16 +75,6 @@ def load_glue_datals(lm_tokenizer,
         "rte": ["sentence1", "sentence2"],
         "wnli": ["sentence1", "sentence2"],
 
-    }
-    task_prompt_map = {
-        "cola": "Assess the following sentence and classify it as 'acceptable' or 'unacceptable'.",
-        "mnli": "In your role as an entailment analysis tool, assess the relationship between the given sentences and classify it as 'entailment', 'neutral', or 'contradiction'.",
-        "mrpc": "As a semantic comparison expert, evaluate the given pair of sentences and determine if they are 'equivalent' or 'not_equivalent'.",
-        "qnli": "As a language expert, assess if the given context entails the answer to the question and respond with 'entailment' or 'not_entailment'.",
-        "qqp": "In your role as a question comparison tool, assess the following pair of questions and classify them as 'equivalent' or 'not_equivalent'.",
-        "rte": "In your role as an entailment analysis tool, assess the relationship between the given sentences and classify it as 'entailment' or 'not_entailment'.",
-        "sst2": "As a sentiment classifier, determine whether the following text is 'positive' or 'negative'.",
-        "wnli": "In your role as an entailment analysis tool, assess the relationship between the given sentences and classify it as 'entailment' or 'not_entailment'.",
     }
 
     single_input_tasks = ["cola", "sst2",]
@@ -241,16 +242,6 @@ def infer_glue(modelname,task_name,res_pth):
     gen_pipeline=model.text_gen
 
 
-    task_prompt_map = {
-        "cola": "Assess the following sentence and classify it as 'acceptable' or 'unacceptable'.",
-        "mnli": "In your role as an entailment analysis tool, assess the relationship between the given sentences and classify it as 'entailment', 'neutral', or 'contradiction'.",
-        "mrpc": "As a semantic comparison expert, evaluate the given pair of sentences and determine if they are 'equivalent' or 'not_equivalent'.",
-        "qnli": "As a language expert, assess if the given context entails the answer to the question and respond with 'entailment' or 'not_entailment'.",
-        "qqp": "In your role as a question comparison tool, assess the following pair of questions and classify them as 'equivalent' or 'not_equivalent'.",
-        "rte": "In your role as an entailment analysis tool, assess the relationship between the given sentences and classify it as 'entailment' or 'not_entailment'.",
-        "sst2": "As a sentiment classifier, determine whether the following text is 'positive' or 'negative'.",
-        "wnli": "In your role as an entailment analysis tool, assess the relationship between the given sentences and classify it as 'entailment' or 'not_entailment'.",
-    }
 
     prompt=task_prompt_map[task_name]
 

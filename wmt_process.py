@@ -222,7 +222,9 @@ def commonly_used_openai_post_process(
 
 
 def infer_wmt(modelname,task_name,res_pth,
-              test_set_take_num=100):
+              test_set_take_num=100,
+              mnt=16
+              ):
     save_pth=res_pth
 
     model=InferObj(model_name=modelname,
@@ -273,7 +275,7 @@ def infer_wmt(modelname,task_name,res_pth,
         final_inps="Instruction: " + pp +\
                             " User: "+inps+" Assistant: "
         res = gen_pipeline(final_inps,
-                            max_new_tokens=16,)[0]["generated_text"]
+                            max_new_tokens=mnt,)[0]["generated_text"]
         res=res.split(final_inps)[1]
         res_ls.append((res, label))
         print(res)
@@ -300,6 +302,8 @@ def evaluation_datas():
         ["cs-en", "./wmt_ckpt/vanilla256cs-en100___finally/",],
         ["cs-en", "./wmt_ckpt/kd256cs-en100___finally/",],
         ["cs-en", "./wmt_ckpt/Complex-lord256cs-en100___finally/",],
+        ["cs-en", "./wmt_ckpt/Complex-lord256cs-en100___period0/",],
+        ["cs-en", "./wmt_ckpt/Complex-lord256cs-en100___period1/",],
         ]
     res_dict={}
     dir_p="./wmt16_res/"
@@ -312,7 +316,8 @@ def evaluation_datas():
         res_pth+=".json"
         if not os.path.exists(dir_p+res_pth):
             res_ls=infer_wmt(ckpt, task, dir_p+res_pth,
-                             test_set_take_num=100)
+                             test_set_take_num=100,
+                             mnt=64)
         else:
             # from collections import OrderedDict
             with open(dir_p+res_pth, 'r',encoding='utf8') as f:
