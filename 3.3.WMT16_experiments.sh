@@ -12,7 +12,7 @@
 echo "HOME: ${HOME}"
 export python=${HOME}/anaconda3/envs/align/bin/python3
 # export CUDA_VISIBLE_DEVICES="0,1"
-export CUDA_VISIBLE_DEVICES="0,1,2,3"
+export CUDA_VISIBLE_DEVICES="4,5,6,7"
 export root_dir="${HOME}/alignmentExtraction/"
 export POD_save_dir="${root_dir}wmt2b_ckpts/"
 # export from_path="openai-community/gpt2-xl"
@@ -35,6 +35,7 @@ export use_kld=0
 export use_entropy=0
 
 export train_num=100
+export max_new_tokens=64
 
 for task in ${task_ls[*]}
 do
@@ -53,6 +54,7 @@ do
 		--log_step=1 \
 		--save_step=100000 \
 		--train_num=$train_num \
+		--max_new_tokens=${max_new_tokens} \
 		--LR="3e-5" \
 		--beta=$beta \
 		--temperature=$temperature \

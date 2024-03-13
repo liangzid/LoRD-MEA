@@ -36,6 +36,7 @@ import torch.nn.functional as F
 
 from rlhf_train import clip, log_clip
 
+
 def train_one_period(args, lm,
                      lm_tokenizer,
                      loader, epoch, device,
@@ -53,7 +54,7 @@ def train_one_period(args, lm,
     overall_loss = 0.
     overall_step = 0
     pad_token_id = lm_tokenizer.pad_token_id
-    sigmoid=torch.nn.Sigmoid()
+    sigmoid = torch.nn.Sigmoid()
     kl_loss = torch.nn.KLDivLoss(reduction="none")
 
     opt1 = torch.optim.AdamW(lm.parameters(), lr=LR)
@@ -78,7 +79,7 @@ def train_one_period(args, lm,
             old_logits1 = old_logits1.to(device)  # bs, sql,
             old_logits2 = old_logits2.to(device)  # bs, sql,
             vic_logits2 = vic_logits2.to(device)  # bs, sql, 5
-            
+
             idxs2_dist = idxs2_dist.to(device)
 
             print("idx1text: ", lm_tokenizer.decode(idxs1[0]))
@@ -107,37 +108,37 @@ def train_one_period(args, lm,
             #                        torch.arange(sqlen-1).unsqueeze(0),
             #                        idxs2[:, 1:sqlen]]
 
-            if method_type=="2":
-                loss_vic=logits2_cons-old_logits2
-                loss_vic=log_clip(loss_vic)
+            if method_type == "2":
+                loss_vic = logits2_cons-old_logits2
+                loss_vic = log_clip(loss_vic)
                 loss_vic = torch.sum(
-                (loss_vic,
-                    )*mask2[:, :-1])
+                    (loss_vic,
+                     )*mask2[:, :-1])
 
-                loss_reward=torch.sum(logits2_cons*mask2[:,:-1])\
-                    -torch.sum(logits1*mask1[:,:-1])
-            elif method_type=="1":
-                loss_vic=logits2_cons-old_logits2
-                loss_vic=log_clip(loss_vic)
+                loss_reward = torch.sum(logits2_cons*mask2[:, :-1])\
+                    - torch.sum(logits1*mask1[:, :-1])
+            elif method_type == "1":
+                loss_vic = logits2_cons-old_logits2
+                loss_vic = log_clip(loss_vic)
                 loss_vic = torch.sum(
-                (loss_vic)*mask2[:, :-1])
+                    (loss_vic)*mask2[:, :-1])
 
-                loss_reward=torch.sum(
-                    (logits2_cons- vic_logits2[:,:,0])*mask2[:,:-1])\
-                    -torch.sum(log_clip(logits1-old_logits1)\
-                               *mask1[:,:-1])
+                loss_reward = torch.sum(
+                    (logits2_cons - vic_logits2[:, :, 0])*mask2[:, :-1])\
+                    - torch.sum(log_clip(logits1-old_logits1)
+                                * mask1[:, :-1])
 
-            loss_constractive=-loss_vic-loss_reward
+            loss_constractive = -loss_vic-loss_reward
 
-            vic_logits2=torch.softmax(torch.exp(vic_logits2)\
-                                      /args.temperature,
-                                      dim=-1)
-            logits2_dist=F.log_softmax(torch.exp(logits2_dist)\
-                                   /args.temperature,
-                                      dim=-1)
-            mask2l=mask2[:,:-1].unsqueeze(-1).expand(-1, -1, 5)
-            loss_logits=(mask2l*kl_loss(logits2_dist,
-                                        vic_logits2)).mean()*beta
+            vic_logits2 = torch.softmax(torch.exp(vic_logits2)
+                                        / args.temperature,
+                                        dim=-1)
+            logits2_dist = F.log_softmax(torch.exp(logits2_dist)
+                                         / args.temperature,
+                                         dim=-1)
+            mask2l = mask2[:, :-1].unsqueeze(-1).expand(-1, -1, 5)
+            loss_logits = (mask2l*kl_loss(logits2_dist,
+                                          vic_logits2)).mean()*beta
             # loss_logits = beta *\
             #     torch.sum(mask2[:, :-1]
             #               .unsqueeze(-1)
@@ -146,13 +147,13 @@ def train_one_period(args, lm,
             #         logits2_dist/(vic_logits2+epsln)
             #         + epsln))/torch.sum(mask2)
 
-            if args.use_entropy=="1":
-                loss_entropy=torch.sum(torch.exp(logits2)*\
-                                        logits2*mask2[:,:-1])
+            if args.use_entropy == "1":
+                loss_entropy = torch.sum(torch.exp(logits2) *
+                                         logits2*mask2[:, :-1])
             else:
-                loss_entropy=0.
+                loss_entropy = 0.
 
-            if args.use_kld!="1":
+            if args.use_kld != "1":
                 loss_logits = 0.
 
             overall_loss += loss_constractive + loss_logits \
@@ -169,20 +170,20 @@ def train_one_period(args, lm,
                 ))
                 tb_writer.add_scalar("loss", overall_loss.item(),
                                      overall_step)
-                if args.use_vic_logits=="1":
+                if args.use_vic_logits == "1":
                     tb_writer.add_scalar("Gain",
-                                     loss_vic.item(),
-                                     overall_step)
-                if args.use_old_logits=="1":
+                                         loss_vic.item(),
+                                         overall_step)
+                if args.use_old_logits == "1":
                     tb_writer.add_scalar("reward",
-                                     loss_reward.item(),
-                                     overall_step)
-                if args.use_kld=="1":
+                                         loss_reward.item(),
+                                         overall_step)
+                if args.use_kld == "1":
                     tb_writer.add_scalar("KLloss", loss_logits.item(),
-                                     overall_step)
-                if args.use_entropy=="1":
+                                         overall_step)
+                if args.use_entropy == "1":
                     tb_writer.add_scalar("Entropy", loss_entropy.item(),
-                                     overall_step)
+                                         overall_step)
 
             if overall_step % save_step == 0:
                 print(" -->Regular Saving.")
@@ -226,8 +227,8 @@ def train_pod(lm,
         old_logits2_ls = []
         # collect data.
         with torch.no_grad():
-            for i,prompt in tqdm(enumerate(p_ls),
-                               desc="Data Collecting..."):
+            for i, prompt in tqdm(enumerate(p_ls),
+                                  desc="Data Collecting..."):
                 prompt = prompt.to(args.device).unsqueeze(0)
                 # Generate New Tokens
                 if max_new_tokens > 0:
@@ -257,9 +258,9 @@ def train_pod(lm,
                     idxs1[:, 1:sqqql]
                 ]
 
-                idxs2=torch.tensor(idx2ls[i],dtype=torch.long)\
-                           .to(args.device).unsqueeze(0)
-                old_logits2 = lm(idxs2[:,:-1]).logits
+                idxs2 = torch.tensor(idx2ls[i], dtype=torch.long)\
+                    .to(args.device).unsqueeze(0)
+                old_logits2 = lm(idxs2[:, :-1]).logits
                 old_logits2 = F.log_softmax(old_logits2, dim=-1)
                 bs, sql2 = idxs2.shape
                 old_logits2 = old_logits2[
@@ -267,7 +268,6 @@ def train_pod(lm,
                     torch.arange(sql2-1).unsqueeze(0),
                     idxs2[:, 1:sql2]
                 ]
-
 
                 idxs1_ls.append(idxs1.squeeze(0).to("cpu"))
                 old_logits1_ls.append(old_logits.squeeze(0).to("cpu"))
@@ -321,20 +321,20 @@ def train_pod(lm,
                             )
         print(">>>> Period {}".format(iter_idx))
         # STEP 2: Train the Model in a period
-        if args.task=="lord":
+        if args.task == "lord":
             lm = train_one_period(args, lm,
-                                lm_tokenizer,
-                                loader,
-                                args.epoch, args.device,
-                                tb_writer,
-                                tensorboard_name,
-                                args.save_path,
-                                args.LR,
-                                args.acc_step, args.log_step,
-                                args.save_step,
-                                args.beta,
-                                )
-        elif args.task=="Complex-lord":
+                                  lm_tokenizer,
+                                  loader,
+                                  args.epoch, args.device,
+                                  tb_writer,
+                                  tensorboard_name,
+                                  args.save_path,
+                                  args.LR,
+                                  args.acc_step, args.log_step,
+                                  args.save_step,
+                                  args.beta,
+                                  )
+        elif args.task == "Complex-lord":
             from lord_complex_train import complex_train_one_period as ct
             lm = ct(args, lm,
                     lm_tokenizer,
@@ -348,20 +348,20 @@ def train_pod(lm,
                     args.save_step,
                     args.beta,
                     )
-        elif args.task=="reinforce-lord":
+        elif args.task == "reinforce-lord":
             from lord_reinforce_train import reinforce_train_one_period
             lm = reinforce_train_one_period(args, lm,
-                    lm_tokenizer,
-                    loader,
-                    args.epoch, args.device,
-                    tb_writer,
-                    tensorboard_name,
-                    args.save_path,
-                    args.LR,
-                    args.acc_step, args.log_step,
-                    args.save_step,
-                    args.beta,
-                    )
+                                            lm_tokenizer,
+                                            loader,
+                                            args.epoch, args.device,
+                                            tb_writer,
+                                            tensorboard_name,
+                                            args.save_path,
+                                            args.LR,
+                                            args.acc_step, args.log_step,
+                                            args.save_step,
+                                            args.beta,
+                                            )
         else:
             print("ERROR: CANNOT FIND THE TRAIN LOSS OF THE TASK.")
 
@@ -419,6 +419,8 @@ def setup_train_args():
                         required=False,)
     parser.add_argument("--max_length", default=1024,
                         type=int, required=False)
+    parser.add_argument("--max_new_tokens", default=16,
+                        type=int, required=False)
 
     parser.add_argument('--from_path', default='bert-tiny',
                         type=str, required=True,)
@@ -451,16 +453,16 @@ def main():
         "qnli", "qqp", "rte", "sst2",
         "wnli",]
 
-    tasks_wmt16= [
+    tasks_wmt16 = [
         "cs-en",
         "du-en",
         "fi-en",
         "ro-en",
         "ru-en",
         "tr-en",
-        ]
+    ]
 
-    tasks_supported=tasks_glue.copy()
+    tasks_supported = tasks_glue.copy()
     tasks_supported += ["sum",]
     tasks_supported.extend(tasks_wmt16)
 
@@ -468,13 +470,14 @@ def main():
     print(f"TASKS NOW Supported: {tasks_supported}")
 
     if args.dataset_task in tasks_supported:
-        
+
         if args.dataset_task in tasks_glue:
             print(f"RUN GLUE task: {args.dataset_task}")
-            raw_train_datals = load_glue_datals(tokenizer,
-                                            task_name=args.dataset_task,
-                                            train_num=args.train_num,
-                                            max_length=args.max_length)
+            raw_train_datals = load_glue_datals(
+                tokenizer,
+                task_name=args.dataset_task,
+                train_num=args.train_num,
+                max_length=args.max_length)
         elif args.dataset_task in tasks_wmt16:
             print(f"RUN wmt task: {args.dataset_task}")
             from wmt_process import load_wmt_datals
@@ -483,8 +486,8 @@ def main():
                 task_name=args.dataset_task,
                 train_num=args.train_num,
                 max_length=args.max_length
-                )
-        elif args.dataset_task== "sum":
+            )
+        elif args.dataset_task == "sum":
             print(f"RUN summarization task: {args.dataset_task}")
             from sum_process import load_sum_datals
             raw_train_datals = load_sum_datals(
@@ -492,11 +495,11 @@ def main():
                 task_name=args.dataset_task,
                 train_num=args.train_num,
                 max_length=args.max_length
-                )
+            )
         else:
             print("EEERRROOORRR: EEERRROOORRR.")
         print("Data LOADING done.")
-        
+
         if "lord" in args.task:
             print("TRAIN WITH LORD!!!")
             train_pod(
@@ -504,13 +507,13 @@ def main():
                 lm_tokenizer,
                 args,
                 raw_train_datals,
-                max_new_tokens=16,
+                max_new_tokens=args.max_new_tokens,
             )
         elif args.task in ["kd", "vanilla"]:
             print("TRAIN WITH KD~~~")
             p_ls, idx2ls, logits2ls, idx2_dist = raw_train_datals
             max_token_num = min(args.max_length,
-                              max([len(x) for x in idx2ls]))
+                                max([len(x) for x in idx2ls]))
             pad_idx = lm_tokenizer.pad_token_id
             idx2ls, mask2 = my_padding(idx2ls, p_ls,
                                        max_token_num, pad_idx)
@@ -538,10 +541,10 @@ def main():
                     tmp_ts[jjjj] = torch.tensor(per_token_logit,)
                 newlogits2ls.append(tmp_ts)
             logits2ls = my_padding_logits(newlogits2ls,
-                                        max_token_num-1, pad_idx)
+                                          max_token_num-1, pad_idx)
             idxs2_dist = my_padding_token_dist(idx2_dist,
-                                            max_token_num-1, pad_idx)
-            
+                                               max_token_num-1, pad_idx)
+
             trainset = TensorDataset(
                 idx2ls,
                 mask2,
@@ -549,22 +552,22 @@ def main():
                 idxs2_dist,
             )
 
-            loader=DataLoader(trainset,
-                              batch_size=args.batch_size,
-                              shuffle=True,
-                              )
+            loader = DataLoader(trainset,
+                                batch_size=args.batch_size,
+                                shuffle=True,
+                                )
 
-            tb_writer = SummaryWriter(log_dir=args.save_path+\
+            tb_writer = SummaryWriter(log_dir=args.save_path +
                                       "___log_writer")
-            tensorboard_name="nothing"
+            tensorboard_name = "nothing"
 
-            if args.task=="kd":
+            if args.task == "kd":
                 from supervised_distillation import train_distill
                 train_distill(
                     lm,
                     lm_tokenizer,
                     loader,
-                    args.epoch,args.device,
+                    args.epoch, args.device,
                     tb_writer,
                     tensorboard_name,
                     args.save_path,
@@ -574,13 +577,13 @@ def main():
                     args.temperature,
                 )
 
-            elif args.task=="vanilla":
+            elif args.task == "vanilla":
                 from supervised_training import train_supervised
                 train_supervised(
                     lm,
                     lm_tokenizer,
                     loader,
-                    args.epoch,args.device,
+                    args.epoch, args.device,
                     tb_writer,
                     tensorboard_name,
                     args.save_path,

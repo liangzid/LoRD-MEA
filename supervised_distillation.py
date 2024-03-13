@@ -35,19 +35,20 @@ from sequence_utils import my_padding_logit
 
 import torch.nn.functional as F
 
+
 def train_distill(lm,
-                     lm_tokenizer,
-                     loader, epoch, device,
-                     tb_writer,
-                     tensorboard_name,
-                     save_path,
-                     LR=3e-5,
-                     acc_step=1,
-                     log_step=100,
-                     save_step=1000,
-                     temperature=1.0,
+                  lm_tokenizer,
+                  loader, epoch, device,
+                  tb_writer,
+                  tensorboard_name,
+                  save_path,
+                  LR=3e-5,
+                  acc_step=1,
+                  log_step=100,
+                  save_step=1000,
+                  temperature=1.0,
                   epsln=1e-6,
-                     ):
+                  ):
     print("TRAIN-----DISTILL!!!")
     overall_loss = 0.
     overall_step = 0
@@ -78,7 +79,6 @@ def train_distill(lm,
 
             logits2_dist = torch.gather(logits2, 2, idxs2_dist)
             logits2_dist = F.log_softmax(logits2_dist, dim=-1)
-            
 
             # logits_hard=torch.sum(mask2[:, :-1]
             #               .unsqueeze(-1)
@@ -87,21 +87,21 @@ def train_distill(lm,
             #         logits2_dist/(vic_logits2+epsln)
             #         + epsln))
 
-            mask2l=mask2[:,:-1].unsqueeze(-1).expand(-1, -1, 5)
+            mask2l = mask2[:, :-1].unsqueeze(-1).expand(-1, -1, 5)
             # print("mask2l", mask2l)
             # mask2l=torch.ones_like(mask2l)
 
-            logits_hard=(kl_loss(logits2_dist,
-                                 vic_logits2)*mask2l).sum()
+            logits_hard = (kl_loss(logits2_dist,
+                                   vic_logits2)*mask2l).sum()
             # logits_hard=0.
 
             logits2new = lm(idxs2).logits[:, :-1, :]
             logits2_distnew = torch.gather(logits2new, 2, idxs2_dist)
             logits2new = torch.softmax(logits2_distnew, dim=-1)
-            logits2_distnew=logits2new/temperature
+            logits2_distnew = logits2new/temperature
             logits2newnew = F.log_softmax(logits2_distnew, dim=-1)
 
-            vic_logits2new=vic_logits2/temperature
+            vic_logits2new = vic_logits2/temperature
             vic_logits2new = torch.softmax(vic_logits2new, dim=-1)
 
             # loss_logits = torch.sum(mask2[:, :-1]
@@ -111,8 +111,8 @@ def train_distill(lm,
             #         logits2_dist/(vic_logits2+epsln)
             #         + epsln))
 
-            loss_logits=(kl_loss(logits2newnew,
-                                 vic_logits2new)*mask2l).sum()
+            loss_logits = (kl_loss(logits2newnew,
+                                   vic_logits2new)*mask2l).sum()
             # loss_logits = 0.
 
             overall_loss += loss_logits+logits_hard
@@ -145,4 +145,3 @@ def train_distill(lm,
 
     print("ONE PERIOD TRAINING DONE!")
     return lm
-
