@@ -33,15 +33,16 @@ from training_data_collecting_openai import chatWithOpenAI__LogLogits
 from gen_pipeline_open import InferObj
 
 task_prompt_map = {
-        "cola": "Assess the following sentence and classify it as 'acceptable' or 'unacceptable'.",
-        "mnli": "Assess the relationship between the given sentences and classify it as 'entailment', 'neutral', or 'contradiction'.",
-        "mrpc": "Evaluate the given pair of sentences and determine if they are 'equivalent' or 'not_equivalent'.",
-        "qnli": "Assess if the given context entails the answer to the question and respond with 'entailment' or 'not_entailment'.",
-        "qqp": "Assess the following pair of questions and classify them as 'equivalent' or 'not_equivalent'.",
-        "rte": "Assess the relationship between the given sentences and classify it as 'entailment' or 'not_entailment'.",
-        "sst2": "Determine whether the following text is 'positive' or 'negative'.",
-        "wnli": "Assess the relationship between the given sentences and classify it as 'entailment' or 'not_entailment'.",
-    }
+    "cola": "Assess the following sentence and classify it as 'acceptable' or 'unacceptable'.",
+    "mnli": "Assess the relationship between the given sentences and classify it as 'entailment', 'neutral', or 'contradiction'.",
+    "mrpc": "Evaluate the given pair of sentences and determine if they are 'equivalent' or 'not_equivalent'.",
+    "qnli": "Assess if the given context entails the answer to the question and respond with 'entailment' or 'not_entailment'.",
+    "qqp": "Assess the following pair of questions and classify them as 'equivalent' or 'not_equivalent'.",
+    "rte": "Assess the relationship between the given sentences and classify it as 'entailment' or 'not_entailment'.",
+    "sst2": "Determine whether the following text is 'positive' or 'negative'.",
+    "wnli": "Assess the relationship between the given sentences and classify it as 'entailment' or 'not_entailment'.",
+}
+
 
 def load_glue_datals(lm_tokenizer,
                      task_name,
@@ -86,9 +87,9 @@ def load_glue_datals(lm_tokenizer,
     dataset_name = "glue"
     trainset_text = load_dataset(dataset_name, task_name,
                                  split=f"train")\
-    .shuffle(seed=20240306).to_iterable_dataset().take(train_num)
+        .shuffle(seed=20240306).to_iterable_dataset().take(train_num)
 
-    sets=trainset_text
+    sets = trainset_text
     inp_ls = []
     # collecting the input prompts
     if task_name in single_input_tasks:
@@ -132,8 +133,8 @@ def load_glue_datals(lm_tokenizer,
         text2ls = []
         idx2_dist_ls = []
         probsls = []
-        for iii_bgn,q in tqdm(enumerate(inp_ls),
-                              desc="ChatGPT Inference:"):
+        for iii_bgn, q in tqdm(enumerate(inp_ls),
+                               desc="ChatGPT Inference:"):
             qd = [{"role": "system", "content": "Instruction: "+pp},
                   {"role": "user", "content": q}]
             res = chatWithOpenAI__LogLogits(
@@ -155,7 +156,7 @@ def load_glue_datals(lm_tokenizer,
                 num_classes=V,
             ).float()
             # logits_distr[logits_distr<1e-9]=1e-10
-            logits_distr=torch.log(logits_distr)
+            logits_distr = torch.log(logits_distr)
 
             idx2_dist = [[x,] for x in idx2]
             for i in range(len(idx2_dist)):
@@ -232,18 +233,18 @@ def load_glue_datals(lm_tokenizer,
     return p_idxls, text2ls, probsls, idx2_dist_ls
 
 
-def infer_glue(modelname,task_name,res_pth):
+def infer_glue(modelname, task_name, res_pth,
+               test_set_take_num=1000,
+               ):
     """Infer the hf's pretraining models in GLUE"""
-    save_pth=res_pth
+    save_pth = res_pth
 
-    model=InferObj(model_name=modelname,
-                   device="auto",
-                   max_length=2047)
-    gen_pipeline=model.text_gen
+    model = InferObj(model_name=modelname,
+                     device="auto",
+                     max_length=2047)
+    gen_pipeline = model.text_gen
 
-
-
-    prompt=task_prompt_map[task_name]
+    prompt = task_prompt_map[task_name]
 
     # models to be evaluted
     model_ls = [
@@ -295,73 +296,93 @@ def infer_glue(modelname,task_name,res_pth):
     single_input_tasks = ["cola", "sst2",]
     double_input_tasks = ["mrpc", "qnli", "qqp", "rte", "wnli",]
 
-    test_set_take_num=1000
-
     assert task_name in tasks_we_used
     dataset = load_dataset("glue", task_name)
     res_ls = []
     if task_name in single_input_tasks:
         if len(dataset["validation"]) > test_set_take_num:
             sets = dataset["validation"].shuffle(20240307)\
-            .to_iterable_dataset().take(test_set_take_num)
+                .to_iterable_dataset().take(test_set_take_num)
             # sets = dataset["train"].shuffle(20240306)\
             # .to_iterable_dataset().take(test_set_take_num)
         else:
             sets = dataset["validation"]
         # sets=sets.shuffle(seed=20240307)
-        iii=0
+        iii = 0
+        final_inpss = []
+        labells = []
         for d in tqdm(sets):
-            iii+=1
-            if iii==1 or iii==test_set_take_num:
+            iii += 1
+            if iii == 1 or iii == test_set_take_num:
                 print(d)
             inps = d["sentence"]
             label = d["label"]
             label = task_label_map[task_name][str(label)]
-            final_inps="Instruction: " + prompt +\
-                               " User: "+inps+" Assistant: "
-            print("Inps: ", final_inps)
-            res = gen_pipeline(final_inps,
-                               max_new_tokens=16,)[0]["generated_text"]
-            res=res.split(final_inps)[1]
-            res_ls.append((res, label))
-            print("Generations: ", res)
-            # break
+            labells.append(label)
+            final_inps = "Instruction: " + prompt +\
+                " User: "+inps+" Assistant: "
+            # print("Inps: ", final_inps)
+            final_inpss.append(final_inps)
+        resls = gen_pipeline(final_inpss,
+                             max_new_tokens=16,)[0]["generated_text"]
+        resls = [x.split(final_inpss[i])[1]
+                 for i, x in enumerate(resls)]
+        resls = zip(resls, labells)
 
     elif task_name == "mnli":
         if len(dataset["validation_matched"]) > test_set_take_num:
             sets = dataset["validation_matched"]\
-            .to_iterable_dataset().take(test_set_take_num)
+                .to_iterable_dataset().take(test_set_take_num)
         else:
             sets = dataset["validation_matched"]
+        iii = 0
+        final_inpss = []
+        labells = []
         for d in tqdm(sets):
+            iii += 1
+            if iii == 1 or iii == test_set_take_num:
+                print(d)
             inps = d["premise"]+"SEP"+d["hypothesis"]
             label = d["label"]
             label = task_label_map[task_name][str(label)]
+            labells.append(label)
+            final_inps = "Instruction: " + prompt +\
+                " User: "+inps+" Assistant: "
+            # print("Inps: ", final_inps)
+            final_inpss.append(final_inps)
+        resls = gen_pipeline(final_inpss,
+                             max_new_tokens=16,)[0]["generated_text"]
+        resls = [x.split(final_inpss[i])[1]
+                 for i, x in enumerate(resls)]
+        resls = zip(resls, labells)
 
-            final_inps="Instruction: " + prompt +\
-                               " User: "+inps+" Assistant: "
-            res = gen_pipeline(final_inps,
-                               max_new_tokens=16,)[0]["generated_text"]
-            res=res.split(final_inps)[1]
-            res_ls.append((res, label))
     elif task_name in double_input_tasks:
         if len(dataset["validation"]) > test_set_take_num:
             sets = dataset["validation"]\
-            .to_iterable_dataset().take(test_set_take_num)
+                .to_iterable_dataset().take(test_set_take_num)
         else:
             sets = dataset["validation"]
+        iii = 0
+        final_inpss = []
+        labells = []
         for d in tqdm(sets):
+            iii += 1
+            if iii == 1 or iii == test_set_take_num:
+                print(d)
             inps = d[task_key_map[task_name][0]]+"SEP" +\
                 d[task_key_map[task_name][1]]
             label = d["label"]
             label = task_label_map[task_name][str(label)]
-            final_inps="Instruction: " + prompt +\
-                               " User: "+inps+" Assistant: "
-            res = gen_pipeline(final_inps,
-                               max_new_tokens=16,)[0]["generated_text"]
-            res=res.split(final_inps)[1]
-            res_ls.append((res, label))
-            # break
+            labells.append(label)
+            final_inps = "Instruction: " + prompt +\
+                " User: "+inps+" Assistant: "
+            # print("Inps: ", final_inps)
+            final_inpss.append(final_inps)
+        resls = gen_pipeline(final_inpss,
+                             max_new_tokens=16,)[0]["generated_text"]
+        resls = [x.split(final_inpss[i])[1]
+                 for i, x in enumerate(resls)]
+        resls = zip(resls, labells)
     else:
         print(f"task name: {task_name} not found.")
     with open(save_pth, 'w', encoding='utf8') as f:
@@ -393,7 +414,7 @@ def eval_glue(task, res):
 
     for res_sent, lbl in res:
         # print(res_sent)
-        res_sent=res_sent.lower()
+        res_sent = res_sent.lower()
         # label_ls.append(float(sm_r[lbl]))
         if "not" in text_dict[0] or "not" in text_dict[1]:
             if "not" in text_dict[0]:
@@ -422,15 +443,15 @@ def eval_glue(task, res):
 
 
 def evaluation_datas():
-    test_task_ckpt_ls=[
+    test_task_ckpt_ls = [
 
-        ## original
-        ["cola","google/gemma-2b"],
+        # original
+        ["cola", "google/gemma-2b"],
 
-        ## ablation study
+        # ablation study
         # ["cola","./POD_SAVE_CKPTs/kd_3Epochkd_256cola___finally"],
-        ["cola","./POD_SAVE_CKPTs/cola_3Epochvanilla_256cola___finally/"],
-        ["cola","./POD_SAVE_CKPTs/cola_3Epochkd_256cola___finally/"],
+        ["cola", "./POD_SAVE_CKPTs/cola_3Epochvanilla_256cola___finally/"],
+        ["cola", "./POD_SAVE_CKPTs/cola_3Epochkd_256cola___finally/"],
 
         # ## method comparison
         ["cola",
@@ -489,32 +510,63 @@ def evaluation_datas():
         ["cola",
          "./POD_SAVE_CKPTs/vary_period_complex/Complex-lord256cola1100___period9"
          ],
-        ]
-    
-    res_dict={}
-    dir_p="./glue_res/"
+    ]
+
+    res_dict = {}
+    dir_p = "./glue_res/"
     if not os.path.exists(dir_p):
         os.makedirs(dir_p)
     for task_ckpt in test_task_ckpt_ls:
-        task,ckpt=task_ckpt
-        res_pth=ckpt+f"___{task}_glue_infer_res.json"
-        res_pth=res_pth.replace("/","__").replace(".", "")
+        task, ckpt = task_ckpt
+        res_pth = ckpt+f"___{task}_glue_infer_res.json"
+        res_pth = res_pth.replace("/", "__").replace(".", "")
         if not os.path.exists(dir_p+res_pth):
-            res_ls=infer_glue(ckpt, task, dir_p+res_pth)
+            res_ls = infer_glue(ckpt, task, dir_p+res_pth)
         else:
             # from collections import OrderedDict
-            with open(dir_p+res_pth, 'r',encoding='utf8') as f:
-                res_ls=json.load(f,object_pairs_hook=OrderedDict)
-                
-        scores=eval_glue(task, res_ls)
+            with open(dir_p+res_pth, 'r', encoding='utf8') as f:
+                res_ls = json.load(f, object_pairs_hook=OrderedDict)
+
+        scores = eval_glue(task, res_ls)
         print(task, ckpt)
         print(scores)
-        res_dict[task+"-----"+ckpt]=scores
+        res_dict[task+"-----"+ckpt] = scores
     with open(dir_p+"glue_inference_scores.json",
-              'w',encoding='utf8') as f:
-        json.dump(res_dict,f,ensure_ascii=False,indent=4)
+              'w', encoding='utf8') as f:
+        json.dump(res_dict, f, ensure_ascii=False, indent=4)
     print("OVERALL Save DONE.")
     pprint(res_dict)
+
+
+def glue_big_evals():
+    methodls = ["Complex-lord", "vanilla", "kd"]
+    dir_p = "./GLUE_infers/"
+    res_dict = {}
+    for task in task_prompt_map.keys():
+        for m in methodls:
+            if not os.path.exists(dir_p):
+                os.makedirs(dir_p)
+                ckpt = dir_p+f"{task}{m}256100"
+                res_pth = ckpt+f"___{task}_glue_infer_res.json"
+                res_pth = res_pth.replace("/", "__").replace(".", "")
+                if not os.path.exists(dir_p+res_pth):
+                    res_ls = infer_glue(ckpt, task, dir_p+res_pth,
+                                        test_set_take_num=100)
+                else:
+                    # from collections import OrderedDict
+                    with open(dir_p+res_pth, 'r', encoding='utf8') as f:
+                        res_ls = json.load(
+                            f, object_pairs_hook=OrderedDict)
+
+                scores = eval_glue(task, res_ls)
+                print(task, ckpt)
+                print(scores)
+                res_dict[task+"-----"+ckpt] = scores
+            with open(dir_p+"glue_inference_scores.json",
+                      'w', encoding='utf8') as f:
+                json.dump(res_dict, f, ensure_ascii=False, indent=4)
+            print("OVERALL Save DONE.")
+            pprint(res_dict)
 
 
 if __name__ == "__main__":
@@ -541,4 +593,5 @@ if __name__ == "__main__":
     # print(tokenizer.decode(text2[2]))
     # print("-------------------------")
 
-    evaluation_datas()
+    # evaluation_datas()
+    glue_big_evals()
