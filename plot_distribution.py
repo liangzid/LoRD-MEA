@@ -97,13 +97,14 @@ def get_dist_mat(ckpt_pth, task_name,
         if not only_original:
             matrix_ls.append(sampled_logits[:5])
         else:
-            per_data = idx2_distls[i]
+            ssll=sl
+            per_data = logits2ls[i]
             sl = len(per_data)
             v = len(per_data[0])
             tmp_ts = torch.ones((sl, v), dtype=torch.float)
             for jjjj, per_token_logit in enumerate(per_data):
                 tmp_ts[jjjj] = torch.tensor(per_token_logit,)
-            original_logits = tmp_ts.numpy()[sl-1:,][:5]
+            original_logits = tmp_ts.numpy()[ssll-1:,][:5]
             matrix_ls.append(original_logits)
 
     return matrix_ls
@@ -126,21 +127,18 @@ def visualize_heat(
                             task_name="cola",
                             select_num=select_num,
                             train_num=100,
-                            max_new_tokens=6,
                             only_original=False,
                             )
     ce_mat = get_dist_mat(ckpt_pth=ce_ckpt,
                           task_name="cola",
                           select_num=select_num,
                           train_num=100,
-                          max_new_tokens=6,
                           only_original=False,
                           )
     kd_mat = get_dist_mat(ckpt_pth=kd_ckpt,
                           task_name="cola",
                           select_num=select_num,
                           train_num=100,
-                          max_new_tokens=6,
                           only_original=False,
                           )
 
@@ -151,10 +149,10 @@ def visualize_heat(
                             })
     xls = list(res_dict.keys())
 
-    fig, axs = plt.subplots(4, 8, figsize=(40, 3.5*4))
+    fig, axs = plt.subplots(4, 8, figsize=(40, 3.7*4))
     fig.subplots_adjust(wspace=0.01, hspace=0.5)
 
-    fs = 23
+    fs = 17
     for col in range(select_num):
         for row in range(4):
             axs[row, col].imshow(res_dict[xls[row]][col],
@@ -163,7 +161,7 @@ def visualize_heat(
             axs[row, col].set_xlabel("Token Indexs", fontsize=fs)
             axs[row, col].set_ylabel("Generated Token", fontsize=fs)
 
-            text = f"Distribution of {xls[row]}'s {col+1} Sample."
+            text = f"Distribution of\n{xls[row]}'s {col+1} Sample."
             axs[row, col].title.set_text(text)
             axs[row, col].title.set_fontsize(fs)
 

@@ -324,7 +324,9 @@ def infer_glue(modelname, task_name, res_pth,
             # print("Inps: ", final_inps)
             final_inpss.append(final_inps)
         resls = gen_pipeline(final_inpss,
-                             max_new_tokens=16,)[0]["generated_text"]
+                             max_new_tokens=16,
+                             batch_size=8,
+                             )[0]["generated_text"]
         resls = [x.split(final_inpss[i])[1]
                  for i, x in enumerate(resls)]
         resls = zip(resls, labells)
@@ -351,7 +353,9 @@ def infer_glue(modelname, task_name, res_pth,
             # print("Inps: ", final_inps)
             final_inpss.append(final_inps)
         resls = gen_pipeline(final_inpss,
-                             max_new_tokens=16,)[0]["generated_text"]
+                             max_new_tokens=16,
+                             batch_size=8,
+                             )[0]["generated_text"]
         resls = [x.split(final_inpss[i])[1]
                  for i, x in enumerate(resls)]
         resls = zip(resls, labells)
@@ -379,7 +383,9 @@ def infer_glue(modelname, task_name, res_pth,
             # print("Inps: ", final_inps)
             final_inpss.append(final_inps)
         resls = gen_pipeline(final_inpss,
-                             max_new_tokens=16,)[0]["generated_text"]
+                             max_new_tokens=16,
+                             batch_size=8,
+                             )[0]["generated_text"]
         resls = [x.split(final_inpss[i])[1]
                  for i, x in enumerate(resls)]
         resls = zip(resls, labells)
@@ -543,30 +549,35 @@ def glue_big_evals():
     dir_p = "./GLUE_infers/"
     res_dict = {}
     for task in task_prompt_map.keys():
+        res_dict[task] = {}
         for m in methodls:
             if not os.path.exists(dir_p):
                 os.makedirs(dir_p)
-                ckpt = dir_p+f"{task}{m}256100"
-                res_pth = ckpt+f"___{task}_glue_infer_res.json"
-                res_pth = res_pth.replace("/", "__").replace(".", "")
-                if not os.path.exists(dir_p+res_pth):
-                    res_ls = infer_glue(ckpt, task, dir_p+res_pth,
-                                        test_set_take_num=100)
-                else:
-                    # from collections import OrderedDict
-                    with open(dir_p+res_pth, 'r', encoding='utf8') as f:
-                        res_ls = json.load(
-                            f, object_pairs_hook=OrderedDict)
+            prefix = "./GLUE_ckpts/"
+            if m == "Complex-lord":
+                ckpt = prefix+f"{task}{m}256100___period2"
+            else:
+                ckpt = prefix+f"{task}{m}256100___finally"
+            res_pth = ckpt+f"___{task}_glue_infer_res.json"
+            res_pth = res_pth.replace("/", "__").replace(".", "")
+            if not os.path.exists(dir_p+res_pth):
+                res_ls = infer_glue(ckpt, task, dir_p+res_pth,
+                                    test_set_take_num=100)
+            else:
+                # from collections import OrderedDict
+                with open(dir_p+res_pth, 'r', encoding='utf8') as f:
+                    res_ls = json.load(
+                        f, object_pairs_hook=OrderedDict)
 
-                scores = eval_glue(task, res_ls)
-                print(task, ckpt)
-                print(scores)
-                res_dict[task+"-----"+ckpt] = scores
-            with open(dir_p+"glue_inference_scores.json",
-                      'w', encoding='utf8') as f:
-                json.dump(res_dict, f, ensure_ascii=False, indent=4)
-            print("OVERALL Save DONE.")
-            pprint(res_dict)
+            scores = eval_glue(task, res_ls)
+            print(task, ckpt)
+            print(scores)
+            res_dict[task][task+"-----"+ckpt] = scores
+    with open(dir_p+"glue_inference_scores.json",
+              'w', encoding='utf8') as f:
+        json.dump(res_dict, f, ensure_ascii=False, indent=4)
+    print("OVERALL Save DONE.")
+    pprint(res_dict)
 
 
 if __name__ == "__main__":

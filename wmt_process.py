@@ -32,6 +32,7 @@ from training_data_collecting_openai import chatWithOpenAI__LogLogits
 
 from gen_pipeline_open import InferObj
 
+
 def load_wmt_datals(tokenizer,
                     task_name,
                     train_num=100,
@@ -40,49 +41,49 @@ def load_wmt_datals(tokenizer,
                     max_length=1024,
                     openai_tmp_save_pth="./wmt_data_saveto_"):
 
-    lm_tokenizer=tokenizer
-    tasks_we_used=[
+    lm_tokenizer = tokenizer
+    tasks_we_used = [
         "cs-en",
         "du-en",
         "fi-en",
         "ro-en",
         "ru-en",
         "tr-en",
-        ]
+    ]
 
-    task_prompt_map={
+    task_prompt_map = {
         "cs-en": "Translate the sentence from Czech to English Please.",
         "du-en": "Translate the sentence from Dutch to English Please.",
         "fi-en": "Translate the sentence from Finnish to English Please.",
         "ro-en": "Translate the sentence from Romanian to English Please.",
         "ru-en": "Translate the sentence from Russian to English Please.",
         "tr-en": "Translate the sentence from Turkish to English Please.",
-        }
-    
+    }
+
     assert task_name in tasks_we_used
-    
+
     V = lm_tokenizer.vocab_size
     dataset_name = "wmt16"
     trainset_text = load_dataset(dataset_name, task_name,
                                  split=f"train[:{train_num}]")
     trainset_text = load_dataset(dataset_name, task_name,
                                  split=f"train")\
-                                 .shuffle(20240306)\
-                                 .to_iterable_dataset()\
-                                 .take(train_num)
+        .shuffle(20240306)\
+        .to_iterable_dataset()\
+        .take(train_num)
     # print(trainset_text[0])
     # print("------------------------")
 
     inp_ls = []
 
-    from_lang,to_lange=task_name.split("-")
+    from_lang, to_lange = task_name.split("-")
     for text in trainset_text:
-        text=text["translation"]
-        from_text=text[from_lang]
-        to_text=text[to_lange]
+        text = text["translation"]
+        from_text = text[from_lang]
+        to_text = text[to_lange]
         inp_ls.append(from_text)
 
-    pp=task_prompt_map[task_name]
+    pp = task_prompt_map[task_name]
     prompts = [f"Instruction: {pp} User: {x} Assistant: "
                for x in inp_ls]
     p_idxls = []
@@ -101,8 +102,9 @@ def load_wmt_datals(tokenizer,
         p_idxls,
         V,
         lm_tokenizer,
-        )
-    
+    )
+
+
 def commonly_used_openai_post_process(
         openai_tmp_save_pth,
         inp_ls,
@@ -113,7 +115,7 @@ def commonly_used_openai_post_process(
         p_idxls,
         V,
         lm_tokenizer,
-        ):
+):
 
     if not os.path.exists(openai_tmp_save_pth):
         print("RUNNING ChatGPT Stealing...")
@@ -143,7 +145,7 @@ def commonly_used_openai_post_process(
                 p_idxls[iii_bgn][1:],
                 num_classes=V,
             ).float()
-            logits_distr=torch.log(logits_distr)
+            logits_distr = torch.log(logits_distr)
 
             idx2_dist = [[x,] for x in idx2]
             for i in range(len(idx2_dist)):
@@ -221,69 +223,67 @@ def commonly_used_openai_post_process(
     return p_idxls, text2ls, probsls, idx2_dist_ls
 
 
-def infer_wmt(modelname,task_name,res_pth,
+def infer_wmt(modelname, task_name, res_pth,
               test_set_take_num=100,
               mnt=16
               ):
-    save_pth=res_pth
+    save_pth = res_pth
 
-    model=InferObj(model_name=modelname,
-                   device="auto",
-                   max_length=2047)
-    gen_pipeline=model.text_gen
+    model = InferObj(model_name=modelname,
+                     device="auto",
+                     max_length=2047)
+    gen_pipeline = model.text_gen
 
-
-    task_prompt_map={
+    task_prompt_map = {
         "cs-en": "Translate the sentence from Czech to English Please.",
         "du-en": "Translate the sentence from Dutch to English Please.",
         "fi-en": "Translate the sentence from Finnish to English Please.",
         "ro-en": "Translate the sentence from Romanian to English Please.",
         "ru-en": "Translate the sentence from Russian to English Please.",
         "tr-en": "Translate the sentence from Turkish to English Please.",
-        }
+    }
 
-    prompt=task_prompt_map[task_name]
+    prompt = task_prompt_map[task_name]
 
-
-    tasks_we_used=[
+    tasks_we_used = [
         "cs-en",
         "du-en",
         "fi-en",
         "ro-en",
         "ru-en",
         "tr-en",
-        ]
-
+    ]
 
     assert task_name in tasks_we_used
     dataset = load_dataset("wmt16",
                            task_name,
                            split=f"test").shuffle(20240307)\
-                           .to_iterable_dataset()\
-                           .take(test_set_take_num)
+        .to_iterable_dataset()\
+        .take(test_set_take_num)
     # print("DATASET 0: ",dataset[0])
     # print("DATASET 1: ",dataset[1])
-    sets=dataset
-    from_lang,to_lange=task_name.split("-")
+    sets = dataset
+    from_lang, to_lange = task_name.split("-")
 
     res_ls = []
-    pp=task_prompt_map[task_name]
+    pp = task_prompt_map[task_name]
     for d in tqdm(sets):
-        d=d["translation"]
+        d = d["translation"]
         inps = d[from_lang]
         label = d[to_lange]
-        final_inps="Instruction: " + pp +\
-                            " User: "+inps+" Assistant: "
+        final_inps = "Instruction: " + pp +\
+            " User: "+inps+" Assistant: "
         res = gen_pipeline(final_inps,
-                            max_new_tokens=mnt,)[0]["generated_text"]
-        res=res.split(final_inps)[1]
+                           max_new_tokens=mnt,)[0]["generated_text"]
+        res = res.split(final_inps)[1]
         res_ls.append((res, label))
-        print(res)
+        # print(res)
         # break
     with open(save_pth, 'w', encoding='utf8') as f:
         json.dump(res_ls, f, ensure_ascii=False, indent=4)
 
     return res_ls
+
 
 def eval_wmt(res_ls):
     """
@@ -292,53 +292,89 @@ def eval_wmt(res_ls):
     4. ROUGE
     """
     from nlg_metric import overall_metrics
-    hyps,refs=zip(*res_ls)
-    return overall_metrics(hyps,refs)
+    hyps, refs = zip(*res_ls)
+    return overall_metrics(hyps, refs)
 
 
 def evaluation_datas():
-    ckpt_ls=[
+    ckpt_ls = [
         ["cs-en", "google/gemma-2b",],
         ["cs-en", "./wmt_ckpt/vanilla256cs-en100___finally/",],
         ["cs-en", "./wmt_ckpt/kd256cs-en100___finally/",],
         ["cs-en", "./wmt_ckpt/Complex-lord256cs-en100___finally/",],
         ["cs-en", "./wmt_ckpt/Complex-lord256cs-en100___period0/",],
         ["cs-en", "./wmt_ckpt/Complex-lord256cs-en100___period1/",],
-        ]
-    res_dict={}
-    dir_p="./wmt16_res/"
+    ]
+    res_dict = {}
+    dir_p = "./wmt16_res/"
     if not os.path.exists(dir_p):
         os.makedirs(dir_p)
     for task_ckpt in ckpt_ls:
-        task,ckpt=task_ckpt
-        res_pth=ckpt+f"___{task}_glue_infer_res"
-        res_pth=res_pth.replace("/","__").replace(".", "")
-        res_pth+=".json"
+        task, ckpt = task_ckpt
+        res_pth = ckpt+f"___{task}_glue_infer_res"
+        res_pth = res_pth.replace("/", "__").replace(".", "")
+        res_pth += ".json"
         if not os.path.exists(dir_p+res_pth):
-            res_ls=infer_wmt(ckpt, task, dir_p+res_pth,
-                             test_set_take_num=100,
-                             mnt=64)
+            res_ls = infer_wmt(ckpt, task, dir_p+res_pth,
+                               test_set_take_num=100,
+                               mnt=64)
         else:
             # from collections import OrderedDict
-            with open(dir_p+res_pth, 'r',encoding='utf8') as f:
-                res_ls=json.load(f,object_pairs_hook=OrderedDict)
-                
-        scores=eval_wmt(res_ls)
+            with open(dir_p+res_pth, 'r', encoding='utf8') as f:
+                res_ls = json.load(f, object_pairs_hook=OrderedDict)
+
+        scores = eval_wmt(res_ls)
         print(task, ckpt)
         print(scores)
-        res_dict[task+"-----"+ckpt]=scores
+        res_dict[task+"-----"+ckpt] = scores
     with open(dir_p+"wmt_inference_scores_overall.json",
-              'w',encoding='utf8') as f:
-        json.dump(res_dict,f,ensure_ascii=False,indent=4)
+              'w', encoding='utf8') as f:
+        json.dump(res_dict, f, ensure_ascii=False, indent=4)
     print("OVERALL Save DONE.")
     pprint(res_dict)
 
 
+def eval_all():
+    methodls = ["Complex-lord", "vanilla", "kd"]
+    taskls = ["cs-en", "du-en", "fi-en", "ro-en", "ru-en", "tr-en"]
+    dir_p = "./WMT16_infers/"
+    res_dict = {}
 
-## running entry
-if __name__=="__main__":
+    for task in taskls:
+        res_dict[task] = {}
+        for m in methodls:
+            if not os.path.exists(dir_p):
+                os.makedirs(dir_p)
+            prefix = "./wmt2b_ckpts/"
+            if m == "Complex-lord":
+                ckpt = prefix+f"{task}{m}256100___period2"
+            else:
+                ckpt = prefix+f"{task}{m}256100___finally"
+            res_pth = ckpt+f"___{task}_wmt_infer_res.json"
+            res_pth = res_pth.replace("/", "__").replace(".", "")
+            if not os.path.exists(dir_p+res_pth):
+                res_ls = infer_wmt(ckpt, task, dir_p+res_pth,
+                                   test_set_take_num=100,
+                                   mnt=64)
+            else:
+                # from collections import OrderedDict
+                with open(dir_p+res_pth, 'r', encoding='utf8') as f:
+                    res_ls = json.load(
+                        f, object_pairs_hook=OrderedDict)
+
+            scores = eval_wmt(task, res_ls)
+            # print(task, ckpt)
+            # print(scores)
+            res_dict[task][task+"-----"+ckpt] = scores
+    with open(dir_p+"glue_inference_scores.json",
+              'w', encoding='utf8') as f:
+        json.dump(res_dict, f, ensure_ascii=False, indent=4)
+    print("OVERALL Save DONE.")
+    pprint(res_dict)
+
+
+# running entry
+if __name__ == "__main__":
     # main()
     evaluation_datas()
     print("EVERYTHING DONE.")
-
-
