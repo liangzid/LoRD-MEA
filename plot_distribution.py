@@ -13,6 +13,8 @@ Plot the distribution of generation among different checkpoints.
 
 # ------------------------ Code --------------------------------------
 
+from math import exp
+import pickle
 # normal import
 import torch.nn.functional as F
 import torch
@@ -74,7 +76,7 @@ def get_dist_mat(ckpt_pth, task_name,
         inps = inps.to("cuda").unsqueeze(0)
         idx2 = torch.tensor(idx2ls[i], dtype=torch.long)\
             .to("cuda").unsqueeze(0)
-        idx2_dist=torch.tensor(idx2_distls[i],dtype=torch.long)\
+        idx2_dist = torch.tensor(idx2_distls[i], dtype=torch.long)\
             .to("cuda").unsqueeze(0)
         # genidx = lm.generate(inps,
         #                      do_sample=True,
@@ -97,7 +99,7 @@ def get_dist_mat(ckpt_pth, task_name,
         if not only_original:
             matrix_ls.append(sampled_logits[:5])
         else:
-            ssll=sl
+            ssll = sl
             per_data = logits2ls[i]
             sl = len(per_data)
             v = len(per_data[0])
@@ -170,5 +172,90 @@ def visualize_heat(
     print("SAVE DONE.")
 
 
+def visualize_3d(
+        lord_ckpt="./GLUE_ckpts/colaComplex-lord256100___period2/",
+        ce_ckpt="./GLUE_ckpts/colavanilla256100___finally/",
+        kd_ckpt="./GLUE_ckpts/colakd256100___finally/",
+        select_num=8,
+        save_path="distribute_3d_res.pdf",
+):
+
+    # origin_mat = get_dist_mat(ckpt_pth=lord_ckpt,
+    #                           task_name="cola",
+    #                           select_num=select_num,
+    #                           train_num=100,
+    #                           only_original=True,
+    #                           )
+    # lord_mat = get_dist_mat(ckpt_pth=lord_ckpt,
+    #                         task_name="cola",
+    #                         select_num=select_num,
+    #                         train_num=100,
+    #                         only_original=False,
+    #                         )
+    # ce_mat = get_dist_mat(ckpt_pth=ce_ckpt,
+    #                       task_name="cola",
+    #                       select_num=select_num,
+    #                       train_num=100,
+    #                       only_original=False,
+    #                       )
+    # kd_mat = get_dist_mat(ckpt_pth=kd_ckpt,
+    #                       task_name="cola",
+    #                       select_num=select_num,
+    #                       train_num=100,
+    #                       only_original=False,
+    #                       )
+
+    # res_dict = OrderedDict({"Victim model": origin_mat,
+    #                         "LoRD": lord_mat,
+    #                         "Cross-Entropy": ce_mat,
+    #                         "Distillation": kd_mat,
+    #                         })
+    # with open("./3d_res.pkkl", 'wb') as f:
+    #     pickle.dump(res_dict, f,)
+
+    with open("./3d_res.pkkl", 'rb') as f:
+        res_dict = pickle.load(f)
+
+    xls = list(res_dict.keys())
+
+    fig = plt.figure(figsize=(40, 3.7*4))
+    fig.subplots_adjust(wspace=0.01, hspace=0.5)
+
+    fs = 13
+    ii = 0
+    for col in range(select_num):
+        for row in range(4):
+            axs = fig.add_subplot(4, 8, ii+1, projection="3d")
+            ii += 1
+            s1, s2 = res_dict[xls[row]][col].shape
+            x = np.array([[x,]*s2 for x in range(s1)]).flatten()
+            y = np.array(list(range(s1))*s2).flatten()
+            dz = res_dict[xls[row]][col].flatten()
+            dz = [exp(x) for x in dz]
+            dx = dy = 1
+            z = 0
+
+            axs.bar3d(x, y, z, dx, dy, dz,
+                      shade=True,
+                      )
+
+            axs.set_xlim(0, 5)
+            axs.set_ylim(0, 5)
+            axs.set_zlim(0, 1)
+
+            axs.set_ylabel("Token Indexs", fontsize=fs)
+            axs.set_zlabel("Generated Token", fontsize=fs)
+            axs.set_zlabel("log Probality", fontsize=fs)
+
+            text = f"Distribution of\n{xls[row]}'s {col+1} Sample."
+            axs.title.set_text(text)
+            axs.title.set_fontsize(fs)
+
+    plt.savefig(save_path,
+                pad_inches=0.1)
+    print("SAVE DONE.")
+
+
 if __name__ == "__main__":
-    visualize_heat()
+    # visualize_heat()
+    visualize_3d()

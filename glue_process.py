@@ -309,8 +309,6 @@ def infer_glue(modelname, task_name, res_pth,
             sets = dataset["validation"]
         # sets=sets.shuffle(seed=20240307)
         iii = 0
-        final_inpss = []
-        labells = []
         for d in tqdm(sets):
             iii += 1
             if iii == 1 or iii == test_set_take_num:
@@ -318,18 +316,15 @@ def infer_glue(modelname, task_name, res_pth,
             inps = d["sentence"]
             label = d["label"]
             label = task_label_map[task_name][str(label)]
-            labells.append(label)
             final_inps = "Instruction: " + prompt +\
                 " User: "+inps+" Assistant: "
-            # print("Inps: ", final_inps)
-            final_inpss.append(final_inps)
-        resls = gen_pipeline(final_inpss,
-                             max_new_tokens=16,
-                             batch_size=8,
-                             )[0]["generated_text"]
-        resls = [x.split(final_inpss[i])[1]
-                 for i, x in enumerate(resls)]
-        resls = zip(resls, labells)
+            print("Inps: ", final_inps)
+            res = gen_pipeline(final_inps,
+                               max_new_tokens=16,)[0]["generated_text"]
+            res = res.split(final_inps)[1]
+            res_ls.append((res, label))
+            print("Generations: ", res)
+            # break
 
     elif task_name == "mnli":
         if len(dataset["validation_matched"]) > test_set_take_num:
@@ -337,58 +332,35 @@ def infer_glue(modelname, task_name, res_pth,
                 .to_iterable_dataset().take(test_set_take_num)
         else:
             sets = dataset["validation_matched"]
-        iii = 0
-        final_inpss = []
-        labells = []
         for d in tqdm(sets):
-            iii += 1
-            if iii == 1 or iii == test_set_take_num:
-                print(d)
             inps = d["premise"]+"SEP"+d["hypothesis"]
             label = d["label"]
             label = task_label_map[task_name][str(label)]
-            labells.append(label)
+
             final_inps = "Instruction: " + prompt +\
                 " User: "+inps+" Assistant: "
-            # print("Inps: ", final_inps)
-            final_inpss.append(final_inps)
-        resls = gen_pipeline(final_inpss,
-                             max_new_tokens=16,
-                             batch_size=8,
-                             )[0]["generated_text"]
-        resls = [x.split(final_inpss[i])[1]
-                 for i, x in enumerate(resls)]
-        resls = zip(resls, labells)
-
+            res = gen_pipeline(final_inps,
+                               max_new_tokens=16,)[0]["generated_text"]
+            res = res.split(final_inps)[1]
+            res_ls.append((res, label))
     elif task_name in double_input_tasks:
         if len(dataset["validation"]) > test_set_take_num:
             sets = dataset["validation"]\
                 .to_iterable_dataset().take(test_set_take_num)
         else:
             sets = dataset["validation"]
-        iii = 0
-        final_inpss = []
-        labells = []
         for d in tqdm(sets):
-            iii += 1
-            if iii == 1 or iii == test_set_take_num:
-                print(d)
             inps = d[task_key_map[task_name][0]]+"SEP" +\
                 d[task_key_map[task_name][1]]
             label = d["label"]
             label = task_label_map[task_name][str(label)]
-            labells.append(label)
             final_inps = "Instruction: " + prompt +\
                 " User: "+inps+" Assistant: "
-            # print("Inps: ", final_inps)
-            final_inpss.append(final_inps)
-        resls = gen_pipeline(final_inpss,
-                             max_new_tokens=16,
-                             batch_size=8,
-                             )[0]["generated_text"]
-        resls = [x.split(final_inpss[i])[1]
-                 for i, x in enumerate(resls)]
-        resls = zip(resls, labells)
+            res = gen_pipeline(final_inps,
+                               max_new_tokens=16,)[0]["generated_text"]
+            res = res.split(final_inps)[1]
+            res_ls.append((res, label))
+            # break
     else:
         print(f"task name: {task_name} not found.")
     with open(save_pth, 'w', encoding='utf8') as f:

@@ -76,9 +76,9 @@ def train_distill(lm,
             # print("idx2text: ", lm_tokenizer.decode(idxs2[0]))
 
             logits2 = lm(idxs2).logits[:, :-1, :]
+            logits2_dist = F.log_softmax(logits2, dim=-1)
 
-            logits2_dist = torch.gather(logits2, 2, idxs2_dist)
-            logits2_dist = F.log_softmax(logits2_dist, dim=-1)
+            logits2_dist = torch.gather(logits2_dist, 2, idxs2_dist)
 
             # logits_hard=torch.sum(mask2[:, :-1]
             #               .unsqueeze(-1)
