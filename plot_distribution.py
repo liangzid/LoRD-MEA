@@ -115,7 +115,7 @@ def get_dist_mat(ckpt_pth, task_name,
 def visualize_heat(
         lord_ckpt="./GLUE_ckpts/colaComplex-lord256100___period2/",
         ce_ckpt="./GLUE_ckpts/colavanilla256100___finally/",
-        kd_ckpt="./GLUE_ckpts/colakd256100___finally/",
+        kd_ckpt="./POD_SAVE_CKPTs/vary_period0306cs-en/kd_256cs-en_newkd___finally/",
         select_num=8,
         save_path="distribute_heat_res.pdf",):
 
@@ -149,6 +149,20 @@ def visualize_heat(
                             "Cross-Entropy": ce_mat,
                             "Distillation": kd_mat,
                             })
+
+    res_dict = OrderedDict({"Victim model": origin_mat,
+                            "LoRD": lord_mat,
+                            "Cross-Entropy": ce_mat,
+                            "Distillation": kd_mat,
+                            })
+    with open("./3d_res.pkkl", 'wb') as f:
+        pickle.dump(res_dict, f,)
+
+    with open("./3d_res.pkkl", 'rb') as f:
+        res_dict = pickle.load(f)
+
+
+
     xls = list(res_dict.keys())
 
     fig, axs = plt.subplots(4, 8, figsize=(40, 3.7*4))
@@ -175,43 +189,44 @@ def visualize_heat(
 def visualize_3d(
         lord_ckpt="./GLUE_ckpts/colaComplex-lord256100___period2/",
         ce_ckpt="./GLUE_ckpts/colavanilla256100___finally/",
-        kd_ckpt="./GLUE_ckpts/colakd256100___finally/",
+        # kd_ckpt="./GLUE_ckpts/colakd256100___finally/",
+        kd_ckpt="./POD_SAVE_CKPTs/vary_period0306cs-en/kd_256cs-en_newkd___finally/",
         select_num=8,
         save_path="distribute_3d_res.pdf",
 ):
 
-    # origin_mat = get_dist_mat(ckpt_pth=lord_ckpt,
-    #                           task_name="cola",
-    #                           select_num=select_num,
-    #                           train_num=100,
-    #                           only_original=True,
-    #                           )
-    # lord_mat = get_dist_mat(ckpt_pth=lord_ckpt,
-    #                         task_name="cola",
-    #                         select_num=select_num,
-    #                         train_num=100,
-    #                         only_original=False,
-    #                         )
-    # ce_mat = get_dist_mat(ckpt_pth=ce_ckpt,
-    #                       task_name="cola",
-    #                       select_num=select_num,
-    #                       train_num=100,
-    #                       only_original=False,
-    #                       )
-    # kd_mat = get_dist_mat(ckpt_pth=kd_ckpt,
-    #                       task_name="cola",
-    #                       select_num=select_num,
-    #                       train_num=100,
-    #                       only_original=False,
-    #                       )
+    origin_mat = get_dist_mat(ckpt_pth=lord_ckpt,
+                              task_name="cola",
+                              select_num=select_num,
+                              train_num=100,
+                              only_original=True,
+                              )
+    lord_mat = get_dist_mat(ckpt_pth=lord_ckpt,
+                            task_name="cola",
+                            select_num=select_num,
+                            train_num=100,
+                            only_original=False,
+                            )
+    ce_mat = get_dist_mat(ckpt_pth=ce_ckpt,
+                          task_name="cola",
+                          select_num=select_num,
+                          train_num=100,
+                          only_original=False,
+                          )
+    kd_mat = get_dist_mat(ckpt_pth=kd_ckpt,
+                          task_name="cola",
+                          select_num=select_num,
+                          train_num=100,
+                          only_original=False,
+                          )
 
-    # res_dict = OrderedDict({"Victim model": origin_mat,
-    #                         "LoRD": lord_mat,
-    #                         "Cross-Entropy": ce_mat,
-    #                         "Distillation": kd_mat,
-    #                         })
-    # with open("./3d_res.pkkl", 'wb') as f:
-    #     pickle.dump(res_dict, f,)
+    res_dict = OrderedDict({"Victim model": origin_mat,
+                            "LoRD": lord_mat,
+                            "Cross-Entropy": ce_mat,
+                            "Distillation": kd_mat,
+                            })
+    with open("./3d_res.pkkl", 'wb') as f:
+        pickle.dump(res_dict, f,)
 
     with open("./3d_res.pkkl", 'rb') as f:
         res_dict = pickle.load(f)
@@ -257,5 +272,5 @@ def visualize_3d(
 
 
 if __name__ == "__main__":
-    # visualize_heat()
-    visualize_3d()
+    visualize_heat()
+    # visualize_3d()

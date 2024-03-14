@@ -11,6 +11,8 @@ WMT dataset process scripts.
 """
 
 
+import os
+os.environ["CUDA_VISIBLE_DEVICES"]="0,1,2,3"
 # ------------------------ Code --------------------------------------
 import torch
 from datasets import load_dataset
@@ -33,6 +35,7 @@ from training_data_collecting_openai import chatWithOpenAI__LogLogits
 from gen_pipeline_open import InferObj
 
 
+
 def load_wmt_datals(tokenizer,
                     task_name,
                     train_num=100,
@@ -44,7 +47,7 @@ def load_wmt_datals(tokenizer,
     lm_tokenizer = tokenizer
     tasks_we_used = [
         "cs-en",
-        "du-en",
+        "de-en",
         "fi-en",
         "ro-en",
         "ru-en",
@@ -53,7 +56,7 @@ def load_wmt_datals(tokenizer,
 
     task_prompt_map = {
         "cs-en": "Translate the sentence from Czech to English Please.",
-        "du-en": "Translate the sentence from Dutch to English Please.",
+        "de-en": "Translate the sentence from Dutch to English Please.",
         "fi-en": "Translate the sentence from Finnish to English Please.",
         "ro-en": "Translate the sentence from Romanian to English Please.",
         "ru-en": "Translate the sentence from Russian to English Please.",
@@ -236,7 +239,7 @@ def infer_wmt(modelname, task_name, res_pth,
 
     task_prompt_map = {
         "cs-en": "Translate the sentence from Czech to English Please.",
-        "du-en": "Translate the sentence from Dutch to English Please.",
+        "de-en": "Translate the sentence from Dutch to English Please.",
         "fi-en": "Translate the sentence from Finnish to English Please.",
         "ro-en": "Translate the sentence from Romanian to English Please.",
         "ru-en": "Translate the sentence from Russian to English Please.",
@@ -247,7 +250,7 @@ def infer_wmt(modelname, task_name, res_pth,
 
     tasks_we_used = [
         "cs-en",
-        "du-en",
+        "de-en",
         "fi-en",
         "ro-en",
         "ru-en",
@@ -298,12 +301,13 @@ def eval_wmt(res_ls):
 
 def evaluation_datas():
     ckpt_ls = [
-        ["cs-en", "google/gemma-2b",],
-        ["cs-en", "./wmt_ckpt/vanilla256cs-en100___finally/",],
-        ["cs-en", "./wmt_ckpt/kd256cs-en100___finally/",],
-        ["cs-en", "./wmt_ckpt/Complex-lord256cs-en100___finally/",],
-        ["cs-en", "./wmt_ckpt/Complex-lord256cs-en100___period0/",],
-        ["cs-en", "./wmt_ckpt/Complex-lord256cs-en100___period1/",],
+        # ["cs-en", "google/gemma-2b",],
+        # ["cs-en", "./wmt_ckpt/vanilla256cs-en100___finally/",],
+        # ["cs-en", "./wmt_ckpt/kd256cs-en100___finally/",],
+        # ["cs-en", "./wmt_ckpt/Complex-lord256cs-en100___finally/",],
+        # ["cs-en", "./wmt_ckpt/Complex-lord256cs-en100___period0/",],
+        # ["cs-en", "./wmt_ckpt/Complex-lord256cs-en100___period1/",],
+        ["cs-en", "./POD_SAVE_CKPTs/vary_period0306cs-en/kd_256cs-en_newkd___finally/",],
     ]
     res_dict = {}
     dir_p = "./wmt16_res/"
@@ -336,7 +340,7 @@ def evaluation_datas():
 
 def eval_all():
     methodls = ["Complex-lord", "vanilla", "kd"]
-    taskls = ["cs-en", "du-en", "fi-en", "ro-en", "ru-en", "tr-en"]
+    taskls = ["cs-en", "de-en", "fi-en", "ro-en", "ru-en", "tr-en"]
     dir_p = "./WMT16_infers/"
     res_dict = {}
 
@@ -362,7 +366,7 @@ def eval_all():
                     res_ls = json.load(
                         f, object_pairs_hook=OrderedDict)
 
-            scores = eval_wmt(task, res_ls)
+            scores = eval_wmt(res_ls)
             # print(task, ckpt)
             # print(scores)
             res_dict[task][task+"-----"+ckpt] = scores
@@ -377,4 +381,5 @@ def eval_all():
 if __name__ == "__main__":
     # main()
     evaluation_datas()
+    # eval_all()
     print("EVERYTHING DONE.")

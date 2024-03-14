@@ -37,19 +37,20 @@ import torch.nn.functional as F
 
 from rlhf_train import clip, log_clip
 
+
 def complex_train_one_period(args, lm,
-                     lm_tokenizer,
-                     loader, epoch, device,
-                     tb_writer,
-                     tensorboard_name,
-                     save_path,
-                     LR=3e-5,
-                     acc_step=1,
-                     log_step=100,
-                     save_step=1000,
-                     beta=0.7,
-                     epsln=1e-6,
-                     ):
+                             lm_tokenizer,
+                             loader, epoch, device,
+                             tb_writer,
+                             tensorboard_name,
+                             save_path,
+                             LR=3e-5,
+                             acc_step=1,
+                             log_step=100,
+                             save_step=1000,
+                             beta=0.7,
+                             epsln=1e-6,
+                             ):
     overall_loss = 0.
     overall_step = 0
     pad_token_id = lm_tokenizer.pad_token_id
@@ -98,31 +99,31 @@ def complex_train_one_period(args, lm,
             logits2_dist = torch.gather(logits2, 2, idxs2_dist)
 
             loss_constractive_good = -torch.sum(
-            (logits2_cons*2 -
-            vic_logits2[:, :, 0]-old_logits2)*mask2[:, :-1])
+                (logits2_cons*2 -
+                 vic_logits2[:, :, 0]-old_logits2)*mask2[:, :-1])
 
-            zelta_logits1=log_clip(old_logits1-logits1)
+            zelta_logits1 = log_clip(old_logits1-logits1)
             loss_constractive_past = -torch.sum(
                 (zelta_logits1) * mask1[:, :-1])
 
-            if args.use_old_logits!="1":
-                loss_constractive_past=0.
-            if args.use_vic_logits!="1":
-                loss_constractive_good=0.
+            if args.use_old_logits != "1":
+                loss_constractive_past = 0.
+            if args.use_vic_logits != "1":
+                loss_constractive_good = 0.
 
             loss_constractive = loss_constractive_good \
                 + loss_constractive_past
 
-            vic_logits2=torch.softmax(torch.exp(vic_logits2)\
-                                          /args.temperature,
-                                      dim=-1)
-            logits2_dist=torch.log_softmax(torch.exp(logits2_dist)\
-                                          /args.temperature,
-                                      dim=-1)
+            vic_logits2 = torch.softmax(torch.exp(vic_logits2)
+                                        / args.temperature,
+                                        dim=-1)
+            logits2_dist = torch.log_softmax(torch.exp(logits2_dist)
+                                             / args.temperature,
+                                             dim=-1)
             # KL-Divengence
-            mask2l=mask2[:,:-1].unsqueeze(-1).expand(-1, -1, 5)
-            loss_logits=(kl_loss(logits2_dist,
-                                 vic_logits2)*mask2l).mean()*beta
+            mask2l = mask2[:, :-1].unsqueeze(-1).expand(-1, -1, 5)
+            loss_logits = (kl_loss(logits2_dist,
+                                   vic_logits2)*mask2l).mean()*beta
             # loss_logits = beta *\
             #     torch.sum(mask2[:, :-1]
             #               .unsqueeze(-1)
@@ -131,7 +132,7 @@ def complex_train_one_period(args, lm,
             #         logits2_dist/(vic_logits2+epsln)
             #         + epsln))
 
-            if args.use_kld!="1":
+            if args.use_kld != "1":
                 loss_logits = 0.
 
             overall_loss += loss_constractive + loss_logits
@@ -145,17 +146,17 @@ def complex_train_one_period(args, lm,
                 ))
                 tb_writer.add_scalar("loss", overall_loss.item(),
                                      overall_step)
-                if args.use_vic_logits=="1":
+                if args.use_vic_logits == "1":
                     tb_writer.add_scalar("rewardloss_good",
-                                     loss_constractive_good.item(),
-                                     overall_step)
-                if args.use_old_logits=="1":
+                                         loss_constractive_good.item(),
+                                         overall_step)
+                if args.use_old_logits == "1":
                     tb_writer.add_scalar("rewardloss_past",
-                                     loss_constractive_past.item(),
-                                     overall_step)
-                if args.use_kld=="1":
+                                         loss_constractive_past.item(),
+                                         overall_step)
+                if args.use_kld == "1":
                     tb_writer.add_scalar("KLloss", loss_logits.item(),
-                                     overall_step)
+                                         overall_step)
 
             if overall_step % save_step == 0:
                 print(" -->Regular Saving.")

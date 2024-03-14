@@ -455,7 +455,7 @@ def main():
 
     tasks_wmt16 = [
         "cs-en",
-        "du-en",
+        "de-en",
         "fi-en",
         "ro-en",
         "ru-en",

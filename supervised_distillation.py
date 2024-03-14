@@ -111,8 +111,9 @@ def train_distill(lm,
             #         logits2_dist/(vic_logits2+epsln)
             #         + epsln))
 
-            loss_logits = (kl_loss(logits2newnew,
-                                   vic_logits2new)*mask2l).sum()
+            loss_logits = (temperature**2)\
+                * (kl_loss(logits2newnew,
+                           vic_logits2new)*mask2l).sum()
             # loss_logits = 0.
 
             overall_loss += loss_logits+logits_hard

@@ -34,7 +34,7 @@ from gen_pipeline_open import InferObj
 
 task_prompt_map = {
     "cola": "Assess the following sentence and classify it as 'acceptable' or 'unacceptable'.",
-    "mnli": "Assess the relationship between the given sentences and classify it as 'entailment', 'neutral', or 'contradiction'.",
+    # "mnli": "Assess the relationship between the given sentences and classify it as 'entailment', 'neutral', or 'contradiction'.",
     "mrpc": "Evaluate the given pair of sentences and determine if they are 'equivalent' or 'not_equivalent'.",
     "qnli": "Assess if the given context entails the answer to the question and respond with 'entailment' or 'not_entailment'.",
     "qqp": "Assess the following pair of questions and classify them as 'equivalent' or 'not_equivalent'.",
@@ -277,14 +277,15 @@ def infer_glue(modelname, task_name, res_pth,
 
     task_label_map = {
         "cola": {"1": "acceptable", "0": "unacceptable"},
-        "mnli": {"1": "neutral", "0": "entailment", "2": "contradiction"},
-        "mrpc": {"1": "equivalent", "2": "not_equivalent"},
+        # "mnli": {"1": "neutral", "0": "entailment", "2": "contradiction"},
+        "mrpc": {"1": "equivalent", "0": "not_equivalent"},
         "qnli": {"1": "not_entailment", "0": "entailment"},
         "qqp": {"1": "duplicate", "0": "not_duplicate"},
         "rte": {"1": "not_entailment", "0": "entailment"},
         "sst2": {"1": "positive", "0": "negative"},
         "wnli": {"0": "not_entailment", "1": "entailment"},
     }
+
     task_key_map = {
         "mrpc": ["sentence1", "sentence2"],
         "qnli": ["question", "sentence"],
@@ -353,6 +354,7 @@ def infer_glue(modelname, task_name, res_pth,
             inps = d[task_key_map[task_name][0]]+"SEP" +\
                 d[task_key_map[task_name][1]]
             label = d["label"]
+            print(f"task name: {task_name} Label: {label}")
             label = task_label_map[task_name][str(label)]
             final_inps = "Instruction: " + prompt +\
                 " User: "+inps+" Assistant: "
