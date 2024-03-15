@@ -347,6 +347,22 @@ def train_pod(lm,
                     args.acc_step, args.log_step,
                     args.save_step,
                     args.beta,
+                    is_black_box=0,
+                    )
+        elif args.task == "black--Complex-lord":
+            from lord_complex_train import complex_train_one_period as ct
+            lm = ct(args, lm,
+                    lm_tokenizer,
+                    loader,
+                    args.epoch, args.device,
+                    tb_writer,
+                    tensorboard_name,
+                    args.save_path,
+                    args.LR,
+                    args.acc_step, args.log_step,
+                    args.save_step,
+                    args.beta,
+                    is_black_box=1,
                     )
         elif args.task == "reinforce-lord":
             from lord_reinforce_train import reinforce_train_one_period
@@ -414,6 +430,8 @@ def setup_train_args():
     parser.add_argument('--use_kld', default="1", type=str,
                         required=False,)
     parser.add_argument('--use_entropy', default="1", type=str,
+                        required=False,)
+    parser.add_argument('--is_black_box', default=0, type=int,
                         required=False,)
     parser.add_argument('--dataset_task', default="glue", type=str,
                         required=False,)

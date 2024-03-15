@@ -380,6 +380,6 @@ def eval_all():
 # running entry
 if __name__ == "__main__":
     # main()
-    evaluation_datas()
-    # eval_all()
+    # evaluation_datas()
+    eval_all()
     print("EVERYTHING DONE.")

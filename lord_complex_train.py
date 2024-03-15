@@ -50,7 +50,7 @@ def complex_train_one_period(args, lm,
                              save_step=1000,
                              beta=0.7,
                              epsln=1e-6,
-                             is_black_box=False,
+                             is_black_box=0,
                              ):
     overall_loss = 0.
     overall_step = 0
@@ -99,7 +99,7 @@ def complex_train_one_period(args, lm,
 
             logits2_dist = torch.gather(logits2, 2, idxs2_dist)
 
-            if is_black_box:
+            if is_black_box==0:
                 loss_constractive_good = -torch.sum(
                     (logits2_cons*2 -
                      vic_logits2[:, :, 0]-old_logits2)*mask2[:, :-1])
@@ -138,7 +138,7 @@ def complex_train_one_period(args, lm,
             #         logits2_dist/(vic_logits2+epsln)
             #         + epsln))
 
-            if args.use_kld != "1" or is_black_box:
+            if args.use_kld != "1" or is_black_box==1:
                 loss_logits = 0.
 
             overall_loss += loss_constractive + loss_logits
