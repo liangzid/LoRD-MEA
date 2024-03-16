@@ -1,0 +1,402 @@
+[
+    [
+        "Instruction: entailment",
+        "entailment"
+    ],
+    [
+        "Instruction: The first major city in the stream of the Rhine is Strasbourg.",
+        "not_entailment"
+    ],
+    [
+        "entailment",
+        "not_entailment"
+    ],
+    [
+        "Instruction: The given context entails the answer to the question and respond with 'ent",
+        "entailment"
+    ],
+    [
+        "entailment or not_entailment. User: What did Herr Gott",
+        "not_entailment"
+    ],
+    [
+        "Instruction: Assistant: entailment",
+        "not_entailment"
+    ],
+    [
+        "entailment",
+        "not_entailment"
+    ],
+    [
+        "Instruction: Assistant: ",
+        "not_entailment"
+    ],
+    [
+        "Instruction:",
+        "not_entailment"
+    ],
+    [
+        "entailment",
+        "entailment"
+    ],
+    [
+        "entailment",
+        "not_entailment"
+    ],
+    [
+        "entailment",
+        "entailment"
+    ],
+    [
+        "Instruction: The given context entails the answer to the question and responds with 'ent",
+        "entailment"
+    ],
+    [
+        "entailment",
+        "not_entailment"
+    ],
+    [
+        "entailment",
+        "not_entailment"
+    ],
+    [
+        "Instruction: The largest and southern main branch begins as Waal and continues as Boven",
+        "entailment"
+    ],
+    [
+        "Instruction: The given context entails the answer to the question and responds with 'ent",
+        "entailment"
+    ],
+    [
+        "entailment or not_entailment. User: What percentage of farmland",
+        "entailment"
+    ],
+    [
+        "entailment or not_entailment. User: What did he light",
+        "entailment"
+    ],
+    [
+        "entailment",
+        "not_entailment"
+    ],
+    [
+        "1. The T cell's surface is upregulated by CD40 ligand",
+        "entailment"
+    ],
+    [
+        "entailment or not_entailment. User: When did Warsaw become",
+        "not_entailment"
+    ],
+    [
+        "entailment",
+        "not_entailment"
+    ],
+    [
+        "Instruction: If two thirds of the Rhine flows through Waal, where does the",
+        "entailment"
+    ],
+    [
+        "entailment",
+        "entailment"
+    ],
+    [
+        "Instruction: The given context entails the answer to the question and responds with 'ent",
+        "entailment"
+    ],
+    [
+        "Instruction: Assistant: Assistant: Assistant: Assistant: Assistant: Assistant: Assistant:",
+        "not_entailment"
+    ],
+    [
+        "entailment",
+        "entailment"
+    ],
+    [
+        "entailmententailmententailentailentailentailentail",
+        "entailment"
+    ],
+    [
+        "Instruction: The given context entails the answer to the question and responds with 'ent",
+        "entailment"
+    ],
+    [
+        "entailment",
+        "entailment"
+    ],
+    [
+        "Instruction: ",
+        "entailment"
+    ],
+    [
+        "Instruction: entailment",
+        "not_entailment"
+    ],
+    [
+        "",
+        "not_entailment"
+    ],
+    [
+        "1999 User: In what year did Tesla's family move to",
+        "not_entailment"
+    ],
+    [
+        "entailment",
+        "not_entailment"
+    ],
+    [
+        "entailment",
+        "entailment"
+    ],
+    [
+        "entailment",
+        "entailment"
+    ],
+    [
+        "Instruction: Assistant: entailment",
+        "entailment"
+    ],
+    [
+        "Instruction: The given context entails the answer to the question and responds with 'ent",
+        "entailment"
+    ],
+    [
+        "entailment",
+        "not_entailment"
+    ],
+    [
+        "entailment",
+        "entailment"
+    ],
+    [
+        "entailment",
+        "not_entailment"
+    ],
+    [
+        "entailment",
+        "not_entailment"
+    ],
+    [
+        "entailment",
+        "not_entailment"
+    ],
+    [
+        "entailment.",
+        "not_entailment"
+    ],
+    [
+        "entailment",
+        "entailment"
+    ],
+    [
+        "entailment or not_entailment. User: What kind of water",
+        "entailment"
+    ],
+    [
+        "entailment",
+        "not_entailment"
+    ],
+    [
+        "Instruction: Assistant: ",
+        "entailment"
+    ],
+    [
+        "Instruction: ",
+        "not_entailment"
+    ],
+    [
+        "entailment",
+        "entailment"
+    ],
+    [
+        "entailment or not_entailment.",
+        "entailment"
+    ],
+    [
+        "entailment",
+        "not_entailment"
+    ],
+    [
+        "Instruction: The population of the Netherlands was 3.5 million in 1",
+        "not_entailment"
+    ],
+    [
+        "entailment or not_entailment. User: What eventually happened to",
+        "not_entailment"
+    ],
+    [
+        "Instruction: ",
+        "entailment"
+    ],
+    [
+        "entailment",
+        "entailment"
+    ],
+    [
+        "entailment",
+        "not_entailment"
+    ],
+    [
+        "entailment",
+        "entailment"
+    ],
+    [
+        "entailment",
+        "entailment"
+    ],
+    [
+        "entailment",
+        "entailment"
+    ],
+    [
+        "entailment",
+        "not_entailment"
+    ],
+    [
+        "Instruction: The given context entails the answer to the question and respond with 'ent",
+        "entailment"
+    ],
+    [
+        "1955 review, savings by the wealthy, if these increase with inequality",
+        "entailment"
+    ],
+    [
+        "Instruction: The given context entails the answer to the question and respond with 'ent",
+        "not_entailment"
+    ],
+    [
+        "entailment",
+        "not_entailment"
+    ],
+    [
+        "Instruction: entailment",
+        "not_entailment"
+    ],
+    [
+        "entailment",
+        "not_entailment"
+    ],
+    [
+        "Instruction: The given context entails the answer to the question and responds with 'ent",
+        "not_entailment"
+    ],
+    [
+        "Instruction: entailment",
+        "not_entailment"
+    ],
+    [
+        "entailment or not_entailment. User: When was Luther'",
+        "not_entailment"
+    ],
+    [
+        "entailment",
+        "entailment"
+    ],
+    [
+        "entailment",
+        "not_entailment"
+    ],
+    [
+        "Instruction: Assistant: ",
+        "not_entailment"
+    ],
+    [
+        "Instruction: The given context entails the answer to the question and respond with 'ent",
+        "not_entailment"
+    ],
+    [
+        "Instruction: The given context entails the answer to the question and respond with 'ent",
+        "not_entailment"
+    ],
+    [
+        "entailment",
+        "not_entailment"
+    ],
+    [
+        "entailment",
+        "entailment"
+    ],
+    [
+        "entailment",
+        "not_entailment"
+    ],
+    [
+        "Instruction: The given context entails the answer to the question and responds with 'ent",
+        "not_entailment"
+    ],
+    [
+        "Instruction: Assistant: ",
+        "not_entailment"
+    ],
+    [
+        "entailment or not_entailment.",
+        "entailment"
+    ],
+    [
+        "entailment or not_entailment. User: When was the St",
+        "entailment"
+    ],
+    [
+        "",
+        "entailment"
+    ],
+    [
+        "Instruction: The university has played an important role in shaping ideas about the free market",
+        "entailment"
+    ],
+    [
+        "entailment",
+        "entailment"
+    ],
+    [
+        "entailment or not_entailment. User: What was Warsaw ranked",
+        "not_entailment"
+    ],
+    [
+        "entailment.",
+        "not_entailment"
+    ],
+    [
+        "Instruction: Assistant: entailment",
+        "not_entailment"
+    ],
+    [
+        "entailment",
+        "not_entailment"
+    ],
+    [
+        "entailment or not_entailment. User: What portion of Berlin",
+        "entailment"
+    ],
+    [
+        "Instruction: The given context entails the answer to the question and respond with 'ent",
+        "entailment"
+    ],
+    [
+        "entailment or not_entailment. User: What did Luther explain",
+        "not_entailment"
+    ],
+    [
+        "Instruction: The war was fought primarily along the frontiers between New France and the British",
+        "entailment"
+    ],
+    [
+        "entailment",
+        "not_entailment"
+    ],
+    [
+        "not_entailment.",
+        "not_entailment"
+    ],
+    [
+        "Instruction: The given context entails the answer to the question and responds with 'ent",
+        "not_entailment"
+    ],
+    [
+        "Instruction: The first attempts to internationalize the ABC television network date back to the",
+        "not_entailment"
+    ],
+    [
+        "Instruction: The steam engine contributed much to the development of thermodynamic theory; however,",
+        "not_entailment"
+    ]
+]

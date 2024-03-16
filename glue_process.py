@@ -519,7 +519,7 @@ def evaluation_datas():
 
 
 def glue_big_evals():
-    methodls = ["Complex-lord", "vanilla", "kd"]
+    methodls = ["Complex-lord", "vanilla", "kd", "black--Complex-lord"]
     dir_p = "./GLUE_infers/"
     res_dict = {}
     for task in task_prompt_map.keys():

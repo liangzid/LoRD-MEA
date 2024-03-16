@@ -1,0 +1,402 @@
+[
+    [
+        "2",
+        "not_duplicate"
+    ],
+    [
+        "1.",
+        "not_duplicate"
+    ],
+    [
+        "These questions are not equivalent. The first question asks about the reason behind which one",
+        "duplicate"
+    ],
+    [
+        "Instruction: These questions are 'equivalent' as they both inquire about",
+        "not_duplicate"
+    ],
+    [
+        "2",
+        "not_duplicate"
+    ],
+    [
+        "Instruction: ",
+        "duplicate"
+    ],
+    [
+        "2",
+        "duplicate"
+    ],
+    [
+        "These questions are not equivalent. The first question is asking for the best things to",
+        "duplicate"
+    ],
+    [
+        "2",
+        "not_duplicate"
+    ],
+    [
+        "These questions are not equivalent. The first question asks for a general approach to cracking",
+        "not_duplicate"
+    ],
+    [
+        "These two questions are not equivalent. The first question asks for a translation of these",
+        "not_duplicate"
+    ],
+    [
+        "Instruction: These questions are 'equivalent' as they both inquire about",
+        "not_duplicate"
+    ],
+    [
+        "These two questions are not equivalent. The first question asks for the best gaming laptop",
+        "duplicate"
+    ],
+    [
+        "These two questions are not equivalent. The first question asks about the general concept of",
+        "not_duplicate"
+    ],
+    [
+        "2",
+        "not_duplicate"
+    ],
+    [
+        "1. The bloodiest battle in history. Assistant: 2. The",
+        "duplicate"
+    ],
+    [
+        "These questions are 'equivalent' as they both inquire about demonetizing",
+        "duplicate"
+    ],
+    [
+        "These two questions are not equivalent. The first question asks for the difference between polyester",
+        "not_duplicate"
+    ],
+    [
+        "Instruction: ",
+        "not_duplicate"
+    ],
+    [
+        "These questions are not equivalent. The first question is about the general concept of buying",
+        "duplicate"
+    ],
+    [
+        "These questions are not equivalent. The first question asks about making vanilla extract, while",
+        "not_duplicate"
+    ],
+    [
+        "Instruction: The two questions are 'equivalent' as they both inquire about",
+        "duplicate"
+    ],
+    [
+        "2",
+        "not_duplicate"
+    ],
+    [
+        "Instruction: These questions are 'equivalent' as they both inquire about",
+        "not_duplicate"
+    ],
+    [
+        "The two questions are 'equivalent' as they both seek to inquire about",
+        "not_duplicate"
+    ],
+    [
+        "2",
+        "not_duplicate"
+    ],
+    [
+        "These questions are not equivalent. The first question asks about closing a Bank of America",
+        "not_duplicate"
+    ],
+    [
+        "2",
+        "not_duplicate"
+    ],
+    [
+        "Instruction: These questions are 'not_equivalent' as they are related",
+        "not_duplicate"
+    ],
+    [
+        "Instruction: These questions are 'equivalent' as they both inquire about",
+        "not_duplicate"
+    ],
+    [
+        "Instruction: These two questions are 'equivalent' as they both inquire",
+        "duplicate"
+    ],
+    [
+        "These two questions are not equivalent. The first question asks about the good pet of",
+        "not_duplicate"
+    ],
+    [
+        "</code>",
+        "not_duplicate"
+    ],
+    [
+        "Instruction: ",
+        "duplicate"
+    ],
+    [
+        "Instruction: India preparing for a war",
+        "not_duplicate"
+    ],
+    [
+        "These two questions are not equivalent. The first question asks about studying computer fundamental in",
+        "not_duplicate"
+    ],
+    [
+        "These questions are not equivalent. The first question is asking for the smartest question,",
+        "not_duplicate"
+    ],
+    [
+        "These two questions are not equivalent. The first question is asking for a good text",
+        "not_duplicate"
+    ],
+    [
+        "2",
+        "duplicate"
+    ],
+    [
+        "2",
+        "not_duplicate"
+    ],
+    [
+        "Instruction: ",
+        "not_duplicate"
+    ],
+    [
+        "These two questions are not equivalent. The first question is asking for a good website",
+        "not_duplicate"
+    ],
+    [
+        "2",
+        "duplicate"
+    ],
+    [
+        "Instruction:",
+        "not_duplicate"
+    ],
+    [
+        "Instruction: ",
+        "not_duplicate"
+    ],
+    [
+        "Instruction: ",
+        "duplicate"
+    ],
+    [
+        "Instruction: ",
+        "duplicate"
+    ],
+    [
+        "<code>not_equivalent</code>",
+        "duplicate"
+    ],
+    [
+        "These questions are 'not_equivalent' as they are asking for different",
+        "duplicate"
+    ],
+    [
+        "2",
+        "duplicate"
+    ],
+    [
+        "2",
+        "not_duplicate"
+    ],
+    [
+        "Instruction: These questions are not equivalent. The first question asks for the",
+        "duplicate"
+    ],
+    [
+        "Instruction: These two questions are 'equivalent' as they both inquire",
+        "not_duplicate"
+    ],
+    [
+        "2",
+        "not_duplicate"
+    ],
+    [
+        "2",
+        "duplicate"
+    ],
+    [
+        "Instruction: These questions are 'equivalent' as they both inquire about",
+        "not_duplicate"
+    ],
+    [
+        "These two questions are not equivalent. The first question asks for a specific process for",
+        "not_duplicate"
+    ],
+    [
+        "These two questions are 'equivalent' as they both inquire about using the",
+        "not_duplicate"
+    ],
+    [
+        "Instruction: The two questions are 'equivalent' as they both inquire about",
+        "not_duplicate"
+    ],
+    [
+        "2",
+        "duplicate"
+    ],
+    [
+        "Instruction: The two questions are 'equivalent' as they both inquire about",
+        "not_duplicate"
+    ],
+    [
+        "Instruction: These questions are 'equivalent' as they both inquire about",
+        "duplicate"
+    ],
+    [
+        "These questions are 'not_equivalent' as they are asking for slightly",
+        "not_duplicate"
+    ],
+    [
+        "1[math]a > 2[math]a > 2[",
+        "not_duplicate"
+    ],
+    [
+        "These two questions are not equivalent. The first question asks for it like to study",
+        "not_duplicate"
+    ],
+    [
+        "Instruction: These questions are 'equivalent' as they both inquire about",
+        "not_duplicate"
+    ],
+    [
+        "",
+        "not_duplicate"
+    ],
+    [
+        "Instruction: These questions are not equivalent. The first question asks for a",
+        "not_duplicate"
+    ],
+    [
+        "Instruction: These questions are 'equivalent' as they both inquire about",
+        "not_duplicate"
+    ],
+    [
+        "2",
+        "not_duplicate"
+    ],
+    [
+        "Instruction: ",
+        "duplicate"
+    ],
+    [
+        "Instruction: These questions are 'equivalent' as they both inquire about",
+        "not_duplicate"
+    ],
+    [
+        "2",
+        "not_duplicate"
+    ],
+    [
+        "These two questions are not equivalent. The first question is asking for the best slogans",
+        "not_duplicate"
+    ],
+    [
+        "These two questions are 'equivalent' as they both inquire about the best",
+        "not_duplicate"
+    ],
+    [
+        "2",
+        "not_duplicate"
+    ],
+    [
+        "These two questions are not equivalent. The first question asks for the better laptop,",
+        "not_duplicate"
+    ],
+    [
+        "Instruction: These questions are 'not_equivalent' as they are",
+        "not_duplicate"
+    ],
+    [
+        "These questions are 'not_equivalent' as they are asking for slightly",
+        "not_duplicate"
+    ],
+    [
+        "These questions are 'not_equivalent' as they are asking for slightly",
+        "not_duplicate"
+    ],
+    [
+        "2",
+        "not_duplicate"
+    ],
+    [
+        "These questions are 'not_equivalent' as they are asking for slightly",
+        "duplicate"
+    ],
+    [
+        "Instruction: The two questions are 'equivalent' as they both inquire about",
+        "not_duplicate"
+    ],
+    [
+        "Instruction: How can I introduce the surface area of cuboid by using real life",
+        "duplicate"
+    ],
+    [
+        "Instruction: These questions are 'equivalent' as they both inquire about",
+        "not_duplicate"
+    ],
+    [
+        "These questions are 'not_equivalent' as they are 'not_",
+        "duplicate"
+    ],
+    [
+        "These two questions are not equivalent. The first question is about the most efficient way",
+        "not_duplicate"
+    ],
+    [
+        "These two questions are not equivalent. The first question asks for a good solar panel",
+        "not_duplicate"
+    ],
+    [
+        "These questions are not equivalent. The first question is asking for the favorite prison break",
+        "not_duplicate"
+    ],
+    [
+        "Instruction: ",
+        "not_duplicate"
+    ],
+    [
+        "Instruction: ",
+        "not_duplicate"
+    ],
+    [
+        "Instruction: These questions are 'not_equivalent' as they are",
+        "not_duplicate"
+    ],
+    [
+        "Instruction: These questions are 'not_equivalent' as they are",
+        "duplicate"
+    ],
+    [
+        "These questions are 'equivalent' as they both inquire about the process of",
+        "duplicate"
+    ],
+    [
+        "Instruction: The two questions are 'equivalent' as they both inquire about",
+        "duplicate"
+    ],
+    [
+        "Instruction: Will NeoBux (PTC site) last?SEPWhat is an",
+        "not_duplicate"
+    ],
+    [
+        "2",
+        "not_duplicate"
+    ],
+    [
+        "Instruction: ",
+        "not_duplicate"
+    ],
+    [
+        "Instruction: These questions are 'equivalent' as they both inquire about",
+        "duplicate"
+    ],
+    [
+        "2",
+        "not_duplicate"
+    ]
+]

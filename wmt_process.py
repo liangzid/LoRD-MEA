@@ -11,29 +11,24 @@ WMT dataset process scripts.
 """
 
 
-import os
-os.environ["CUDA_VISIBLE_DEVICES"]="0,1,2,3"
-# ------------------------ Code --------------------------------------
-import torch
-from datasets import load_dataset
-from openai import OpenAI as oa
-# import time
-import json
-from collections import OrderedDict
-import os
-from math import exp
-import random
-from pprint import pprint
-
-import pickle
-from tqdm import tqdm
-from sklearn.metrics import precision_score, accuracy_score, recall_score, f1_score
-
-from training_data_collecting_openai import chatWithOpenAI_APIs
-from training_data_collecting_openai import chatWithOpenAI__LogLogits
-
 from gen_pipeline_open import InferObj
-
+from training_data_collecting_openai import chatWithOpenAI__LogLogits
+from training_data_collecting_openai import chatWithOpenAI_APIs
+from sklearn.metrics import precision_score, accuracy_score, recall_score, f1_score
+from tqdm import tqdm
+import pickle
+from pprint import pprint
+import random
+from math import exp
+from collections import OrderedDict
+import json
+from openai import OpenAI as oa
+from datasets import load_dataset
+import torch
+import os
+os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
+# ------------------------ Code --------------------------------------
+# import time
 
 
 def load_wmt_datals(tokenizer,
@@ -339,7 +334,7 @@ def evaluation_datas():
 
 
 def eval_all():
-    methodls = ["Complex-lord", "vanilla", "kd"]
+    methodls = ["Complex-lord", "vanilla", "kd", "black--Complex-lord"]
     taskls = ["cs-en", "de-en", "fi-en", "ro-en", "ru-en", "tr-en"]
     dir_p = "./WMT16_infers/"
     res_dict = {}
@@ -350,7 +345,7 @@ def eval_all():
             if not os.path.exists(dir_p):
                 os.makedirs(dir_p)
             prefix = "./wmt2b_ckpts/"
-            if m == "Complex-lord":
+            if m == "Complex-lord" or m == "black--Complex-lord":
                 ckpt = prefix+f"{task}{m}256100___period2"
             else:
                 ckpt = prefix+f"{task}{m}256100___finally"

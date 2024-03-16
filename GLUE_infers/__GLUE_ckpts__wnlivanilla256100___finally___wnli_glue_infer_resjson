@@ -1,0 +1,286 @@
+[
+    [
+        "entailment",
+        "not_entailment"
+    ],
+    [
+        "Instruction: entailment",
+        "entailment"
+    ],
+    [
+        "entailment",
+        "not_entailment"
+    ],
+    [
+        "Instruction: not_entailment",
+        "entailment"
+    ],
+    [
+        "entailment",
+        "entailment"
+    ],
+    [
+        "Instruction: entailment",
+        "not_entailment"
+    ],
+    [
+        "Instruction: entailment",
+        "entailment"
+    ],
+    [
+        "Instruction: not_entailment",
+        "entailment"
+    ],
+    [
+        "Instruction: not_entailment",
+        "not_entailment"
+    ],
+    [
+        "Instruction: not_entailment",
+        "not_entailment"
+    ],
+    [
+        "Instruction: entailment",
+        "not_entailment"
+    ],
+    [
+        "not_entailment",
+        "entailment"
+    ],
+    [
+        "Instruction",
+        "not_entailment"
+    ],
+    [
+        "Instruction",
+        "not_entailment"
+    ],
+    [
+        "Instruction: entailment",
+        "not_entailment"
+    ],
+    [
+        "Instruction: entailment",
+        "not_entailment"
+    ],
+    [
+        "entailment",
+        "entailment"
+    ],
+    [
+        "Instruction: not_entailment",
+        "not_entailment"
+    ],
+    [
+        "Instruction: entailment",
+        "not_entailment"
+    ],
+    [
+        "entailment",
+        "not_entailment"
+    ],
+    [
+        "entailment",
+        "not_entailment"
+    ],
+    [
+        "Instruction: entailment",
+        "not_entailment"
+    ],
+    [
+        "Instruction: not_entailment",
+        "not_entailment"
+    ],
+    [
+        "Instruction: The second sentence \"The school bus was going so slow\" entails",
+        "entailment"
+    ],
+    [
+        "entailment",
+        "not_entailment"
+    ],
+    [
+        "Instruction: entailment",
+        "entailment"
+    ],
+    [
+        "Instruction: entailment",
+        "not_entailment"
+    ],
+    [
+        "Instruction: entailment",
+        "entailment"
+    ],
+    [
+        "Instruction: not_entailment",
+        "entailment"
+    ],
+    [
+        "Instruction: not_entailment",
+        "entailment"
+    ],
+    [
+        "entailment",
+        "entailment"
+    ],
+    [
+        "Instruction: not_entailment",
+        "not_entailment"
+    ],
+    [
+        "entailment",
+        "entailment"
+    ],
+    [
+        "Instruction: not_entailment",
+        "entailment"
+    ],
+    [
+        "entailment",
+        "not_entailment"
+    ],
+    [
+        "Instruction: entailment",
+        "entailment"
+    ],
+    [
+        "Instruction: entailment",
+        "not_entailment"
+    ],
+    [
+        "entailment",
+        "not_entailment"
+    ],
+    [
+        "Instruction: not_entailment",
+        "entailment"
+    ],
+    [
+        "Instruction: entailment",
+        "entailment"
+    ],
+    [
+        "Instruction: entailment",
+        "not_entailment"
+    ],
+    [
+        "Instruction: entailment",
+        "not_entailment"
+    ],
+    [
+        "Instruction: not_entailment",
+        "not_entailment"
+    ],
+    [
+        "entailment",
+        "entailment"
+    ],
+    [
+        "The second sentence was too high.",
+        "not_entailment"
+    ],
+    [
+        "entailment",
+        "not_entailment"
+    ],
+    [
+        "entailment",
+        "entailment"
+    ],
+    [
+        "Instruction: entailment",
+        "not_entailment"
+    ],
+    [
+        "Instruction: entailment",
+        "entailment"
+    ],
+    [
+        "Instruction: entailment",
+        "not_entailment"
+    ],
+    [
+        "entailment",
+        "not_entailment"
+    ],
+    [
+        "Instruction: entailment",
+        "entailment"
+    ],
+    [
+        "Instruction: not_entailment",
+        "not_entailment"
+    ],
+    [
+        "Instruction: entailment",
+        "not_entailment"
+    ],
+    [
+        "entailment",
+        "entailment"
+    ],
+    [
+        "Instruction: entailment",
+        "not_entailment"
+    ],
+    [
+        "entailment",
+        "entailment"
+    ],
+    [
+        "entailment",
+        "not_entailment"
+    ],
+    [
+        "Instruction: not_entailment",
+        "entailment"
+    ],
+    [
+        "The second sentence \"The father carried the sleeping boy in the father's arms",
+        "entailment"
+    ],
+    [
+        "entailment",
+        "not_entailment"
+    ],
+    [
+        "entailment",
+        "not_entailment"
+    ],
+    [
+        "entailment",
+        "entailment"
+    ],
+    [
+        "entailment",
+        "entailment"
+    ],
+    [
+        "entailment",
+        "not_entailment"
+    ],
+    [
+        "Instruction: not_entailment",
+        "entailment"
+    ],
+    [
+        "Instruction: The second sentence \"The bottle was empty\" entails the first",
+        "entailment"
+    ],
+    [
+        "Instruction: entailment",
+        "not_entailment"
+    ],
+    [
+        "Instruction: entailment",
+        "entailment"
+    ],
+    [
+        "Instruction: not_entailment",
+        "not_entailment"
+    ],
+    [
+        "Instruction: not_entailment",
+        "not_entailment"
+    ]
+]
