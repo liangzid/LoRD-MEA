@@ -51,6 +51,7 @@ def complex_train_one_period(args, lm,
                              beta=0.7,
                              epsln=1e-6,
                              is_black_box=0,
+                             method="complex",
                              ):
     overall_loss = 0.
     overall_step = 0
@@ -99,26 +100,53 @@ def complex_train_one_period(args, lm,
 
             logits2_dist = torch.gather(logits2, 2, idxs2_dist)
 
-            if is_black_box==0:
-                loss_constractive_good = -torch.sum(
-                    (logits2_cons*2 -
-                     vic_logits2[:, :, 0]-old_logits2)*mask2[:, :-1])
-            else:
-                loss_constractive_good = -torch.sum(
-                    (logits2_cons*2 -
-                     -old_logits2)*mask2[:, :-1])
+            if method == "complex":
+                if is_black_box == 0:
+                    loss_constractive_good = -torch.sum(
+                        (logits2_cons*2 -
+                         vic_logits2[:, :, 0]-old_logits2)*mask2[:, :-1])
+                else:
+                    loss_constractive_good = -torch.sum(
+                        (logits2_cons*2 -
+                         -old_logits2)*mask2[:, :-1])
 
-            zelta_logits1 = log_clip(old_logits1-logits1)
-            loss_constractive_past = -torch.sum(
-                (zelta_logits1) * mask1[:, :-1])
+                zelta_logits1 = log_clip(old_logits1-logits1)
+                loss_constractive_past = -torch.sum(
+                    (zelta_logits1) * mask1[:, :-1])
 
-            if args.use_old_logits != "1":
-                loss_constractive_past = 0.
-            if args.use_vic_logits != "1":
-                loss_constractive_good = 0.
+                if args.use_old_logits != "1":
+                    loss_constractive_past = 0.
+                if args.use_vic_logits != "1":
+                    loss_constractive_good = 0.
 
-            loss_constractive = loss_constractive_good \
-                + loss_constractive_past
+                loss_constractive = loss_constractive_good \
+                    + loss_constractive_past
+            elif method == "VeryComplex":
+
+                term1 = -torch.exp(old_logits1)*(
+                    log_clip(old_logits1-logits1))\
+                    + old_logits1
+
+                if is_black_box == 0:
+                    term3 = torch.exp(vic_logits2[:, :, 0])\
+                        * (
+                        log_clip(vic_logits2[:, :, 0]-logits2_cons))\
+                        - logits2_cons
+                else:
+                    term3 = logits2_cons*2
+
+                loss_constractive_past = torch.sum(
+                    term1*mask1[:, :-1])
+                loss_constractive_good = torch.sum(
+                    term3*mask2[:, :-1])
+
+                loss_constractive = loss_constractive_good +\
+                    loss_constractive_past
+
+                if args.use_old_logits != "1":
+                    loss_constractive_past = 0.
+                if args.use_vic_logits != "1":
+                    loss_constractive_good = 0.
 
             vic_logits2 = torch.softmax(torch.exp(vic_logits2)
                                         / args.temperature,
@@ -138,7 +166,7 @@ def complex_train_one_period(args, lm,
             #         logits2_dist/(vic_logits2+epsln)
             #         + epsln))
 
-            if args.use_kld != "1" or is_black_box==1:
+            if args.use_kld != "1" or is_black_box == 1:
                 loss_logits = 0.
 
             overall_loss += loss_constractive + loss_logits
@@ -178,8 +206,8 @@ def complex_train_one_period(args, lm,
                 overall_loss = 0.
 
     print(" -->Finally Saving.")
-    lm_tokenizer.save_pretrained(save_path+"___STEPfinally")
-    lm.save_pretrained(save_path+"___STEPfinally")
+    # lm_tokenizer.save_pretrained(save_path+"___STEPfinally")
+    # lm.save_pretrained(save_path+"___STEPfinally")
 
     print("ONE PERIOD TRAINING DONE!")
     return lm

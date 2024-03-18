@@ -364,6 +364,38 @@ def train_pod(lm,
                     args.beta,
                     is_black_box=1,
                     )
+        elif args.task == "Very--Complex-lord":
+            from lord_complex_train import complex_train_one_period as ct
+            lm = ct(args, lm,
+                    lm_tokenizer,
+                    loader,
+                    args.epoch, args.device,
+                    tb_writer,
+                    tensorboard_name,
+                    args.save_path,
+                    args.LR,
+                    args.acc_step, args.log_step,
+                    args.save_step,
+                    args.beta,
+                    is_black_box=0,
+                    method="VeryComplex",
+                    )
+        elif args.task == "Black--Very--Complex-lord":
+            from lord_complex_train import complex_train_one_period as ct
+            lm = ct(args, lm,
+                    lm_tokenizer,
+                    loader,
+                    args.epoch, args.device,
+                    tb_writer,
+                    tensorboard_name,
+                    args.save_path,
+                    args.LR,
+                    args.acc_step, args.log_step,
+                    args.save_step,
+                    args.beta,
+                    is_black_box=1,
+                    method="VeryComplex",
+                    )
         elif args.task == "reinforce-lord":
             from lord_reinforce_train import reinforce_train_one_period
             lm = reinforce_train_one_period(args, lm,
@@ -381,14 +413,17 @@ def train_pod(lm,
         else:
             print("ERROR: CANNOT FIND THE TRAIN LOSS OF THE TASK.")
 
-        print(" -->NOW save the ckpt in each period.")
-        print(f"in period {iter_idx}.")
-        lm_tokenizer.save_pretrained(args.save_path+"___period"+str(iter_idx))
-        lm.save_pretrained(args.save_path+"___period"+str(iter_idx))
+        if iter_idx >= 2:
+            print(" -->NOW save the ckpt in each period.")
+            print(f"in period {iter_idx}.")
+            lm_tokenizer.save_pretrained(args.save_path +
+                                         "___period"+str(iter_idx))
+            lm.save_pretrained(args.save_path +
+                               "___period"+str(iter_idx))
 
     print(" -->ALL TRAINING DONE.")
-    lm_tokenizer.save_pretrained(args.save_path+"___finally")
-    lm.save_pretrained(args.save_path+"___finally")
+    # lm_tokenizer.save_pretrained(args.save_path+"___finally")
+    # lm.save_pretrained(args.save_path+"___finally")
     print(" -->Save DONE.")
 
 
