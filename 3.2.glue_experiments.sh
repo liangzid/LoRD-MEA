@@ -20,7 +20,8 @@ export from_path="google/gemma-2b"
 export msl=256
 export task_ls=("cola" "mnli" "mrpc" "qnli" "qqp" "rte" "sst2" "wnli")
 # export train_taskls=("Complex-lord" "vanilla" "kd" "black--Complex-lord")
-export train_taskls=("black--Complex-lord")
+export train_taskls=("vanilla" "kd")
+# export train_taskls=("black--Complex-lord")
 # export task_ls=("cs-en" "du-en" "fi-en" "ro-en" "ru-en" "tr-en")
 # export train_task="Complex-lord"
 # export train_task="reinforce-lord"
@@ -38,37 +39,44 @@ export use_entropy=0
 
 export train_num=100
 
-for task in ${task_ls[*]}
+export train_times=("1" "2" "3" "4" "5")
+
+
+for train_time in ${train_times[*]}
 do
-    for train_task in ${train_taskls[*]}
+    for task in ${task_ls[*]}
     do
-	export save_path="${POD_save_dir}${task}${train_task}${msl}${train_num}"
+	for train_task in ${train_taskls[*]}
+	do
+	    export save_path="${POD_save_dir}${task}${train_task}${msl}${train_num}__${train_time}"
 
-	echo "++++++++++${train_task}-----${task}++++++++++"
-	echo "Save path: ${save_path}."
+	    echo "++++++++++${train_task}-----${task}++++++++++"
+	    echo "++++++++++train_time--${train_time}++++++++++"
+	    echo "Save path: ${save_path}."
 
-	$python pod_train.py\
-		--device="cuda" \
-		--epoch=$epoch \
-		--period_num=$period \
-		--acc_step=1 \
-		--log_step=1 \
-		--save_step=100000 \
-		--train_num=$train_num \
-		--LR="3e-5" \
-		--beta=$beta \
-		--temperature=$temperature \
-		--batch_size=$batch_size \
-		--task=$train_task \
-		--use_old_logits=$use_old_logits\
-		--use_vic_logits=$use_vic_logits\
-		--use_kld=$use_kld\
-		--use_entropy=$use_entropy\
-		--max_length=$msl \
-		--dataset_task=$task \
-		--from_path=$from_path \
-		--save_path=$save_path
+	    $python pod_train.py\
+		    --device="cuda" \
+		    --epoch=$epoch \
+		    --period_num=$period \
+		    --acc_step=1 \
+		    --log_step=1 \
+		    --save_step=100000 \
+		    --train_num=$train_num \
+		    --LR="3e-5" \
+		    --beta=$beta \
+		    --temperature=$temperature \
+		    --batch_size=$batch_size \
+		    --task=$train_task \
+		    --use_old_logits=$use_old_logits\
+		    --use_vic_logits=$use_vic_logits\
+		    --use_kld=$use_kld\
+		    --use_entropy=$use_entropy\
+		    --max_length=$msl \
+		    --dataset_task=$task \
+		    --from_path=$from_path \
+		    --save_path=$save_path
 
+	done
     done
 done
 

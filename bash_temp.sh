@@ -28,8 +28,12 @@ export task="cs-en"
 # export train_task="lord"
 # export train_task="Complex-lord"
 # export train_task="reinforce-lord"
-export train_task="kd"
-export epoch=30
+# export train_task="kd"
+
+export train_task="Very--Complex-lord"
+# export train_task="Black--Very--Complex-lord"
+
+export epoch=3
 export period=3
 export beta=1.0
 export temperature=2
@@ -37,13 +41,13 @@ export batch_size=1
 
 export use_old_logits=1
 export use_vic_logits=1
-export use_kld=1
+export use_kld=0
 export use_entropy=0
 
 export train_num=100
 
 # export train_task="kd"
-export save_path="${POD_save_dir}${task}/${train_task}_${msl}${task}_30epochs"
+export save_path="${POD_save_dir}${task}/${train_task}_${msl}${task}_test"
 
 $python pod_train.py\
 	--device="cuda" \
