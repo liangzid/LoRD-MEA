@@ -528,7 +528,7 @@ def glue_big_evals():
             if not os.path.exists(dir_p):
                 os.makedirs(dir_p)
             prefix = "./GLUE_ckpts/"
-            if m == "Complex-lord":
+            if m == "Complex-lord" or m =="black--Complex-lord":
                 ckpt = prefix+f"{task}{m}256100___period2"
             else:
                 ckpt = prefix+f"{task}{m}256100___finally"

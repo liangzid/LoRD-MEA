@@ -26,7 +26,7 @@ from openai import OpenAI as oa
 from datasets import load_dataset
 import torch
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
+# os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
 # ------------------------ Code --------------------------------------
 # import time
 
@@ -303,6 +303,7 @@ def evaluation_datas():
         # ["cs-en", "./wmt_ckpt/Complex-lord256cs-en100___period0/",],
         # ["cs-en", "./wmt_ckpt/Complex-lord256cs-en100___period1/",],
         ["cs-en", "./POD_SAVE_CKPTs/vary_period0306cs-en/kd_256cs-en_newkd___finally/",],
+        ["cs-en", "./POD_SAVE_CKPTs/vary_period0306cs-en/kd_256cs-en_30epochs___finally/",],
     ]
     res_dict = {}
     dir_p = "./wmt16_res/"
@@ -375,6 +376,6 @@ def eval_all():
 # running entry
 if __name__ == "__main__":
     # main()
-    # evaluation_datas()
-    eval_all()
+    evaluation_datas()
+    # eval_all()
     print("EVERYTHING DONE.")
