@@ -396,6 +396,38 @@ def train_pod(lm,
                     is_black_box=1,
                     method="VeryComplex",
                     )
+        elif args.task == "nolog--Complex-lord":
+            from lord_complex_train import complex_train_one_period as ct
+            lm = ct(args, lm,
+                    lm_tokenizer,
+                    loader,
+                    args.epoch, args.device,
+                    tb_writer,
+                    tensorboard_name,
+                    args.save_path,
+                    args.LR,
+                    args.acc_step, args.log_step,
+                    args.save_step,
+                    args.beta,
+                    is_black_box=0,
+                    method="nologComplex",
+                    )
+        elif args.task == "Black--nolog--Complex-lord":
+            from lord_complex_train import complex_train_one_period as ct
+            lm = ct(args, lm,
+                    lm_tokenizer,
+                    loader,
+                    args.epoch, args.device,
+                    tb_writer,
+                    tensorboard_name,
+                    args.save_path,
+                    args.LR,
+                    args.acc_step, args.log_step,
+                    args.save_step,
+                    args.beta,
+                    is_black_box=1,
+                    method="nologComplex",
+                    )
         elif args.task == "reinforce-lord":
             from lord_reinforce_train import reinforce_train_one_period
             lm = reinforce_train_one_period(args, lm,

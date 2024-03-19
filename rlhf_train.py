@@ -27,18 +27,19 @@ from transformers import AutoTokenizer, AutoConfig, AutoModel
 from training_data_collecting_openai import load_raw_train_datals
 
 
-def clip(tnsr, epsilon):
-    one_tensor=torch.ones_like(tnsr)
-    one_tensor=one_tensor.to(tnsr.device)
+def clip(tnsr, epsilon=0.2):
+    one_tensor = torch.ones_like(tnsr)
+    one_tensor = one_tensor.to(tnsr.device)
     tnsr = torch.min(tnsr, one_tensor*(1+epsilon)
                      )
     tnsr = torch.max(tnsr, one_tensor*(1-epsilon)
                      )
     return tnsr
 
+
 def log_clip(tnsr, epsilon=0.2):
-    one_tensor=torch.ones_like(tnsr)
-    one_tensor=one_tensor.to(tnsr.device)
+    one_tensor = torch.ones_like(tnsr)
+    one_tensor = one_tensor.to(tnsr.device)
     tnsr = torch.min(tnsr, torch.log(one_tensor*(1+epsilon))
                      )
     tnsr = torch.max(tnsr, torch.log(one_tensor*(1-epsilon))

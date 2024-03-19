@@ -125,7 +125,7 @@ def complex_train_one_period(args, lm,
 
                 term1 = -torch.exp(old_logits1)*(
                     log_clip(old_logits1-logits1))\
-                    + old_logits1
+                    + old_logits2
 
                 if is_black_box == 0:
                     term3 = torch.exp(vic_logits2[:, :, 0])\
@@ -133,7 +133,7 @@ def complex_train_one_period(args, lm,
                         log_clip(vic_logits2[:, :, 0]-logits2_cons))\
                         - logits2_cons
                 else:
-                    term3 = logits2_cons*2
+                    term3 = - logits2_cons*2
 
                 loss_constractive_past = torch.sum(
                     term1*mask1[:, :-1])
@@ -142,6 +142,39 @@ def complex_train_one_period(args, lm,
 
                 loss_constractive = loss_constractive_good +\
                     loss_constractive_past
+
+                if args.use_old_logits != "1":
+                    loss_constractive_past = 0.
+                if args.use_vic_logits != "1":
+                    loss_constractive_good = 0.
+
+            elif method == "nologComplex":
+
+                term1 = -torch.exp(old_logits1)*(
+                    log_clip(old_logits1-logits1))
+
+                if is_black_box == 0:
+                    term3 = torch.exp(vic_logits2[:, :, 0])\
+                        * (
+                        log_clip(vic_logits2[:, :, 0]-logits2_cons))
+                else:
+                    term3 = - logits2_cons
+
+                loss_constractive_past = torch.sum(
+                    term1*mask1[:, :-1])/torch.sum(mask1[:, :-1])
+
+                loss_constractive_good = torch.sum(
+                    term3*mask2[:, :-1])/torch.sum(mask2[:, :-1])
+
+                loss_constractive = loss_constractive_good +\
+                    loss_constractive_past
+
+                term2 = torch.sum(
+                    clip(torch.exp(old_logits2) /
+                         torch.exp(logits2_cons)))\
+                    / torch.sum(mask2[:, :-1])
+
+                loss_constractive *= term2
 
                 if args.use_old_logits != "1":
                     loss_constractive_past = 0.

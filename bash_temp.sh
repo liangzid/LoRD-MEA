@@ -30,7 +30,8 @@ export task="cs-en"
 # export train_task="reinforce-lord"
 # export train_task="kd"
 
-export train_task="Very--Complex-lord"
+# export train_task="Very--Complex-lord"
+export train_task="nolog--Complex-lord"
 # export train_task="Black--Very--Complex-lord"
 
 export epoch=3
