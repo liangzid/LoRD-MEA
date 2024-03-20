@@ -10,6 +10,9 @@ Process GLUE dataset.
 ======================================================================
 """
 
+import os
+if __name__=="__main__":
+    os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
 
 # ------------------------ Code --------------------------------------
 import torch
@@ -519,35 +522,39 @@ def evaluation_datas():
 
 
 def glue_big_evals():
-    methodls = ["Complex-lord", "vanilla", "kd", "black--Complex-lord"]
+    # methodls = ["Complex-lord", "vanilla", "kd", "black--Complex-lord"]
+    
+    methodls = ["vanilla", "kd",]
+    train_times = [str(x+1) for x in range(5)]
     dir_p = "./GLUE_infers/"
     res_dict = {}
     for task in task_prompt_map.keys():
         res_dict[task] = {}
         for m in methodls:
-            if not os.path.exists(dir_p):
-                os.makedirs(dir_p)
-            prefix = "./GLUE_ckpts/"
-            if m == "Complex-lord" or m =="black--Complex-lord":
-                ckpt = prefix+f"{task}{m}256100___period2"
-            else:
-                ckpt = prefix+f"{task}{m}256100___finally"
-            res_pth = ckpt+f"___{task}_glue_infer_res.json"
-            res_pth = res_pth.replace("/", "__").replace(".", "")
-            if not os.path.exists(dir_p+res_pth):
-                res_ls = infer_glue(ckpt, task, dir_p+res_pth,
-                                    test_set_take_num=100)
-            else:
-                # from collections import OrderedDict
-                with open(dir_p+res_pth, 'r', encoding='utf8') as f:
-                    res_ls = json.load(
-                        f, object_pairs_hook=OrderedDict)
+            for itime in train_times:
+                if not os.path.exists(dir_p):
+                    os.makedirs(dir_p)
+                prefix = "./GLUE_ckpts/"
+                if m == "Complex-lord" or m == "black--Complex-lord":
+                    ckpt = prefix+f"{task}{m}256100__{itime}___period2"
+                else:
+                    ckpt = prefix+f"{task}{m}256100__{itime}___finally"
+                res_pth = ckpt+f"___{task}_glue_infer_res.json"
+                res_pth = res_pth.replace("/", "__").replace(".", "")
+                if not os.path.exists(dir_p+res_pth):
+                    res_ls = infer_glue(ckpt, task, dir_p+res_pth,
+                                        test_set_take_num=100)
+                else:
+                    # from collections import OrderedDict
+                    with open(dir_p+res_pth, 'r', encoding='utf8') as f:
+                        res_ls = json.load(
+                            f, object_pairs_hook=OrderedDict)
 
-            scores = eval_glue(task, res_ls)
-            print(task, ckpt)
-            print(scores)
-            res_dict[task][task+"-----"+ckpt] = scores
-    with open(dir_p+"glue_inference_scores.json",
+                scores = eval_glue(task, res_ls)
+                print(task, ckpt)
+                print(scores)
+                res_dict[task][task+"-----"+ckpt] = scores
+    with open(dir_p+"glue_inference_scores5times.json",
               'w', encoding='utf8') as f:
         json.dump(res_dict, f, ensure_ascii=False, indent=4)
     print("OVERALL Save DONE.")

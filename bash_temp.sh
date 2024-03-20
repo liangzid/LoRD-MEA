@@ -13,8 +13,8 @@ echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 
 echo "HOME: ${HOME}"
 export python=${HOME}/anaconda3/envs/align/bin/python3
-# export CUDA_VISIBLE_DEVICES="0,1"
-export CUDA_VISIBLE_DEVICES="4,5,6,7"
+export CUDA_VISIBLE_DEVICES="0,1,2,3"
+# export CUDA_VISIBLE_DEVICES="4,5,6,7"
 export root_dir="${HOME}/alignmentExtraction/"
 export POD_save_dir="${root_dir}POD_SAVE_CKPTs/vary_period0306"
 # export from_path="openai-community/gpt2-xl"

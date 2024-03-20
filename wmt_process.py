@@ -10,6 +10,9 @@ WMT dataset process scripts.
 ======================================================================
 """
 
+import os
+if __name__=="__main__":
+    os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
 
 from gen_pipeline_open import InferObj
 from training_data_collecting_openai import chatWithOpenAI__LogLogits
@@ -25,8 +28,6 @@ import json
 from openai import OpenAI as oa
 from datasets import load_dataset
 import torch
-import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
 # ------------------------ Code --------------------------------------
 # import time
 
@@ -336,7 +337,9 @@ def evaluation_datas():
 
 
 def eval_all():
-    methodls = ["Complex-lord", "vanilla", "kd", "black--Complex-lord"]
+    # methodls = ["Complex-lord", "vanilla", "kd", "black--Complex-lord"]
+    methodls = ["vanilla", "kd",]
+    train_times = [str(x+1) for x in range(5)]
     taskls = ["cs-en", "de-en", "fi-en", "ro-en", "ru-en", "tr-en"]
     dir_p = "./WMT16_infers/"
     res_dict = {}
@@ -344,29 +347,30 @@ def eval_all():
     for task in taskls:
         res_dict[task] = {}
         for m in methodls:
-            if not os.path.exists(dir_p):
-                os.makedirs(dir_p)
-            prefix = "./wmt2b_ckpts/"
-            if m == "Complex-lord" or m == "black--Complex-lord":
-                ckpt = prefix+f"{task}{m}256100___period2"
-            else:
-                ckpt = prefix+f"{task}{m}256100___finally"
-            res_pth = ckpt+f"___{task}_wmt_infer_res.json"
-            res_pth = res_pth.replace("/", "__").replace(".", "")
-            if not os.path.exists(dir_p+res_pth):
-                res_ls = infer_wmt(ckpt, task, dir_p+res_pth,
-                                   test_set_take_num=100,
-                                   mnt=64)
-            else:
-                # from collections import OrderedDict
-                with open(dir_p+res_pth, 'r', encoding='utf8') as f:
-                    res_ls = json.load(
-                        f, object_pairs_hook=OrderedDict)
+            for itime in train_times:
+                if not os.path.exists(dir_p):
+                    os.makedirs(dir_p)
+                prefix = "./wmt2b_ckpts/"
+                if m == "Complex-lord" or m == "black--Complex-lord":
+                    ckpt = prefix+f"{task}{m}256100__{itime}___period2"
+                else:
+                    ckpt = prefix+f"{task}{m}256100__{itime}___finally"
+                res_pth = ckpt+f"___{task}_wmt_infer_res.json"
+                res_pth = res_pth.replace("/", "__").replace(".", "")
+                if not os.path.exists(dir_p+res_pth):
+                    res_ls = infer_wmt(ckpt, task, dir_p+res_pth,
+                                    test_set_take_num=100,
+                                    mnt=64)
+                else:
+                    # from collections import OrderedDict
+                    with open(dir_p+res_pth, 'r', encoding='utf8') as f:
+                        res_ls = json.load(
+                            f, object_pairs_hook=OrderedDict)
 
-            scores = eval_wmt(res_ls)
-            # print(task, ckpt)
-            # print(scores)
-            res_dict[task][task+"-----"+ckpt] = scores
+                scores = eval_wmt(res_ls)
+                # print(task, ckpt)
+                # print(scores)
+                res_dict[task][task+"-----"+ckpt] = scores
     with open(dir_p+"glue_inference_scores.json",
               'w', encoding='utf8') as f:
         json.dump(res_dict, f, ensure_ascii=False, indent=4)
@@ -377,6 +381,6 @@ def eval_all():
 # running entry
 if __name__ == "__main__":
     # main()
-    evaluation_datas()
-    # eval_all()
+    # evaluation_datas()
+    eval_all()
     print("EVERYTHING DONE.")
