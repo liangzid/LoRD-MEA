@@ -428,6 +428,22 @@ def train_pod(lm,
                     is_black_box=1,
                     method="nologComplex",
                     )
+        elif args.task == "ComplexV3":
+            from lord_complex_train import complex_train_one_period as ct
+            lm = ct(args, lm,
+                    lm_tokenizer,
+                    loader,
+                    args.epoch, args.device,
+                    tb_writer,
+                    tensorboard_name,
+                    args.save_path,
+                    args.LR,
+                    args.acc_step, args.log_step,
+                    args.save_step,
+                    args.beta,
+                    is_black_box=0,
+                    method="ComplexV3",
+                    )
         elif args.task == "reinforce-lord":
             from lord_reinforce_train import reinforce_train_one_period
             lm = reinforce_train_one_period(args, lm,
@@ -585,7 +601,7 @@ def main():
             print("EEERRROOORRR: EEERRROOORRR.")
         print("Data LOADING done.")
 
-        if "lord" in args.task:
+        if "lord" in args.task or "Complex" in args.task:
             print("TRAIN WITH LORD!!!")
             train_pod(
                 lm,

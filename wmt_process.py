@@ -306,7 +306,8 @@ def evaluation_datas():
         # ["cs-en", "./wmt_ckpt/Complex-lord256cs-en100___period1/",],
         ["cs-en", "./POD_SAVE_CKPTs/vary_period0306cs-en/kd_256cs-en_newkd___finally/",],
         ["cs-en", "./POD_SAVE_CKPTs/vary_period0306cs-en/kd_256cs-en_30epochs___finally/",],
-        ["cs-en", "./POD_SAVE_CKPTs/vary_period0306cs-en/Very--Complex-lord_256cs-en_test___period2/",],
+        # ["cs-en", "./POD_SAVE_CKPTs/vary_period0306cs-en/Very--Complex-lord_256cs-en_test___period2/",],
+        ["cs-en", "./POD_SAVE_CKPTs/vary_period0306cs-en/nolog--Complex-lord_256cs-en_test___period2/",],
     ]
     res_dict = {}
     dir_p = "./wmt16_res/"
@@ -382,6 +383,6 @@ def eval_all():
 # running entry
 if __name__ == "__main__":
     # main()
-    # evaluation_datas()
-    eval_all()
+    evaluation_datas()
+    # eval_all()
     print("EVERYTHING DONE.")

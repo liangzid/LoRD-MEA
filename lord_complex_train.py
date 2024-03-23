@@ -160,17 +160,59 @@ def complex_train_one_period(args, lm,
                 # print(mask2)
                 # print(mask)
                 # print("_____________")
-                term1 = -log_clip(old_logits1-logits1)
+                term1 = log_clip(-old_logits1+logits1)
+                term2 = (old_logits2-logits2_cons)
 
                 if is_black_box == 0:
                     term3 = \
-                        log_clip(vic_logits2[:, :, 0]-logits2_cons)
+                        (vic_logits2[:, :, 0]-logits2_cons)
                 else:
                     term3 = - logits2_cons
 
-                loss_1 = term1+term3
+                loss_1 = term2 + term3
+                # loss_2 = torch.exp(term1)
+                loss_2 = term1
 
-                loss_2 = log_clip(old_logits2-logits2_cons)
+                loss = sigmoid(loss_1)*loss_2
+
+                if torch.sum(mask[:, :-1]) >= 1:
+                    loss = torch.sum(loss*mask[:, :-1])
+                    # / torch.sum(mask[:, :-1])
+                else:
+                    loss = 0.
+                if loss == torch.tensor(float("nan")):
+                    print("++++++++++++++++++++++")
+                    print(f"term1: {term1}")
+                    print(f"term2: {term3}")
+                    print(f"loss1: {loss_1}")
+                    print(f"loss2: {loss_2}")
+                    print(f"loss: {loss}")
+                    print(f"mask: {mask[:,:-1]}")
+                    print("++++++++DEBUG DONE.++++++++")
+
+                loss_constractive = loss
+
+                loss_constractive_past = 0.
+                loss_constractive_good = 0.
+                loss_logits = 0.
+
+                overall_loss += loss_constractive + loss_logits
+
+            elif method == "ComplexV3":
+
+                mask = torch.logical_or(mask1, mask2).long()
+
+                term1 = (-old_logits1+logits1)
+                term2 = log_clip(old_logits2-logits2_cons)
+
+                if is_black_box == 0:
+                    term3 = \
+                        (vic_logits2[:, :, 0]-logits2_cons)
+                else:
+                    term3 = - logits2_cons
+
+                loss_1 = term1 + term3
+                loss_2 = torch.exp(term2)
 
                 loss = sigmoid(loss_1)*loss_2
 

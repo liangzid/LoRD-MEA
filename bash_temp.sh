@@ -32,6 +32,7 @@ export task="cs-en"
 
 # export train_task="Very--Complex-lord"
 export train_task="nolog--Complex-lord"
+# export train_task="ComplexV3"
 # export train_task="Black--Very--Complex-lord"
 
 export epoch=3
