@@ -57,13 +57,13 @@ def train_supervised(lm,
                      log_step=100,
                      save_step=1000,
                      temperature=1.0,
-                  epsln=1e-6,
+                     epsln=1e-6,
                      ):
     print("VVVAAANNNIIILLLAAA---TRAIN!!!")
     overall_loss = 0.
     overall_step = 0
     pad_token_id = lm_tokenizer.pad_token_id
-    ce=torch.nn.CrossEntropyLoss()
+    ce = torch.nn.CrossEntropyLoss()
 
     opt1 = torch.optim.AdamW(lm.parameters(), lr=LR)
     for e in tqdm(range(epoch), desc="epoch"):
@@ -105,8 +105,10 @@ def train_supervised(lm,
             if overall_step % save_step == 0:
                 print(" -->Regular Saving.")
                 print(f"in epoch {e}, step {overall_step}.")
-                lm_tokenizer.save_pretrained(save_path+"___"+overall_step)
-                lm.save_pretrained(save_path+"___"+overall_step)
+                lm_tokenizer.save_pretrained(save_path+"___" +
+                                             str(overall_step))
+                lm.save_pretrained(save_path+"___" +
+                                   str(overall_step))
 
             if overall_step % acc_step == 0:
                 opt1.zero_grad()
@@ -121,6 +123,3 @@ def train_supervised(lm,
 
     print("ONE PERIOD TRAINING DONE!")
     return lm
-
-
-

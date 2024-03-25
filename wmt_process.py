@@ -11,7 +11,7 @@ WMT dataset process scripts.
 """
 
 import os
-if __name__=="__main__":
+if __name__ == "__main__":
     # os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
     os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,6,7"
 
@@ -361,8 +361,8 @@ def eval_all():
                 res_pth = res_pth.replace("/", "__").replace(".", "")
                 if not os.path.exists(dir_p+res_pth):
                     res_ls = infer_wmt(ckpt, task, dir_p+res_pth,
-                                    test_set_take_num=100,
-                                    mnt=64)
+                                       test_set_take_num=100,
+                                       mnt=64)
                 else:
                     # from collections import OrderedDict
                     with open(dir_p+res_pth, 'r', encoding='utf8') as f:
@@ -380,9 +380,11 @@ def eval_all():
     pprint(res_dict)
 
 
+
 # running entry
 if __name__ == "__main__":
     # main()
-    evaluation_datas()
+    # evaluation_datas()
     # eval_all()
+    eval_trackingProcessStablity()
     print("EVERYTHING DONE.")
