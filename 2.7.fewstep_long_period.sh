@@ -1,12 +1,12 @@
 #!/bin/bash
 ######################################################################
-#BASH_TEMP ---
+#2.7.FEWSTEP_LONG_PERIOD ---
 
-# TEMP SCRIPTS for sequential RUNNING.
+## RUNING Few STEP with A LONG training PERIOD.
 
 # Author: Zi Liang <zi1415926.liang@connect.polyu.hk>
 # Copyright © 2024, ZiLiang, all rights reserved.
-# Created:  6 March 2024
+# Created: 25 March 2024
 ######################################################################
 
 echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
@@ -18,14 +18,11 @@ export python=${HOME}/anaconda3/envs/align/bin/python3
 export CUDA_VISIBLE_DEVICES="3,7,4,5"
 export root_dir="${HOME}/alignmentExtraction/"
 export POD_save_dir="${root_dir}POD_SAVE_CKPTs/vary_period0306"
-# export from_path="openai-community/gpt2-xl"
 export from_path="google/gemma-2b"
 export msl=256
 export task_ls=("cola" "mnli" "mrpc" "qnli" "qqp" "rte" "sst2" "wnli")
 export task_ls=("cs-en" "du-en" "fi-en" "ro-en" "ru-en" "tr-en")
-# export task="cs-en"
 export task="cs-en"
-# export task="sum"
 # export train_task="lord"
 # export train_task="Complex-lord"
 # export train_task="reinforce-lord"
@@ -36,8 +33,8 @@ export train_task="nolog--Complex-lord"
 # export train_task="ComplexV3"
 # export train_task="Black--Very--Complex-lord"
 
-export epoch=3
-export period=3
+export epoch=1
+export period=10
 export beta=1.0
 export temperature=2
 export batch_size=1
@@ -52,7 +49,7 @@ export train_num=100
 export max_new_tokens=64
 
 # export train_task="kd"
-export save_path="${POD_save_dir}${task}/${train_task}_${msl}${task}_longerGen${max_new_tokens}"
+export save_path="${POD_save_dir}${task}/${train_task}_${msl}${task}_longpreriod${max_new_tokens}"
 
 $python pod_train.py\
 	--device="cuda" \
@@ -80,5 +77,6 @@ $python pod_train.py\
 echo "EVERYTHING DONE."
 echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 
-echo "RUNNING bash_temp.sh DONE."
-# bash_temp.sh ends here
+
+echo "RUNNING 2.7.fewstep_long_period.sh DONE."
+# 2.7.fewstep_long_period.sh ends here

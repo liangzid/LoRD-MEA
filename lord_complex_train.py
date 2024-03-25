@@ -156,10 +156,6 @@ def complex_train_one_period(args, lm,
             elif method == "nologComplex":
 
                 mask = torch.logical_or(mask1, mask2).long()
-                # print(mask1)
-                # print(mask2)
-                # print(mask)
-                # print("_____________")
                 term1 = log_clip(-old_logits1+logits1)
                 term2 = (old_logits2-logits2_cons)
 
@@ -170,11 +166,11 @@ def complex_train_one_period(args, lm,
                     term3 = - logits2_cons
 
                 loss_1 = term2 + term3
-                # loss_2 = torch.exp(term1)
-                loss_2 = term1
+                loss_2 = torch.exp(term1)
+                # loss_2 = term1
 
                 # loss = sigmoid(loss_1)+loss_2
-                loss = torch.log(sigmoid(loss_1))+loss_2
+                loss = sigmoid(loss_1)+loss_2
 
                 if torch.sum(mask[:, :-1]) >= 1:
                     loss = torch.sum(loss*mask[:, :-1])
