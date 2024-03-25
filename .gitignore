@@ -1,0 +1,14 @@
+/GLUE_ckpts/
+*.log
+/3d_res.pkkl
+/CiQA_infers_tracking_process_stable/
+/GLUE_infers/
+/POD_SAVE_CKPTs/
+/WMT16_infers/
+__pycache__
+tracking_process_stablece-en
+wmt16_res
+wmt2b_ckpts
+/vArY_TrAiN_nUm_ckpts/
+/tracking_process_stablecs-en/
+/wikitext_infers_tracking_process_stable/
