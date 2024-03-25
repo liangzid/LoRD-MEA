@@ -14,8 +14,8 @@ Evaluate the models' perplexity
 # ------------------------ Code --------------------------------------
 import os
 if __name__ == "__main__":
-    # os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
-    os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,6,7"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
+    # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,6,7"
 
 from tqdm import tqdm
 import json
@@ -23,6 +23,7 @@ import json
 from datasets import load_dataset
 from collections import OrderedDict
 from pprint import pprint
+from math import exp
 
 from transformers import (
     AutoModelForCausalLM,
@@ -41,8 +42,6 @@ def inferInDataset(
         modelname="google/gemma-2b",
 ):
     device = "auto"
-    dataset = load_dataset(name, subsetname,
-                           split="train[:100]")
     tokenizer = AutoTokenizer.from_pretrained(modelname,
                                               trust_remote_code=True)
     tokenizer.pad_token = tokenizer.eos_token
@@ -52,23 +51,27 @@ def inferInDataset(
         trust_remote_code=True,
         offload_folder="offload",
     )
+    dataset = load_dataset(name, subsetname,
+                           split="test[:500]")
+    encodings = tokenizer("\n\n".join(dataset["text"]),
+                          return_tensors="pt")
+    # msl = 512
+    msl = 128
+    sl = encodings.input_ids.size(1)
 
-    res_ls = []
-    for item in tqdm(dataset):
-        text = item["text"]
-        inps = text
-        # print(inps)
-        inps = tokenizer([inps],
-                         return_tensors="pt",
-                         max_length=512,).input_ids
-        inps = inps.to("cuda")
+    nlls = []
+    for begin in tqdm(range(0, sl, msl)):
+        if begin+msl >= sl:
+            break
+        inps = encodings.input_ids[:, begin:begin+msl].to("cuda")
 
-        neg_log_llh = model(inps, labels=inps).loss
-        res_ls.append(neg_log_llh.item())
+        with torch.no_grad():
+            outputs = model(inps, labels=inps).loss
+            nlls.append(outputs)
 
-    ppl = torch.exp(sum(res_ls)/len(res_ls))
+    ppl = torch.exp(torch.stack(nlls).mean())
 
-    return ppl
+    return float(ppl)
 
 
 def experiment_ppl1():

@@ -384,7 +384,6 @@ def eval_all():
 # running entry
 if __name__ == "__main__":
     # main()
-    # evaluation_datas()
+    evaluation_datas()
     # eval_all()
-    eval_trackingProcessStablity()
     print("EVERYTHING DONE.")

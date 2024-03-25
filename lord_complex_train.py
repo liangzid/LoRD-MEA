@@ -173,7 +173,8 @@ def complex_train_one_period(args, lm,
                 # loss_2 = torch.exp(term1)
                 loss_2 = term1
 
-                loss = sigmoid(loss_1)+loss_2
+                # loss = sigmoid(loss_1)+loss_2
+                loss = torch.log(sigmoid(loss_1))+loss_2
 
                 if torch.sum(mask[:, :-1]) >= 1:
                     loss = torch.sum(loss*mask[:, :-1])
