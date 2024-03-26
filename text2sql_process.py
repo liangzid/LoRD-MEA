@@ -1,12 +1,12 @@
 """
 ======================================================================
-SUM_PROCESS ---
+TEXT2SQL_PROCESS ---
 
-Summerization dataset preperation script.
+Process of `text2sql` datasets.
 
     Author: Zi Liang <zi1415926.liang@connect.polyu.hk>
     Copyright © 2024, ZiLiang, all rights reserved.
-    Created:  4 March 2024
+    Created: 26 March 2024
 ======================================================================
 """
 
@@ -34,21 +34,20 @@ from gen_pipeline_open import InferObj
 from wmt_process import commonly_used_openai_post_process
 
 
-def load_sum_datals(tokenizer,
-                    task_name="UCL-DARK/openai-tldr-filtered",
-                    train_num=100,
-                    model_name="gpt-3.5-turbo-1106",
-                    topk=5,
-                    max_length=1024,
-                    openai_tmp_save_pth="./wmt_data_saveto_"):
+def load_text2sql_datals(tokenizer,
+                         task_name="wikisql",
+                         train_num=100,
+                         model_name="gpt-3.5-turbo-1106",
+                         topk=5,
+                         max_length=512,
+                         openai_tmp_save_pth="./wmt_data_saveto_"):
 
     lm_tokenizer = tokenizer
 
     V = lm_tokenizer.vocab_size
     tasks_we_used = [
-        "UCL-DARK/openai-tldr-filtered",
-        "cnn_dailymail",
-        "samsum",
+        "wikisql",
+        "spider",
     ]
     assert task_name in tasks_we_used
     dataset_name = task_name
@@ -58,43 +57,32 @@ def load_sum_datals(tokenizer,
                                      split=f"train[:{train_num}]")
 
         for item in trainset_text:
-            subreddit = item["subreddit"]
-            title = item["title"]
-            post = item["post"]
-            summary = item["summary"]
-            text = f"Subreddit: {subreddit} Title: {title} Post: {post}"
+            question = item["question"]
+            table = item["table"]
+            sql = item["sql"]["human_readable"]
+            text = f"Qestion: {question}\n\n Table: {table}."
             inp_ls.append(text)
     elif task_name == tasks_we_used[1]:
 
         trainset_text = load_dataset(dataset_name,
-                                     "1.0.0",
                                      split=f"train[:{train_num}]")
 
         for item in trainset_text:
-            post = item["article"]
-            summary = item["highlights"]
-            text = f"Article: {post}"
-            inp_ls.append(text)
-    elif task_name == tasks_we_used[2]:
-
-        trainset_text = load_dataset(dataset_name,
-                                     split=f"train[:{train_num}]")
-
-        for item in trainset_text:
-            post = item["dialogue"]
-            summary = item["summary"]
-            text = f"dialogue: {post}"
+            query = item["query"]
+            question = item["question"]
+            text = f"Question: {question}"
             inp_ls.append(text)
     assert inp_ls != []
 
-    pp = "Please **summerize** the content given by user."
+    pp = "TEXT-TO-SQL: please return to me the SQL sentence based on the text (i.e., Question) and the table information (Table) provided by the User. "
+
     prompts = [f"Instruction: {pp} User: {x} Assistant: "
                for x in inp_ls]
     p_idxls = []
     for p in prompts:
         p_idxls.append(lm_tokenizer(p, return_tensors="pt").input_ids[0])
 
-    openai_tmp_save_pth += f"SUMtask_{task_name}-trainNUM_{train_num}.pkl"
+    openai_tmp_save_pth += f"T2SQLtask_{task_name}-trainNUM_{train_num}.pkl"
 
     return commonly_used_openai_post_process(
         openai_tmp_save_pth,
@@ -109,7 +97,7 @@ def load_sum_datals(tokenizer,
     )
 
 
-def infer_sum(modelname, task_name, res_pth,
+def infer_t2s(modelname, task_name, res_pth,
               test_set_take_num=100,
               mnt=32
               ):
@@ -117,16 +105,15 @@ def infer_sum(modelname, task_name, res_pth,
     save_pth = res_pth
 
     tasks_we_used = [
-        "UCL-DARK/openai-tldr-filtered",
-        "cnn_dailymail",
-        "samsum",
+        "wikisql",
+        "spider",
     ]
+
     assert task_name in tasks_we_used
 
     task_seqlen_map = {
-        "UCL-DARK/openai-tldr-filtered": 2048,
-        "cnn_dailymail": 4096,
-        "samsum": 2048,
+        "wikisql": 1024,
+        "spider": 512,
     }
 
     model = InferObj(model_name=modelname,
@@ -135,7 +122,7 @@ def infer_sum(modelname, task_name, res_pth,
 
     gen_pipeline = model.text_gen
 
-    prompt = "Please **summerize** the content given by user."
+    prompt = "TEXT-TO-SQL: please return to me the SQL sentence based on the text (i.e., Question) and the table information (Table) provided by the User. "
     pp = prompt
 
     inp_ls = []
@@ -147,39 +134,28 @@ def infer_sum(modelname, task_name, res_pth,
             .to_iterable_dataset()\
             .take(test_set_take_num)
         for item in trainset_text:
-            subreddit = item["subreddit"]
-            title = item["title"]
-            post = item["post"]
-            summary = item["summary"]
-            text = f"Subreddit: {subreddit} Title: {title} Post: {post}"
-            inp_ls.append((text, summary))
+            question = item["question"]
+            table = item["table"]
+            sql = item["sql"]["human_readable"]
+            text = f"Qestion: {question}\n\n Table: {table}."
+
+            inp_ls.append((text, sql))
+
     elif task_name == tasks_we_used[1]:
 
         trainset_text = load_dataset(task_name,
-                                     "1.0.0",
-                                     split=f"test")\
+                                     split=f"validation")\
             .shuffle(20240307)\
             .to_iterable_dataset()\
             .take(test_set_take_num)
 
         for item in trainset_text:
-            post = item["article"]
-            summary = item["highlights"]
-            text = f"Article: {post}"
-            inp_ls.append((text, summary))
-    elif task_name == tasks_we_used[2]:
+            question = item["question"]
+            table = item["table"]
+            sql = item["sql"]["human_readable"]
+            text = f"Qestion: {question}\n\n Table: {table}."
 
-        trainset_text = load_dataset(task_name,
-                                     split=f"test")\
-            .shuffle(20240307)\
-            .to_iterable_dataset()\
-            .take(test_set_take_num)
-
-        for item in trainset_text:
-            post = item["dialogue"]
-            summary = item["summary"]
-            text = f"dialogue: {post}"
-            inp_ls.append((text, summary))
+            inp_ls.append((text, sql))
     assert inp_ls != []
 
     res_ls = []
@@ -191,8 +167,7 @@ def infer_sum(modelname, task_name, res_pth,
                            max_new_tokens=mnt,)[0]["generated_text"]
         res = res.split(final_inps)[1]
         res_ls.append((res, summary))
-        # print(res)
-        # break
+
     with open(save_pth, 'w', encoding='utf8') as f:
         json.dump(res_ls, f, ensure_ascii=False, indent=4)
 
