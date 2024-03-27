@@ -277,7 +277,7 @@ def infer_wmt(modelname, task_name, res_pth,
                            max_new_tokens=mnt,)[0]["generated_text"]
         res = res.split(final_inps)[1]
         res_ls.append((res, label))
-        # print(res)
+        print(res)
         # break
     with open(save_pth, 'w', encoding='utf8') as f:
         json.dump(res_ls, f, ensure_ascii=False, indent=4)
@@ -307,7 +307,11 @@ def evaluation_datas():
         ["cs-en", "./POD_SAVE_CKPTs/vary_period0306cs-en/kd_256cs-en_newkd___finally/",],
         ["cs-en", "./POD_SAVE_CKPTs/vary_period0306cs-en/kd_256cs-en_30epochs___finally/",],
         # ["cs-en", "./POD_SAVE_CKPTs/vary_period0306cs-en/Very--Complex-lord_256cs-en_test___period2/",],
-        ["cs-en", "./POD_SAVE_CKPTs/vary_period0306cs-en/nolog--Complex-lord_256cs-en_test___period2/",],
+        # ["cs-en", "./POD_SAVE_CKPTs/vary_period0306cs-en/nolog--Complex-lord_256cs-en_longerGen64___period2/",],
+        # ["cs-en", "./temp_ckpt/cs-en/nolog--Complex-lord_256cs-en_longerGen16___period0/",],
+        ["cs-en", "./temp_ckpt/cs-en/Complex-lord_256cs-en_longerGen64___period5",],
+        ["cs-en", "./temp_ckpt/cs-en/Complex-lord_256cs-en_longerGen64___period4",],
+        ["cs-en", "./temp_ckpt/cs-en/Complex-lord_256cs-en_longerGen64___period3",],
     ]
     res_dict = {}
     dir_p = "./wmt16_res/"
@@ -321,7 +325,7 @@ def evaluation_datas():
         if not os.path.exists(dir_p+res_pth):
             res_ls = infer_wmt(ckpt, task, dir_p+res_pth,
                                test_set_take_num=100,
-                               mnt=64)
+                               mnt=16)
         else:
             # from collections import OrderedDict
             with open(dir_p+res_pth, 'r', encoding='utf8') as f:
@@ -378,7 +382,6 @@ def eval_all():
         json.dump(res_dict, f, ensure_ascii=False, indent=4)
     print("OVERALL Save DONE.")
     pprint(res_dict)
-
 
 
 # running entry

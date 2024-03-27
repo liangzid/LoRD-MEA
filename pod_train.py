@@ -461,7 +461,7 @@ def train_pod(lm,
         else:
             print("ERROR: CANNOT FIND THE TRAIN LOSS OF THE TASK.")
 
-        if iter_idx >= 2:
+        if iter_idx >= 0:
             print(" -->NOW save the ckpt in each period.")
             print(f"in period {iter_idx}.")
             lm_tokenizer.save_pretrained(args.save_path +
@@ -604,6 +604,16 @@ def main():
         if "lord" in args.task or "Complex" in args.task:
             print("TRAIN WITH LORD!!!")
             train_pod(
+                lm,
+                lm_tokenizer,
+                args,
+                raw_train_datals,
+                max_new_tokens=args.max_new_tokens,
+            )
+        if "II" in args.task:
+            print("TRAIN WITH LORD-II!!!")
+            from train_pod2 import train
+            train(
                 lm,
                 lm_tokenizer,
                 args,

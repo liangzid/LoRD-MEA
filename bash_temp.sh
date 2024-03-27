@@ -16,7 +16,7 @@ export python=${HOME}/anaconda3/envs/align/bin/python3
 # export CUDA_VISIBLE_DEVICES="0,1,2,3"
 export CUDA_VISIBLE_DEVICES="4,5,6,7"
 export root_dir="${HOME}/alignmentExtraction/"
-export POD_save_dir="${root_dir}POD_SAVE_CKPTs/vary_period0306"
+export POD_save_dir="${root_dir}temp_ckpt/"
 # export from_path="openai-community/gpt2-xl"
 export from_path="google/gemma-2b"
 export msl=256
@@ -31,12 +31,13 @@ export task="cs-en"
 # export train_task="kd"
 
 # export train_task="Very--Complex-lord"
-export train_task="nolog--Complex-lord"
+# export train_task="nolog--Complex-lord"
+export train_task="Complex-lord"
 # export train_task="ComplexV3"
 # export train_task="Black--Very--Complex-lord"
 
 export epoch=3
-export period=3
+export period=6
 export beta=1.0
 export temperature=2
 export batch_size=1
