@@ -29,6 +29,9 @@ export train_task="LoRD-II"
 
 export epoch=1
 export period=3
+export sub_set_num=16
+export sub_stage_num=10
+
 export beta=1.0
 export temperature=2
 export batch_size=1
@@ -38,17 +41,19 @@ export use_vic_logits=1
 export use_kld=0
 export use_entropy=0
 
-# export train_num=100
-export train_num=2
-export max_new_tokens=4
+export train_num=100
+# export train_num=2
+export max_new_tokens=64
 
 # export train_task="kd"
-export save_path="${POD_save_dir}${task}/${train_task}${msl}${task}${max_new_tokens}"
+export save_path="${POD_save_dir}${task}/${train_task}${sub_set_num}${sub_stage_num}${msl}${task}${max_new_tokens}"
 
 $python pod_train.py\
 	--device="cuda" \
 	--epoch=$epoch \
 	--period_num=$period \
+	--sub_set_num=$sub_set_num \
+	--sub_stage_num=$sub_stage_num \
 	--acc_step=1 \
 	--log_step=1 \
 	--save_step=100000 \
@@ -70,14 +75,6 @@ $python pod_train.py\
 
 echo "EVERYTHING DONE."
 echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
-
-
-
-
-
-
-
-
 
 
 echo "RUNNING 4.0.run_lord_ii.sh DONE."

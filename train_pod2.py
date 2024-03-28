@@ -13,20 +13,20 @@ New stealing mechamism.
 
 # ------------------------ Code --------------------------------------
 import torch
-import json
+# import json
 from torch.utils.tensorboard import SummaryWriter
-from torch.distributions import Categorical
+# from torch.distributions import Categorical
 from torch.utils.data import TensorDataset, DataLoader
 from tqdm import tqdm
-import argparse
-from transformers import AutoModelForCausalLM
-from transformers import AutoModelForSequenceClassification
-from transformers import AutoModelForTokenClassification
-from transformers import AutoTokenizer, AutoConfig, AutoModel
+# import argparse
+# from transformers import AutoModelForCausalLM
+# from transformers import AutoModelForSequenceClassification
+# from transformers import AutoModelForTokenClassification
+# from transformers import AutoTokenizer, AutoConfig, AutoModel
 
-from training_data_collecting_openai import load_raw_train_datals
-from training_data_collecting_openai import load_steal_datals
-from glue_process import load_glue_datals
+# from training_data_collecting_openai import load_raw_train_datals
+# from training_data_collecting_openai import load_steal_datals
+# from glue_process import load_glue_datals
 
 from sequence_utils import my_padding, my_padding_logits
 from sequence_utils import my_padding_token_dist
@@ -34,7 +34,7 @@ from sequence_utils import my_padding_logit
 
 import torch.nn.functional as F
 
-from rlhf_train import clip, log_clip
+# from rlhf_train import clip, log_clip
 import random
 
 
@@ -47,7 +47,7 @@ def random_take(num, ls):
 
 def train(lm, lm_tokenizer, args,
           raw_train_datals, max_new_tokens=16):
-    sub_stage_num = 7
+    sub_stage_num = args.sub_stage_num
     for ssn in range(sub_stage_num):
         lm = train_pod(lm, lm_tokenizer,
                        args, raw_train_datals, max_new_tokens)
@@ -64,7 +64,7 @@ def train_pod(lm,
     tb_writer = SummaryWriter(log_dir=args.save_path+"___log_writer")
     op_ls, oidx2ls, ologits2ls, oidx2_dist = raw_train_datals
 
-    subset_num = 2
+    subset_num = args.sub_set_num
 
     # 1. in every period, random take a subset.
     p_ls = random_take(subset_num, op_ls)
@@ -167,8 +167,8 @@ def train_pod(lm,
                 else:
                     pidx11 = p_i_11_ls[i].unsqueeze(0).to(args.device)
                     pidx12 = p_i_12_ls[i].unsqueeze(0).to(args.device)
-                    llh1 = lm(pidx11, label=pidx11).loss
-                    llh2 = lm(pidx12, label=pidx12).loss
+                    llh1 = lm(pidx11, labels=pidx11).loss
+                    llh2 = lm(pidx12, labels=pidx12).loss
                     if llh2 < llh1:
                         p_i_11_ls[i] = pidx12.squeeze(0).to("cpu")
                         p_i_12_ls[i] = pidx11.squeeze(0).to("cpu")
@@ -290,10 +290,10 @@ def train_pod(lm,
         if iter_idx >= 0:
             print(" -->NOW save the ckpt in each period.")
             print(f"in period {iter_idx}.")
-            lm_tokenizer.save_pretrained(args.save_path +
-                                         "___period"+str(iter_idx))
-            lm.save_pretrained(args.save_path +
-                               "___period"+str(iter_idx))
+            # lm_tokenizer.save_pretrained(args.save_path +
+            #                              "___period"+str(iter_idx))
+            # lm.save_pretrained(args.save_path +
+            #                    "___period"+str(iter_idx))
 
     print(" -->ALL TRAINING DONE.")
     # lm_tokenizer.save_pretrained(args.save_path+"___finally")

@@ -486,6 +486,10 @@ def setup_train_args():
                         required=False)
     parser.add_argument('--period_num', default=3, type=int,
                         required=False)
+    parser.add_argument('--sub_stage_num', default=10, type=int,
+                        required=False)
+    parser.add_argument('--sub_set_num', default=16, type=int,
+                        required=False)
     parser.add_argument('--train_num', default=100, type=int,
                         required=False)
     parser.add_argument('--acc_step', default=4, type=int,

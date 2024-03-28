@@ -1,0 +1,55 @@
+#+title: Datasets for Evaluation.
+#+date: Tue Mar 26 10:08:27 2024
+#+author: Zi Liang
+#+email: zi1415926.liang@connect.polyu.hk
+#+latex_class: elegantpaper
+#+filetags: ::
+
+
+* Downstream Datasets
+
+|-------------------------------+-----------------+----------|
+| Card Name                     | selected SeqLen | Comments |
+|-------------------------------+-----------------+----------|
+| wikisql                       |             512 |          |
+| spider                        |             512 |          |
+|-------------------------------+-----------------+----------|
+| allenai/common_gen            |             256 |          |
+| e2e_nlg                       |             512 |          |
+|-------------------------------+-----------------+----------|
+| UCL-DARK/openai-tldr-filtered |            2048 | filter   |
+| cnn_dailymail                 |            *4096* | filter   |
+| samsum                        |            2048 | filter   |
+|-------------------------------+-----------------+----------|
+| piqa                          |             256 |          |
+| truthful_qa                   |             256 |          |
+| allenai/ai2_arc               |             256 |          |
+|-------------------------------+-----------------+----------|
+
+
+
+** Downstream Tasks: Status
+*** Translation
+**** REVIEW WMT16: cs-en
+**** REVIEW WMT16: de-en
+**** REVIEW WMT16: fi-en
+*** Summarization
+**** REVIEW TLDR
+**** REVIEW cnn_dailymail ? *too long* 
+**** REVIEW samsum
+*** Structure Text generation
+**** REVIEW WikiSQL
+**** REVIEW Spider
+*** Data-to-Text
+**** REVIEW e2e_nlg
+**** REVIEW CommonGen
+*** Question Answering
+**** REVIEW piqa
+**** REVIEW truthful_qa
+**** REVIEW allenai/ai2_arc
+** Generalized Ability: Status
+*** Safety
+**** TODO HELM: bias, toxicity, fairness
+**** TODO ...
+*** Reasoning (math)
+**** TODO MMLU (59 subsets)
