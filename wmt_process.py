@@ -426,6 +426,7 @@ def eval_varying_train_num():
         json.dump(res_dict, f, ensure_ascii=False, indent=4)
     print("OVERALL Save DONE.")
     pprint(res_dict)
+    return res_dict
 
 
 # running entry

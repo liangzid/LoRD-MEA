@@ -29,7 +29,7 @@ export train_task="LoRD-II"
 
 export epoch=1
 export period=3
-export sub_set_num=16
+export sub_set_num=1
 export sub_stage_num=10
 
 export beta=1.0
@@ -41,8 +41,8 @@ export use_vic_logits=1
 export use_kld=0
 export use_entropy=0
 
-export train_num=100
-# export train_num=2
+# export train_num=100
+export train_num=2
 export max_new_tokens=64
 
 # export train_task="kd"
