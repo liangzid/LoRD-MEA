@@ -38,6 +38,8 @@ import torch.nn.functional as F
 # from rlhf_train import clip, log_clip
 import random
 
+from rlhf_train import clip, log_clip
+
 
 def random_take(num, ls):
     random.shuffle(ls)
@@ -49,16 +51,27 @@ def random_take(num, ls):
 def train(lm, lm_tokenizer, args,
           raw_train_datals, max_new_tokens=16):
     sub_stage_num = args.sub_stage_num
+
+    steps = sub_stage_num*args.sub_set_num *\
+        args.period_num
+    print(f"OVERALL STEPS: {steps}.")
+
     for ssn in range(sub_stage_num):
         lm = train_pod(lm, lm_tokenizer,
                        args, raw_train_datals, max_new_tokens)
+        if ssn % 2 == 0:
+            print(f" -->NOW save the ckpt in stage {ssn}.")
+            lm_tokenizer.save_pretrained(args.save_path +
+                                         "___period"+str(ssn))
+            lm.save_pretrained(args.save_path +
+                               "___period"+str(ssn))
 
 
 def train_pod(lm,
               lm_tokenizer,
               args, raw_train_datals,
               max_new_tokens=-1,
-              tau=0.75,
+              tau=0.85,
               ):
     print(">>>> DATA PREPERATION")
     # STEP 1: DATA Preperation.
@@ -74,6 +87,7 @@ def train_pod(lm,
     logits2ls = random_take(subset_num, ologits2ls)
     idx2_dist = random_take(subset_num, oidx2_dist)
 
+    period_break = 0
     for iter_idx in range(ITER_num):
         tensorboard_name = f"Period {iter_idx}"
 
@@ -236,14 +250,22 @@ def train_pod(lm,
                     temppp = p_m_11_ls[i]
                     p_m_11_ls[i] = p_m_12_ls[i]
                     p_m_12_ls[i] = temppp
-                if min(llh1, llh2)/sl > math.log(tau):
+                if min(llh1, llh2)/sl > -math.log(tau):
                     print("BUT still use the VIC as labels.")
-                    print(f"shape of 11: {p_i_11_ls.shape}")
-                    print(f"shape of 2: {idx2ls.shape}")
-                    print(f"shape of 12: {p_i_12_ls.shape}")
+                    # print(f"shape of 11: {p_i_11_ls.shape}")
+                    # print(f"shape of 2: {idx2ls.shape}")
+                    # print(f"shape of 12: {p_i_12_ls.shape}")
+
                     p_i_11_ls[i] = idx2ls[i]
                     p_logits_11_ls[i] = old_logits2_ls[i]
                     p_m_11_ls[i] = mask2[i]
+
+        if max(llh1, llh2) < -math.log(0.98):
+            period_break = 1
+
+        if period_break == 1:
+            print("\n\n NOW BREAK SINCE ENOUGH TRAINING\n\n")
+            break
 
         newlogits2ls = []
         for per_data in logits2ls:
@@ -303,14 +325,6 @@ def train_pod(lm,
         else:
             print("ERROR: CANNOT FIND THE TRAIN LOSS OF THE TASK.")
 
-        if iter_idx >= 0:
-            print(" -->NOW save the ckpt in each period.")
-            print(f"in period {iter_idx}.")
-            # lm_tokenizer.save_pretrained(args.save_path +
-            #                              "___period"+str(iter_idx))
-            # lm.save_pretrained(args.save_path +
-            #                    "___period"+str(iter_idx))
-
     print(" -->ALL TRAINING DONE.")
     # lm_tokenizer.save_pretrained(args.save_path+"___finally")
     # lm.save_pretrained(args.save_path+"___finally")
@@ -356,11 +370,17 @@ def one_period(args, lm,
 
             idxs11 = idxs11.to(device)  # bs, sql
             idxs12 = idxs12.to(device)  # bs, sql
-
             idxs2 = idxs2.to(device)  # bs, sql
             mask11 = mask11.to(device)
             mask12 = mask12.to(device)
             mask2 = mask2.to(device)
+
+            mask11 = mask11 == 0
+            mask12 = mask12 == 0
+            labels11 = idxs11.clone()
+            labels11[mask11] = -100
+            labels12 = idxs12.clone()
+            labels12[mask12] = -100
 
             # already normalized by softmax
             old_logits11 = old_logits11.to(device)  # bs, sql,
@@ -375,11 +395,70 @@ def one_period(args, lm,
             print("idx12text: ", lm_tokenizer.decode(idxs12[0]))
             print("idx2text: ", lm_tokenizer.decode(idxs2[0]))
 
-            loss1 = lm(idxs11, attention_mask=mask11,
-                       labels=idxs11).loss
-            loss2 = lm(idxs12, attention_mask=mask12,
-                       labels=idxs12).loss
-            loss = loss1-loss2
+            # loss1 = lm(idxs11,
+            #            labels=labels11).loss
+            # loss2 = lm(idxs12,
+            #            labels=labels12).loss
+            # # loss = loss1-loss2
+            # loss = loss1
+
+            # hard to say: our method.
+            logits11 = lm(idxs11).logits[:, :-1, :]
+            logits11 = F.log_softmax(logits11, dim=-1)
+            logits11 = logits11[torch.arange(bs).unsqueeze(1),
+                                torch.arange(sqlen-1).unsqueeze(0),
+                                idxs11[:, 1:sqlen]]
+
+            logits12 = lm(idxs12).logits[:, :-1, :]
+            logits12 = F.log_softmax(logits12, dim=-1)
+            logits12 = logits12[torch.arange(bs).unsqueeze(1),
+                                torch.arange(sqlen-1).unsqueeze(0),
+                                idxs12[:, 1:sqlen]]
+
+            logits2 = lm(idxs2).logits[:, :-1, :]
+            logits2 = torch.log_softmax(logits2, dim=-1)
+            logits2_cons = logits2[torch.arange(bs).unsqueeze(1),
+                                   torch.arange(sqlen-1).unsqueeze(0),
+                                   idxs2[:, 1:sqlen]]
+
+            mask = torch.logical_or(mask11, mask12).long()
+
+            term1 = torch.sum(log_clip(-old_logits12+logits12)
+                              * mask12[:, :-1])
+            term2 = torch.sum((old_logits11-logits11)
+                              * mask11[:, :-1])
+
+            if is_black_box == 0:
+                term3 = \
+                    (vic_logits2[:, :, 0]-logits2_cons)
+            else:
+                term3 = - logits2_cons
+
+            term3 = torch.sum(term3*mask2[:, :-1])
+
+            loss_1 = term2 + term3
+            loss_2 = term1
+            # loss_2 = term1
+
+            loss = loss_1 + loss_2
+
+            if loss == torch.tensor(float("nan")):
+                print("++++++++++++++++++++++")
+                print(f"term1: {term1}")
+                print(f"term2: {term3}")
+                print(f"loss1: {loss_1}")
+                print(f"loss2: {loss_2}")
+                print(f"loss: {loss}")
+                print(f"mask: {mask[:,:-1]}")
+                print("++++++++DEBUG DONE.++++++++")
+
+            loss_constractive = loss
+
+            loss_constractive_past = 0.
+            loss_constractive_good = 0.
+            loss_logits = 0.
+
+            overall_loss += loss_constractive + loss_logits
 
             # TEMPerial comment to use the new loss function.
             # logits11 = lm(idxs11).logits[:, :-1, :]

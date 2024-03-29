@@ -28,6 +28,7 @@ import random
 from pprint import pprint as ppp
 
 from wmt_process import eval_varying_train_num
+from wmt_process import eval_wmt, infer_wmt
 
 
 def wmt_curve_trainNums():
@@ -61,7 +62,6 @@ def wmt_curve_trainNums():
     train_times = ["1", "2", "3",]
     train_nums = ["4", "8", "16", "32", "64", "100", "256", "512"]
 
-    res_dict = eval_varying_train_num()
 
     a = 0.4
     lw = 1.7
@@ -73,50 +73,90 @@ def wmt_curve_trainNums():
     }
     font_size = 21
 
-    paths_dict = {}
-    adict = {}
-    pdict = {}
-    rdict = {}
-    fdict = {}
+    results_dict = {}
+    bs_p_dict = {}
+    bs_r_dict = {}
+    bs_f1_dict = {}
+    rg_f1_dict = {}
+    bl_1_dict = {}
+
+    dir_p = "./vary_train_num_WMT16_infers/"
     # using existing results of the paths.
-    for m in method_ls:
-        paths_dict[m] = []
-        adict[m] = []
-        pdict[m] = []
-        rdict[m] = []
-        fdict[m] = []
-        for tn in train_numls:
-            if m in ["vanilla", "kd"]:
-                pth = prefix+f"{task}{tn}{m}_256{task}___"
-                pth += "finally"
-            else:
-                pth = prefix+f"{task}{tn}{m}256{task}___"
-                pth += "period2"
-            paths_dict[m].append(pth)
+    prefix = "./vArY_TrAiN_nUm_ckpts/varyTrainNum___"
+    for task in taskls:
+        results_dict[task] = {}
+        bs_p_dict[task] = {}
+        bs_r_dict[task] = {}
+        bs_f1_dict[task] = {}
+        rg_f1_dict[task] = {}
+        bl_1_dict[task] = {}
+        for m in method_ls:
+            results_dict[task][m] = {}
+            bs_p_dict[task][m] = {}
+            bs_r_dict[task][m] = {}
+            bs_f1_dict[task][m] = {}
+            rg_f1_dict[task][m] = {}
+            bl_1_dict[task][m] = {}
+            for tn in train_nums:
+                results_dict[task][m][tn] = {}
+                bs_p_dict[task][m][tn] = {}
+                bs_r_dict[task][m][tn] = {}
+                bs_f1_dict[task][m][tn] = {}
+                rg_f1_dict[task][m][tn] = {}
+                bl_1_dict[task][m][tn] = {}
+                for train_time in train_times:
+                    results_dict[task][m][tn][train_time] = {}
+                    results_dict[task][m][tn][train_time] = {}
+                    bs_p_dict[task][m][tn][train_time] = {}
+                    bs_r_dict[task][m][tn][train_time] = {}
+                    bs_f1_dict[task][m][tn][train_time] = {}
+                    rg_f1_dict[task][m][tn][train_time] = {}
+                    bl_1_dict[task][m][tn][train_time] = {}
+                    pth = prefix+f"{tn}{train_time}{task}{m}332164256___"
 
-            res_pth = pth+f"___{task}_glue_infer_res"
-            res_pth = res_pth.replace("/", "__").replace(".", "")
-            res_pth += ".json"
+                    if m in ["vanilla", "kd"]:
+                        pth += "finally"
+                    else:
+                        pth += "period2"
 
-            if not os.path.exists(dir_p+res_pth):
-                res_ls = infer_glue(pth, task, dir_p+res_pth)
-            else:
-                with open(dir_p+res_pth,
-                          'r', encoding='utf8') as f:
-                    res_ls = json.load(f, object_pairs_hook=OrderedDict)
+                    res_pth = pth+f"___{task}_wmt_infer_res"
+                    res_pth = res_pth.replace("/",
+                                              "__").replace(".", "")
+                    res_pth += ".json"
 
-            scores = eval_glue(task, res_ls)
-            adict[m].append(scores[0])
-            pdict[m].append(scores[1])
-            rdict[m].append(scores[2])
-            fdict[m].append(scores[3])
+                    if not os.path.exists(dir_p+res_pth):
+                        res_ls = infer_wmt(pth,
+                                           task, dir_p+res_pth,
+                                           test_set_take_num=100,
+                                           mnt=64)
+                    else:
+                        # from collections import OrderedDict
+                        with open(dir_p+res_pth,
+                                  'r', encoding='utf8') as f:
+                            res_ls = json.load(
+                                f, object_pairs_hook=OrderedDict)
 
-    res_dict = OrderedDict({"Accuracy": adict,
-                           "Precision": pdict,
-                            "Recall": rdict,
-                            "F1 Score": fdict,
-                            })
-    fig, axs = plt.subplots(1, 4, figsize=(20, 4.65))
+                    ss = eval_wmt(res_ls)
+                    results_dict[task][m][tn][train_time] = ss
+                    bs_p_dict[task][m][tn][train_time] =\
+                        ss["bertscore"]["p"]
+                    bs_r_dict[task][m][tn][train_time] =\
+                        ss["bertscore"]["r"]
+                    bs_f1_dict[task][m][tn][train_time] =\
+                        ss["bertscore"]["f1"]
+                    rg_f1_dict[task][m][tn][train_time] =\
+                        ss["rouge-l"]["f1"]
+                    bl_1_dict[task][m][tn][train_time] =\
+                        ss["bleu"]["1"]
+    res_dict={}
+    for task in taskls:
+        res_dict[task]={}
+        res_dict[task]["BERTScore Precision"]=bs_p_dict[task]
+        res_dict[task]["BERTScore Recall"]=bs_r_dict[task]
+        
+    
+
+    fig, axs = plt.subplots(3, 5, figsize=(26, 14.05))
 
     for i, ylabel in enumerate(list(res_dict.keys())):
         y_dict = res_dict[ylabel]
@@ -124,7 +164,7 @@ def wmt_curve_trainNums():
             yls = y_dict[method]
             axs[i].set_xscale("log")
             axs[i].plot(
-                train_numls,
+                train_nums,
                 yls,
                 label=method,
                 linewidth=lw,
@@ -318,5 +358,4 @@ def glue_curve_trainNums():
 # running entry
 if __name__ == "__main__":
     # glue()
-    curve_trainNums()
     print("EVERYTHING DONE.")
