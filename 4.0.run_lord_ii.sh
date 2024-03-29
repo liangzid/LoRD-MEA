@@ -35,7 +35,7 @@ export train_task="LoRD-II"
 
 export epoch=1
 export period=4
-export sub_set_num=32
+export sub_set_num=16
 export sub_stage_num=6
 export train_num=100
 

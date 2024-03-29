@@ -62,7 +62,6 @@ def wmt_curve_trainNums():
     train_times = ["1", "2", "3",]
     train_nums = ["4", "8", "16", "32", "64", "100", "256", "512"]
 
-
     a = 0.4
     lw = 1.7
     model_line_style = {
@@ -148,53 +147,71 @@ def wmt_curve_trainNums():
                         ss["rouge-l"]["f1"]
                     bl_1_dict[task][m][tn][train_time] =\
                         ss["bleu"]["1"]
-    res_dict={}
+    res_dict = {}
     for task in taskls:
-        res_dict[task]={}
-        res_dict[task]["BERTScore Precision"]=bs_p_dict[task]
-        res_dict[task]["BERTScore Recall"]=bs_r_dict[task]
-        
-    
+        res_dict[task] = {}
+        res_dict[task]["BERTScore Precision"] = bs_p_dict[task]
+        res_dict[task]["BERTScore Recall"] = bs_r_dict[task]
+        res_dict[task]["BERTScore F1"] = bs_f1_dict[task]
+        res_dict[task]["Rouge-L F1"] = rg_f1_dict[task]
+        res_dict[task]["BLEU"] = bl_1_dict[task]
 
     fig, axs = plt.subplots(3, 5, figsize=(26, 14.05))
 
-    for i, ylabel in enumerate(list(res_dict.keys())):
-        y_dict = res_dict[ylabel]
-        for method in y_dict.keys():
-            yls = y_dict[method]
-            axs[i].set_xscale("log")
-            axs[i].plot(
-                train_nums,
-                yls,
-                label=method,
-                linewidth=lw,
-                marker=marker[method],
-                markevery=1, markersize=15,
-                markeredgewidth=lw,
-                markerfacecolor='none',
-                alpha=1.,
-                linestyle=model_line_style[method],
-                color=model_color_dict[method]
-            )
+    for i, task in enumerate(list(res_dict.keys())):
+        for j, metricName in enumerate(list(res_dict[task].keys())):
+            adict = res_dict[task][metricName]
+            for method in adict.keys():
+                ylss = []
+                for tn in train_nums:
+                    templs = []
+                    for tt in train_times:
+                        templs.append(adict[method][tn][tt])
+                    ylss.append(templs)
+                ylss = np.array(ylss)
 
-            # axs[0][i_n].fill_between(periods,
-            # ymin, ymax,
-            #                          alpha=a,
-            #                          linewidth=0.,
-            #                          # alpha=1.0,
-            #                          color=model_color_dict2[mode])
-            axs[i].set_xlabel("Training Periods",
-                              fontsize=font_size)
-            axs[i].set_ylabel(ylabel,
-                              fontsize=font_size-5)
-            axs[i].set_xticks(train_numls, train_numls,
-                              rotation=48, size=font_size-4)
-            axs[i].tick_params(axis='y',
-                                    labelsize=font_size-6,
-                                    rotation=65,
-                                    width=2, length=2,
-                                    pad=0, direction="in",
-                                    which="both")
+                ymeanls = np.mean(ylss, axis=0)
+                # ymaxls = np.max(ylss, axis=0)
+                # yminls = np.min(ylss, axis=0)
+                ystdls = np.std(ylss, axis=0)
+
+                axs[i][j].set_xscale("log")
+                axs[i][j].plot(
+                    train_nums,
+                    ymeanls,
+                    label=method,
+                    linewidth=lw,
+                    marker=marker[method],
+                    markevery=1, markersize=15,
+                    markeredgewidth=lw,
+                    markerfacecolor='none',
+                    alpha=1.,
+                    linestyle=model_line_style[method],
+                    color=model_color_dict[method]
+                )
+
+                axs[i][j].fill_between(
+                    train_nums,
+                    ymeanls-ystdls,
+                    ymeanls+ystdls,
+                    alpha=a,
+                    linewidth=0.,
+                    color=model_color_dict2[method])
+
+                axs[i].set_xlabel("# Training Samples",
+                                  fontsize=font_size)
+                axs[i].set_ylabel(metricName,
+                                  fontsize=font_size-5)
+                axs[i].set_xticks(train_nums,
+                                  train_nums,
+                                  rotation=48,
+                                  size=font_size-4)
+                axs[i].tick_params(axis='y',
+                                        labelsize=font_size-6,
+                                        rotation=65,
+                                        width=2, length=2,
+                                        pad=0, direction="in",
+                                        which="both")
     font_legend = {
         'weight': 'normal',
         'size': font_size-1,
@@ -358,4 +375,5 @@ def glue_curve_trainNums():
 # running entry
 if __name__ == "__main__":
     # glue()
+    wmt_curve_trainNums()
     print("EVERYTHING DONE.")

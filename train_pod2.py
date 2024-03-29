@@ -260,8 +260,10 @@ def train_pod(lm,
                     p_logits_11_ls[i] = old_logits2_ls[i]
                     p_m_11_ls[i] = mask2[i]
 
-        if max(llh1, llh2) < -math.log(0.98):
-            period_break = 1
+                if max(llh1, llh2) < -math.log(0.98):
+                    period_break = 1
+                else:
+                    period_break = 0
 
         if period_break == 1:
             print("\n\n NOW BREAK SINCE ENOUGH TRAINING\n\n")
