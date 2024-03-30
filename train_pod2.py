@@ -56,9 +56,23 @@ def train(lm, lm_tokenizer, args,
         args.period_num
     print(f"OVERALL STEPS: {steps}.")
 
+    p_i_11_ls = None
+    p_i_12_ls = None
+    p_m_11_ls = None
+    p_m_12_ls = None
+    p_logits_11_ls = None
+    p_logits_12_ls = None
+
     for ssn in range(sub_stage_num):
-        lm = train_pod(lm, lm_tokenizer,
-                       args, raw_train_datals, max_new_tokens)
+
+        lm, p_i_11_ls, p_i_12_ls, p_m_11_ls,\
+            p_m_12_ls, p_logits_11_ls, p_logits_12_ls\
+            = train_pod(lm, lm_tokenizer,
+                        args, raw_train_datals,
+                        max_new_tokens,
+                        p_i_11_ls, p_i_12_ls, p_m_11_ls,
+                        p_m_12_ls, p_logits_11_ls, p_logits_12_ls
+                        )
         if ssn % 2 == 0:
             print(f" -->NOW save the ckpt in stage {ssn}.")
             lm_tokenizer.save_pretrained(args.save_path +
@@ -70,7 +84,9 @@ def train(lm, lm_tokenizer, args,
 def train_pod(lm,
               lm_tokenizer,
               args, raw_train_datals,
-              max_new_tokens=-1,
+              max_new_tokens,
+              p_i_11_ls, p_i_12_ls, p_m_11_ls,
+              p_m_12_ls, p_logits_11_ls, p_logits_12_ls,
               tau=0.85,
               ):
     print(">>>> DATA PREPERATION")
@@ -87,18 +103,19 @@ def train_pod(lm,
     logits2ls = random_take(subset_num, ologits2ls)
     idx2_dist = random_take(subset_num, oidx2_dist)
 
+    need_pre_store = 0
+    if p_i_11_ls is None:
+        p_i_11_ls = []
+        p_i_12_ls = []
+        p_logits_11_ls = []
+        p_logits_12_ls = []
+        p_m_11_ls = []
+        p_m_12_ls = []
+        need_pre_store = 1
+
     period_break = 0
     for iter_idx in range(ITER_num):
         tensorboard_name = f"Period {iter_idx}"
-
-        if iter_idx == 0:
-            # previous_generated_ls
-            p_i_11_ls = []
-            p_i_12_ls = []
-            p_logits_11_ls = []
-            p_logits_12_ls = []
-            p_m_11_ls = []
-            p_m_12_ls = []
 
         idxs11_ls = []
         idxs12_ls = []
@@ -169,7 +186,7 @@ def train_pod(lm,
                 old_logits2_ls.append(old_logits2.squeeze(0).to("cpu"))
 
                 # obtain old generated text
-                if iter_idx == 0:
+                if need_pre_store == 1:
                     p_i_11_ls.append(idxs2.squeeze(0).to("cpu"))
                     p_i_12_ls.append(idxs12.squeeze(0).to("cpu"))
                     p_logits_11_ls.append(old_logits2
@@ -225,7 +242,7 @@ def train_pod(lm,
                                           max_token_num-1,
                                           pad_idx)
 
-        if iter_idx != 0:
+        if need_pre_store == 0:
             for i, prompt in enumerate(p_ls):
                 pidx11 = p_i_11_ls[i].unsqueeze(0).to(args.device)
                 pidx12 = p_i_12_ls[i].unsqueeze(0).to(args.device)
@@ -260,14 +277,10 @@ def train_pod(lm,
                     p_logits_11_ls[i] = old_logits2_ls[i]
                     p_m_11_ls[i] = mask2[i]
 
-                if max(llh1, llh2) < -math.log(0.98):
+                if min(llh1, llh2) < -math.log(0.97):
                     period_break = 1
-                else:
-                    period_break = 0
-
-        if period_break == 1:
-            print("\n\n NOW BREAK SINCE ENOUGH TRAINING\n\n")
-            break
+        else:
+            need_pre_store = 0
 
         newlogits2ls = []
         for per_data in logits2ls:
@@ -304,6 +317,11 @@ def train_pod(lm,
         p_logits_11_ls = old_logits11_ls
         p_logits_12_ls = old_logits12_ls
 
+        if period_break == 1:
+            print("\n\n NOW BREAK SINCE ENOUGH TRAINING\n\n")
+            return lm, p_i_11_ls, p_i_12_ls, p_m_11_ls,\
+                p_m_12_ls, p_logits_11_ls, p_logits_12_ls
+
         loader = DataLoader(trainset,
                             batch_size=args.batch_size,
                             shuffle=True,
@@ -327,11 +345,10 @@ def train_pod(lm,
         else:
             print("ERROR: CANNOT FIND THE TRAIN LOSS OF THE TASK.")
 
-    print(" -->ALL TRAINING DONE.")
     # lm_tokenizer.save_pretrained(args.save_path+"___finally")
     # lm.save_pretrained(args.save_path+"___finally")
-    print(" -->Save DONE.")
-    return lm
+    return lm, p_i_11_ls, p_i_12_ls, p_m_11_ls,\
+        p_m_12_ls, p_logits_11_ls, p_logits_12_ls
 
 
 def one_period(args, lm,

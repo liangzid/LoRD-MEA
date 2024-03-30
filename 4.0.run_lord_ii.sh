@@ -34,9 +34,9 @@ export train_task="LoRD-II"
 # export train_num=16
 
 export epoch=1
-export period=4
+export period=2
 export sub_set_num=16
-export sub_stage_num=6
+export sub_stage_num=10
 export train_num=100
 
 
@@ -81,6 +81,8 @@ $python pod_train.py\
 
 echo "EVERYTHING DONE."
 echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
+
+$python wmt_process.py
 
 
 echo "RUNNING 4.0.run_lord_ii.sh DONE."

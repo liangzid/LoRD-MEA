@@ -51,14 +51,25 @@ def get_rouge_L(hyps, refs):
 def overall_metrics(hyps, refs):
     newhyps = []
     for h in hyps:
-        if h == "":
-            newhyps.append(" ")
-        else:
-            newhyps.append(h)
+        newhyps.append("Text: "+h)
+        # if h == "":
+        #     newhyps.append("none")
+        # elif list(set(h.split(" "))) == [""]:
+        #     newhyps.append("none")
+        # else:
+        #     newhyps.append(h)
     hyps = newhyps
     refs = list(refs)
+    refs = ["Text: "+x for x in refs]
+    # print(f"Hyps: {hyps}\n Refs: {refs}")
+    # from pprint import pprint
+    # pprint(hyps)
+    # print("---------------------")
+    # pprint(refs)
+    # assert len(hyps)==len(refs)
 
     res_dict = {}
+
     bleures = bleu_1to4(hyps, refs)
     res_dict["bleu"] = {}
     res_dict["bertscore"] = {}

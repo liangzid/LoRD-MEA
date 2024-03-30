@@ -12,8 +12,8 @@ WMT dataset process scripts.
 
 import os
 if __name__ == "__main__":
-    # os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
-    os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,6,7"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
+    # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,6,7"
 
 from gen_pipeline_open import InferObj
 from training_data_collecting_openai import chatWithOpenAI__LogLogits
@@ -314,7 +314,9 @@ def evaluation_datas():
         # ["cs-en", "./temp_ckpt/cs-en/Complex-lord_256cs-en_longerGen64___period3",],
 
 
-        # ["cs-en", "./lordii_ckpt/cs-en/LoRD-II810256cs-en64__only_vic_labels___period8/",],
+        ["cs-en", "./lordii_ckpt/cs-en/LoRD-II1610256cs-en64__only_vic_labels___period8/",],
+        ["cs-en", "./lordii_ckpt/cs-en/LoRD-II810256cs-en64__only_vic_labels___period6/",],
+        ["cs-en", "./lordii_ckpt/cs-en/LoRD-II810256cs-en64__only_vic_labels___period4/",],
         ["cs-en", "./lordii_ckpt/cs-en/LoRD-II810256cs-en64__only_vic_labels___period2/",],
     ]
     res_dict = {}
@@ -329,7 +331,7 @@ def evaluation_datas():
         if not os.path.exists(dir_p+res_pth):
             res_ls = infer_wmt(ckpt, task, dir_p+res_pth,
                                test_set_take_num=100,
-                               mnt=16)
+                               mnt=64)
         else:
             # from collections import OrderedDict
             with open(dir_p+res_pth, 'r', encoding='utf8') as f:
@@ -436,7 +438,7 @@ def eval_varying_train_num():
 # running entry
 if __name__ == "__main__":
     # main()
-    evaluation_datas()
+    # evaluation_datas()
     # eval_all()
-    # eval_varying_train_num()
+    eval_varying_train_num()
     print("EVERYTHING DONE.")
