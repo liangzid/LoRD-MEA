@@ -132,7 +132,7 @@ def train_pod(lm,
         pmask2s = []
         p_logits2ls = []
 
-    period_break = 0
+    period_break = 1
     for iter_idx in range(ITER_num):
         tensorboard_name = f"Period {iter_idx}"
 
@@ -297,8 +297,8 @@ def train_pod(lm,
                     p_m_11_ls[i] = pmask2s[i]
                     p_logits_11_ls[i] = p_logits2ls[i]
 
-                if min(llh1, llh2) < -math.log(0.97):
-                    period_break = 1
+                if min(llh1, llh2)/sl > -math.log(0.97):
+                    period_break = 0
         else:
             need_pre_store = 0
 

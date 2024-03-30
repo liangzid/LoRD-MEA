@@ -12,8 +12,8 @@ WMT dataset process scripts.
 
 import os
 if __name__ == "__main__":
-    os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
-    # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,6,7"
+    # os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,6,7"
 
 from gen_pipeline_open import InferObj
 from training_data_collecting_openai import chatWithOpenAI__LogLogits
@@ -438,7 +438,7 @@ def eval_varying_train_num():
 # running entry
 if __name__ == "__main__":
     # main()
-    # evaluation_datas()
+    evaluation_datas()
     # eval_all()
-    eval_varying_train_num()
+    # eval_varying_train_num()
     print("EVERYTHING DONE.")
