@@ -70,15 +70,21 @@ def train(lm, lm_tokenizer, args,
     p_logits_11_ls = None
     p_logits_12_ls = None
 
+    p_i2ls = None
+    pmask2s = None
+    p_logits2ls = None
+
     for ssn in range(sub_stage_num):
 
         lm, p_i_11_ls, p_i_12_ls, p_m_11_ls,\
-            p_m_12_ls, p_logits_11_ls, p_logits_12_ls\
+            p_m_12_ls, p_logits_11_ls, p_logits_12_ls,\
+            p_i2ls, pmask2s, p_logits2ls\
             = train_pod(lm, lm_tokenizer,
                         args, raw_train_datals,
                         max_new_tokens,
                         p_i_11_ls, p_i_12_ls, p_m_11_ls,
-                        p_m_12_ls, p_logits_11_ls, p_logits_12_ls
+                        p_m_12_ls, p_logits_11_ls, p_logits_12_ls,
+                        p_i2ls, pmask2s, p_logits2ls,
                         )
         if ssn % 2 == 0:
             print(f" -->NOW save the ckpt in stage {ssn}.")
@@ -94,6 +100,7 @@ def train_pod(lm,
               max_new_tokens,
               p_i_11_ls, p_i_12_ls, p_m_11_ls,
               p_m_12_ls, p_logits_11_ls, p_logits_12_ls,
+              p_i2ls, pmask2s, p_logits2ls,
               tau=0.85,
               ):
     print(">>>> DATA PREPERATION")
@@ -120,6 +127,10 @@ def train_pod(lm,
         p_m_11_ls = []
         p_m_12_ls = []
         need_pre_store = 1
+
+        p_i2ls = []
+        pmask2s = []
+        p_logits2ls = []
 
     period_break = 0
     for iter_idx in range(ITER_num):
@@ -154,8 +165,8 @@ def train_pod(lm,
 
                 bs, sqqql = idxs11.shape
                 # print(idxs1)
-                print("idxs11", lm_tokenizer.decode(idxs11[0]))
-                print("idxs12", lm_tokenizer.decode(idxs12[0]))
+                print(f"idxs11 {lm_tokenizer.decode(idxs11[0])}")
+                print(f"idxs12 {lm_tokenizer.decode(idxs12[0])}")
 
                 old_logits11 = lm(idxs11[:, :-1]).logits
                 old_logits11 = F.log_softmax(old_logits11, dim=-1)
@@ -176,6 +187,7 @@ def train_pod(lm,
 
                 idxs2 = torch.tensor(idx2ls[i], dtype=torch.long)\
                     .to(args.device).unsqueeze(0)
+                print(f"idxs2 {lm_tokenizer.decode(idxs2[0])}")
                 old_logits2 = lm(idxs2[:, :-1]).logits
                 old_logits2 = F.log_softmax(old_logits2, dim=-1)
                 bs, sql2 = idxs2.shape
@@ -220,7 +232,7 @@ def train_pod(lm,
         max_token_num = max(max_token_num, cmax_token_num_11)
         max_token_num = max(max_token_num, cmax_token_num_12)
 
-        print("max_token_num", max_token_num)
+        print(f"max_token_num: {max_token_num}")
         pad_idx = lm_tokenizer.pad_token_id
 
         idx2ls, mask2 = my_padding(idx2ls, p_ls,
@@ -281,9 +293,9 @@ def train_pod(lm,
                     # print(f"shape of 2: {idx2ls.shape}")
                     # print(f"shape of 12: {p_i_12_ls.shape}")
 
-                    p_i_11_ls[i] = idx2ls[i]
-                    p_logits_11_ls[i] = old_logits2_ls[i]
-                    p_m_11_ls[i] = mask2[i]
+                    p_i_11_ls[i] = p_i2ls[i]
+                    p_m_11_ls[i] = pmask2s[i]
+                    p_logits_11_ls[i] = p_logits2ls[i]
 
                 if min(llh1, llh2) < -math.log(0.97):
                     period_break = 1
@@ -304,7 +316,7 @@ def train_pod(lm,
         idxs2_dist = my_padding_token_dist(idx2_dist,
                                            max_token_num-1, pad_idx)
 
-        print(old_logits11_ls.shape)
+        print(f"{old_logits11_ls.shape}")
         trainset = TensorDataset(
             p_i_11_ls,
             p_i_12_ls,
@@ -324,11 +336,15 @@ def train_pod(lm,
         p_m_12_ls = mask12
         p_logits_11_ls = old_logits11_ls
         p_logits_12_ls = old_logits12_ls
+        p_i2ls = idx2ls
+        pmask2s = mask2
+        p_logits2ls = logits2ls
 
         if period_break == 1:
             print("\n\n NOW BREAK SINCE ENOUGH TRAINING\n\n")
             return lm, p_i_11_ls, p_i_12_ls, p_m_11_ls,\
-                p_m_12_ls, p_logits_11_ls, p_logits_12_ls
+                p_m_12_ls, p_logits_11_ls, p_logits_12_ls,\
+                p_i2ls, pmask2s, p_logits2ls
 
         loader = DataLoader(trainset,
                             batch_size=args.batch_size,
@@ -356,7 +372,8 @@ def train_pod(lm,
     # lm_tokenizer.save_pretrained(args.save_path+"___finally")
     # lm.save_pretrained(args.save_path+"___finally")
     return lm, p_i_11_ls, p_i_12_ls, p_m_11_ls,\
-        p_m_12_ls, p_logits_11_ls, p_logits_12_ls
+        p_m_12_ls, p_logits_11_ls, p_logits_12_ls,\
+        p_i2ls, pmask2s, p_logits2ls
 
 
 def one_period(args, lm,
@@ -418,9 +435,9 @@ def one_period(args, lm,
             idxs2_dist = idxs2_dist.to(device)
 
             print("===========================================")
-            print("idx11text: ", lm_tokenizer.decode(idxs11[0]))
-            print("idx12text: ", lm_tokenizer.decode(idxs12[0]))
-            print("idx2text: ", lm_tokenizer.decode(idxs2[0]))
+            print("idx11text:  {lm_tokenizer.decode(idxs11[0])}")
+            print("idx12text:  {lm_tokenizer.decode(idxs12[0])}")
+            print("idx2text:  {lm_tokenizer.decode(idxs2[0])}")
 
             # loss1 = lm(idxs11,
             #            labels=labels11).loss
