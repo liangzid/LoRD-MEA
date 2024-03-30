@@ -45,7 +45,7 @@ export train_num=100
 
 export save_path="${POD_save_dir}Methods011${train_task}_${msl}${task}"
 
-$python pod_train.py\
+$python lord_train.py\
 	--device="cuda" \
 	--epoch=$epoch \
 	--period_num=$period \
@@ -73,7 +73,7 @@ export use_kld=0
 
 export save_path="${POD_save_dir}Methods111${train_task}_${msl}${task}"
 
-$python pod_train.py\
+$python lord_train.py\
 	--device="cuda" \
 	--epoch=$epoch \
 	--period_num=$period \
@@ -100,7 +100,7 @@ export use_kld=0
 
 export save_path="${POD_save_dir}Methods100${train_task}_${msl}${task}"
 
-$python pod_train.py\
+$python lord_train.py\
 	--device="cuda" \
 	--epoch=$epoch \
 	--period_num=$period \
@@ -127,7 +127,7 @@ export use_kld=0
 
 export save_path="${POD_save_dir}Methods010${train_task}_${msl}${task}"
 
-$python pod_train.py\
+$python lord_train.py\
 	--device="cuda" \
 	--epoch=$epoch \
 	--period_num=$period \

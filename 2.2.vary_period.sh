@@ -49,7 +49,7 @@ export train_num=100
 # export train_task="kd"
 export save_path="${POD_save_dir}vary_period_complex/${train_task}${msl}${task}${use_old_logits}${use_vic_logits}${use_kld}${use_entropy}"
 
-$python pod_train.py\
+$python lord_train.py\
 	--device="cuda" \
 	--epoch=$epoch \
 	--period_num=$period \

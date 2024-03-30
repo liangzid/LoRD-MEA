@@ -54,7 +54,7 @@ do
 	    echo "++++++++++train_time--${train_time}++++++++++"
 	    echo "Save path: ${save_path}."
 
-	    $python pod_train.py\
+	    $python lord_train.py\
 		    --device="cuda" \
 		    --epoch=$epoch \
 		    --period_num=$period \

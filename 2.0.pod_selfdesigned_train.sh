@@ -54,7 +54,7 @@ export train_num=20
 # export train_task="kd"
 export save_path="${POD_save_dir}${task}/${train_task}_${msl}${task}"
 
-$python pod_train.py\
+$python lord_train.py\
 	--device="cuda" \
 	--epoch=$epoch \
 	--period_num=$period \
@@ -82,7 +82,7 @@ $python pod_train.py\
 #     export save_path="${POD_save_dir}pod_style_test_fast${msl}${task}"
 #     echo "task: $task"
 
-#     $python pod_train.py\
+#     $python lord_train.py\
 # 	    --device="cuda" \
 # 	    --epoch=2 \
 # 	    --period_num=3 \

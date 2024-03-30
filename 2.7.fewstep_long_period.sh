@@ -50,7 +50,7 @@ export max_new_tokens=64
 # export train_task="kd"
 export save_path="${POD_save_dir}${task}/${train_task}_${msl}${task}_longpreriod${max_new_tokens}"
 
-$python pod_train.py\
+$python lord_train.py\
 	--device="cuda" \
 	--epoch=$epoch \
 	--period_num=$period \

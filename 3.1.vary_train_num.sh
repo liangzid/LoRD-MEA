@@ -60,7 +60,7 @@ do
 
 		export save_path="${POD_save_dir}varyTrainNum___${train_num}${train_time}${task}${train_task}${epoch}${period}${temperature}${batch_size}${max_new_tokens}${msl}"
 
-		$python pod_train.py\
+		$python lord_train.py\
 		    --device="cuda" \
 		    --epoch=$epoch \
 		    --period_num=$period \

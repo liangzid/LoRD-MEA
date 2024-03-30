@@ -48,7 +48,7 @@ for train_task in ${train_task_ls[*]}
 do
     echo "+++++>>>> NOW RUNNING ${train_task} <<<<+++++"
     export save_path="${POD_save_dir}${train_task}${msl}${task}${train_num}"
-    $python pod_train.py\
+    $python lord_train.py\
 	    --device="cuda" \
 	    --epoch=$epoch \
 	    --period_num=$period \

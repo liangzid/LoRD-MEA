@@ -47,7 +47,7 @@ export train_num=16
 # export train_task="kd"
 export save_path="${POD_save_dir}${task}${train_num}_3Epoch${train_task}_${msl}${task}"
 
-$python pod_train.py\
+$python lord_train.py\
 	--device="cuda" \
 	--epoch=$epoch \
 	--period_num=$period \

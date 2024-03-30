@@ -2,7 +2,7 @@
 ======================================================================
 LORD_COMPLEX_TRAIN ---
 
-The comprehensive and overall training function. In `pod_train.py` it
+The comprehensive and overall training function. In `lord_train.py` it
 is a simplified version of LoRD loss function.
 
     Author: Zi Liang <zi1415926.liang@connect.polyu.hk>
