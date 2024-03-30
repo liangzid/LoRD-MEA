@@ -28,8 +28,8 @@ export task="cs-en"
 export train_task="LoRD-II"
 
 # export epoch=1
-# export period=4
-# export sub_set_num=8
+# export period=2
+# export sub_set_num=2
 # export sub_stage_num=10
 # export train_num=16
 
@@ -87,7 +87,7 @@ $python lord_train.py\
 echo "EVERYTHING DONE."
 echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 
-$python wmt_process.py
+# $python wmt_process.py
 
 
 echo "RUNNING 4.0.run_lord_ii.sh DONE."

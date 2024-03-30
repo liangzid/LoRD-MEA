@@ -73,18 +73,19 @@ def train(lm, lm_tokenizer, args,
     p_i2ls = None
     pmask2s = None
     p_logits2ls = None
+    p_vic_logits2ls = None
 
     for ssn in range(sub_stage_num):
 
         lm, p_i_11_ls, p_i_12_ls, p_m_11_ls,\
             p_m_12_ls, p_logits_11_ls, p_logits_12_ls,\
-            p_i2ls, pmask2s, p_logits2ls\
+            p_i2ls, pmask2s, p_logits2ls, p_vic_logits2ls\
             = train_pod(lm, lm_tokenizer,
                         args, raw_train_datals,
                         max_new_tokens,
                         p_i_11_ls, p_i_12_ls, p_m_11_ls,
                         p_m_12_ls, p_logits_11_ls, p_logits_12_ls,
-                        p_i2ls, pmask2s, p_logits2ls,
+                        p_i2ls, pmask2s, p_logits2ls, p_vic_logits2ls
                         )
         if (ssn+1) % 3 == 0:
             print(f" -->NOW save the ckpt in stage {ssn}.")
@@ -100,11 +101,11 @@ def train_pod(lm,
               max_new_tokens,
               p_i_11_ls, p_i_12_ls, p_m_11_ls,
               p_m_12_ls, p_logits_11_ls, p_logits_12_ls,
-              p_i2ls, pmask2s, p_logits2ls,
+              p_i2ls, pmask2s, p_logits2ls, p_vic_logits2ls
               ):
     print(">>>> DATA PREPERATION")
-    tau1=args.tau1
-    tau2=args.tau2
+    tau1 = args.tau1
+    tau2 = args.tau2
     print(f" Tau1: {tau1}\t Tau2: {tau2}.")
     # STEP 1: DATA Preperation.
     ITER_num = args.period_num
@@ -117,7 +118,7 @@ def train_pod(lm,
     seed = time.time()
     p_ls = random_take(subset_num, op_ls, seed,)
     idx2ls = random_take(subset_num, oidx2ls, seed)
-    logits2ls = random_take(subset_num, ologits2ls, seed)
+    vic_logits2ls = random_take(subset_num, ologits2ls, seed)
     idx2_dist = random_take(subset_num, oidx2_dist, seed)
 
     need_pre_store = 0
@@ -128,12 +129,14 @@ def train_pod(lm,
         p_logits_12_ls = []
         p_m_11_ls = []
         p_m_12_ls = []
+
         need_pre_store = 1
         period_break = 0
 
         p_i2ls = []
         pmask2s = []
         p_logits2ls = []
+        p_vic_logits2ls = []
     else:
         period_break = 1
 
@@ -209,31 +212,22 @@ def train_pod(lm,
                                        .squeeze(0).to("cpu"))
                 old_logits2_ls.append(old_logits2.squeeze(0).to("cpu"))
 
-                # obtain old generated text
-                if need_pre_store == 1:
-                    p_i_11_ls.append(idxs2.squeeze(0).to("cpu"))
-                    p_i_12_ls.append(idxs12.squeeze(0).to("cpu"))
-                    p_logits_11_ls.append(old_logits2
-                                          .squeeze(0).to("cpu"))
-                    p_logits_12_ls.append(old_logits12
-                                          .squeeze(0).to("cpu"))
-
         # do truncations and paddings.
-        max_token_num_11 = min(args.max_length,
-                               max([len(x) for x in p_i_11_ls]))
-        max_token_num_12 = min(args.max_length,
-                               max([len(x) for x in p_i_12_ls]))
-        max_token_num_2 = min(args.max_length,
-                              max([len(x) for x in idx2ls]))
+        # max_token_num_11 = min(args.max_length,
+        #                        max([len(x) for x in p_i_11_ls]))
+        # max_token_num_12 = min(args.max_length,
+        #                        max([len(x) for x in p_i_12_ls]))
+        # max_token_num_2 = min(args.max_length,
+        #                       max([len(x) for x in p_i2ls]))
 
+        cmax_token_num_2 = min(args.max_length,
+                               max([len(x) for x in idx2ls]))
         cmax_token_num_11 = min(args.max_length,
                                 max([len(x) for x in idxs11_ls]))
         cmax_token_num_12 = min(args.max_length,
                                 max([len(x) for x in idxs12_ls]))
 
-        max_token_num = max(max_token_num_11, max_token_num_12)
-        max_token_num = max(max_token_num, max_token_num_2)
-        max_token_num = max(max_token_num, cmax_token_num_11)
+        max_token_num = max(cmax_token_num_2, cmax_token_num_11)
         max_token_num = max(max_token_num, cmax_token_num_12)
 
         print(f"max_token_num: {max_token_num}")
@@ -253,20 +247,53 @@ def train_pod(lm,
         old_logits2_ls = my_padding_logit(old_logits2_ls,
                                           max_token_num-1, pad_idx)
 
-        p_i_11_ls, p_m_11_ls = my_padding(p_i_11_ls,
-                                          p_ls,
-                                          max_token_num, pad_idx)
-        p_i_12_ls, p_m_12_ls = my_padding(p_i_12_ls,
-                                          p_ls,
-                                          max_token_num, pad_idx)
-        p_logits_11_ls = my_padding_logit(p_logits_11_ls,
-                                          max_token_num-1,
-                                          pad_idx)
-        p_logits_12_ls = my_padding_logit(p_logits_12_ls,
-                                          max_token_num-1,
-                                          pad_idx)
+        # p_i_11_ls, p_m_11_ls = my_padding(p_i_11_ls,
+        #                                   p_ls,
+        #                                   max_token_num, pad_idx)
+        # p_i_12_ls, p_m_12_ls = my_padding(p_i_12_ls,
+        #                                   p_ls,
+        #                                   max_token_num, pad_idx)
+        # p_logits_11_ls = my_padding_logit(p_logits_11_ls,
+        #                                   max_token_num-1,
+        #                                   pad_idx)
+        # p_logits_12_ls = my_padding_logit(p_logits_12_ls,
+        #                                   max_token_num-1,
+        #                                   pad_idx)
 
-        if need_pre_store == 0:
+        newvic_logits2ls = []
+        for per_data in vic_logits2ls:
+            sl = len(per_data)
+            v = len(per_data[0])
+            tmp_ts = torch.ones((sl, v), dtype=torch.float)
+            for jjjj, per_token_logit in enumerate(per_data):
+                tmp_ts[jjjj] = torch.tensor(per_token_logit,)
+            newvic_logits2ls.append(tmp_ts)
+
+        vic_logits2ls = my_padding_logits(newvic_logits2ls,
+                                          max_token_num-1, pad_idx)
+        idxs2_dist = my_padding_token_dist(idx2_dist,
+                                           max_token_num-1, pad_idx)
+        # print(f"{old_logits11_ls.shape}")
+
+        # ---------------------------------------------------------
+        # now fix the logic of constructive two samples
+        if need_pre_store == 1:
+            # at first stage, we have no previous stage, so we use
+            # the ground truth in current stage.
+            p_i_11_ls = idx2ls  # absolute positive label
+            p_i_12_ls = idxs12_ls
+
+            p_logits_11_ls = old_logits2_ls
+            p_logits_12_ls = old_logits12_ls
+
+            p_m_11_ls = mask2
+            p_m_12_ls = mask12
+
+            p_i2ls = idx2ls
+            pmask2s = mask2
+            p_logits2ls = old_logits2_ls
+            p_vic_logits2ls = vic_logits2ls
+        elif need_pre_store == 0:
             for i, prompt in enumerate(p_ls):
                 pidx11 = p_i_11_ls[i].unsqueeze(0).to(args.device)
                 pidx12 = p_i_12_ls[i].unsqueeze(0).to(args.device)
@@ -296,7 +323,7 @@ def train_pod(lm,
                     p_m_11_ls[i] = p_m_12_ls[i]
                     p_m_12_ls[i] = temppp
                 if min(llh1/m11_num, llh2/m12_num) > -math.log(tau1):
-                    print("BUT still use the VIC as labels.")
+                    print("BUT still use the VIC's labels.")
                     # print(f"shape of 11: {p_i_11_ls.shape}")
                     # print(f"shape of 2: {idx2ls.shape}")
                     # print(f"shape of 12: {p_i_12_ls.shape}")
@@ -310,49 +337,41 @@ def train_pod(lm,
         else:
             need_pre_store = 0
 
-        newlogits2ls = []
-        for per_data in logits2ls:
-            sl = len(per_data)
-            v = len(per_data[0])
-            tmp_ts = torch.ones((sl, v), dtype=torch.float)
-            for jjjj, per_token_logit in enumerate(per_data):
-                tmp_ts[jjjj] = torch.tensor(per_token_logit,)
-            newlogits2ls.append(tmp_ts)
-
-        logits2ls = my_padding_logits(newlogits2ls,
-                                      max_token_num-1, pad_idx)
-        idxs2_dist = my_padding_token_dist(idx2_dist,
-                                           max_token_num-1, pad_idx)
-
-        print(f"{old_logits11_ls.shape}")
+        # Dataset what we seen is about the last stage,
+        # not current stage.
+        # If it is the first stage, then we use the victim's label
+        # to guide the training, for a better bootstrapping.
         trainset = TensorDataset(
             p_i_11_ls,
             p_i_12_ls,
-            idx2ls,
+            p_i2ls,
             p_m_11_ls,
             p_m_12_ls,
-            mask2,
+            pmask2s,
             p_logits_11_ls,
             p_logits_12_ls,
-            old_logits2_ls,
-            logits2ls,
-            idxs2_dist,
+            p_logits2ls,
+            p_vic_logits2ls,
         )
+
+        # reuse the tensors in current stage as the training dataset
+        # for next stage.
         p_i_11_ls = idxs11_ls
         p_i_12_ls = idxs12_ls
+        p_i2ls = idx2ls
         p_m_11_ls = mask11
         p_m_12_ls = mask12
+        pmask2s = mask2
         p_logits_11_ls = old_logits11_ls
         p_logits_12_ls = old_logits12_ls
-        p_i2ls = idx2ls
-        pmask2s = mask2
-        p_logits2ls = logits2ls
+        p_logits2ls = old_logits2_ls
+        p_vic_logits2ls = vic_logits2ls
 
         if period_break == 1:
             print("\n\n NOW BREAK SINCE ENOUGH TRAINING\n\n")
             return lm, p_i_11_ls, p_i_12_ls, p_m_11_ls,\
                 p_m_12_ls, p_logits_11_ls, p_logits_12_ls,\
-                p_i2ls, pmask2s, p_logits2ls
+                p_i2ls, pmask2s, p_logits2ls, p_vic_logits2ls
 
         loader = DataLoader(trainset,
                             batch_size=args.batch_size,
@@ -381,7 +400,7 @@ def train_pod(lm,
     # lm.save_pretrained(args.save_path+"___finally")
     return lm, p_i_11_ls, p_i_12_ls, p_m_11_ls,\
         p_m_12_ls, p_logits_11_ls, p_logits_12_ls,\
-        p_i2ls, pmask2s, p_logits2ls
+        p_i2ls, pmask2s, p_logits2ls, p_vic_logits2ls
 
 
 def one_period(args, lm,
@@ -415,7 +434,7 @@ def one_period(args, lm,
             # print(item)
             idxs11, idxs12, idxs2, mask11, mask12,\
                 mask2, old_logits11, old_logits12,\
-                old_logits2, vic_logits2, idxs2_dist = item
+                old_logits2, vic_logits2 = item
 
             bs, sqlen1 = idxs11.shape
             sqlen = sqlen1
@@ -440,12 +459,11 @@ def one_period(args, lm,
             old_logits2 = old_logits2.to(device)  # bs, sql,
 
             vic_logits2 = vic_logits2.to(device)  # bs, sql, 5
-            idxs2_dist = idxs2_dist.to(device)
 
             print("===========================================")
-            print("idx11text:  {lm_tokenizer.decode(idxs11[0])}")
-            print("idx12text:  {lm_tokenizer.decode(idxs12[0])}")
-            print("idx2text:  {lm_tokenizer.decode(idxs2[0])}")
+            print(f"idx11text:  {lm_tokenizer.decode(idxs11[0])}")
+            print(f"idx12text:  {lm_tokenizer.decode(idxs12[0])}")
+            print(f"idx2text:  {lm_tokenizer.decode(idxs2[0])}")
 
             # loss1 = lm(idxs11,
             #            labels=labels11).loss
