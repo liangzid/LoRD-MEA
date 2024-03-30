@@ -312,14 +312,8 @@ def evaluation_datas():
         # ["cs-en", "./wmt_ckpt/Complex-lord256cs-en100___period1/",],
         ["cs-en", "./POD_SAVE_CKPTs/vary_period0306cs-en/kd_256cs-en_newkd___finally/",],
         ["cs-en", "./POD_SAVE_CKPTs/vary_period0306cs-en/kd_256cs-en_30epochs___finally/",],
-        # ["cs-en", "./POD_SAVE_CKPTs/vary_period0306cs-en/Very--Complex-lord_256cs-en_test___period2/",],
-        # ["cs-en", "./POD_SAVE_CKPTs/vary_period0306cs-en/nolog--Complex-lord_256cs-en_longerGen64___period2/",],
-        # ["cs-en", "./temp_ckpt/cs-en/nolog--Complex-lord_256cs-en_longerGen16___period0/",],
-        # ["cs-en", "./temp_ckpt/cs-en/Complex-lord_256cs-en_longerGen64___period5",],
-        # ["cs-en", "./temp_ckpt/cs-en/Complex-lord_256cs-en_longerGen64___period4",],
-        # ["cs-en", "./temp_ckpt/cs-en/Complex-lord_256cs-en_longerGen64___period3",],
 
-        ["cs-en", "./lordii_ckpt/cs-en/LoRD-II1610256cs-en64__only_vic_labels___period8/",],
+        ["cs-en", "./lordii_ckpt/cs-en/LoRD-II1615256cs-en64__long_stage_style_ckpt___period5/",],
 
     ]
     res_dict = {}

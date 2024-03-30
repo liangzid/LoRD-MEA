@@ -86,7 +86,7 @@ def train(lm, lm_tokenizer, args,
                         p_m_12_ls, p_logits_11_ls, p_logits_12_ls,
                         p_i2ls, pmask2s, p_logits2ls,
                         )
-        if ssn % 2 == 0:
+        if (ssn+1) % 3 == 0:
             print(f" -->NOW save the ckpt in stage {ssn}.")
             lm_tokenizer.save_pretrained(args.save_path +
                                          "___period"+str(ssn))
@@ -101,9 +101,11 @@ def train_pod(lm,
               p_i_11_ls, p_i_12_ls, p_m_11_ls,
               p_m_12_ls, p_logits_11_ls, p_logits_12_ls,
               p_i2ls, pmask2s, p_logits2ls,
-              tau=0.85,
               ):
     print(">>>> DATA PREPERATION")
+    tau1=args.tau1
+    tau2=args.tau2
+    print(f" Tau1: {tau1}\t Tau2: {tau2}.")
     # STEP 1: DATA Preperation.
     ITER_num = args.period_num
     tb_writer = SummaryWriter(log_dir=args.save_path+"___log_writer")
@@ -127,12 +129,14 @@ def train_pod(lm,
         p_m_11_ls = []
         p_m_12_ls = []
         need_pre_store = 1
+        period_break = 0
 
         p_i2ls = []
         pmask2s = []
         p_logits2ls = []
+    else:
+        period_break = 1
 
-    period_break = 1
     for iter_idx in range(ITER_num):
         tensorboard_name = f"Period {iter_idx}"
 
@@ -273,6 +277,10 @@ def train_pod(lm,
                           # p_m_12_ls[i].unsqueeze(0).to(args.device),
                           labels=pidx12).loss
                 sl = pidx12.shape[1]
+                m11_num = float(torch.sum(p_m_11_ls[i, :-1]))
+                m12_num = float(torch.sum(p_m_12_ls[i, :-1]))
+                print(f"num_m11: {m11_num}\t num_m12: {m12_num}")
+                print(f"p_m_12_ls[i]: {p_m_12_ls[i]}")
                 print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
                 print(f"likelihood, 1: {llh1/sl}, 2: {llh2/sl}")
                 if llh2 < llh1:
@@ -287,7 +295,7 @@ def train_pod(lm,
                     temppp = p_m_11_ls[i]
                     p_m_11_ls[i] = p_m_12_ls[i]
                     p_m_12_ls[i] = temppp
-                if min(llh1, llh2)/sl > -math.log(tau):
+                if min(llh1/m11_num, llh2/m12_num) > -math.log(tau1):
                     print("BUT still use the VIC as labels.")
                     # print(f"shape of 11: {p_i_11_ls.shape}")
                     # print(f"shape of 2: {idx2ls.shape}")
@@ -297,7 +305,7 @@ def train_pod(lm,
                     p_m_11_ls[i] = pmask2s[i]
                     p_logits_11_ls[i] = p_logits2ls[i]
 
-                if min(llh1, llh2)/sl > -math.log(0.95):
+                if min(llh1/m11_num, llh2/m12_num) > -math.log(tau2):
                     period_break = 0
         else:
             need_pre_store = 0
