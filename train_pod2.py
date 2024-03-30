@@ -19,6 +19,7 @@ from torch.utils.tensorboard import SummaryWriter
 from torch.utils.data import TensorDataset, DataLoader
 from tqdm import tqdm
 import math
+import time
 # import argparse
 # from transformers import AutoModelForCausalLM
 # from transformers import AutoModelForSequenceClassification
@@ -40,8 +41,14 @@ import random
 
 from rlhf_train import clip, log_clip
 
+import logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+print = logger.info
 
-def random_take(num, ls):
+
+def random_take(num, ls, seed,):
+    random.seed(seed)
     random.shuffle(ls)
     if num >= len(ls):
         return ls
@@ -98,10 +105,11 @@ def train_pod(lm,
     subset_num = args.sub_set_num
 
     # 1. in every period, random take a subset.
-    p_ls = random_take(subset_num, op_ls)
-    idx2ls = random_take(subset_num, oidx2ls)
-    logits2ls = random_take(subset_num, ologits2ls)
-    idx2_dist = random_take(subset_num, oidx2_dist)
+    seed = time.time()
+    p_ls = random_take(subset_num, op_ls, seed,)
+    idx2ls = random_take(subset_num, oidx2ls, seed)
+    logits2ls = random_take(subset_num, ologits2ls, seed)
+    idx2_dist = random_take(subset_num, oidx2_dist, seed)
 
     need_pre_store = 0
     if p_i_11_ls is None:

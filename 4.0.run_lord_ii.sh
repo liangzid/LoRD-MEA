@@ -82,7 +82,7 @@ $python pod_train.py\
 echo "EVERYTHING DONE."
 echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 
-$python wmt_process.py
+# $python wmt_process.py
 
 
 echo "RUNNING 4.0.run_lord_ii.sh DONE."
