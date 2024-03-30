@@ -297,7 +297,7 @@ def train_pod(lm,
                     p_m_11_ls[i] = pmask2s[i]
                     p_logits_11_ls[i] = p_logits2ls[i]
 
-                if min(llh1, llh2)/sl > -math.log(0.97):
+                if min(llh1, llh2)/sl > -math.log(0.95):
                     period_break = 0
         else:
             need_pre_store = 0
@@ -474,7 +474,7 @@ def one_period(args, lm,
 
             if is_black_box == 0:
                 term3 = \
-                    (vic_logits2[:, :, 0]-logits2_cons)
+                    (vic_logits2[:, :, 0]+old_logits2-2*logits2_cons)
             else:
                 term3 = - logits2_cons
 

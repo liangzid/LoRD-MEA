@@ -34,9 +34,9 @@ export train_task="LoRD-II"
 # export train_num=16
 
 export epoch=1
-export period=2
+export period=3
 export sub_set_num=16
-export sub_stage_num=10
+export sub_stage_num=20
 export train_num=100
 
 
@@ -52,7 +52,7 @@ export use_entropy=0
 export max_new_tokens=64
 
 # export train_task="kd"
-export save_path="${POD_save_dir}${task}/${train_task}${sub_set_num}${sub_stage_num}${msl}${task}${max_new_tokens}__only_vic_labels"
+export save_path="${POD_save_dir}${task}/${train_task}${sub_set_num}${sub_stage_num}${msl}${task}${max_new_tokens}__long_stage_style_ckpt"
 
 $python pod_train.py\
 	--device="cuda" \

@@ -274,10 +274,16 @@ def infer_wmt(modelname, task_name, res_pth,
         final_inps = "Instruction: " + pp +\
             " User: "+inps+" Assistant: "
         res = gen_pipeline(final_inps,
-                           max_new_tokens=mnt,)[0]["generated_text"]
+                           do_sample=True,
+                           max_new_tokens=mnt,
+                           )[0]["generated_text"]
+
+        print("++++++++++++++++++DEBUG INFO+++++++++++++++++++++++")
+        print(f">>>Res with Inpus: {res}")
         res = res.split(final_inps)[1]
+        print(f">>>Res without Inpus: {res}")
+        print(f">>>Labels: {label}")
         res_ls.append((res, label))
-        print(res)
         # break
     with open(save_pth, 'w', encoding='utf8') as f:
         json.dump(res_ls, f, ensure_ascii=False, indent=4)
@@ -313,11 +319,8 @@ def evaluation_datas():
         # ["cs-en", "./temp_ckpt/cs-en/Complex-lord_256cs-en_longerGen64___period4",],
         # ["cs-en", "./temp_ckpt/cs-en/Complex-lord_256cs-en_longerGen64___period3",],
 
-
         ["cs-en", "./lordii_ckpt/cs-en/LoRD-II1610256cs-en64__only_vic_labels___period8/",],
-        ["cs-en", "./lordii_ckpt/cs-en/LoRD-II810256cs-en64__only_vic_labels___period6/",],
-        ["cs-en", "./lordii_ckpt/cs-en/LoRD-II810256cs-en64__only_vic_labels___period4/",],
-        ["cs-en", "./lordii_ckpt/cs-en/LoRD-II810256cs-en64__only_vic_labels___period2/",],
+
     ]
     res_dict = {}
     dir_p = "./wmt16_res/"
@@ -330,7 +333,8 @@ def evaluation_datas():
         res_pth += ".json"
         if not os.path.exists(dir_p+res_pth):
             res_ls = infer_wmt(ckpt, task, dir_p+res_pth,
-                               test_set_take_num=100,
+                               # test_set_take_num=100,
+                               test_set_take_num=50,
                                mnt=64)
         else:
             # from collections import OrderedDict
