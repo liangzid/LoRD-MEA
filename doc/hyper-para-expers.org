@@ -1,0 +1,35 @@
+#+title: Hyper-parameter Experiments.
+#+date: Sun Mar 31 14:37:44 2024
+#+author: Zi Liang
+#+email: zi1415926.liang@connect.polyu.hk
+#+latex_class: elegantpaper
+#+filetags: :LoRD:
+
+* LoRD-II
+
+I am tired now, and aims to find out a best results as the final
+results of our methods.
+
+** Varying stage num:
+
+|--------+----------+---------+------+-------+--------------|
+| period | N_subset | N_stage | tau1 |  tau2 | BERTScore-F1 |
+|--------+----------+---------+------+-------+--------------|
+|      3 |       15 |       2 | 0.99 | 0.998 |        0. |
+|      3 |       15 |       5 | 0.99 | 0.998 |        0.837 |
+|      3 |       15 |       8 | 0.99 | 0.998 |        0. |
+|      3 |       15 |      11 | 0.99 | 0.998 |        0. |
+|      3 |       15 |      14 | 0.99 | 0.998 |        0. |
+|--------+----------+---------+------+-------+--------------|
+|        |          |         |      |       |              |
+
+
+** Other hyper-parameters
+
+
+
+
+
+
+
+
