@@ -15,7 +15,8 @@
 echo "HOME: ${HOME}"
 export python=${HOME}/anaconda3/envs/align/bin/python3
 # export CUDA_VISIBLE_DEVICES="0,1,2,3"
-export CUDA_VISIBLE_DEVICES="4,5,6,7"
+# export CUDA_VISIBLE_DEVICES="4,5,6,7"
+export CUDA_VISIBLE_DEVICES="2,4,5,6"
 export root_dir="${HOME}/alignmentExtraction/"
 export save_dir="${root_dir}lordii_ckpt/"
 # export from_path="openai-community/gpt2-xl"
@@ -26,6 +27,7 @@ export task_ls=("cs-en" "du-en" "fi-en" "ro-en" "ru-en" "tr-en")
 # export task="cs-en"
 export task="cs-en"
 export train_task="LoRD-II"
+# export train_task="LoRD-II-no_vic"
 
 # export epoch=1
 # export period=2
@@ -33,7 +35,7 @@ export train_task="LoRD-II"
 # export sub_stage_num=10
 # export train_num=16
 
-export epoch=1
+export epoch=3
 export period=3
 export sub_set_num=16
 export sub_stage_num=15
