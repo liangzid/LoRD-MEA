@@ -660,7 +660,7 @@ def main():
                 raw_train_datals,
                 max_new_tokens=args.max_new_tokens,
             )
-        elif "II" in args.task:
+        elif "II" in args.task and "III" not in args.task:
             print("TRAIN WITH LORD-II!!!")
             from train_pod2 import train
             train(

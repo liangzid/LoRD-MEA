@@ -190,7 +190,7 @@ def wmt_curve_trainNums():
                     ylss.append(templs)
                 ylss = np.array(ylss)
 
-                xls=[float(x) for x in train_nums]
+                xls = [float(x) for x in train_nums]
 
                 ymeanls = np.mean(ylss, axis=1)
                 # ymaxls = np.max(ylss, axis=0)
