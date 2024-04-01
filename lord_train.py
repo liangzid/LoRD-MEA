@@ -499,6 +499,13 @@ def setup_train_args():
     parser.add_argument('--save_step', default=10000, type=int,
                         required=False)
 
+    parser.add_argument('--extra_nonlabel_data',
+                        default=1, type=int,
+                        required=False)
+    parser.add_argument('--nonlabel_data_num',
+                        default=32, type=int,
+                        required=False)
+
     parser.add_argument('--tau1', default=0.99, type=float,
                         required=False)
     parser.add_argument('--tau2', default=0.998, type=float,
@@ -578,6 +585,7 @@ def main():
     print("---------------------------------------------------------")
     print(f"TASKS NOW Supported: {tasks_supported}")
 
+    nonlabel_trainls = None
     if args.dataset_task in tasks_supported:
 
         if args.dataset_task in tasks_glue:
@@ -587,24 +595,58 @@ def main():
                 task_name=args.dataset_task,
                 train_num=args.train_num,
                 max_length=args.max_length)
+
+            from glue_process import load_glue_nonlabel
+            if args.extra_nonlabel_data == 1:
+                nonlabel_trainls = load_glue_nonlabel(
+                    tokenizer,
+                    task_name=args.dataset_task,
+                    train_num=args.nonlabel_data_num,
+                    max_length=args.max_length
+                )
+            else:
+                nonlabel_trainls = None
+
         elif args.dataset_task in tasks_wmt16:
             print(f"RUN wmt task: {args.dataset_task}")
-            from wmt_process import load_wmt_datals
+            from wmt_process import load_wmt_datals, load_wmt_nonlabel
             raw_train_datals = load_wmt_datals(
                 tokenizer,
                 task_name=args.dataset_task,
                 train_num=args.train_num,
                 max_length=args.max_length
             )
+
+            if args.extra_nonlabel_data == 1:
+                nonlabel_trainls = load_wmt_nonlabel(
+                    tokenizer,
+                    task_name=args.dataset_task,
+                    train_num=args.nonlabel_data_num,
+                    max_length=args.max_length
+                )
+            else:
+                nonlabel_trainls = None
+
         elif args.dataset_task == "sum":
             print(f"RUN summarization task: {args.dataset_task}")
-            from sum_process import load_sum_datals
+            from sum_process import load_sum_datals, load_sum_nonlabel
             raw_train_datals = load_sum_datals(
                 tokenizer,
                 task_name=args.dataset_task,
                 train_num=args.train_num,
                 max_length=args.max_length
             )
+
+            if args.extra_nonlabel_data == 1:
+                nonlabel_trainls = load_sum_nonlabel(
+                    tokenizer,
+                    task_name=args.dataset_task,
+                    train_num=args.nonlabel_data_num,
+                    max_length=args.max_length
+                )
+            else:
+                nonlabel_trainls = None
+
         else:
             print("EEERRROOORRR: EEERRROOORRR.")
         print("Data LOADING done.")
@@ -618,7 +660,7 @@ def main():
                 raw_train_datals,
                 max_new_tokens=args.max_new_tokens,
             )
-        if "II" in args.task:
+        elif "II" in args.task:
             print("TRAIN WITH LORD-II!!!")
             from train_pod2 import train
             train(
@@ -626,6 +668,17 @@ def main():
                 lm_tokenizer,
                 args,
                 raw_train_datals,
+                max_new_tokens=args.max_new_tokens,
+            )
+        elif "III" in args.task:
+            print("TRAIN WITH LORD-III!!!")
+            from train_pod3 import train
+            train(
+                lm,
+                lm_tokenizer,
+                args,
+                raw_train_datals,
+                nonlabel_trainls,
                 max_new_tokens=args.max_new_tokens,
             )
         elif args.task in ["kd", "vanilla"]:

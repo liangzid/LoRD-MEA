@@ -33,6 +33,64 @@ import torch
 # import time
 
 
+def load_wmt_nonlabel(tokenizer,
+                      task_name,
+                      train_num=100,
+                      max_length=1024,
+                      ):
+
+    lm_tokenizer = tokenizer
+    tasks_we_used = [
+        "cs-en",
+        "de-en",
+        "fi-en",
+        "ro-en",
+        "ru-en",
+        "tr-en",
+    ]
+
+    task_prompt_map = {
+        "cs-en": "Translate the sentence from Czech to English Please.",
+        "de-en": "Translate the sentence from Dutch to English Please.",
+        "fi-en": "Translate the sentence from Finnish to English Please.",
+        "ro-en": "Translate the sentence from Romanian to English Please.",
+        "ru-en": "Translate the sentence from Russian to English Please.",
+        "tr-en": "Translate the sentence from Turkish to English Please.",
+    }
+
+    assert task_name in tasks_we_used
+
+    V = lm_tokenizer.vocab_size
+    dataset_name = "wmt16"
+    trainset_text = load_dataset(dataset_name, task_name,
+                                 split=f"train[:{train_num}]")
+    trainset_text = load_dataset(dataset_name, task_name,
+                                 split=f"train")\
+        .shuffle(20240306)\
+        .to_iterable_dataset()\
+        .take(train_num)
+    # print(trainset_text[0])
+    # print("------------------------")
+
+    inp_ls = []
+
+    from_lang, to_lange = task_name.split("-")
+    for text in trainset_text:
+        text = text["translation"]
+        from_text = text[from_lang]
+        to_text = text[to_lange]
+        inp_ls.append(from_text)
+
+    pp = task_prompt_map[task_name]
+    prompts = [f"Instruction: {pp} User: {x} Assistant: "
+               for x in inp_ls]
+    p_idxls = []
+    for p in prompts:
+        p_idxls.append(lm_tokenizer(p, return_tensors="pt").input_ids[0])
+
+    return p_idxls, None, None, None
+
+
 def load_wmt_datals(tokenizer,
                     task_name,
                     train_num=100,

@@ -34,6 +34,67 @@ from gen_pipeline_open import InferObj
 from wmt_process import commonly_used_openai_post_process
 
 
+def load_sum_nonlabel(tokenizer,
+                      task_name="UCL-DARK/openai-tldr-filtered",
+                      train_num=100,
+                      max_length=1024,
+                      ):
+
+    lm_tokenizer = tokenizer
+
+    V = lm_tokenizer.vocab_size
+    tasks_we_used = [
+        "UCL-DARK/openai-tldr-filtered",
+        "cnn_dailymail",
+        "samsum",
+    ]
+    assert task_name in tasks_we_used
+    dataset_name = task_name
+    inp_ls = []
+    if task_name == tasks_we_used[0]:
+        trainset_text = load_dataset(dataset_name,
+                                     split=f"train[:{train_num}]")
+
+        for item in trainset_text:
+            subreddit = item["subreddit"]
+            title = item["title"]
+            post = item["post"]
+            summary = item["summary"]
+            text = f"Subreddit: {subreddit} Title: {title} Post: {post}"
+            inp_ls.append(text)
+    elif task_name == tasks_we_used[1]:
+
+        trainset_text = load_dataset(dataset_name,
+                                     "1.0.0",
+                                     split=f"train[:{train_num}]")
+
+        for item in trainset_text:
+            post = item["article"]
+            summary = item["highlights"]
+            text = f"Article: {post}"
+            inp_ls.append(text)
+    elif task_name == tasks_we_used[2]:
+
+        trainset_text = load_dataset(dataset_name,
+                                     split=f"train[:{train_num}]")
+
+        for item in trainset_text:
+            post = item["dialogue"]
+            summary = item["summary"]
+            text = f"dialogue: {post}"
+            inp_ls.append(text)
+    assert inp_ls != []
+
+    pp = "Please **summerize** the content given by user."
+    prompts = [f"Instruction: {pp} User: {x} Assistant: "
+               for x in inp_ls]
+    p_idxls = []
+    for p in prompts:
+        p_idxls.append(lm_tokenizer(p, return_tensors="pt").input_ids[0])
+
+    return p_idxls, None, None, None
+
+
 def load_sum_datals(tokenizer,
                     task_name="UCL-DARK/openai-tldr-filtered",
                     train_num=100,

@@ -11,7 +11,7 @@ Process GLUE dataset.
 """
 
 import os
-if __name__=="__main__":
+if __name__ == "__main__":
     os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
 
 # ------------------------ Code --------------------------------------
@@ -45,6 +45,82 @@ task_prompt_map = {
     "sst2": "Determine whether the following text is 'positive' or 'negative'.",
     "wnli": "Assess the relationship between the given sentences and classify it as 'entailment' or 'not_entailment'.",
 }
+
+
+def load_glue_nonlabel(lm_tokenizer,
+                       task_name,
+                       train_num=1,
+                       max_length=1024,
+                       ):
+    # some preliminary knowledge of GLUE
+    tasks_we_used = [
+        "cola", "mnli",
+        "mrpc",
+        "qnli", "qqp", "rte", "sst2",
+        "wnli",]
+
+    task_label_map = {
+        "cola": {"1": "acceptable", "0": "unacceptable"},
+        "mnli": {"1": "neutral", "0": "entailment", "2": "contradiction"},
+        "mrpc": {"1": "equivalent", "2": "not_equivalent"},
+        "qnli": {"1": "not_entailment", "0": "entailment"},
+        "qqp": {"1": "duplicate", "0": "not_duplicate"},
+        "rte": {"1": "not_entailment", "0": "entailment"},
+        "sst2": {"1": "positive", "0": "negative"},
+        "wnli": {"0": "not_entailment", "1": "entailment"},
+    }
+    task_key_map = {
+        "mrpc": ["sentence1", "sentence2"],
+        "qnli": ["question", "sentence"],
+        "qqp": ["question1", "question2"],
+        "rte": ["sentence1", "sentence2"],
+        "wnli": ["sentence1", "sentence2"],
+
+    }
+
+    single_input_tasks = ["cola", "sst2",]
+    double_input_tasks = ["mrpc", "qnli", "qqp", "rte", "wnli",]
+
+    assert task_name in tasks_we_used
+
+    V = lm_tokenizer.vocab_size
+    dataset_name = "glue"
+    trainset_text = load_dataset(dataset_name, task_name,
+                                 split=f"train")\
+        .shuffle(seed=20240306).to_iterable_dataset().take(train_num)
+
+    sets = trainset_text
+    inp_ls = []
+    # collecting the input prompts
+    if task_name in single_input_tasks:
+        for d in trainset_text:
+            inps = d["sentence"]
+            inp_ls.append(inps)
+            # break
+
+    elif task_name == "mnli":
+        for d in sets:
+            inps = d["premise"]+" <SEP> "+d["hypothesis"]
+            # label = d["label"]
+            inp_ls.append(inps)
+    elif task_name in double_input_tasks:
+        for d in sets:
+            inps = d[task_key_map[task_name][0]]+" <SEP> " +\
+                d[task_key_map[task_name][1]]
+            # label = d["label"]
+            # label = task_label_map[task_name][str(label)]
+            inp_ls.append(inps)
+    else:
+        print(f"task name: {task_name} not found.")
+
+    pp = task_prompt_map[task_name]
+    prompts = [f"Instruction: {pp} User: {x} Assistant: "
+               for x in inp_ls]
+    p_idxls = []
+    for p in prompts:
+        p_idxls.append(lm_tokenizer(p, return_tensors="pt").input_ids[0])
+
+    return p_idxls, None, None, None
 
 
 def load_glue_datals(lm_tokenizer,
@@ -523,7 +599,7 @@ def evaluation_datas():
 
 def glue_big_evals():
     # methodls = ["Complex-lord", "vanilla", "kd", "black--Complex-lord"]
-    
+
     methodls = ["vanilla", "kd",]
     train_times = [str(x+1) for x in range(5)]
     dir_p = "./GLUE_infers/"
