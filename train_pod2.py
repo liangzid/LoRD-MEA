@@ -278,6 +278,7 @@ def train_pod(lm,
         # ---------------------------------------------------------
         # now fix the logic of constructive two samples
         if need_pre_store == 1:
+            need_pre_store=0
             # at first stage, we have no previous stage, so we use
             # the ground truth in current stage.
             p_i_11_ls = idx2ls  # absolute positive label
@@ -334,8 +335,7 @@ def train_pod(lm,
 
                 if min(llh1/m11_num, llh2/m12_num) > -math.log(tau2):
                     period_break = 0
-        else:
-            need_pre_store = 0
+        need_pre_store = 0
 
         # Dataset what we seen is about the last stage,
         # not current stage.
@@ -378,23 +378,20 @@ def train_pod(lm,
                             shuffle=True,
                             )
         print(">>>> Period {}".format(iter_idx))
-        if args.task == "LoRD-II":
-            lm = one_period(args, lm,
-                            lm_tokenizer,
-                            loader,
-                            args.epoch, args.device,
-                            tb_writer,
-                            tensorboard_name,
-                            args.save_path,
-                            args.LR,
-                            args.acc_step, args.log_step,
-                            args.save_step,
-                            args.beta,
-                            is_black_box=0,
-                            method="lord_ii"
-                            )
-        else:
-            print("ERROR: CANNOT FIND THE TRAIN LOSS OF THE TASK.")
+        lm = one_period(args, lm,
+                        lm_tokenizer,
+                        loader,
+                        args.epoch, args.device,
+                        tb_writer,
+                        tensorboard_name,
+                        args.save_path,
+                        args.LR,
+                        args.acc_step, args.log_step,
+                        args.save_step,
+                        args.beta,
+                        is_black_box=0,
+                        method=args.task,
+                        )
 
     # lm_tokenizer.save_pretrained(args.save_path+"___finally")
     # lm.save_pretrained(args.save_path+"___finally")
@@ -416,7 +413,7 @@ def one_period(args, lm,
                beta=0.7,
                epsln=1e-6,
                is_black_box=0,
-               method="lord_ii",
+               method="LORD-II",
                ):
 
     overall_loss = 0.
@@ -506,21 +503,24 @@ def one_period(args, lm,
 
             term3 = torch.sum(term3*mask2[:, :-1])
 
-            loss_1 = term2 + term3
-            loss_2 = term1
-            # loss_2 = term1
+            if method == "LoRD-II":
+                loss_1 = term2 + term3
+                loss_2 = term1
+            elif method == "LoRD-II-no_vic":
+                loss_1 = term2
+                loss_2 = term1
 
             loss = loss_1 + loss_2
 
-            if loss == torch.tensor(float("nan")):
-                print("++++++++++++++++++++++")
-                print(f"term1: {term1}")
-                print(f"term2: {term3}")
-                print(f"loss1: {loss_1}")
-                print(f"loss2: {loss_2}")
-                print(f"loss: {loss}")
-                print(f"mask: {mask[:,:-1]}")
-                print("++++++++DEBUG DONE.++++++++")
+            # if loss == torch.tensor(float("nan")):
+            #     print("++++++++++++++++++++++")
+            #     print(f"term1: {term1}")
+            #     print(f"term2: {term3}")
+            #     print(f"loss1: {loss_1}")
+            #     print(f"loss2: {loss_2}")
+            #     print(f"loss: {loss}")
+            #     print(f"mask: {mask[:,:-1]}")
+            #     print("++++++++DEBUG DONE.++++++++")
 
             loss_constractive = loss
 
