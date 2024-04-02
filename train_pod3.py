@@ -533,5 +533,5 @@ def train_pod(lm,
 
 # running entry
 if __name__ == "__main__":
-    main()
+    # main()
     print("EVERYTHING DONE.")

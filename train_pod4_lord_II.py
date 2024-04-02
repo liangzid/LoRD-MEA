@@ -1,15 +1,13 @@
 """
 ======================================================================
-TRAIN_POD2 ---
 
-New stealing mechamism.
+Train new LoRD-II function.
 
     Author: Zi Liang <zi1415926.liang@connect.polyu.hk>
     Copyright © 2024, ZiLiang, all rights reserved.
-    Created: 27 March 2024
+    Created: 2 April 2024
 ======================================================================
 """
-
 
 # ------------------------ Code --------------------------------------
 import torch
@@ -20,15 +18,6 @@ from torch.utils.data import TensorDataset, DataLoader
 from tqdm import tqdm
 import math
 import time
-# import argparse
-# from transformers import AutoModelForCausalLM
-# from transformers import AutoModelForSequenceClassification
-# from transformers import AutoModelForTokenClassification
-# from transformers import AutoTokenizer, AutoConfig, AutoModel
-
-# from training_data_collecting_openai import load_raw_train_datals
-# from training_data_collecting_openai import load_steal_datals
-# from glue_process import load_glue_datals
 
 from sequence_utils import my_padding, my_padding_logits
 from sequence_utils import my_padding_token_dist
@@ -36,7 +25,6 @@ from sequence_utils import my_padding_logit
 
 import torch.nn.functional as F
 
-# from rlhf_train import clip, log_clip
 import random
 
 from rlhf_train import clip, log_clip
@@ -63,13 +51,6 @@ def train(lm, lm_tokenizer, args,
         args.period_num
     print(f"OVERALL STEPS: {steps}.")
 
-    p_i_11_ls = None
-    p_i_12_ls = None
-    p_m_11_ls = None
-    p_m_12_ls = None
-    p_logits_11_ls = None
-    p_logits_12_ls = None
-
     p_i2ls = None
     pmask2s = None
     p_logits2ls = None
@@ -77,16 +58,10 @@ def train(lm, lm_tokenizer, args,
 
     for ssn in range(sub_stage_num):
 
-        lm, p_i_11_ls, p_i_12_ls, p_m_11_ls,\
-            p_m_12_ls, p_logits_11_ls, p_logits_12_ls,\
-            p_i2ls, pmask2s, p_logits2ls, p_vic_logits2ls\
-            = train_pod(lm, lm_tokenizer,
-                        args, raw_train_datals,
-                        max_new_tokens,
-                        p_i_11_ls, p_i_12_ls, p_m_11_ls,
-                        p_m_12_ls, p_logits_11_ls, p_logits_12_ls,
-                        p_i2ls, pmask2s, p_logits2ls, p_vic_logits2ls
-                        )
+        lm = train_pod(lm, lm_tokenizer,
+                       args, raw_train_datals,
+                       max_new_tokens,
+                       )
         if (ssn+1) % 3 == 0:
             print(f" -->NOW save the ckpt in stage {ssn}.")
             lm_tokenizer.save_pretrained(args.save_path +
@@ -99,9 +74,6 @@ def train_pod(lm,
               lm_tokenizer,
               args, raw_train_datals,
               max_new_tokens,
-              p_i_11_ls, p_i_12_ls, p_m_11_ls,
-              p_m_12_ls, p_logits_11_ls, p_logits_12_ls,
-              p_i2ls, pmask2s, p_logits2ls, p_vic_logits2ls
               ):
     print(">>>> DATA PREPERATION")
     tau1 = args.tau1
@@ -120,25 +92,6 @@ def train_pod(lm,
     idx2ls = random_take(subset_num, oidx2ls, seed)
     vic_logits2ls = random_take(subset_num, ologits2ls, seed)
     idx2_dist = random_take(subset_num, oidx2_dist, seed)
-
-    need_pre_store = 0
-    if p_i_11_ls is None:
-        p_i_11_ls = []
-        p_i_12_ls = []
-        p_logits_11_ls = []
-        p_logits_12_ls = []
-        p_m_11_ls = []
-        p_m_12_ls = []
-
-        need_pre_store = 1
-        period_break = 0
-
-        p_i2ls = []
-        pmask2s = []
-        p_logits2ls = []
-        p_vic_logits2ls = []
-    else:
-        period_break = 1
 
     for iter_idx in range(ITER_num):
         tensorboard_name = f"Period {iter_idx}"
@@ -212,14 +165,6 @@ def train_pod(lm,
                                        .squeeze(0).to("cpu"))
                 old_logits2_ls.append(old_logits2.squeeze(0).to("cpu"))
 
-        # do truncations and paddings.
-        # max_token_num_11 = min(args.max_length,
-        #                        max([len(x) for x in p_i_11_ls]))
-        # max_token_num_12 = min(args.max_length,
-        #                        max([len(x) for x in p_i_12_ls]))
-        # max_token_num_2 = min(args.max_length,
-        #                       max([len(x) for x in p_i2ls]))
-
         cmax_token_num_2 = min(args.max_length,
                                max([len(x) for x in idx2ls]))
         cmax_token_num_11 = min(args.max_length,
@@ -247,19 +192,6 @@ def train_pod(lm,
         old_logits2_ls = my_padding_logit(old_logits2_ls,
                                           max_token_num-1, pad_idx)
 
-        # p_i_11_ls, p_m_11_ls = my_padding(p_i_11_ls,
-        #                                   p_ls,
-        #                                   max_token_num, pad_idx)
-        # p_i_12_ls, p_m_12_ls = my_padding(p_i_12_ls,
-        #                                   p_ls,
-        #                                   max_token_num, pad_idx)
-        # p_logits_11_ls = my_padding_logit(p_logits_11_ls,
-        #                                   max_token_num-1,
-        #                                   pad_idx)
-        # p_logits_12_ls = my_padding_logit(p_logits_12_ls,
-        #                                   max_token_num-1,
-        #                                   pad_idx)
-
         newvic_logits2ls = []
         for per_data in vic_logits2ls:
             sl = len(per_data)
@@ -273,107 +205,61 @@ def train_pod(lm,
                                           max_token_num-1, pad_idx)
         idxs2_dist = my_padding_token_dist(idx2_dist,
                                            max_token_num-1, pad_idx)
-        # print(f"{old_logits11_ls.shape}")
 
-        # ---------------------------------------------------------
-        # now fix the logic of constructive two samples
-        if need_pre_store == 1:
-            need_pre_store = 0
-            # at first stage, we have no previous stage, so we use
-            # the ground truth in current stage.
-            p_i_11_ls = idx2ls  # absolute positive label
-            p_i_12_ls = idxs12_ls
+        # # ---------------------------------------------------------
+        # # now fix the logic of constructive two samples
+        # for i, prompt in enumerate(p_ls):
+        #     # print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+        #     pidx11 = idxs11_ls[i].unsqueeze(0).to(args.device)
+        #     pidx12 = idxs12_ls[i].unsqueeze(0).to(args.device)
 
-            p_logits_11_ls = old_logits2_ls
-            p_logits_12_ls = old_logits12_ls
+        #     p11 = float(torch.sum(torch.exp(old_logits11_ls[i])
+        #                           * mask11[i, :-1])
+        #                 / torch.sum(mask11[i, :-1]))
+        #     p12 = float(torch.sum(torch.exp(old_logits12_ls[i])
+        #                           * mask12[i, :-1])
+        #                 / torch.sum(mask12[i, :-1]))
 
-            p_m_11_ls = mask2
-            p_m_12_ls = mask12
+        #     print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+        #     print(f"confidence, 1: {p11}, 2: {p12}")
+        #     if p12 > p11:
+        #         print("SWAP.")
+        #         idxs11_ls[i] = pidx12.squeeze(0).to("cpu")
+        #         idxs12_ls[i] = pidx11.squeeze(0).to("cpu")
 
-            p_i2ls = idx2ls
-            pmask2s = mask2
-            p_logits2ls = old_logits2_ls
-            p_vic_logits2ls = vic_logits2ls
-        elif need_pre_store == 0:
-            for i, prompt in enumerate(p_ls):
-                # print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-                # print(f"shape of logits 11: {p_logits_11_ls[i].shape}")
-                # print(f"value of logits 11: {torch.sum(torch.exp(p_logits_11_ls[i])*p_m_11_ls[i,:-1])/torch.sum(p_m_11_ls[i,:-1])}")
-                # print(f"value of logits 12: {torch.sum(torch.exp(p_logits_12_ls[i])*p_m_11_ls[i,:-1])/torch.sum(p_m_12_ls[i,:-1])}")
+        #         temppp = old_logits11_ls[i]
+        #         old_logits11_ls[i] = old_logits12_ls[i]
+        #         old_logits12_ls[i] = temppp
 
-                pidx11 = p_i_11_ls[i].unsqueeze(0).to(args.device)
-                pidx12 = p_i_12_ls[i].unsqueeze(0).to(args.device)
+        #         temppp = mask11[i]
+        #         mask11[i] = mask12[i]
+        #         mask12[i] = temppp
+        #     if max(p11, p12) < tau1:
+        #         print("BUT still use the VIC's labels.")
+        #         # print(f"shape of 11: {p_i_11_ls.shape}")
+        #         # print(f"shape of 2: {idx2ls.shape}")
+        #         # print(f"shape of 12: {p_i_12_ls.shape}")
 
-                p11 = float(torch.sum(torch.exp(p_logits_11_ls[i])
-                                      * p_m_11_ls[i, :-1])
-                            / torch.sum(p_m_11_ls[i, :-1]))
-                p12 = float(torch.sum(torch.exp(p_logits_12_ls[i])
-                                      * p_m_12_ls[i, :-1])
-                            / torch.sum(p_m_12_ls[i, :-1]))
-
-                print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-                print(f"confidence, 1: {p11}, 2: {p12}")
-                if p12 > p11:
-                    print("SWAP.")
-                    p_i_11_ls[i] = pidx12.squeeze(0).to("cpu")
-                    p_i_12_ls[i] = pidx11.squeeze(0).to("cpu")
-
-                    temppp = p_logits_11_ls[i]
-                    p_logits_11_ls[i] = p_logits_12_ls[i]
-                    p_logits_12_ls[i] = temppp
-
-                    temppp = p_m_11_ls[i]
-                    p_m_11_ls[i] = p_m_12_ls[i]
-                    p_m_12_ls[i] = temppp
-                if max(p11, p12) < tau1:
-                    print("BUT still use the VIC's labels.")
-                    # print(f"shape of 11: {p_i_11_ls.shape}")
-                    # print(f"shape of 2: {idx2ls.shape}")
-                    # print(f"shape of 12: {p_i_12_ls.shape}")
-
-                    p_i_11_ls[i] = p_i2ls[i]
-                    p_m_11_ls[i] = pmask2s[i]
-                    p_logits_11_ls[i] = p_logits2ls[i]
-
-                if min(p11, p12) > tau2:
-                    period_break = 0
-        need_pre_store = 0
+        #         idxs11_ls[i] = idx2ls[i]
+        #         mask11[i] = mask2[i]
+        #         old_logits11_ls[i] = old_logits2_ls[i]
 
         # Dataset what we seen is about the last stage,
         # not current stage.
         # If it is the first stage, then we use the victim's label
         # to guide the training, for a better bootstrapping.
         trainset = TensorDataset(
-            p_i_11_ls,
-            p_i_12_ls,
-            p_i2ls,
-            p_m_11_ls,
-            p_m_12_ls,
-            pmask2s,
-            p_logits_11_ls,
-            p_logits_12_ls,
-            p_logits2ls,
-            p_vic_logits2ls,
+            idxs11_ls,
+            idxs12_ls,
+            idx2ls,
+            mask11,
+            mask12,
+            mask2,
+            old_logits11_ls,
+            old_logits12_ls,
+            old_logits2_ls,
+            vic_logits2ls,
         )
-
-        # reuse the tensors in current stage as the training dataset
-        # for next stage.
-        p_i_11_ls = idxs11_ls
-        p_i_12_ls = idxs12_ls
-        p_i2ls = idx2ls
-        p_m_11_ls = mask11
-        p_m_12_ls = mask12
-        pmask2s = mask2
-        p_logits_11_ls = old_logits11_ls
-        p_logits_12_ls = old_logits12_ls
-        p_logits2ls = old_logits2_ls
-        p_vic_logits2ls = vic_logits2ls
-
-        if period_break == 1:
-            print("\n\n NOW BREAK SINCE ENOUGH TRAINING\n\n")
-            return lm, p_i_11_ls, p_i_12_ls, p_m_11_ls,\
-                p_m_12_ls, p_logits_11_ls, p_logits_12_ls,\
-                p_i2ls, pmask2s, p_logits2ls, p_vic_logits2ls
 
         loader = DataLoader(trainset,
                             batch_size=args.batch_size,
@@ -397,9 +283,7 @@ def train_pod(lm,
 
     # lm_tokenizer.save_pretrained(args.save_path+"___finally")
     # lm.save_pretrained(args.save_path+"___finally")
-    return lm, p_i_11_ls, p_i_12_ls, p_m_11_ls,\
-        p_m_12_ls, p_logits_11_ls, p_logits_12_ls,\
-        p_i2ls, pmask2s, p_logits2ls, p_vic_logits2ls
+    return lm
 
 
 def one_period(args, lm,
@@ -473,6 +357,8 @@ def one_period(args, lm,
             logits11 = logits11[torch.arange(bs).unsqueeze(1),
                                 torch.arange(sqlen-1).unsqueeze(0),
                                 idxs11[:, 1:sqlen]]
+            p11 = torch.sum(torch.exp(logits11)*mask11[:, :-1], dim=1)\
+                / torch.sum(mask11[:, :-1], dim=1)
 
             logits12 = lm(idxs12).logits[:, :-1, :]
             logits12 = F.log_softmax(logits12, dim=-1)
@@ -480,33 +366,36 @@ def one_period(args, lm,
                                 torch.arange(sqlen-1).unsqueeze(0),
                                 idxs12[:, 1:sqlen]]
 
+            p12 = torch.sum(torch.exp(logits12)*mask12[:, :-1], dim=1)\
+                / torch.sum(mask12[:, :-1], dim=1)
+
             logits2 = lm(idxs2).logits[:, :-1, :]
             logits2 = torch.log_softmax(logits2, dim=-1)
             logits2_cons = logits2[torch.arange(bs).unsqueeze(1),
                                    torch.arange(sqlen-1).unsqueeze(0),
                                    idxs2[:, 1:sqlen]]
+            p2 = torch.sum(torch.exp(logits2)*mask2[:, :-1], dim=1)\
+                / torch.sum(mask2[:, :-1], dim=1)
 
-            # mask = torch.logical_or(mask11, mask12).long()
-
+            # higher better
             term1 = torch.sum(log_clip(-old_logits12+logits12)
-                              * mask12[:, :-1])
+                              * mask12[:, :-1], dim=1)
+
+            # higher better
             term2 = torch.sum((old_logits11-logits11)
-                              * mask11[:, :-1])
+                              * mask11[:, :-1], dim=1)
 
             if is_black_box == 0:
                 term3 = \
                     (vic_logits2[:, :, 0]+old_logits2-2*logits2_cons)
             else:
                 term3 = - logits2_cons
-
             term3 = torch.sum(term3 * mask2[:, :-1])
 
-            if method == "LoRD-II":
-                loss_1 = term1 + term2
-                loss_2 = term3
-            elif method == "LoRD-II-no_vic":
-                loss_1 = term2
-                loss_2 = term1
+            loss_1 = (p11 > args.tau1)*term1 + (p12 > args.tau1)*term2
+            loss_1 += -1*(p11 < args.tau2)*term1 - 1 * (p12 < args.tau2)*term2
+
+            loss_2 = (p2 < args.tau1)*term3
 
             loss = loss_1 + loss_2
 

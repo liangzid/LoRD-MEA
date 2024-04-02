@@ -1,6 +1,5 @@
 #!/bin/bash
 ######################################################################
-#4.0.RUN_LORD_II --- 
 
 # Author: Zi Liang <zi1415926.liang@connect.polyu.hk>
 # Copyright © 2024, ZiLiang, all rights reserved.
@@ -26,22 +25,22 @@ export task_ls=("cola" "mnli" "mrpc" "qnli" "qqp" "rte" "sst2" "wnli")
 export task_ls=("cs-en" "du-en" "fi-en" "ro-en" "ru-en" "tr-en")
 # export task="cs-en"
 export task="cs-en"
-export train_task="LoRD-II"
+export train_task="LoRD-IV"
 # export train_task="LoRD-II-no_vic"
 
-# export epoch=1
-# export period=2
-# export sub_set_num=2
-# export sub_stage_num=10
-# export train_num=16
-# export max_new_tokens=16
+export epoch=1
+export period=2
+export sub_set_num=2
+export sub_stage_num=10
+export train_num=16
+export max_new_tokens=16
 
-export epoch=2
-export period=1
-export sub_set_num=100
-export sub_stage_num=3
-export train_num=100
-export max_new_tokens=64
+# export epoch=2
+# export period=1
+# export sub_set_num=100
+# export sub_stage_num=3
+# export train_num=100
+# export max_new_tokens=64
 
 
 export beta=1.0
@@ -53,14 +52,15 @@ export use_vic_logits=1
 export use_kld=0
 export use_entropy=0
 
-export tau1=0.90
-export tau2=0.99
+export tau1=0.9
+export tau2=0.4
 
 
 # export train_task="kd"
 export save_path="${save_dir}${task}/${train_task}${sub_set_num}${sub_stage_num}${msl}${task}${max_new_tokens}__long_stage_style_ckpt"
 
 $python lord_train.py\
+	--task=$train_task \
 	--tau1=$tau1 \
 	--tau2=$tau2 \
 	--device="cuda" \
@@ -77,7 +77,6 @@ $python lord_train.py\
 	--beta=$beta \
 	--temperature=$temperature \
 	--batch_size=$batch_size \
-	--task=$train_task \
 	--use_old_logits=$use_old_logits\
 	--use_vic_logits=$use_vic_logits\
 	--use_kld=$use_kld\
@@ -93,5 +92,3 @@ echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 # $python wmt_process.py
 
 
-echo "RUNNING 4.0.run_lord_ii.sh DONE."
-# 4.0.run_lord_ii.sh ends here
