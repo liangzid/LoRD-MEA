@@ -296,22 +296,24 @@ def train_pod(lm,
             p_vic_logits2ls = vic_logits2ls
         elif need_pre_store == 0:
             for i, prompt in enumerate(p_ls):
+                # print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+                # print(f"shape of logits 11: {p_logits_11_ls[i].shape}")
+                # print(f"value of logits 11: {torch.sum(torch.exp(p_logits_11_ls[i])*p_m_11_ls[i,:-1])/torch.sum(p_m_11_ls[i,:-1])}")
+                # print(f"value of logits 12: {torch.sum(torch.exp(p_logits_12_ls[i])*p_m_11_ls[i,:-1])/torch.sum(p_m_12_ls[i,:-1])}")
+
                 pidx11 = p_i_11_ls[i].unsqueeze(0).to(args.device)
                 pidx12 = p_i_12_ls[i].unsqueeze(0).to(args.device)
-                llh1 = lm(pidx11,
-                          # p_m_11_ls[i].unsqueeze(0).to(args.device),
-                          labels=pidx11).loss
-                llh2 = lm(pidx12,
-                          # p_m_12_ls[i].unsqueeze(0).to(args.device),
-                          labels=pidx12).loss
-                sl = pidx12.shape[1]
-                m11_num = float(torch.sum(p_m_11_ls[i, :-1]))
-                m12_num = float(torch.sum(p_m_12_ls[i, :-1]))
-                print(f"num_m11: {m11_num}\t num_m12: {m12_num}")
-                print(f"p_m_12_ls[i]: {p_m_12_ls[i]}")
+
+                p11=float(torch.sum(torch.exp(p_logits_11_ls[i])\
+                              *p_m_11_ls[i,:-1])\
+                              /torch.sum(p_m_11_ls[i,:-1]))
+                p12=float(torch.sum(torch.exp(p_logits_12_ls[i])\
+                              *p_m_12_ls[i,:-1])\
+                              /torch.sum(p_m_12_ls[i,:-1]))
+
                 print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-                print(f"likelihood, 1: {llh1/sl}, 2: {llh2/sl}")
-                if llh2 < llh1:
+                print(f"confidence, 1: {p11}, 2: {p12}")
+                if p12 > p11:
                     print("SWAP.")
                     p_i_11_ls[i] = pidx12.squeeze(0).to("cpu")
                     p_i_12_ls[i] = pidx11.squeeze(0).to("cpu")
@@ -323,7 +325,7 @@ def train_pod(lm,
                     temppp = p_m_11_ls[i]
                     p_m_11_ls[i] = p_m_12_ls[i]
                     p_m_12_ls[i] = temppp
-                if min(llh1/m11_num, llh2/m12_num) > -math.log(tau1):
+                if max(p11,p12) < tau1:
                     print("BUT still use the VIC's labels.")
                     # print(f"shape of 11: {p_i_11_ls.shape}")
                     # print(f"shape of 2: {idx2ls.shape}")
@@ -333,7 +335,7 @@ def train_pod(lm,
                     p_m_11_ls[i] = pmask2s[i]
                     p_logits_11_ls[i] = p_logits2ls[i]
 
-                if min(llh1/m11_num, llh2/m12_num) > -math.log(tau2):
+                if min(p11, p12) > tau2:
                     period_break = 0
         need_pre_store = 0
 
@@ -501,7 +503,7 @@ def one_period(args, lm,
             else:
                 term3 = - logits2_cons
 
-            term3 = torch.sum(term3*mask2[:, :-1])
+            term3 = torch.sum(term3 * mask2[:, :-1])
 
             if method == "LoRD-II":
                 loss_1 = term2 + term3

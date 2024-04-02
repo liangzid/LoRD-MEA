@@ -34,12 +34,14 @@ export train_task="LoRD-II-no_vic"
 # export sub_set_num=2
 # export sub_stage_num=10
 # export train_num=16
+# export max_new_tokens=16
 
 export epoch=3
 export period=3
 export sub_set_num=16
 export sub_stage_num=15
 export train_num=100
+export max_new_tokens=64
 
 
 export beta=1.0
@@ -51,10 +53,9 @@ export use_vic_logits=1
 export use_kld=0
 export use_entropy=0
 
-export tau1=0.99
-export tau2=0.998
+export tau1=0.85
+export tau2=0.99
 
-export max_new_tokens=64
 
 # export train_task="kd"
 export save_path="${save_dir}${task}/${train_task}${sub_set_num}${sub_stage_num}${msl}${task}${max_new_tokens}__long_stage_style_ckpt"
