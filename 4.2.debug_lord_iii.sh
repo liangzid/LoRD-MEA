@@ -15,7 +15,8 @@
 
 echo "HOME: ${HOME}"
 export python=${HOME}/anaconda3/envs/align/bin/python3
-export CUDA_VISIBLE_DEVICES="4,5,6,7"
+export CUDA_VISIBLE_DEVICES="0,1,2,3"
+# export CUDA_VISIBLE_DEVICES="4,5,6,7"
 export root_dir="${HOME}/alignmentExtraction/"
 export save_dir="${root_dir}lordiii_ckpt/"
 # export from_path="openai-community/gpt2-xl"
@@ -41,6 +42,9 @@ export train_num=16
 # export sub_stage_num=15
 # export train_num=100
 
+## Special settings for LoRD-III
+export extra_nonlabel_data=1
+export nonlabel_data_num=3
 
 export beta=1.0
 export temperature=2

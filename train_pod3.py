@@ -417,8 +417,8 @@ def train_pod(lm,
                             args.acc_step, args.log_step,
                             args.save_step,
                             args.beta,
-                            is_black_box=0,
-                            method="LoRD-II",
+                            is_black_box=1,
+                            method="LoRD-II-no_vic",
                             )
 
         elif need_pre_store == 0:
@@ -517,7 +517,7 @@ def train_pod(lm,
                             args.acc_step, args.log_step,
                             args.save_step,
                             args.beta,
-                            is_black_box=0,
+                            is_black_box=1,
                             method="LoRD-II-no_vic",
                             )
 
