@@ -297,12 +297,17 @@ def train_pod(lm,
         print(f"max_token_num: {max_token_num}")
         pad_idx = lm_tokenizer.pad_token_id
 
+        templs=[]
+        templs.extend(p_ls)
+        if need_pre_store==0:
+            templs.extend(ulpls)
+
         idx2ls, mask2 = my_padding(idx2ls, p_ls,
                                    max_token_num, pad_idx)
         idxs11_ls, mask11 = my_padding(idxs11_ls,
-                                       p_ls, max_token_num, pad_idx)
+                                       templs, max_token_num, pad_idx)
         idxs12_ls, mask12 = my_padding(idxs12_ls,
-                                       p_ls, max_token_num, pad_idx)
+                                       templs, max_token_num, pad_idx)
 
         old_logits11_ls = my_padding_logit(old_logits11_ls,
                                            max_token_num-1, pad_idx)
