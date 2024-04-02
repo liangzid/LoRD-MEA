@@ -689,7 +689,6 @@ def main():
                 lm_tokenizer,
                 args,
                 raw_train_datals,
-                nonlabel_trainls,
                 max_new_tokens=args.max_new_tokens,
             )
         elif args.task in ["kd", "vanilla"]:

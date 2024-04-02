@@ -374,7 +374,7 @@ def one_period(args, lm,
             logits2_cons = logits2[torch.arange(bs).unsqueeze(1),
                                    torch.arange(sqlen-1).unsqueeze(0),
                                    idxs2[:, 1:sqlen]]
-            p2 = torch.sum(torch.exp(logits2)*mask2[:, :-1], dim=1)\
+            p2 = torch.sum(torch.exp(logits2_cons)*mask2[:, :-1], dim=1)\
                 / torch.sum(mask2[:, :-1], dim=1)
 
             # higher better
@@ -391,6 +391,13 @@ def one_period(args, lm,
             else:
                 term3 = - logits2_cons
             term3 = torch.sum(term3 * mask2[:, :-1])
+
+            print("---------------------------------")
+            print(f"p11>tau1: {p11 > args.tau1}")
+            print(f"p12>tau1: {p12 > args.tau1}")
+            print(f"p2>tau1: {p2 > args.tau1}")
+            print(f"p11<tau2: {p11 < args.tau2}")
+            print(f"p12<tau2: {p12 < args.tau2}")
 
             loss_1 = (p11 > args.tau1)*term1 + (p12 > args.tau1)*term2
             loss_1 += -1*(p11 < args.tau2)*term1 - 1 * (p12 < args.tau2)*term2

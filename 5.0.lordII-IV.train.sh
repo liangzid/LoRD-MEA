@@ -13,11 +13,11 @@
 
 echo "HOME: ${HOME}"
 export python=${HOME}/anaconda3/envs/align/bin/python3
-# export CUDA_VISIBLE_DEVICES="0,1,2,3"
-export CUDA_VISIBLE_DEVICES="4,5,6,7"
+export CUDA_VISIBLE_DEVICES="0,1,2,3"
+# export CUDA_VISIBLE_DEVICES="4,5,6,7"
 # export CUDA_VISIBLE_DEVICES="2,4,5,6"
 export root_dir="${HOME}/alignmentExtraction/"
-export save_dir="${root_dir}lordii_ckpt/"
+export save_dir="${root_dir}lord-IV_ckpt/"
 # export from_path="openai-community/gpt2-xl"
 export from_path="google/gemma-2b"
 export msl=256
@@ -28,19 +28,19 @@ export task="cs-en"
 export train_task="LoRD-IV"
 # export train_task="LoRD-II-no_vic"
 
-export epoch=1
-export period=2
-export sub_set_num=2
-export sub_stage_num=10
-export train_num=16
-export max_new_tokens=16
+# export epoch=1
+# export period=2
+# export sub_set_num=2
+# export sub_stage_num=10
+# export train_num=16
+# export max_new_tokens=16
 
-# export epoch=2
+export epoch=2
 # export period=1
-# export sub_set_num=100
-# export sub_stage_num=3
-# export train_num=100
-# export max_new_tokens=64
+export sub_set_num=100
+export sub_stage_num=3
+export train_num=100
+export max_new_tokens=64
 
 
 export beta=1.0
@@ -52,7 +52,7 @@ export use_vic_logits=1
 export use_kld=0
 export use_entropy=0
 
-export tau1=0.9
+export tau1=0.88
 export tau2=0.4
 
 
