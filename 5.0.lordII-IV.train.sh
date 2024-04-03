@@ -35,8 +35,8 @@ export train_task="LoRD-IV"
 # export train_num=16
 # export max_new_tokens=16
 
-export epoch=2
-# export period=1
+export epoch=3
+export period=1
 export sub_set_num=100
 export sub_stage_num=3
 export train_num=100
@@ -52,8 +52,8 @@ export use_vic_logits=1
 export use_kld=0
 export use_entropy=0
 
-export tau1=0.88
-export tau2=0.4
+export tau1=0.92
+export tau2=0.45
 
 
 # export train_task="kd"

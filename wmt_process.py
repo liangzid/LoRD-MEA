@@ -379,7 +379,8 @@ def evaluation_datas():
         # ["cs-en", "./lordii_ckpt/cs-en/LoRD-II1615256cs-en64__long_stage_style_ckpt___period14/",],
         # ["cs-en", "./lordii_ckpt/cs-en/LoRD-II1615256cs-en64__long_stage_style_ckpt___period14/"],
 
-        ["cs-en", "./lordii_ckpt/cs-en/LoRD-II1003256cs-en64__long_stage_style_ckpt___period2/"],
+        # ["cs-en", "./lordii_ckpt/cs-en/LoRD-II1003256cs-en64__long_stage_style_ckpt___period2/"],
+        ["cs-en", "./lord-IV_ckpt/cs-en/LoRD-IV1003256cs-en64__long_stage_style_ckpt___period2/"],
 
     ]
     res_dict = {}
