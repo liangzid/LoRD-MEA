@@ -37,7 +37,7 @@ export train_task="LoRD-II"
 # export max_new_tokens=16
 
 export epoch=2
-export period=1
+export period=2
 export sub_set_num=100
 export sub_stage_num=3
 export train_num=100

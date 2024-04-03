@@ -379,7 +379,11 @@ def evaluation_datas():
         # ["cs-en", "./lordii_ckpt/cs-en/LoRD-II1615256cs-en64__long_stage_style_ckpt___period14/",],
         # ["cs-en", "./lordii_ckpt/cs-en/LoRD-II1615256cs-en64__long_stage_style_ckpt___period14/"],
 
-        ["cs-en", "./lordii_ckpt/cs-en/LoRD-II1003256cs-en64__long_stage_style_ckpt___period2/"],
+        # 0.85
+        # ["cs-en", "./lordii_ckpt/cs-en/LoRD-II1003256cs-en64__long_stage_style_ckpt___period2/"],
+
+        # ?
+        ["cs-en", "./lordii_ckpt/cs-en/LoRD-II43256cs-en4__long_stage_style_ckpt___period2/"],
 
     ]
     res_dict = {}
@@ -499,7 +503,7 @@ def eval_varying_train_num():
                                 f, object_pairs_hook=OrderedDict)
 
                     scores = eval_wmt(res_ls)
-                    res_dict[task+"-----"+ckpt] = scores
+                    res_dict[task+"-----"+res_pth] = scores
     with open(dir_p+"Overall__wmt_varytrain_num_inference_scores.json",
               'w', encoding='utf8') as f:
         json.dump(res_dict, f, ensure_ascii=False, indent=4)
