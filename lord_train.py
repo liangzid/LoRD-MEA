@@ -20,6 +20,7 @@ from torch.utils.data import TensorDataset, DataLoader
 from tqdm import tqdm
 import argparse
 from transformers import AutoModelForCausalLM
+from transformers import AutoModelWithLMHead
 from transformers import AutoModelForSequenceClassification
 from transformers import AutoModelForTokenClassification
 from transformers import AutoTokenizer, AutoConfig, AutoModel
@@ -551,10 +552,16 @@ def main():
 
     args = setup_train_args()
 
-    lm = AutoModelForCausalLM.from_pretrained(
-        args.from_path,
-        device_map="auto",
-    )
+    if "t5" in args.from_path:
+        lm = AutoModelWithLMHead.from_pretrained(
+            args.from_path,
+            device_map="auto",
+        )
+    else:
+        lm = AutoModelForCausalLM.from_pretrained(
+            args.from_path,
+            device_map="auto",
+        )
 
     lm_tokenizer = AutoTokenizer.from_pretrained(args.from_path)
     tokenizer = AutoTokenizer.from_pretrained(args.from_path)
