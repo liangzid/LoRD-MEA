@@ -12,9 +12,9 @@ WMT dataset process scripts.
 
 import os
 if __name__ == "__main__":
-    os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
+    # os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,2,7"
-    # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,6,7"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,6,7"
 
 from gen_pipeline_open import InferObj
 from training_data_collecting_openai import chatWithOpenAI__LogLogits
@@ -382,8 +382,17 @@ def evaluation_datas():
         # 0.85
         # ["cs-en", "./lordii_ckpt/cs-en/LoRD-II1003256cs-en64__long_stage_style_ckpt___period2/"],
 
+        # ["cs-en", "./lordii_ckpt/cs-en/LoRD-II336256cs-en64__hyper-para-search_ckpt___period5"],
+        # ["cs-en", "./lord-IV_ckpt/cs-en/LoRD-IV1003256cs-en64__long_stage_style_ckpt___period2"],
+
+        ["cs-en", "./lordii_ckpt/cs-en/LoRD-II816256cs-en64__hyper-para-search_ckpt___period14/"],
+        ["cs-en", "./lordii_ckpt/cs-en/LoRD-II816256cs-en64__hyper-para-search_ckpt___period11/"],
+        ["cs-en", "./lordii_ckpt/cs-en/LoRD-II816256cs-en64__hyper-para-search_ckpt___period8/"],
+        ["cs-en", "./lordii_ckpt/cs-en/LoRD-II816256cs-en64__hyper-para-search_ckpt___period5/"],
+
+
         # ?
-        ["cs-en", "./lordii_ckpt/cs-en/LoRD-II43256cs-en4__long_stage_style_ckpt___period2/"],
+        # ["cs-en", "./lordii_ckpt/cs-en/LoRD-II43256cs-en4__long_stage_style_ckpt___period2/"],
         # ["cs-en", "./lordii_ckpt/cs-en/LoRD-II1003256cs-en64__long_stage_style_ckpt___period2/"],
 
         # ["cs-en", "./lord-IV_ckpt/cs-en/LoRD-IV1003256cs-en64__long_stage_style_ckpt___period2/"],

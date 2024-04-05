@@ -405,6 +405,9 @@ def one_period(args, lm,
             loss_2 = (p2 < args.tau1)*term3
 
             loss = loss_1 + loss_2
+            print(f"LOSS 1: {loss_1}")
+            print(f"LOSS 2: {loss_2}")
+            print(f"LOSS: {loss}")
 
             # if loss == torch.tensor(float("nan")):
             #     print("++++++++++++++++++++++")
