@@ -681,6 +681,16 @@ def main():
                 nonlabel_trainls,
                 max_new_tokens=args.max_new_tokens,
             )
+        elif "IV" in args.task:
+            print("TRAIN WITH LORD-IV!!!")
+            from train_pod4_lord_II import train
+            train(
+                lm,
+                lm_tokenizer,
+                args,
+                raw_train_datals,
+                max_new_tokens=args.max_new_tokens,
+            )
         elif args.task in ["kd", "vanilla"]:
             print("TRAIN WITH KD~~~")
             p_ls, idx2ls, logits2ls, idx2_dist = raw_train_datals

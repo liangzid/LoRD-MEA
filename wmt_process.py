@@ -12,8 +12,9 @@ WMT dataset process scripts.
 
 import os
 if __name__ == "__main__":
-    # os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
-    os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,2,7"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
+    # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,2,7"
+    # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,6,7"
 
 from gen_pipeline_open import InferObj
 from training_data_collecting_openai import chatWithOpenAI__LogLogits
@@ -371,11 +372,21 @@ def evaluation_datas():
         # ["cs-en", "./POD_SAVE_CKPTs/vary_period0306cs-en/kd_256cs-en_newkd___finally/",],
         # ["cs-en", "./POD_SAVE_CKPTs/vary_period0306cs-en/kd_256cs-en_30epochs___finally/",],
 
-        ["cs-en", "./lordii_ckpt/cs-en/LoRD-II1615256cs-en64__long_stage_style_ckpt___period2/",],
-        ["cs-en", "./lordii_ckpt/cs-en/LoRD-II1615256cs-en64__long_stage_style_ckpt___period5/",],
-        ["cs-en", "./lordii_ckpt/cs-en/LoRD-II1615256cs-en64__long_stage_style_ckpt___period8/",],
-        ["cs-en", "./lordii_ckpt/cs-en/LoRD-II1615256cs-en64__long_stage_style_ckpt___period11/",],
-        ["cs-en", "./lordii_ckpt/cs-en/LoRD-II1615256cs-en64__long_stage_style_ckpt___period14/",],
+        # ["cs-en", "./lordii_ckpt/cs-en/LoRD-II1615256cs-en64__long_stage_style_ckpt___period2/",],
+        # ["cs-en", "./lordii_ckpt/cs-en/LoRD-II1615256cs-en64__long_stage_style_ckpt___period5/",],
+        # ["cs-en", "./lordii_ckpt/cs-en/LoRD-II1615256cs-en64__long_stage_style_ckpt___period8/",],
+        # ["cs-en", "./lordii_ckpt/cs-en/LoRD-II1615256cs-en64__long_stage_style_ckpt___period11/",],
+        # ["cs-en", "./lordii_ckpt/cs-en/LoRD-II1615256cs-en64__long_stage_style_ckpt___period14/",],
+        # ["cs-en", "./lordii_ckpt/cs-en/LoRD-II1615256cs-en64__long_stage_style_ckpt___period14/"],
+
+        # 0.85
+        # ["cs-en", "./lordii_ckpt/cs-en/LoRD-II1003256cs-en64__long_stage_style_ckpt___period2/"],
+
+        # ?
+        ["cs-en", "./lordii_ckpt/cs-en/LoRD-II43256cs-en4__long_stage_style_ckpt___period2/"],
+        # ["cs-en", "./lordii_ckpt/cs-en/LoRD-II1003256cs-en64__long_stage_style_ckpt___period2/"],
+
+        # ["cs-en", "./lord-IV_ckpt/cs-en/LoRD-IV1003256cs-en64__long_stage_style_ckpt___period2/"],
     ]
     res_dict = {}
     dir_p = "./wmt16_res/"
@@ -451,7 +462,8 @@ def eval_all():
 
 def eval_varying_train_num():
     taskls = ["cs-en", "de-en", "fi-en",]
-    mls = ["vanilla", "kd"]
+    # mls = ["vanilla", "kd"]
+    mls = ["google/gemma-2b",]
     train_times = ["1", "2", "3",]
     train_nums = ["4", "8", "16", "32", "64", "100", "256", "512"]
 
@@ -465,15 +477,23 @@ def eval_varying_train_num():
                     if not os.path.exists(dir_p):
                         os.makedirs(dir_p)
                     prefix = "./vArY_TrAiN_nUm_ckpts/"
-                    if m == "Complex-lord":
+                    if m == "google/gemma-2b":
+                        ckpt = m
+                    elif m == "Complex-lord":
 
                         ckpt = prefix + \
                             f"varyTrainNum___{train_num}{itime}{task}{m}332164256___period2"
                     else:
                         ckpt = prefix + \
                             f"varyTrainNum___{train_num}{itime}{task}{m}332164256___finally"
-                    res_pth = ckpt+f"___{task}_wmt_infer_res.json"
+
+                    if m == "google/gemma-2b":
+                        res_pth = ckpt+f"__{itime}_{task}_wmt_infer_res.json"
+                    else:
+                        res_pth = ckpt+f"___{task}_wmt_infer_res.json"
+
                     res_pth = res_pth.replace("/", "__").replace(".", "")
+
                     if not os.path.exists(dir_p+res_pth):
                         res_ls = infer_wmt(ckpt, task, dir_p+res_pth,
                                            test_set_take_num=100,
@@ -485,7 +505,7 @@ def eval_varying_train_num():
                                 f, object_pairs_hook=OrderedDict)
 
                     scores = eval_wmt(res_ls)
-                    res_dict[task+"-----"+ckpt] = scores
+                    res_dict[task+"-----"+res_pth] = scores
     with open(dir_p+"Overall__wmt_varytrain_num_inference_scores.json",
               'w', encoding='utf8') as f:
         json.dump(res_dict, f, ensure_ascii=False, indent=4)

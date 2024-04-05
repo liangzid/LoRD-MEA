@@ -1,6 +1,5 @@
 #!/bin/bash
 ######################################################################
-#4.0.RUN_LORD_II --- 
 
 # Author: Zi Liang <zi1415926.liang@connect.polyu.hk>
 # Copyright © 2024, ZiLiang, all rights reserved.
@@ -14,11 +13,11 @@
 
 echo "HOME: ${HOME}"
 export python=${HOME}/anaconda3/envs/align/bin/python3
-# export CUDA_VISIBLE_DEVICES="0,1,2,3"
-export CUDA_VISIBLE_DEVICES="4,5,6,7"
+export CUDA_VISIBLE_DEVICES="0,1,2,3"
+# export CUDA_VISIBLE_DEVICES="4,5,6,7"
 # export CUDA_VISIBLE_DEVICES="2,4,5,6"
 export root_dir="${HOME}/alignmentExtraction/"
-export save_dir="${root_dir}lordii_ckpt/"
+export save_dir="${root_dir}lord-IV_ckpt/"
 # export from_path="openai-community/gpt2-xl"
 export from_path="google/gemma-2b"
 export msl=256
@@ -26,7 +25,7 @@ export task_ls=("cola" "mnli" "mrpc" "qnli" "qqp" "rte" "sst2" "wnli")
 export task_ls=("cs-en" "du-en" "fi-en" "ro-en" "ru-en" "tr-en")
 # export task="cs-en"
 export task="cs-en"
-export train_task="LoRD-II"
+export train_task="LoRD-IV"
 # export train_task="LoRD-II-no_vic"
 
 # export epoch=1
@@ -36,8 +35,8 @@ export train_task="LoRD-II"
 # export train_num=16
 # export max_new_tokens=16
 
-export epoch=2
-export period=2
+export epoch=3
+export period=1
 export sub_set_num=100
 export sub_stage_num=3
 export train_num=100
@@ -53,14 +52,15 @@ export use_vic_logits=1
 export use_kld=0
 export use_entropy=0
 
-export tau1=0.90
-export tau2=0.99
+export tau1=0.92
+export tau2=0.45
 
 
 # export train_task="kd"
 export save_path="${save_dir}${task}/${train_task}${sub_set_num}${sub_stage_num}${msl}${task}${max_new_tokens}__long_stage_style_ckpt"
 
 $python lord_train.py\
+	--task=$train_task \
 	--tau1=$tau1 \
 	--tau2=$tau2 \
 	--device="cuda" \
@@ -77,7 +77,6 @@ $python lord_train.py\
 	--beta=$beta \
 	--temperature=$temperature \
 	--batch_size=$batch_size \
-	--task=$train_task \
 	--use_old_logits=$use_old_logits\
 	--use_vic_logits=$use_vic_logits\
 	--use_kld=$use_kld\
@@ -93,5 +92,3 @@ echo "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++"
 # $python wmt_process.py
 
 
-echo "RUNNING 4.0.run_lord_ii.sh DONE."
-# 4.0.run_lord_ii.sh ends here
