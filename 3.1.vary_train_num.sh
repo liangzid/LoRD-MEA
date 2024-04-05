@@ -24,7 +24,8 @@ export train_times=("1" "2" "3")
 # export task_ls=("cs-en" "de-en" "fi-en" "ro-en" "ru-en" "tr-en")
 export task_ls=("cs-en" "de-en" "fi-en")
 # export train_taskls=("vanilla" "kd" "nolog-Complex-lord")
-export train_taskls=("vanilla" "kd")
+# export train_taskls=("vanilla" "kd")
+export train_taskls=("Complex-lord")
 
 export epoch=3
 export period=3
