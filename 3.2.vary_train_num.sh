@@ -1,18 +1,21 @@
 #!/bin/bash
 ######################################################################
-#3.1.VARY_TRAIN_NUM ---
-
-# Experiments on varying sample numbers of training dataset.
+#3.2.VARY_TRAIN_NUM --- 
 
 # Author: Zi Liang <zi1415926.liang@connect.polyu.hk>
 # Copyright © 2024, ZiLiang, all rights reserved.
-# Created:  8 March 2024
+# Created:  5 April 2024
 ######################################################################
+
+######################### Commentary ##################################
+##  
+######################################################################
+
 
 echo "HOME: ${HOME}"
 export python=${HOME}/anaconda3/envs/align/bin/python3
-# export CUDA_VISIBLE_DEVICES="0,1,2,3"
-export CUDA_VISIBLE_DEVICES="4,5,6,7"
+export CUDA_VISIBLE_DEVICES="0,1,2,3"
+# export CUDA_VISIBLE_DEVICES="4,5,6,7"
 export root_dir="${HOME}/alignmentExtraction/"
 export POD_save_dir="${root_dir}vArY_TrAiN_nUm_ckpts/"
 export from_path="google/gemma-2b"
@@ -24,11 +27,17 @@ export train_times=("1" "2" "3")
 # export task_ls=("cs-en" "de-en" "fi-en" "ro-en" "ru-en" "tr-en")
 # export task_ls=("cs-en" "de-en" "fi-en")
 export task_ls=("piqa" "truthful_qa" "allenai/ai2_arc")
-# export train_taskls=("vanilla" "kd" "nolog-Complex-lord")
-export train_taskls=("vanilla" "kd")
+export train_taskls=("Complex-lord" "LoRD-II" "LoRD-IV")
 
-export epoch=3
-export period=3
+export epoch=1
+export period=1
+export sub_set_num=8
+export sub_stage_num=16
+export train_num=100
+export max_new_tokens=64
+
+# export epoch=3
+# export period=3
 export beta=1.0
 export temperature=2
 export batch_size=1
@@ -88,5 +97,11 @@ do
     done
 done
 
-echo "RUNNING 3.1.vary_train_num.sh DONE."
-# 3.1.vary_train_num.sh ends here
+
+
+
+
+
+
+echo "RUNNING 3.2.vary_train_num.sh DONE."
+# 3.2.vary_train_num.sh ends here
