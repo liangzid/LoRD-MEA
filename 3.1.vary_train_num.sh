@@ -11,8 +11,8 @@
 
 echo "HOME: ${HOME}"
 export python=${HOME}/anaconda3/envs/align/bin/python3
-export CUDA_VISIBLE_DEVICES="0,1,2,3"
-# export CUDA_VISIBLE_DEVICES="4,5,6,7"
+# export CUDA_VISIBLE_DEVICES="0,1,2,3"
+export CUDA_VISIBLE_DEVICES="4,5,6,7"
 export root_dir="${HOME}/alignmentExtraction/"
 export POD_save_dir="${root_dir}vArY_TrAiN_nUm_ckpts/"
 export from_path="google/gemma-2b"
@@ -22,10 +22,11 @@ export train_times=("1" "2" "3")
 
 # export task_ls=("cola" "mnli" "mrpc" "qnli" "qqp" "rte" "sst2" "wnli")
 # export task_ls=("cs-en" "de-en" "fi-en" "ro-en" "ru-en" "tr-en")
-export task_ls=("cs-en" "de-en" "fi-en")
+# export task_ls=("cs-en" "de-en" "fi-en")
+export task_ls=("piqa" "truthful_qa" "allenai/ai2_arc")
 # export train_taskls=("vanilla" "kd" "nolog-Complex-lord")
-# export train_taskls=("vanilla" "kd")
-export train_taskls=("Complex-lord")
+export train_taskls=("vanilla" "kd")
+# export train_taskls=("Complex-lord")
 
 export epoch=3
 export period=3

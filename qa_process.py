@@ -152,6 +152,8 @@ def infer_qa(modelname, task_name, res_pth,
         "allenai/ai2_arc": 256,
     }
 
+    print(task_name)
+
     model = InferObj(model_name=modelname,
                      device="auto",
                      max_length=task_seqlen_map[task_name])
@@ -164,7 +166,7 @@ def infer_qa(modelname, task_name, res_pth,
 
     if task_name == tasks_we_used[0]:
         trainset_text = load_dataset(task_name,
-                                     split=f"test")\
+                                     split=f"validation")\
             .shuffle(20240307)\
             .to_iterable_dataset()\
             .take(test_set_take_num)
@@ -201,7 +203,7 @@ def infer_qa(modelname, task_name, res_pth,
     elif task_name == tasks_we_used[2]:
 
         trainset_text = load_dataset(task_name,
-                                     split=f"test")\
+                                     split=f"validation")\
 
         for item in trainset_text:
 
@@ -261,7 +263,8 @@ def eval_qa_res():
             with open(dir_p+res_pth, 'r', encoding='utf8') as f:
                 res_ls = json.load(f, object_pairs_hook=OrderedDict)
 
-        scores = eval_qaacc(res_ls)
+        print(res_ls)
+        scores = eval_qaacc(task, res_ls)
         print(task, ckpt)
         print(scores)
         res_dict[task+"-----"+ckpt] = scores
