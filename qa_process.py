@@ -70,7 +70,7 @@ def load_qa_datals(tokenizer,
     elif task_name == tasks_we_used[1]:
 
         trainset_text = load_dataset(dataset_name, "multiple_choice",
-                                     split=f"train[:{train_num}]")
+                                     split=f"validation[:{train_num}]")
 
         for item in trainset_text:
 
@@ -84,7 +84,7 @@ def load_qa_datals(tokenizer,
                 temp = sol1
                 sol1 = sol2
                 sol2 = temp
-            label = str(item["label"])
+            label = str(0)
             text = f"Question: {question}\n\n Selection 1: {sol1} \n\n Selection 2:{sol2}"
             inp_ls.append(text)
 
@@ -116,7 +116,8 @@ def load_qa_datals(tokenizer,
     for p in prompts:
         p_idxls.append(lm_tokenizer(p, return_tensors="pt").input_ids[0])
 
-    openai_tmp_save_pth += f"QAtask_{task_name}-trainNUM_{train_num}.pkl"
+    task_name1 = task_name.replace("/", "_")
+    openai_tmp_save_pth += f"QAtask_{task_name1}-trainNUM_{train_num}.pkl"
 
     return commonly_used_openai_post_process(
         openai_tmp_save_pth,
@@ -196,7 +197,7 @@ def infer_qa(modelname, task_name, res_pth,
                 temp = sol1
                 sol1 = sol2
                 sol2 = temp
-            label = str(item["label"])
+            label = str(0)
             text = f"Question: {question}\n\n Selection 1: {sol1} \n\n Selection 2:{sol2}"
             inp_ls.append((text, label))
 
