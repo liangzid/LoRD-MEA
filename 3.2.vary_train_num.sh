@@ -26,6 +26,7 @@ export train_times=("1" "2" "3")
 # export task_ls=("cola" "mnli" "mrpc" "qnli" "qqp" "rte" "sst2" "wnli")
 # export task_ls=("cs-en" "de-en" "fi-en" "ro-en" "ru-en" "tr-en")
 # export task_ls=("cs-en" "de-en" "fi-en")
+# export task_ls=("piqa" "truthful_qa" "allenai/ai2_arc")
 export task_ls=("piqa" "truthful_qa" "allenai/ai2_arc")
 export train_taskls=("Complex-lord" "LoRD-II" "LoRD-IV")
 

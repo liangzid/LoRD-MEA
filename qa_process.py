@@ -36,11 +36,8 @@ from sklearn.metrics import recall_score
 from sklearn.metrics import f1_score
 
 
-def load_qa_datals(tokenizer,
-                   task_name="piqa",
-                   train_num=100,
-                   model_name="gpt-3.5-turbo-1106",
-                   topk=5,
+def load_qa_datals(tokenizer, task_name="piqa", train_num=100,
+                   model_name="gpt-3.5-turbo-1106", topk=5,
                    max_length=256,
                    openai_tmp_save_pth="./wmt_data_saveto_"):
 
@@ -70,7 +67,7 @@ def load_qa_datals(tokenizer,
     elif task_name == tasks_we_used[1]:
 
         trainset_text = load_dataset(dataset_name, "multiple_choice",
-                                     split=f"train[:{train_num}]")
+                                     split=f"validation[:{train_num}]")
 
         for item in trainset_text:
 
@@ -116,7 +113,8 @@ def load_qa_datals(tokenizer,
     for p in prompts:
         p_idxls.append(lm_tokenizer(p, return_tensors="pt").input_ids[0])
 
-    openai_tmp_save_pth += f"QAtask_{task_name}-trainNUM_{train_num}.pkl"
+    task_name1 = task_name.replace("/", "_")
+    openai_tmp_save_pth += f"QAtask_{task_name1}-trainNUM_{train_num}.pkl"
 
     return commonly_used_openai_post_process(
         openai_tmp_save_pth,
