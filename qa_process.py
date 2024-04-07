@@ -69,7 +69,7 @@ def load_qa_datals(tokenizer,
 
     elif task_name == tasks_we_used[1]:
 
-        trainset_text = load_dataset(dataset_name,
+        trainset_text = load_dataset(dataset_name, "multiple_choice",
                                      split=f"train[:{train_num}]")
 
         for item in trainset_text:
@@ -90,7 +90,7 @@ def load_qa_datals(tokenizer,
 
     elif task_name == tasks_we_used[2]:
 
-        trainset_text = load_dataset(dataset_name,
+        trainset_text = load_dataset(dataset_name, "ARC-Challenge",
                                      split=f"train[:{train_num}]")
 
         for item in trainset_text:
@@ -202,7 +202,7 @@ def infer_qa(modelname, task_name, res_pth,
 
     elif task_name == tasks_we_used[2]:
 
-        trainset_text = load_dataset(task_name,
+        trainset_text = load_dataset(task_name, "ARC-Challenge",
                                      split=f"validation")\
 
         for item in trainset_text:
@@ -304,6 +304,8 @@ def eval_qaacc(task, res):
         "allenai/ai2_arc": {
             "A": "0",
             "B": "1",
+            "C": "2",
+            "D": "3",
         },
     }
 
