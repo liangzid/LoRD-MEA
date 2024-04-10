@@ -589,7 +589,7 @@ def main():
         "piqa",
         "truthful_qa",
         "allenai/ai2_arc"
-        ]
+    ]
 
     tasks_data2text = [
         "e2e_nlg",
@@ -675,7 +675,7 @@ def main():
 
             # else:
             #     nonlabel_trainls = None
-            nonlabel_trainls=None
+            nonlabel_trainls = None
 
         elif args.dataset_task in tasks_data2text:
             print(f"RUN wmt task: {args.dataset_task}")
@@ -697,7 +697,7 @@ def main():
 
             # else:
             #     nonlabel_trainls = None
-            nonlabel_trainls=None
+            nonlabel_trainls = None
 
         elif args.dataset_task in tasks_text2sql:
             print(f"RUN wmt task: {args.dataset_task}")
@@ -719,7 +719,7 @@ def main():
 
             # else:
             #     nonlabel_trainls = None
-            nonlabel_trainls=None
+            nonlabel_trainls = None
 
         elif args.dataset_task in tasks_sum:
             print(f"RUN summarization task: {args.dataset_task}")

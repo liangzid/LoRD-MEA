@@ -53,13 +53,13 @@ export max_new_tokens=64
 
 echo "To run this script, you should decide your LoRD method: which one is best? should you use Complex-lord, lord, or reinforce-lord?"
 
-for train_num in ${TRAIN_NUMS[*]}
+for task in ${task_ls[*]}
 do
-    for train_time in ${train_times[*]}
+    for train_task in ${train_taskls[*]}
     do
-	for task in ${task_ls[*]}
+	for train_num in ${TRAIN_NUMS[*]}
 	do
-	    for train_task in ${train_taskls[*]}
+	    for train_time in ${train_times[*]}
 	    do
 		echo "====================================================="
 		echo "+++++++train_num: ${train_num}+++++++"

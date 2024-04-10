@@ -276,6 +276,63 @@ def eval_qa_res():
     pprint(res_dict)
 
 
+def eval_varytrainum_res():
+
+    taskls = ["piqa", "truthful_qa", "allenai/ai2_arc",]
+    mls = ["vanilla", "kd", "google/gemma-2b"]
+    # mls = ["google/gemma-2b",]
+    train_times = ["1", "2", "3",]
+    train_nums = ["4", "8", "16", "32", "64", "100", "256", "512"]
+
+    dir_p = "./vary_train_num_qa_infers/"
+    res_dict = {}
+
+    if not os.path.exists(dir_p):
+        os.makedirs(dir_p)
+    # ===============================================================
+
+    for task in taskls:
+        for train_num in train_nums:
+            for m in mls:
+                for itime in train_times:
+                    prefix = "./vArY_TrAiN_nUm_ckpts/"
+                    if m == "google/gemma-2b":
+                        ckpt = m
+                    elif m == "Complex-lord":
+
+                        ckpt = prefix + \
+                            f"varyTrainNum___{train_num}{itime}{task}{m}332164256___period2"
+                    else:
+                        ckpt = prefix + \
+                            f"varyTrainNum___{train_num}{itime}{task}{m}332164256___finally"
+
+                    if m == "google/gemma-2b":
+                        res_pth = ckpt+f"__{itime}_{task}_qa_infer_res.json"
+                    else:
+                        res_pth = ckpt+f"___{task}_qa_infer_res.json"
+
+                    res_pth = res_pth.replace("/", "__").replace(".", "")
+
+                    if not os.path.exists(dir_p+res_pth):
+                        res_ls = infer_qa(ckpt, task, dir_p+res_pth,
+                                           test_set_take_num=100,
+                                           mnt=64)
+                    else:
+                        # from collections import OrderedDict
+                        with open(dir_p+res_pth, 'r', encoding='utf8') as f:
+                            res_ls = json.load(
+                                f, object_pairs_hook=OrderedDict)
+
+                    scores = eval_qaacc(task,res_ls)
+                    res_dict[task+"-----"+res_pth] = scores
+    with open(dir_p+"Overall__qa_varytrain_num_inference_scores.json",
+              'w', encoding='utf8') as f:
+        json.dump(res_dict, f, ensure_ascii=False, indent=4)
+
+    print("OVERALL Save DONE.")
+    pprint(res_dict)
+
+
 def eval_qaacc(task, res):
 
     task_label_map = {
@@ -342,5 +399,6 @@ def eval_qaacc(task, res):
 # running entry
 if __name__ == "__main__":
     # main()
-    eval_qa_res()
+    # eval_qa_res()
+    eval_varytrainum_res()
     print("EVERYTHING DONE.")
