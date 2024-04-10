@@ -256,8 +256,8 @@ def eval_qa_res():
         res_pth += ".json"
         if not os.path.exists(dir_p+res_pth):
             res_ls = infer_qa(ckpt, task, dir_p+res_pth,
-                              # test_set_take_num=100,
-                              test_set_take_num=50,
+                              test_set_take_num=500,
+                              # test_set_take_num=50,
                               mnt=64)
         else:
             # from collections import OrderedDict
