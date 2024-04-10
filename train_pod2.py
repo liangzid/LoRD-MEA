@@ -335,7 +335,7 @@ def train_pod(lm,
                     p_m_11_ls[i] = pmask2s[i]
                     p_logits_11_ls[i] = p_logits2ls[i]
 
-                if min(p11, p12) > tau2:
+                if min(p11, p12) < tau2:
                     period_break = 0
         need_pre_store = 0
 

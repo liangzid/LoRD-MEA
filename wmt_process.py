@@ -382,8 +382,20 @@ def evaluation_datas():
         # 0.85
         # ["cs-en", "./lordii_ckpt/cs-en/LoRD-II1003256cs-en64__long_stage_style_ckpt___period2/"],
 
+        # ["cs-en", "./lordii_ckpt/cs-en/LoRD-II336256cs-en64__hyper-para-search_ckpt___period5"],
+        # ["cs-en", "./lord-IV_ckpt/cs-en/LoRD-IV1003256cs-en64__long_stage_style_ckpt___period2"],
+
+        # evaluate the experimental results of LoRD-II.
+        ["cs-en", "./lordii_ckpt/cs-en/LoRD-II816256cs-en64__hyper-para-search_ckpt___period14/"],
+
+
+        # ["cs-en",
+        #  "./lord-lord-IV_ckpt/cs-en/"
+        #  ]
+
+
         # ?
-        ["cs-en", "./lordii_ckpt/cs-en/LoRD-II43256cs-en4__long_stage_style_ckpt___period2/"],
+        # ["cs-en", "./lordii_ckpt/cs-en/LoRD-II43256cs-en4__long_stage_style_ckpt___period2/"],
         # ["cs-en", "./lordii_ckpt/cs-en/LoRD-II1003256cs-en64__long_stage_style_ckpt___period2/"],
 
         # ["cs-en", "./lord-IV_ckpt/cs-en/LoRD-IV1003256cs-en64__long_stage_style_ckpt___period2/"],

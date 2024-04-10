@@ -382,7 +382,7 @@ def one_period(args, lm,
                               * mask12[:, :-1], dim=1)
 
             # higher better
-            term2 = torch.sum((old_logits11-logits11)
+            term2 = torch.sum(log_clip(-old_logits11+logits11)
                               * mask11[:, :-1], dim=1)
 
             if is_black_box == 0:
@@ -393,18 +393,22 @@ def one_period(args, lm,
             term3 = torch.sum(term3 * mask2[:, :-1])
 
             print("---------------------------------")
+            print(f"p11: {p11}\n p12: {p12}")
             print(f"p11>tau1: {p11 > args.tau1}")
             print(f"p12>tau1: {p12 > args.tau1}")
             print(f"p2>tau1: {p2 > args.tau1}")
             print(f"p11<tau2: {p11 < args.tau2}")
             print(f"p12<tau2: {p12 < args.tau2}")
 
-            loss_1 = (p11 > args.tau1)*term1 + (p12 > args.tau1)*term2
-            loss_1 += -1*(p11 < args.tau2)*term1 - 1 * (p12 < args.tau2)*term2
+            loss_1 = -1*(p11 > args.tau1)*term1 + -1*(p12 > args.tau1)*term2
+            loss_1 += (p11 < args.tau2)*term1 + (p12 < args.tau2)*term2
 
             loss_2 = (p2 < args.tau1)*term3
 
             loss = loss_1 + loss_2
+            print(f"LOSS 1: {loss_1}")
+            print(f"LOSS 2: {loss_2}")
+            print(f"LOSS: {loss}")
 
             # if loss == torch.tensor(float("nan")):
             #     print("++++++++++++++++++++++")

@@ -20,6 +20,7 @@ from torch.utils.data import TensorDataset, DataLoader
 from tqdm import tqdm
 import argparse
 from transformers import AutoModelForCausalLM
+from transformers import AutoModelWithLMHead
 from transformers import AutoModelForSequenceClassification
 from transformers import AutoModelForTokenClassification
 from transformers import AutoTokenizer, AutoConfig, AutoModel
@@ -551,10 +552,16 @@ def main():
 
     args = setup_train_args()
 
-    lm = AutoModelForCausalLM.from_pretrained(
-        args.from_path,
-        device_map="auto",
-    )
+    if "t5" in args.from_path:
+        lm = AutoModelWithLMHead.from_pretrained(
+            args.from_path,
+            device_map="auto",
+        )
+    else:
+        lm = AutoModelForCausalLM.from_pretrained(
+            args.from_path,
+            device_map="auto",
+        )
 
     lm_tokenizer = AutoTokenizer.from_pretrained(args.from_path)
     tokenizer = AutoTokenizer.from_pretrained(args.from_path)
@@ -578,9 +585,33 @@ def main():
         "tr-en",
     ]
 
+    tasks_qa = [
+        "piqa",
+        "truthful_qa",
+        "allenai/ai2_arc"
+    ]
+
+    tasks_data2text = [
+        "e2e_nlg",
+        "allenai/common_gen",
+    ]
+
+    tasks_sum = [
+        "UCL-DARK/openai-tldr-filtered",
+        "cnn_dailymail",
+        "samsum",
+    ]
+
+    tasks_text2sql = [
+        "wikisql",
+        "spider",
+    ]
+
     tasks_supported = tasks_glue.copy()
-    tasks_supported += ["sum",]
+    tasks_supported.extend(tasks_sum)
     tasks_supported.extend(tasks_wmt16)
+    tasks_supported.extend(tasks_qa)
+    tasks_supported.extend(tasks_data2text)
 
     print("---------------------------------------------------------")
     print(f"TASKS NOW Supported: {tasks_supported}")
@@ -624,10 +655,73 @@ def main():
                     train_num=args.nonlabel_data_num,
                     max_length=args.max_length
                 )
-            else:
-                nonlabel_trainls = None
+        elif args.dataset_task in tasks_qa:
+            print(f"RUN wmt task: {args.dataset_task}")
+            from qa_process import load_qa_datals
+            raw_train_datals = load_qa_datals(
+                tokenizer,
+                task_name=args.dataset_task,
+                train_num=args.train_num,
+                max_length=args.max_length
+            )
 
-        elif args.dataset_task == "sum":
+            # if args.extra_nonlabel_data == 1:
+            #     nonlabel_trainls = load_wmt_nonlabel(
+            #         tokenizer,
+            #         task_name=args.dataset_task,
+            #         train_num=args.nonlabel_data_num,
+            #         max_length=args.max_length
+            #     )
+
+            # else:
+            #     nonlabel_trainls = None
+            nonlabel_trainls = None
+
+        elif args.dataset_task in tasks_data2text:
+            print(f"RUN wmt task: {args.dataset_task}")
+            from data2text_process import load_data2text_datals
+            raw_train_datals = load_data2text_datals(
+                tokenizer,
+                task_name=args.dataset_task,
+                train_num=args.train_num,
+                max_length=args.max_length
+            )
+
+            # if args.extra_nonlabel_data == 1:
+            #     nonlabel_trainls = load_wmt_nonlabel(
+            #         tokenizer,
+            #         task_name=args.dataset_task,
+            #         train_num=args.nonlabel_data_num,
+            #         max_length=args.max_length
+            #     )
+
+            # else:
+            #     nonlabel_trainls = None
+            nonlabel_trainls = None
+
+        elif args.dataset_task in tasks_text2sql:
+            print(f"RUN wmt task: {args.dataset_task}")
+            from text2sql_process import load_text2sql_datals
+            raw_train_datals = load_text2sql_datals(
+                tokenizer,
+                task_name=args.dataset_task,
+                train_num=args.train_num,
+                max_length=args.max_length
+            )
+
+            # if args.extra_nonlabel_data == 1:
+            #     nonlabel_trainls = load_wmt_nonlabel(
+            #         tokenizer,
+            #         task_name=args.dataset_task,
+            #         train_num=args.nonlabel_data_num,
+            #         max_length=args.max_length
+            #     )
+
+            # else:
+            #     nonlabel_trainls = None
+            nonlabel_trainls = None
+
+        elif args.dataset_task in tasks_sum:
             print(f"RUN summarization task: {args.dataset_task}")
             from sum_process import load_sum_datals, load_sum_nonlabel
             raw_train_datals = load_sum_datals(

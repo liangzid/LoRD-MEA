@@ -21,11 +21,13 @@ export root_dir="${HOME}/alignmentExtraction/"
 export save_dir="${root_dir}lordii_ckpt/"
 # export from_path="openai-community/gpt2-xl"
 export from_path="google/gemma-2b"
+# export from_path="google/gemma-7b"
+# export from_path="google-t5/t5-3b"
 export msl=256
 export task_ls=("cola" "mnli" "mrpc" "qnli" "qqp" "rte" "sst2" "wnli")
 export task_ls=("cs-en" "du-en" "fi-en" "ro-en" "ru-en" "tr-en")
 # export task="cs-en"
-export task="cs-en"
+export task="piqa"
 export train_task="LoRD-II"
 # export train_task="LoRD-II-no_vic"
 
@@ -36,10 +38,10 @@ export train_task="LoRD-II"
 # export train_num=16
 # export max_new_tokens=16
 
-export epoch=2
-export period=2
-export sub_set_num=100
-export sub_stage_num=3
+export epoch=1
+export period=1
+export sub_set_num=8
+export sub_stage_num=16
 export train_num=100
 export max_new_tokens=64
 
@@ -58,7 +60,7 @@ export tau2=0.99
 
 
 # export train_task="kd"
-export save_path="${save_dir}${task}/${train_task}${sub_set_num}${sub_stage_num}${msl}${task}${max_new_tokens}__long_stage_style_ckpt"
+export save_path="${save_dir}${task}/${train_task}${sub_set_num}${sub_stage_num}${msl}${task}${max_new_tokens}__hyper-para-search_ckpt"
 
 $python lord_train.py\
 	--tau1=$tau1 \
@@ -73,7 +75,7 @@ $python lord_train.py\
 	--save_step=100000 \
 	--train_num=$train_num \
 	--max_new_tokens=$max_new_tokens\
-	--LR="3e-5" \
+	--LR="8e-5" \
 	--beta=$beta \
 	--temperature=$temperature \
 	--batch_size=$batch_size \

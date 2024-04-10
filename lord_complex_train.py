@@ -105,9 +105,9 @@ def complex_train_one_period(args, lm,
                 if is_black_box == 0:
                     loss_constractive_good = -torch.sum(
                         (logits2_cons*2 -
-                                vic_logits2[:, :, 0]
-                                - old_logits2)*mask2[:, :-1])\
-                                /torch.sum(mask2[:,:-1])
+                         vic_logits2[:, :, 0]
+                         - old_logits2)*mask2[:, :-1])\
+                        / torch.sum(mask2[:, :-1])
                 else:
                     loss_constractive_good = -torch.sum(
                         (logits2_cons*2 -
@@ -115,8 +115,8 @@ def complex_train_one_period(args, lm,
 
                 zelta_logits1 = log_clip(old_logits1-logits1)
                 loss_constractive_past = -torch.sum(
-                    (zelta_logits1) * mask1[:, :-1])/\
-                    torch.sum(mask1[:,:-1])
+                    (zelta_logits1) * mask1[:, :-1]) /\
+                    torch.sum(mask1[:, :-1])
 
                 if args.use_old_logits != "1":
                     loss_constractive_past = 0.
