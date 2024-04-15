@@ -367,6 +367,8 @@ def eval_qaacc(task, res):
             "B": "1",
             "C": "2",
             "D": "3",
+            "E": "4",
+            "F": "5",
             "1": "0",
             "2": "1",
             "3": "2",
@@ -401,6 +403,7 @@ def eval_qaacc(task, res):
 
         predict_ls.append(float(vv))
         if task != "truthful_qa":
+            print("task: ", task)
             label = textlabel_to_reallabel_map[task][lbl]
         else:
             label = "0"
