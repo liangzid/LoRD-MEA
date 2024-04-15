@@ -182,7 +182,7 @@ def infer_qa(modelname, task_name, res_pth,
 
     elif task_name == tasks_we_used[1]:
 
-        trainset_text = load_dataset(task_name, "multi_choice",
+        trainset_text = load_dataset(task_name, "multiple_choice",
                                      split=f"validation")\
 
         for item in trainset_text:
@@ -315,15 +315,15 @@ def eval_varytrainum_res():
 
                     if not os.path.exists(dir_p+res_pth):
                         res_ls = infer_qa(ckpt, task, dir_p+res_pth,
-                                           test_set_take_num=100,
-                                           mnt=64)
+                                          test_set_take_num=100,
+                                          mnt=64)
                     else:
                         # from collections import OrderedDict
                         with open(dir_p+res_pth, 'r', encoding='utf8') as f:
                             res_ls = json.load(
                                 f, object_pairs_hook=OrderedDict)
 
-                    scores = eval_qaacc(task,res_ls)
+                    scores = eval_qaacc(task, res_ls)
                     res_dict[task+"-----"+res_pth] = scores
     with open(dir_p+"Overall__qa_varytrain_num_inference_scores.json",
               'w', encoding='utf8') as f:
@@ -345,10 +345,13 @@ def eval_qaacc(task, res):
             "0": "Selection 2",
         },
         "allenai/ai2_arc": {
-            "1": "Selection 1",
-            "0": "Selection 2",
+            "0": "Selection 1",
+            "1": "Selection 2",
+            "2": "Selection 3",
+            "3": "Selection 4",
         },
     }
+    extra_ai2={"0":"Selection A","1":"Selection B","2":"Selection C","3":"Selection D",}
 
     textlabel_to_reallabel_map = {
         "piqa": {
@@ -364,6 +367,10 @@ def eval_qaacc(task, res):
             "B": "1",
             "C": "2",
             "D": "3",
+            "1": "0",
+            "2": "1",
+            "3": "2",
+            "4": "3",
         },
     }
 
@@ -371,6 +378,9 @@ def eval_qaacc(task, res):
     label_ls = []
     submap = task_label_map[task]
     sm_r = {v: k for k, v in submap.items()}
+    if task =="allenai/ai2_arc":
+        sm_r2={v:k for k,v in extra_ai2.items()}
+
     # text_dict = list(sm_r.keys())
 
     for res_sent, lbl in res:
