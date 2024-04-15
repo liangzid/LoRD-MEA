@@ -378,19 +378,26 @@ def eval_qaacc(task, res):
     label_ls = []
     submap = task_label_map[task]
     sm_r = {v: k for k, v in submap.items()}
-    if task =="allenai/ai2_arc":
-        sm_r2={v:k for k,v in extra_ai2.items()}
-
-    # text_dict = list(sm_r.keys())
-
     for res_sent, lbl in res:
         # print(res_sent)
         res_sent = res_sent.lower()
-        # label_ls.append(float(sm_r[lbl]))
-        if "2" in res_sent:
-            vv = sm_r["Selection 2"]
+        if task=="allenai/ai2_arc":
+            # label_ls.append(float(sm_r[lbl]))
+            if "1" in res_sent or "Selection A" in res_sent:
+                vv = sm_r["Selection 1"]
+            elif "2" in res_sent or "Selection B" in res_sent:
+                vv = sm_r["Selection 2"]
+            elif "3" in res_sent or "Selection C" in res_sent:
+                vv = sm_r["Selection 3"]
+            elif "4" in res_sent or "Selection D" in res_sent:
+                vv = sm_r["Selection 4"]
+            else:
+                vv = sm_r["Selection 4"]
         else:
-            vv = sm_r["Selection 1"]
+            if "2" in res_sent:
+                vv = sm_r["Selection 2"]
+            else:
+                vv = sm_r["Selection 1"]
 
         predict_ls.append(float(vv))
         if task != "truthful_qa":
