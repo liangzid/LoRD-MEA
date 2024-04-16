@@ -409,10 +409,10 @@ def eval_qaacc(task, res):
             label = "0"
         label_ls.append(float(label))
 
-    metric_ls = [accuracy_score, precision_score, recall_score, f1_score]
-    scores = []
+    metric_ls = [precision_score, recall_score, f1_score]
+    scores = [accuracy_score(label_ls, predict_ls)]
     for m in metric_ls:
-        scores.append(m(label_ls, predict_ls))
+        scores.append(m(label_ls, predict_ls, average="macro"))
     return scores
 
 
