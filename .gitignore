@@ -11,4 +11,4 @@ wmt2b_ckpts
 /wikitext_infers_tracking_process_stable/
 *ckpt*
 test/
-
+*512.pkl
