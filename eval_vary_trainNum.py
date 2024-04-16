@@ -35,31 +35,39 @@ def wmt_curve_trainNums():
     method_ls = [
         "vanilla",
         "kd",
+        "google/gemma-2b",
         # "lord",
-        # "Complex-lord",
+        "Complex-lord",
     ]
     marker = {
         "vanilla": "s",
         "kd": "D",
         "Complex-lord": "o",
-        "lord": "*",
+        "google/gemma-2b": "*",
     }
     model_color_dict = {
         "vanilla": "#4a148c",
         "kd": "#469de9",
         "Complex-lord": "#eb3b5a",
-        "lord": "#3867d6",
+        "google/gemma-2b": "#3867d6",
     }
 
     model_color_dict2 = {
         "vanilla": "#9c27b0",
         "kd": "#98c8f3",
         "Complex-lord": "#f78fb3",
-        "lord": "#778beb",
+        "google/gemma-2b": "#778beb",
     }
 
-    taskls = ["cs-en", "de-en", "fi-en",]
-    train_times = ["1", "2", "3",]
+    taskls = [
+        "cs-en",
+        "de-en",
+    ]
+    train_times = [
+        "1",
+        "2",
+        "3",
+    ]
     train_nums = ["4", "8", "16", "32", "64", "100", "256", "512"]
 
     a = 0.4
@@ -68,7 +76,7 @@ def wmt_curve_trainNums():
         "vanilla": "-.",
         "kd": "-.",
         "Complex-lord": "-",
-        "lord": "-",
+        "google/gemma-2b": "-",
     }
     font_size = 21
 
@@ -79,7 +87,7 @@ def wmt_curve_trainNums():
     rg_f1_dict = {}
     bl_1_dict = {}
 
-    infer_save_pth = "./vary_query_num_res.json"
+    infer_save_pth = "./vary_query_num_overall_res_wmt16.json"
 
     if not os.path.exists(infer_save_pth):
         dir_p = "./vary_train_num_WMT16_infers/"
@@ -114,58 +122,59 @@ def wmt_curve_trainNums():
                         bs_f1_dict[task][m][tn][train_time] = {}
                         rg_f1_dict[task][m][tn][train_time] = {}
                         bl_1_dict[task][m][tn][train_time] = {}
-                        pth = prefix+f"{tn}{train_time}{task}{m}332164256___"
 
-                        if m in ["vanilla", "kd"]:
-                            pth += "finally"
+                        if m == "google/gemma-2b":
+                            pth = m
                         else:
-                            pth += "period2"
+                            pth = prefix + f"{tn}{train_time}{task}{m}332164256___"
 
-                        res_pth = pth+f"___{task}_wmt_infer_res"
-                        res_pth += ".json"
-                        res_pth = res_pth.replace("/",
-                                                  "__").replace(".", "")
+                            if m in [
+                                "vanilla",
+                                "kd",
+                            ]:
+                                pth += "finally"
+                            else:
+                                pth += "period2"
+
+                        if m == "google/gemma-2b":
+                            res_pth = pth + f"__{train_time}_{task}_wmt_infer_res.json"
+                        else:
+                            res_pth = pth + f"___{task}_wmt_infer_res.json"
+                        res_pth = res_pth.replace("/", "__").replace(".", "")
 
                         print(f"Targeted found pth: {dir_p+res_pth}.")
-                        if not os.path.exists(dir_p+res_pth):
-                            res_ls = infer_wmt(pth,
-                                               task, dir_p+res_pth,
-                                               test_set_take_num=100,
-                                               mnt=64)
+                        if not os.path.exists(dir_p + res_pth):
+                            res_ls = infer_wmt(
+                                pth,
+                                task,
+                                dir_p + res_pth,
+                                test_set_take_num=100,
+                                mnt=64,
+                            )
                         else:
                             # from collections import OrderedDict
-                            with open(dir_p+res_pth,
-                                      'r', encoding='utf8') as f:
-                                res_ls = json.load(
-                                    f, object_pairs_hook=OrderedDict)
+                            with open(dir_p + res_pth, "r", encoding="utf8") as f:
+                                res_ls = json.load(f, object_pairs_hook=OrderedDict)
 
                         ss = eval_wmt(res_ls)
                         results_dict[task][m][tn][train_time] = ss
-                        bs_p_dict[task][m][tn][train_time] =\
-                            ss["bertscore"]["p"]
-                        bs_r_dict[task][m][tn][train_time] =\
-                            ss["bertscore"]["r"]
-                        bs_f1_dict[task][m][tn][train_time] =\
-                            ss["bertscore"]["f1"]
-                        rg_f1_dict[task][m][tn][train_time] =\
-                            ss["rouge-l"]["f1"]
-                        bl_1_dict[task][m][tn][train_time] =\
-                            ss["bleu"]["1"]
-        with open(infer_save_pth, 'w', encoding='utf8') as f:
-            json.dump([results_dict,
-                       bs_p_dict,
-                       bs_r_dict,
-                       bs_f1_dict,
-                       rg_f1_dict,
-                       bl_1_dict],
-                      f, ensure_ascii=False, indent=4)
+                        bs_p_dict[task][m][tn][train_time] = ss["bertscore"]["p"]
+                        bs_r_dict[task][m][tn][train_time] = ss["bertscore"]["r"]
+                        bs_f1_dict[task][m][tn][train_time] = ss["bertscore"]["f1"]
+                        rg_f1_dict[task][m][tn][train_time] = ss["rouge-l"]["f1"]
+                        bl_1_dict[task][m][tn][train_time] = ss["bleu"]["1"]
+        with open(infer_save_pth, "w", encoding="utf8") as f:
+            json.dump(
+                [results_dict, bs_p_dict, bs_r_dict, bs_f1_dict, rg_f1_dict, bl_1_dict],
+                f,
+                ensure_ascii=False,
+                indent=4,
+            )
     else:
         # from collections import OrderedDict
-        with open(infer_save_pth,
-                  'r', encoding='utf8') as f:
+        with open(infer_save_pth, "r", encoding="utf8") as f:
             data = json.load(f, object_pairs_hook=OrderedDict)
-            results_dict, bs_p_dict, bs_r_dict, bs_f1_dict,\
-                rg_f1_dict, bl_1_dict = data
+            results_dict, bs_p_dict, bs_r_dict, bs_f1_dict, rg_f1_dict, bl_1_dict = data
 
     res_dict = {}
     for task in taskls:
@@ -176,7 +185,7 @@ def wmt_curve_trainNums():
         res_dict[task]["Rouge-L F1"] = rg_f1_dict[task]
         res_dict[task]["BLEU"] = bl_1_dict[task]
 
-    fig, axs = plt.subplots(3, 5, figsize=(26, 14.05))
+    fig, axs = plt.subplots(2, 5, figsize=(26, 9.37))
 
     for i, task in enumerate(list(res_dict.keys())):
         for j, metricName in enumerate(list(res_dict[task].keys())):
@@ -207,55 +216,71 @@ def wmt_curve_trainNums():
                     label=method,
                     linewidth=lw,
                     marker=marker[method],
-                    markevery=1, markersize=15,
+                    markevery=1,
+                    markersize=15,
                     markeredgewidth=lw,
-                    markerfacecolor='none',
-                    alpha=1.,
+                    markerfacecolor="none",
+                    alpha=1.0,
                     linestyle=model_line_style[method],
-                    color=model_color_dict[method]
+                    color=model_color_dict[method],
                 )
 
                 axs[i][j].fill_between(
                     xls,
-                    ymeanls-ystdls,
-                    ymeanls+ystdls,
+                    ymeanls - ystdls,
+                    ymeanls + ystdls,
                     alpha=a,
-                    linewidth=0.,
-                    color=model_color_dict2[method])
+                    linewidth=0.0,
+                    color=model_color_dict2[method],
+                )
 
-                axs[i][j].set_xlabel("# Training Samples",
-                                     fontsize=font_size)
-                axs[i][j].set_ylabel(metricName,
-                                     fontsize=font_size-5)
-                axs[i][j].set_xticks(xls,
-                                     xls,
-                                     rotation=48,
-                                     size=font_size-4)
-                axs[i][j].tick_params(axis='y',
-                                      labelsize=font_size-6,
-                                      rotation=65,
-                                      width=2, length=2,
-                                      pad=0, direction="in",
-                                      which="both")
+                axs[i][j].set_xlabel("# Training Samples", fontsize=font_size)
+                axs[i][j].set_ylabel(metricName, fontsize=font_size - 5)
+                axs[i][j].set_xticks(xls, xls, rotation=48, size=font_size - 4)
+                axs[i][j].tick_params(
+                    axis="y",
+                    labelsize=font_size - 6,
+                    rotation=65,
+                    width=2,
+                    length=2,
+                    pad=0,
+                    direction="in",
+                    which="both",
+                )
     font_legend = {
-        'weight': 'normal',
-        'size': font_size-1,
+        "weight": "normal",
+        "size": font_size - 1,
     }
-    plt.legend(loc=(-1.91, 4.2),
-               prop=font_legend, ncol=6, frameon=False,
-               handletextpad=0., handlelength=1.2)  # 设置信息框
+    plt.legend(
+        loc=(-1.91, 4.2),
+        prop=font_legend,
+        ncol=6,
+        frameon=False,
+        handletextpad=0.0,
+        handlelength=1.2,
+    )  # 设置信息框
     fig.subplots_adjust(wspace=0.26, hspace=0.6)
     plt.subplots_adjust(bottom=0.33, top=0.85)
     # plt.show()
 
-    plt.savefig("./vary_trainNum_wmt16.pdf",
-                pad_inches=0.1)
-    print("Save DONE.")
+    plt.savefig("./vary_trainNum_wmt16.pdf", pad_inches=0.1)
+    print("Save wmt16-varing trainnum experiments DONE.")
     pass
 
 
 def glue_curve_trainNums():
-    train_numls = [1, 2, 4, 8, 16, 32, 64, 100, 256, 300, ]
+    train_numls = [
+        1,
+        2,
+        4,
+        8,
+        16,
+        32,
+        64,
+        100,
+        256,
+        300,
+    ]
     method_ls = [
         "vanilla",
         "kd",
@@ -313,22 +338,21 @@ def glue_curve_trainNums():
         fdict[m] = []
         for tn in train_numls:
             if m in ["vanilla", "kd"]:
-                pth = prefix+f"{task}{tn}{m}_256{task}___"
+                pth = prefix + f"{task}{tn}{m}_256{task}___"
                 pth += "finally"
             else:
-                pth = prefix+f"{task}{tn}{m}256{task}___"
+                pth = prefix + f"{task}{tn}{m}256{task}___"
                 pth += "period2"
             paths_dict[m].append(pth)
 
-            res_pth = pth+f"___{task}_glue_infer_res"
+            res_pth = pth + f"___{task}_glue_infer_res"
             res_pth = res_pth.replace("/", "__").replace(".", "")
             res_pth += ".json"
 
-            if not os.path.exists(dir_p+res_pth):
-                res_ls = infer_glue(pth, task, dir_p+res_pth)
+            if not os.path.exists(dir_p + res_pth):
+                res_ls = infer_glue(pth, task, dir_p + res_pth)
             else:
-                with open(dir_p+res_pth,
-                          'r', encoding='utf8') as f:
+                with open(dir_p + res_pth, "r", encoding="utf8") as f:
                     res_ls = json.load(f, object_pairs_hook=OrderedDict)
 
             scores = eval_glue(task, res_ls)
@@ -337,11 +361,14 @@ def glue_curve_trainNums():
             rdict[m].append(scores[2])
             fdict[m].append(scores[3])
 
-    res_dict = OrderedDict({"Accuracy": adict,
-                           "Precision": pdict,
-                            "Recall": rdict,
-                            "F1 Score": fdict,
-                            })
+    res_dict = OrderedDict(
+        {
+            "Accuracy": adict,
+            "Precision": pdict,
+            "Recall": rdict,
+            "F1 Score": fdict,
+        }
+    )
     fig, axs = plt.subplots(1, 4, figsize=(20, 4.65))
 
     for i, ylabel in enumerate(list(res_dict.keys())):
@@ -355,12 +382,13 @@ def glue_curve_trainNums():
                 label=method,
                 linewidth=lw,
                 marker=marker[method],
-                markevery=1, markersize=15,
+                markevery=1,
+                markersize=15,
                 markeredgewidth=lw,
-                markerfacecolor='none',
-                alpha=1.,
+                markerfacecolor="none",
+                alpha=1.0,
                 linestyle=model_line_style[method],
-                color=model_color_dict[method]
+                color=model_color_dict[method],
             )
 
             # axs[0][i_n].fill_between(periods,
@@ -369,31 +397,36 @@ def glue_curve_trainNums():
             #                          linewidth=0.,
             #                          # alpha=1.0,
             #                          color=model_color_dict2[mode])
-            axs[i].set_xlabel("Training Periods",
-                              fontsize=font_size)
-            axs[i].set_ylabel(ylabel,
-                              fontsize=font_size-5)
-            axs[i].set_xticks(train_numls, train_numls,
-                              rotation=48, size=font_size-4)
-            axs[i].tick_params(axis='y',
-                                    labelsize=font_size-6,
-                                    rotation=65,
-                                    width=2, length=2,
-                                    pad=0, direction="in",
-                                    which="both")
+            axs[i].set_xlabel("Training Periods", fontsize=font_size)
+            axs[i].set_ylabel(ylabel, fontsize=font_size - 5)
+            axs[i].set_xticks(train_numls, train_numls, rotation=48, size=font_size - 4)
+            axs[i].tick_params(
+                axis="y",
+                labelsize=font_size - 6,
+                rotation=65,
+                width=2,
+                length=2,
+                pad=0,
+                direction="in",
+                which="both",
+            )
     font_legend = {
-        'weight': 'normal',
-        'size': font_size-1,
+        "weight": "normal",
+        "size": font_size - 1,
     }
-    plt.legend(loc=(-1.91, 1.0),
-               prop=font_legend, ncol=6, frameon=False,
-               handletextpad=0., handlelength=1.2)  # 设置信息框
+    plt.legend(
+        loc=(-1.91, 1.0),
+        prop=font_legend,
+        ncol=6,
+        frameon=False,
+        handletextpad=0.0,
+        handlelength=1.2,
+    )  # 设置信息框
     fig.subplots_adjust(wspace=0.26, hspace=0.6)
     plt.subplots_adjust(bottom=0.33, top=0.85)
     # plt.show()
 
-    plt.savefig("./vary_trainNum.pdf",
-                pad_inches=0.1)
+    plt.savefig("./vary_trainNum.pdf", pad_inches=0.1)
     print("Save DONE.")
 
 
