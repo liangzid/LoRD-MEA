@@ -18,16 +18,15 @@ export POD_save_dir="${root_dir}vArY_TrAiN_nUm_ckpts/"
 export from_path="google/gemma-2b"
 export msl=256
 export TRAIN_NUMS=("4" "8" "16" "32" "64" "100" "256" "512")
-export TRAIN_NUMS=("4" "8" "16" "32")
+export TRAIN_NUMS=("100" "256" "512")
 export train_times=("1" "2" "3")
 # export task_ls=("cola" "mnli" "mrpc" "qnli" "qqp" "rte" "sst2" "wnli")
 # export task_ls=("cs-en" "de-en" "fi-en" "ro-en" "ru-en" "tr-en")
 # export task_ls=("cs-en" "de-en" "fi-en")
 # export task_ls=("piqa" "truthful_qa" "allenai/ai2_arc")
-export task_ls=("piqa")
+export task_ls=("allenai/ai2_arc")
 # export train_taskls=("vanilla" "kd" "nolog-Complex-lord")
 export train_taskls=("vanilla" "kd")
-
 
 # ## ====================TO DEBUG====================
 # export TRAIN_NUMS=("64" "100" "256" "512")
@@ -72,6 +71,7 @@ do
 		export save_path="${POD_save_dir}varyTrainNum___${train_num}${train_time}${task}${train_task}${epoch}${period}${temperature}${batch_size}${max_new_tokens}${msl}"
 
 		$python lord_train.py\
+		    --task=$train_task \
 		    --device="cuda" \
 		    --epoch=$epoch \
 		    --period_num=$period \
@@ -84,7 +84,6 @@ do
 		    --beta=$beta \
 		    --temperature=$temperature \
 		    --batch_size=$batch_size \
-		    --task=$train_task \
 		    --use_old_logits=$use_old_logits\
 		    --use_vic_logits=$use_vic_logits\
 		    --use_kld=$use_kld\

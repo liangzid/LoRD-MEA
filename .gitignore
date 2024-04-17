@@ -6,9 +6,9 @@
 __pycache__
 tracking_process_stablece-en
 wmt2b_ckpts
-/vArY_TrAiN_nUm_ckpts/
+vArY_TrAiN_nUm_ckpts
 /tracking_process_stablecs-en/
 /wikitext_infers_tracking_process_stable/
-*ckpt*
+*ckpt
 test/
 *512.pkl
