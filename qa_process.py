@@ -13,6 +13,7 @@ QA datasets's process.
 
 # ------------------------ Code --------------------------------------
 import os
+
 if __name__ == "__main__":
     # os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,6,7"
@@ -37,44 +38,41 @@ from sklearn.metrics import recall_score
 from sklearn.metrics import f1_score
 
 
-def load_qa_datals(tokenizer,
-                   task_name="piqa",
-                   train_num=100,
-                   model_name="gpt-3.5-turbo-1106",
-                   topk=5,
-                   max_length=256,
-                   openai_tmp_save_pth="./wmt_data_saveto_"):
-
+def load_qa_datals(
+    tokenizer,
+    task_name="piqa",
+    train_num=100,
+    model_name="gpt-3.5-turbo-1106",
+    topk=5,
+    max_length=256,
+    openai_tmp_save_pth="./wmt_data_saveto_",
+):
     lm_tokenizer = tokenizer
 
     V = lm_tokenizer.vocab_size
-    tasks_we_used = [
-        "piqa",
-        "truthful_qa",
-        "allenai/ai2_arc"
-    ]
+    tasks_we_used = ["piqa", "truthful_qa", "allenai/ai2_arc"]
     assert task_name in tasks_we_used
     dataset_name = task_name
     inp_ls = []
     if task_name == tasks_we_used[0]:
-        trainset_text = load_dataset(dataset_name,
-                                     split=f"train[:{train_num}]")
+        trainset_text = load_dataset(dataset_name, split=f"train[:{train_num}]")
 
         for item in trainset_text:
             question = item["goal"]
             sol1 = item["sol1"]
             sol2 = item["sol2"]
             label = str(item["label"])
-            text = f"Question: {question}\n\n Selection 1: {sol1} \n\n Selection 2:{sol2}"
+            text = (
+                f"Question: {question}\n\n Selection 1: {sol1} \n\n Selection 2:{sol2}"
+            )
             inp_ls.append(text)
 
     elif task_name == tasks_we_used[1]:
-
-        trainset_text = load_dataset(dataset_name, "multiple_choice",
-                                     split=f"validation[:{train_num}]")
+        trainset_text = load_dataset(
+            dataset_name, "multiple_choice", split=f"validation[:{train_num}]"
+        )
 
         for item in trainset_text:
-
             question = item["question"]
             assert len(item["mc1_targets"]["choices"]) >= 2
             sol1 = item["mc1_targets"]["choices"][0]
@@ -86,21 +84,22 @@ def load_qa_datals(tokenizer,
                 sol1 = sol2
                 sol2 = temp
             label = str(0)
-            text = f"Question: {question}\n\n Selection 1: {sol1} \n\n Selection 2:{sol2}"
+            text = (
+                f"Question: {question}\n\n Selection 1: {sol1} \n\n Selection 2:{sol2}"
+            )
             inp_ls.append(text)
 
     elif task_name == tasks_we_used[2]:
-
-        trainset_text = load_dataset(dataset_name, "ARC-Challenge",
-                                     split=f"train[:{train_num}]")
+        trainset_text = load_dataset(
+            dataset_name, "ARC-Challenge", split=f"train[:{train_num}]"
+        )
 
         for item in trainset_text:
-
-            question = item["question"]+"\n\n"
+            question = item["question"] + "\n\n"
             choices_text = ""
             for idx in range(len(item["choices"]["label"])):
                 choices_text += f"Selection {item['choices']['label'][idx]}"
-                choices_text += " "+item["choices"]["text"][idx]+"\n\n"
+                choices_text += " " + item["choices"]["text"][idx] + "\n\n"
 
             label = item["answerKey"]
             text = f"Question: {question}{choices_text}"
@@ -111,8 +110,7 @@ def load_qa_datals(tokenizer,
 
     pp = "Please select the correct answer for the Question of Users."
 
-    prompts = [f"Instruction: {pp} User: {x} Assistant: "
-               for x in inp_ls]
+    prompts = [f"Instruction: {pp} User: {x} Assistant: " for x in inp_ls]
     p_idxls = []
     for p in prompts:
         p_idxls.append(lm_tokenizer(p, return_tensors="pt").input_ids[0])
@@ -133,11 +131,7 @@ def load_qa_datals(tokenizer,
     )
 
 
-def infer_qa(modelname, task_name, res_pth,
-             test_set_take_num=100,
-             mnt=32
-             ):
-
+def infer_qa(modelname, task_name, res_pth, test_set_take_num=100, mnt=32):
     save_pth = res_pth
 
     tasks_we_used = [
@@ -156,9 +150,9 @@ def infer_qa(modelname, task_name, res_pth,
 
     print(task_name)
 
-    model = InferObj(model_name=modelname,
-                     device="auto",
-                     max_length=task_seqlen_map[task_name])
+    model = InferObj(
+        model_name=modelname, device="auto", max_length=task_seqlen_map[task_name]
+    )
 
     gen_pipeline = model.text_gen
 
@@ -167,27 +161,26 @@ def infer_qa(modelname, task_name, res_pth,
     inp_ls = []
 
     if task_name == tasks_we_used[0]:
-        trainset_text = load_dataset(task_name,
-                                     split=f"validation")\
-            .shuffle(20240307)\
-            .to_iterable_dataset()\
+        trainset_text = (
+            load_dataset(task_name, split=f"validation")
+            .shuffle(20240307)
+            .to_iterable_dataset()
             .take(test_set_take_num)
+        )
 
         for item in trainset_text:
             question = item["goal"]
             sol1 = item["sol1"]
             sol2 = item["sol2"]
             label = str(item["label"])
-            text = f"Question: {question}\n\n Selection 1: {sol1} \n\n Selection 2:{sol2}"
+            text = (
+                f"Question: {question}\n\n Selection 1: {sol1} \n\n Selection 2:{sol2}"
+            )
             inp_ls.append((text, label))
 
     elif task_name == tasks_we_used[1]:
-
-        trainset_text = load_dataset(task_name, "multiple_choice",
-                                     split=f"validation")\
-
+        trainset_text = load_dataset(task_name, "multiple_choice", split=f"validation")
         for item in trainset_text:
-
             question = item["question"]
             assert len(item["mc1_targets"]["choices"]) >= 2
             sol1 = item["mc1_targets"]["choices"][0]
@@ -199,21 +192,19 @@ def infer_qa(modelname, task_name, res_pth,
                 sol1 = sol2
                 sol2 = temp
             label = str(0)
-            text = f"Question: {question}\n\n Selection 1: {sol1} \n\n Selection 2:{sol2}"
+            text = (
+                f"Question: {question}\n\n Selection 1: {sol1} \n\n Selection 2:{sol2}"
+            )
             inp_ls.append((text, label))
 
     elif task_name == tasks_we_used[2]:
-
-        trainset_text = load_dataset(task_name, "ARC-Challenge",
-                                     split=f"validation")\
-
+        trainset_text = load_dataset(task_name, "ARC-Challenge", split=f"validation")
         for item in trainset_text:
-
-            question = item["question"]+"\n\n"
+            question = item["question"] + "\n\n"
             choices_text = ""
             for idx in range(len(item["choices"]["label"])):
                 choices_text += f"Selection {item['choices']['label'][idx]}"
-                choices_text += " "+item["choices"]["text"][idx]+"\n\n"
+                choices_text += " " + item["choices"]["text"][idx] + "\n\n"
 
             label = item["answerKey"]
             text = f"Question: {question}{choices_text}"
@@ -225,10 +216,13 @@ def infer_qa(modelname, task_name, res_pth,
     res_ls = []
     for d in tqdm(inp_ls):
         inps, summary = d
-        final_inps = "Instruction: " + pp +\
-            " User: "+inps+" Assistant: "
-        res = gen_pipeline(final_inps,
-                           max_new_tokens=mnt,)[0]["generated_text"]
+        final_inps = "Instruction: " + pp + " User: " + inps + " Assistant: "
+        res = gen_pipeline(
+            final_inps,
+            max_new_tokens=mnt,
+        )[
+            0
+        ]["generated_text"]
         res = res.split(final_inps)[1]
         print(f"Text Generated:>>> {res}")
         res_ls.append((res, summary))
@@ -242,11 +236,12 @@ def infer_qa(modelname, task_name, res_pth,
 
 
 def eval_qa_res():
-
-    ckpt_ls = [
-        "piqa",
-        "./lordii_ckpt/piqa/LoRD-II816256piqa64__hyper-para-search_ckpt___period14/"
-    ],
+    ckpt_ls = (
+        [
+            "piqa",
+            "./lordii_ckpt/piqa/LoRD-II816256piqa64__hyper-para-search_ckpt___period14/",
+        ],
+    )
 
     res_dict = {}
     dir_p = "./qa_dataset_res/"
@@ -254,37 +249,47 @@ def eval_qa_res():
         os.makedirs(dir_p)
     for task_ckpt in ckpt_ls:
         task, ckpt = task_ckpt
-        res_pth = ckpt+f"___{task}_qa_infer_res"
+        res_pth = ckpt + f"___{task}_qa_infer_res"
         res_pth = res_pth.replace("/", "__").replace(".", "")
         res_pth += ".json"
-        if not os.path.exists(dir_p+res_pth):
-            res_ls = infer_qa(ckpt, task, dir_p+res_pth,
-                              test_set_take_num=500,
-                              # test_set_take_num=50,
-                              mnt=64)
+        if not os.path.exists(dir_p + res_pth):
+            res_ls = infer_qa(
+                ckpt,
+                task,
+                dir_p + res_pth,
+                test_set_take_num=500,
+                # test_set_take_num=50,
+                mnt=64,
+            )
         else:
             # from collections import OrderedDict
-            with open(dir_p+res_pth, 'r', encoding='utf8') as f:
+            with open(dir_p + res_pth, "r", encoding="utf8") as f:
                 res_ls = json.load(f, object_pairs_hook=OrderedDict)
 
         print(res_ls)
         scores = eval_qaacc(task, res_ls)
         print(task, ckpt)
         print(scores)
-        res_dict[task+"-----"+ckpt] = scores
-    with open(dir_p+"wmt_inference_scores_overall.json",
-              'w', encoding='utf8') as f:
+        res_dict[task + "-----" + ckpt] = scores
+    with open(dir_p + "wmt_inference_scores_overall.json", "w", encoding="utf8") as f:
         json.dump(res_dict, f, ensure_ascii=False, indent=4)
     print("OVERALL Save DONE.")
     pprint(res_dict)
 
 
 def eval_varytrainum_res():
-
-    taskls = ["piqa", "truthful_qa", "allenai/ai2_arc",]
+    taskls = [
+        "piqa",
+        "truthful_qa",
+        "allenai/ai2_arc",
+    ]
     mls = ["vanilla", "kd", "google/gemma-2b"]
     # mls = ["google/gemma-2b",]
-    train_times = ["1", "2", "3",]
+    train_times = [
+        "1",
+        "2",
+        "3",
+    ]
     train_nums = ["4", "8", "16", "32", "64", "100", "256", "512"]
     train_nums = ["512",]
 
@@ -303,17 +308,20 @@ def eval_varytrainum_res():
                     if m == "google/gemma-2b":
                         ckpt = m
                     elif m == "Complex-lord":
-
-                        ckpt = prefix + \
-                            f"varyTrainNum___{train_num}{itime}{task}{m}332164256___period2"
+                        ckpt = (
+                            prefix
+                            + f"varyTrainNum___{train_num}{itime}{task}{m}332164256___period2"
+                        )
                     else:
-                        ckpt = prefix + \
-                            f"varyTrainNum___{train_num}{itime}{task}{m}332164256___finally"
+                        ckpt = (
+                            prefix
+                            + f"varyTrainNum___{train_num}{itime}{task}{m}332164256___finally"
+                        )
 
                     if m == "google/gemma-2b":
-                        res_pth = ckpt+f"__{itime}_{task}_qa_infer_res.json"
+                        res_pth = ckpt + f"__{itime}_{task}_qa_infer_res.json"
                     else:
-                        res_pth = ckpt+f"___{task}_qa_infer_res.json"
+                        res_pth = ckpt + f"___{task}_qa_infer_res.json"
 
                     res_pth = res_pth.replace("/", "__").replace(".", "")
 
@@ -324,14 +332,90 @@ def eval_varytrainum_res():
                     else:
                         print(f"{dir_p+res_pth} file already exists. directly loading...")
                         # from collections import OrderedDict
-                        with open(dir_p+res_pth, 'r', encoding='utf8') as f:
-                            res_ls = json.load(
-                                f, object_pairs_hook=OrderedDict)
+                        with open(dir_p + res_pth, "r", encoding="utf8") as f:
+                            res_ls = json.load(f, object_pairs_hook=OrderedDict)
 
                     scores = eval_qaacc(task, res_ls)
-                    res_dict[task+"-----"+res_pth] = scores
-    with open(dir_p+"Overall__qa_varytrain_num_inference_scores.json",
-              'w', encoding='utf8') as f:
+                    res_dict[task + "-----" + res_pth] = scores
+    with open(
+        dir_p + "Overall__qa_varytrain_num_inference_scores.json", "w", encoding="utf8"
+    ) as f:
+        json.dump(res_dict, f, ensure_ascii=False, indent=4)
+
+    print("OVERALL Save DONE.")
+    pprint(res_dict)
+
+
+def eval_varytrainum_231_ours():
+    taskls = [
+        "piqa",
+        "truthful_qa",
+        "allenai/ai2_arc",
+    ]
+    mls = ["LoRD-II", "LoRD-IV"]
+    # mls = ["google/gemma-2b",]
+    train_times = [
+        "1",
+        "2",
+        "3",
+    ]
+    train_nums = ["4", "8", "16", "32", "64", "100", "256", "512"]
+    period_nums = ["2", "5", "8"]
+
+    dir_p = "./vary_train_num_qa_infers/"
+    res_dict = {}
+
+    if not os.path.exists(dir_p):
+        os.makedirs(dir_p)
+    # ===============================================================
+
+    for task in taskls:
+        for train_num in train_nums:
+            for m in mls:
+                for itime in train_times:
+                    for periodnum in period_nums:
+                        prefix = "./vArY_TrAiN_nUm_ckpts/"
+                        if m == "google/gemma-2b":
+                            ckpt = m
+                        elif m == "Complex-lord":
+                            ckpt = (
+                                prefix
+                                + f"varyTrainNum___{train_num}{itime}{task}{m}332164256___period2"
+                            )
+                        elif "LoRD" in m:
+                            ckpt = (
+                                prefix
+                                + f"varyTrainNum___{train_num}{itime}{task}{m}112164256___period{periodnum}"
+                            )
+                        else:
+                            ckpt = (
+                                prefix
+                                + f"varyTrainNum___{train_num}{itime}{task}{m}332164256___finally"
+                            )
+
+                        if m == "google/gemma-2b":
+                            res_pth = ckpt + f"__{itime}_{task}_qa_infer_res.json"
+                        else:
+                            res_pth = ckpt + f"___{task}_qa_infer_res.json"
+
+                        res_pth = res_pth.replace("/", "__").replace(".", "")
+
+                        if not os.path.exists(dir_p + res_pth):
+                            res_ls = infer_qa(
+                                ckpt, task, dir_p + res_pth,
+                               test_set_take_num=1000,
+                                mnt=64,
+                            )
+                        else:
+                            # from collections import OrderedDict
+                            with open(dir_p + res_pth, "r", encoding="utf8") as f:
+                                res_ls = json.load(f, object_pairs_hook=OrderedDict)
+
+                        scores = eval_qaacc(task, res_ls)
+                        res_dict[task + "-----" + res_pth] = scores
+    with open(
+        dir_p + "Overall__qa_varytrain_num_inference_scores.json", "w", encoding="utf8"
+    ) as f:
         json.dump(res_dict, f, ensure_ascii=False, indent=4)
 
     print("OVERALL Save DONE.")
@@ -339,7 +423,6 @@ def eval_varytrainum_res():
 
 
 def eval_qaacc(task, res):
-
     task_label_map = {
         "piqa": {
             "0": "Selection 1",
@@ -356,8 +439,12 @@ def eval_qaacc(task, res):
             "3": "Selection 4",
         },
     }
-    extra_ai2 = {"0": "Selection A", "1": "Selection B",
-                 "2": "Selection C", "3": "Selection D", }
+    extra_ai2 = {
+        "0": "Selection A",
+        "1": "Selection B",
+        "2": "Selection C",
+        "3": "Selection D",
+    }
 
     textlabel_to_reallabel_map = {
         "piqa": {
@@ -426,5 +513,6 @@ def eval_qaacc(task, res):
 if __name__ == "__main__":
     # main()
     # eval_qa_res()
-    eval_varytrainum_res()
+    # eval_varytrainum_res()
+    eval_varytrainum_231_ours()
     print("EVERYTHING DONE.")
