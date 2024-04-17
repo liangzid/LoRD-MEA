@@ -1,0 +1,402 @@
+[
+    [
+        "The text is 'negative'.",
+        "negative"
+    ],
+    [
+        "The text is 'positive'.",
+        "positive"
+    ],
+    [
+        "The text is 'positive'.",
+        "positive"
+    ],
+    [
+        "The text is 'positive'.",
+        "negative"
+    ],
+    [
+        "The text is 'negative'.",
+        "negative"
+    ],
+    [
+        "The text is 'positive'.",
+        "positive"
+    ],
+    [
+        "This text is 'positive'.",
+        "positive"
+    ],
+    [
+        "Instruction: Determine whether the text is 'positive'.",
+        "negative"
+    ],
+    [
+        "This text is 'positive'.",
+        "negative"
+    ],
+    [
+        "The text is 'positive'.",
+        "positive"
+    ],
+    [
+        "The text is 'positive'.",
+        "positive"
+    ],
+    [
+        "This gore is on its own gore.",
+        "negative"
+    ],
+    [
+        "Instruction: Determine whether the text is 'positive' or 'negative'.",
+        "positive"
+    ],
+    [
+        "The text is 'positive'.",
+        "positive"
+    ],
+    [
+        "The text is 'positive'.",
+        "positive"
+    ],
+    [
+        "Instruction: Determine whether the text is 'positive'.",
+        "negative"
+    ],
+    [
+        "Instruction: Determine whether the text is 'positive'.",
+        "positive"
+    ],
+    [
+        "This text seems neutral for the film, as it doesn't clearly convey the",
+        "negative"
+    ],
+    [
+        "The text is 'positive'.",
+        "positive"
+    ],
+    [
+        "The text is 'positive'.",
+        "positive"
+    ],
+    [
+        "The text is 'positive'.",
+        "positive"
+    ],
+    [
+        "Instruction: Determine whether the text is 'positive'.",
+        "negative"
+    ],
+    [
+        "The text is 'negative'.",
+        "negative"
+    ],
+    [
+        "Instruction: Determine whether the text is 'positive'.",
+        "negative"
+    ],
+    [
+        "The text is 'negative'.",
+        "negative"
+    ],
+    [
+        "The text is 'positive'.",
+        "positive"
+    ],
+    [
+        "The text is 'positive'.",
+        "positive"
+    ],
+    [
+        "The text is 'positive'.",
+        "positive"
+    ],
+    [
+        "The text is 'positive'.",
+        "negative"
+    ],
+    [
+        "The text is 'negative'.",
+        "negative"
+    ],
+    [
+        "The text is 'negative'.",
+        "negative"
+    ],
+    [
+        " Belgien",
+        "positive"
+    ],
+    [
+        "The text is 'positive'.",
+        "positive"
+    ],
+    [
+        "The text is 'positive'.",
+        "negative"
+    ],
+    [
+        "Instruction: Determine whether the text is 'positive' or 'negative'.",
+        "negative"
+    ],
+    [
+        "Instruction: Determine whether the text is 'positive'.",
+        "negative"
+    ],
+    [
+        "The text is 'positive'.",
+        "positive"
+    ],
+    [
+        "The text is 'positive'.",
+        "positive"
+    ],
+    [
+        "The text is negative.",
+        "negative"
+    ],
+    [
+        "The text is 'positive'.",
+        "negative"
+    ],
+    [
+        "Instruction: Determine whether the text is 'positive'.",
+        "negative"
+    ],
+    [
+        "Instruction: Determine whether the text is 'positive'.",
+        "positive"
+    ],
+    [
+        "The text is 'negative'.",
+        "positive"
+    ],
+    [
+        "The text is 'negative'.",
+        "negative"
+    ],
+    [
+        "The text is 'negative'.",
+        "negative"
+    ],
+    [
+        "Instruction: Determine whether the text is 'positive' or 'negative'.",
+        "positive"
+    ],
+    [
+        "The text is 'positive'.",
+        "positive"
+    ],
+    [
+        "The text is 'positive'.",
+        "positive"
+    ],
+    [
+        "",
+        "negative"
+    ],
+    [
+        "The text is 'positive'.",
+        "positive"
+    ],
+    [
+        "The text is negative.",
+        "negative"
+    ],
+    [
+        "The text is 'negative'.",
+        "negative"
+    ],
+    [
+        "Instruction: Determine whether the text is 'positive' or 'negative'.",
+        "positive"
+    ],
+    [
+        "The text is 'negative'.",
+        "negative"
+    ],
+    [
+        "The text is 'positive'.",
+        "positive"
+    ],
+    [
+        "The text is 'positive'.",
+        "positive"
+    ],
+    [
+        "The text is 'positive'.",
+        "positive"
+    ],
+    [
+        "The text is 'positive'.",
+        "positive"
+    ],
+    [
+        "Instruction: Determine whether the text is 'positive' or 'negative'.",
+        "negative"
+    ],
+    [
+        "The text is 'positive'.",
+        "negative"
+    ],
+    [
+        "The movie is 'negative'.",
+        "positive"
+    ],
+    [
+        "The text is 'negative'.",
+        "negative"
+    ],
+    [
+        "Instruction: Determine whether the text is 'positive'.",
+        "negative"
+    ],
+    [
+        "The text is 'positive'.",
+        "negative"
+    ],
+    [
+        "",
+        "positive"
+    ],
+    [
+        "The text is 'positive'.",
+        "positive"
+    ],
+    [
+        "The text is 'positive'.",
+        "positive"
+    ],
+    [
+        "The text is 'positive'.",
+        "positive"
+    ],
+    [
+        "The text is 'positive'.",
+        "positive"
+    ],
+    [
+        "Instruction: Determine whether the text is 'positive'.",
+        "negative"
+    ],
+    [
+        "The text is 'positive'.",
+        "negative"
+    ],
+    [
+        "The text is 'positive'.",
+        "positive"
+    ],
+    [
+        "The text is 'negative'.",
+        "negative"
+    ],
+    [
+        "Instruction: Determine whether the text is 'positive'.",
+        "positive"
+    ],
+    [
+        "The text is 'positive'.",
+        "positive"
+    ],
+    [
+        "Instruction: Determine whether the text is 'positive'.",
+        "negative"
+    ],
+    [
+        "The text is 'positive'.",
+        "positive"
+    ],
+    [
+        "The text is 'negative'.",
+        "negative"
+    ],
+    [
+        " encou",
+        "negative"
+    ],
+    [
+        " palme",
+        "negative"
+    ],
+    [
+        "The text is 'positive'.",
+        "negative"
+    ],
+    [
+        "Instruction: Determine whether the text is 'positive'.",
+        "negative"
+    ],
+    [
+        "The text is 'positive'.",
+        "positive"
+    ],
+    [
+        "The text is 'negative'.",
+        "negative"
+    ],
+    [
+        "Instruction: Determine whether the text is 'positive' or 'negative'.",
+        "negative"
+    ],
+    [
+        "Instruction: Determine whether the text is 'positive'.",
+        "positive"
+    ],
+    [
+        "Instruction: Determine whether the text is 'positive' or 'negative'.",
+        "negative"
+    ],
+    [
+        " notori",
+        "positive"
+    ],
+    [
+        "The text is negative.",
+        "negative"
+    ],
+    [
+        "The text is negative.",
+        "negative"
+    ],
+    [
+        "The text is negative.",
+        "negative"
+    ],
+    [
+        "The text is 'positive'.",
+        "negative"
+    ],
+    [
+        "The text is 'positive'.",
+        "positive"
+    ],
+    [
+        " ciment",
+        "negative"
+    ],
+    [
+        "The text is not 'positive'.",
+        "negative"
+    ],
+    [
+        "The text is 'positive'.",
+        "positive"
+    ],
+    [
+        "",
+        "negative"
+    ],
+    [
+        "",
+        "positive"
+    ],
+    [
+        "The text is 'positive'.",
+        "negative"
+    ],
+    [
+        "The text is 'positive'.",
+        "positive"
+    ]
+]

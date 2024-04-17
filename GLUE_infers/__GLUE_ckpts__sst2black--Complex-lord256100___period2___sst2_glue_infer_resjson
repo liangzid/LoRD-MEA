@@ -1,0 +1,402 @@
+[
+    [
+        "The text is negative",
+        "negative"
+    ],
+    [
+        "The text is negative.",
+        "positive"
+    ],
+    [
+        "The text is negative",
+        "positive"
+    ],
+    [
+        "The text is negative",
+        "negative"
+    ],
+    [
+        "negative",
+        "negative"
+    ],
+    [
+        "The text is positive.",
+        "positive"
+    ],
+    [
+        "The text is negative",
+        "positive"
+    ],
+    [
+        "The text is negative",
+        "negative"
+    ],
+    [
+        "negative",
+        "negative"
+    ],
+    [
+        "The text is positive",
+        "positive"
+    ],
+    [
+        "The text is negative",
+        "positive"
+    ],
+    [
+        "The text is negative.",
+        "negative"
+    ],
+    [
+        "The text is negative",
+        "positive"
+    ],
+    [
+        "The text is negative",
+        "positive"
+    ],
+    [
+        "The text is positive",
+        "positive"
+    ],
+    [
+        "The text is negative.",
+        "negative"
+    ],
+    [
+        "The text is negative",
+        "positive"
+    ],
+    [
+        "negative",
+        "negative"
+    ],
+    [
+        "The text is negative",
+        "positive"
+    ],
+    [
+        "negative",
+        "positive"
+    ],
+    [
+        "negative",
+        "positive"
+    ],
+    [
+        "The text is negative.",
+        "negative"
+    ],
+    [
+        "The text is negative",
+        "negative"
+    ],
+    [
+        "The text is negative",
+        "negative"
+    ],
+    [
+        "The text is negative",
+        "negative"
+    ],
+    [
+        "The text is negative",
+        "positive"
+    ],
+    [
+        "The text is negative.",
+        "positive"
+    ],
+    [
+        "The text is negative",
+        "positive"
+    ],
+    [
+        "negative",
+        "negative"
+    ],
+    [
+        "The text is negative.",
+        "negative"
+    ],
+    [
+        "The text is negative",
+        "negative"
+    ],
+    [
+        "The text is 'positive'.",
+        "positive"
+    ],
+    [
+        "The text is positive.",
+        "positive"
+    ],
+    [
+        "The text is negative",
+        "negative"
+    ],
+    [
+        "The text is negative",
+        "negative"
+    ],
+    [
+        "negative",
+        "negative"
+    ],
+    [
+        "The text is negative",
+        "positive"
+    ],
+    [
+        "The text is negative",
+        "positive"
+    ],
+    [
+        "The text is negative",
+        "negative"
+    ],
+    [
+        "The text is negative.",
+        "negative"
+    ],
+    [
+        "The text is negative",
+        "negative"
+    ],
+    [
+        "negative",
+        "positive"
+    ],
+    [
+        "The text is negative",
+        "positive"
+    ],
+    [
+        "negative",
+        "negative"
+    ],
+    [
+        "The text is negative",
+        "negative"
+    ],
+    [
+        "The text is negative",
+        "positive"
+    ],
+    [
+        "The text is negative",
+        "positive"
+    ],
+    [
+        "The text is 'positive'.",
+        "positive"
+    ],
+    [
+        "The text is negative",
+        "negative"
+    ],
+    [
+        "The text is more neutral or ambiguous, as it doesn't express a positive",
+        "positive"
+    ],
+    [
+        "negative",
+        "negative"
+    ],
+    [
+        "The text is negative",
+        "negative"
+    ],
+    [
+        "The text is negative",
+        "positive"
+    ],
+    [
+        "The text is negative.",
+        "negative"
+    ],
+    [
+        "The text is negative",
+        "positive"
+    ],
+    [
+        "This text is negative",
+        "positive"
+    ],
+    [
+        "The text is negative.",
+        "positive"
+    ],
+    [
+        "The text is negative",
+        "positive"
+    ],
+    [
+        "The text is negative",
+        "negative"
+    ],
+    [
+        "The text is negative",
+        "negative"
+    ],
+    [
+        "negative",
+        "positive"
+    ],
+    [
+        "The text is negative",
+        "negative"
+    ],
+    [
+        "The text is negative.",
+        "negative"
+    ],
+    [
+        "negative",
+        "negative"
+    ],
+    [
+        "The text is negative",
+        "positive"
+    ],
+    [
+        "The text is positive.",
+        "positive"
+    ],
+    [
+        "The text is negative",
+        "positive"
+    ],
+    [
+        "The text is negative",
+        "positive"
+    ],
+    [
+        "The text is negative",
+        "positive"
+    ],
+    [
+        "The text is negative",
+        "negative"
+    ],
+    [
+        "The text is negative",
+        "negative"
+    ],
+    [
+        "The text is positive",
+        "positive"
+    ],
+    [
+        "The text is negative",
+        "negative"
+    ],
+    [
+        "The text is negative",
+        "positive"
+    ],
+    [
+        "The text is 'positive'.",
+        "positive"
+    ],
+    [
+        "The text is negative.",
+        "negative"
+    ],
+    [
+        "The text is negative",
+        "positive"
+    ],
+    [
+        "The text is negative",
+        "negative"
+    ],
+    [
+        "The text is negative",
+        "negative"
+    ],
+    [
+        "The text is negative",
+        "negative"
+    ],
+    [
+        "The text is negative",
+        "negative"
+    ],
+    [
+        "The text is negative",
+        "negative"
+    ],
+    [
+        "The text is negative",
+        "positive"
+    ],
+    [
+        "negative",
+        "negative"
+    ],
+    [
+        "The text is negative",
+        "negative"
+    ],
+    [
+        "The text is negative",
+        "positive"
+    ],
+    [
+        "The text is negative",
+        "negative"
+    ],
+    [
+        "The text is negative",
+        "positive"
+    ],
+    [
+        "The text is negative",
+        "negative"
+    ],
+    [
+        "The text is negative",
+        "negative"
+    ],
+    [
+        "The text is negative",
+        "negative"
+    ],
+    [
+        "The text is negative.",
+        "negative"
+    ],
+    [
+        "The text is negative",
+        "positive"
+    ],
+    [
+        "The text is negative",
+        "negative"
+    ],
+    [
+        "The text is negative",
+        "negative"
+    ],
+    [
+        "The text is negative.",
+        "positive"
+    ],
+    [
+        "The text is negative",
+        "negative"
+    ],
+    [
+        "The text is negative",
+        "positive"
+    ],
+    [
+        "The text is negative.",
+        "negative"
+    ],
+    [
+        "The text is 'positive'.",
+        "positive"
+    ]
+]

@@ -1,0 +1,402 @@
+[
+    [
+        " The given pair of sentences and determine if they are 'equi'.",
+        "equivalent"
+    ],
+    [
+        "",
+        "not_equivalent"
+    ],
+    [
+        "The dollar was at 116.92 yen against the yen,",
+        "not_equivalent"
+    ],
+    [
+        "The AFL-CIO is waiting for October to decide if they are 'equi",
+        "equivalent"
+    ],
+    [
+        "",
+        "not_equivalent"
+    ],
+    [
+        "",
+        "equivalent"
+    ],
+    [
+        "",
+        "not_equivalent"
+    ],
+    [
+        "These sentences are 'equi'.",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences and determine if they are 'equivalent'.",
+        "equivalent"
+    ],
+    [
+        "The results appear in the January issue of Cancer, an American Cancer Society journal,",
+        "equivalent"
+    ],
+    [
+        "The delegates said raising and distributing funds has been 'equivalent'.",
+        "equivalent"
+    ],
+    [
+        " The given pair of sentences and determine if they are 'equi'.",
+        "not_equivalent"
+    ],
+    [
+        "The broader Standard & Poor's 500 Index.",
+        "not_equivalent"
+    ],
+    [
+        "The only announced Republican to replace Davis is Rep.",
+        "equivalent"
+    ],
+    [
+        "not_equi.",
+        "equivalent"
+    ],
+    [
+        "The judge had told the state Department of Mental Health.",
+        "equivalent"
+    ],
+    [
+        "The decision came a year after flu ended federal oversight of the district's racial",
+        "equivalent"
+    ],
+    [
+        "The Nasdaq Composite Index.",
+        "not_equivalent"
+    ],
+    [
+        "PMorgan.",
+        "equivalent"
+    ],
+    [
+        "The pound also made progress against the dollar, reached fresh three-year highs at",
+        "not_equivalent"
+    ],
+    [
+        "",
+        "not_equivalent"
+    ],
+    [
+        "",
+        "equivalent"
+    ],
+    [
+        " The given pair of sentences and determine if they are 'equivalent'.",
+        "not_equivalent"
+    ],
+    [
+        "equi.",
+        "equivalent"
+    ],
+    [
+        "not_equi.",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences and determine if they are 'equi'.",
+        "equivalent"
+    ],
+    [
+        "not_equi.",
+        "not_equivalent"
+    ],
+    [
+        "",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences and determine if they are 'equi'.",
+        "equivalent"
+    ],
+    [
+        "The association said 28.2 million DVDs were rented in the week that",
+        "equivalent"
+    ],
+    [
+        "",
+        "not_equivalent"
+    ],
+    [
+        " Intel was disappointed and assessing its \" options in the event Mr. Hamidi resumes",
+        "equivalent"
+    ],
+    [
+        "",
+        "equivalent"
+    ],
+    [
+        "",
+        "equivalent"
+    ],
+    [
+        "",
+        "equivalent"
+    ],
+    [
+        "",
+        "not_equivalent"
+    ],
+    [
+        "",
+        "not_equivalent"
+    ],
+    [
+        "The given pair of sentences and determine if they are 'equivalent'.",
+        "not_equivalent"
+    ],
+    [
+        "",
+        "equivalent"
+    ],
+    [
+        " The given pair of sentences and determine if they are 'equi'.",
+        "equivalent"
+    ],
+    [
+        "SARS has killed about 800 people and affected more than 84",
+        "not_equivalent"
+    ],
+    [
+        "The given pair of sentences and determine if they are 'equi'.",
+        "equivalent"
+    ],
+    [
+        "",
+        "not_equivalent"
+    ],
+    [
+        "",
+        "not_equivalent"
+    ],
+    [
+        "",
+        "not_equivalent"
+    ],
+    [
+        "not_equi.",
+        "equivalent"
+    ],
+    [
+        "29.4 to 32.6, while those claiming work was",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences and determine if they are 'equi'.",
+        "not_equivalent"
+    ],
+    [
+        " The given pair of sentences and determine if they are 'equivalent'.",
+        "equivalent"
+    ],
+    [
+        "",
+        "equivalent"
+    ],
+    [
+        "",
+        "equivalent"
+    ],
+    [
+        "not_equi.",
+        "equivalent"
+    ],
+    [
+        "",
+        "equivalent"
+    ],
+    [
+        "",
+        "equivalent"
+    ],
+    [
+        "",
+        "equivalent"
+    ],
+    [
+        " The charges are 'equi'.",
+        "equivalent"
+    ],
+    [
+        "",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences and determine if they are 'equivalent'.",
+        "equivalent"
+    ],
+    [
+        " The given pair of sentences and determine if they are 'equi'.",
+        "equivalent"
+    ],
+    [
+        "",
+        "equivalent"
+    ],
+    [
+        "",
+        "not_equivalent"
+    ],
+    [
+        "not_equi.",
+        "equivalent"
+    ],
+    [
+        " The given pair of sentences and determine if they are 'equi'.",
+        "equivalent"
+    ],
+    [
+        " The given pair of sentences and determine if they are 'equi'.",
+        "equivalent"
+    ],
+    [
+        "",
+        "equivalent"
+    ],
+    [
+        "The Dow Jones industrial average, the day down 10.89 at",
+        "not_equivalent"
+    ],
+    [
+        "The given pair of sentences and determine if they are 'equivalent'.",
+        "equivalent"
+    ],
+    [
+        " The idea that Tony Abbott is in some way a one-dimensional political head-",
+        "equivalent"
+    ],
+    [
+        "",
+        "not_equivalent"
+    ],
+    [
+        "The rate of skin cancer has tripled in Norway and Sweden, according to the study",
+        "equivalent"
+    ],
+    [
+        "",
+        "equivalent"
+    ],
+    [
+        "3.",
+        "equivalent"
+    ],
+    [
+        "",
+        "equivalent"
+    ],
+    [
+        "31, is now charged with murder in the deaths of his 27",
+        "equivalent"
+    ],
+    [
+        "",
+        "equivalent"
+    ],
+    [
+        "The program will be expanded to include areas of the Middle East such as Dubai,",
+        "equivalent"
+    ],
+    [
+        "",
+        "not_equivalent"
+    ],
+    [
+        " The given pair of sentences and determine if they are 'equivalent'.",
+        "equivalent"
+    ],
+    [
+        " The given pair of sentences and determine if they are 'equi'.",
+        "equivalent"
+    ],
+    [
+        "",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences and determine if they are 'equi'.",
+        "not_equivalent"
+    ],
+    [
+        "The given pair of sentences and determine if they are 'equi'.",
+        "equivalent"
+    ],
+    [
+        "",
+        "equivalent"
+    ],
+    [
+        "",
+        "not_equivalent"
+    ],
+    [
+        "",
+        "equivalent"
+    ],
+    [
+        "",
+        "not_equivalent"
+    ],
+    [
+        "The given pair of sentences and determine if they are 'equi'.",
+        "equivalent"
+    ],
+    [
+        "",
+        "not_equivalent"
+    ],
+    [
+        "",
+        "equivalent"
+    ],
+    [
+        " The given pair of sentences and determine if they are 'equivalent'.",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences and determine if they are 'equivalent'.",
+        "not_equivalent"
+    ],
+    [
+        "equivalent.",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences and determine if they are 'equi'.",
+        "equivalent"
+    ],
+    [
+        "",
+        "not_equivalent"
+    ],
+    [
+        "",
+        "equivalent"
+    ],
+    [
+        "",
+        "equivalent"
+    ],
+    [
+        "The reports mentioned and determine if they are 'equivalent'.",
+        "not_equivalent"
+    ],
+    [
+        "",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences and determine if they are 'equi'.",
+        "equivalent"
+    ],
+    [
+        "not_equi.",
+        "equivalent"
+    ]
+]

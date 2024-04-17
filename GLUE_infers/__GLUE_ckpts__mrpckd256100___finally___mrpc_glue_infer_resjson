@@ -1,0 +1,402 @@
+[
+    [
+        "The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "not_equivalent",
+        "not_equivalent"
+    ],
+    [
+        "The dollar was at 116.92 yen against the yen,",
+        "not_equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "not_equivalent"
+    ],
+    [
+        "not_equivalent",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "not_equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "The results appear in the January issue of Cancer, while the second result appears in",
+        "equivalent"
+    ],
+    [
+        "The first sentence mentions the raising and distribution of funds as being complicated by the U",
+        "equivalent"
+    ],
+    [
+        "not_equivalent",
+        "not_equivalent"
+    ],
+    [
+        "The first Standard & the second Standard are equivalent.",
+        "not_equivalent"
+    ],
+    [
+        "The first mentioned the only announced Republican to replace Davis, while the second mentioned the",
+        "equivalent"
+    ],
+    [
+        "The first sentence mentions the decision to issue new guidance has been prompted by the intelligence",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "The first sentence mentions the year as the year for the district to end federal oversight",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "not_equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "not_equivalent"
+    ],
+    [
+        "not_equivalent",
+        "not_equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "not_equivalent"
+    ],
+    [
+        "not_equivalent",
+        "equivalent"
+    ],
+    [
+        "not_equivalent",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "not_equivalent",
+        "not_equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "The first sentence mentions the 28.2 million DVDs being rented in the",
+        "equivalent"
+    ],
+    [
+        "not_equivalent",
+        "not_equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "not_equivalent",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "not_equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "not_equivalent"
+    ],
+    [
+        "The first sentence mentions the civilian unemployment rate as a slight variation in the wording,",
+        "not_equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "not_equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "not_equivalent",
+        "not_equivalent"
+    ],
+    [
+        "not_equivalent",
+        "not_equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "not_equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "not_equivalent"
+    ],
+    [
+        "not_equivalent",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "not_equivalent",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "The first sentence states that the he was part of the conspiracy to kill and the",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "not_equivalent",
+        "equivalent"
+    ],
+    [
+        "The first sentence is \"equivalent\". The second sentence is \"not equivalent",
+        "equivalent"
+    ],
+    [
+        "not_equivalent",
+        "equivalent"
+    ],
+    [
+        "not_equivalent",
+        "not_equivalent"
+    ],
+    [
+        "not_equivalent",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "not_equivalent"
+    ],
+    [
+        "not_equivalent",
+        "equivalent"
+    ],
+    [
+        "The idea that Tony Abbott is in some way a one-dimensional political head-",
+        "equivalent"
+    ],
+    [
+        "not_equivalent",
+        "not_equivalent"
+    ],
+    [
+        "The first sentence states that the rate of skin cancer has increased since the 1",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "not_equivalent",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "not_equivalent",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "The program will grow to include ports in Dubai, while the second program will be",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "not_equivalent"
+    ],
+    [
+        "The woman was exposed to the SARS while in the hospital but was not a health",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "not_equivalent",
+        "not_equivalent"
+    ],
+    [
+        "not_equivalent",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "not_equiators",
+        "not_equivalent"
+    ],
+    [
+        "not_equivalent",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "not_equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "not_equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "The first products are likely to be the equivalent.",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "not_equivalent"
+    ],
+    [
+        "not_equivalent",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "not_equivalent"
+    ],
+    [
+        "not_equivalent",
+        "equivalent"
+    ],
+    [
+        "not_equivalent",
+        "equivalent"
+    ],
+    [
+        "The reports helped the investor after the euro hit record highs against the dollar.",
+        "not_equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "not_equivalent",
+        "equivalent"
+    ]
+]

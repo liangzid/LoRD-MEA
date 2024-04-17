@@ -1,0 +1,402 @@
+[
+    [
+        "Instruction: The given pair of sentences are 'equivalent'.",
+        "equivalent"
+    ],
+    [
+        "Instruction: The given pair of sentences are equivalent.",
+        "not_equivalent"
+    ],
+    [
+        "Instruction: The given pair of sentences are 'equivalent'.",
+        "not_equivalent"
+    ],
+    [
+        "Instruction: The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "0",
+        "not_equivalent"
+    ],
+    [
+        "The given pair of sentences are 'equivalent'.",
+        "equivalent"
+    ],
+    [
+        "",
+        "not_equivalent"
+    ],
+    [
+        "",
+        "equivalent"
+    ],
+    [
+        "4.45 percent for all residents with incomes above $ 500",
+        "equivalent"
+    ],
+    [
+        "",
+        "equivalent"
+    ],
+    [
+        "Instruction: The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "Instruction: Assistant: Assistant:",
+        "not_equivalent"
+    ],
+    [
+        "The given pair of sentences are 'not_equivalent'.",
+        "not_equivalent"
+    ],
+    [
+        "Instruction: The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "Instruction: The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "Instruction: The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "The decision came a year after Whipple ended federal oversight of school busing as well",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences are 'not_equivalent'.",
+        "not_equivalent"
+    ],
+    [
+        "The given pair of sentences are 'equivalent'.",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences are 'not_equivalent'.",
+        "not_equivalent"
+    ],
+    [
+        "Instruction: Assistant: Friday, Stanford ( 47-15 ) blan",
+        "not_equivalent"
+    ],
+    [
+        "The given pair of sentences are 'equivalent'.",
+        "equivalent"
+    ],
+    [
+        "",
+        "not_equivalent"
+    ],
+    [
+        "",
+        "equivalent"
+    ],
+    [
+        "Instruction: The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "",
+        "equivalent"
+    ],
+    [
+        "Instruction: The given pair of sentences are equivalent.",
+        "not_equivalent"
+    ],
+    [
+        "Instruction: The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "Instruction: The given pair of sentences are 'equivalent'.",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences are 'equivalent'.",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences are 'equivalent'.",
+        "not_equivalent"
+    ],
+    [
+        "Instruction: The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences are 'equivalent'.",
+        "equivalent"
+    ],
+    [
+        "2,800 or 12 percent is equivalent to 30",
+        "equivalent"
+    ],
+    [
+        "Instruction: Assistant: Assistant:",
+        "equivalent"
+    ],
+    [
+        "Instruction: Assistant: Assistant: Assistant: Assistant: Assistant: Assistant: Assistant:",
+        "not_equivalent"
+    ],
+    [
+        "Instruction: On Monday the Palestinian Prime Minister, Mahmoud Abbas, will report to the",
+        "not_equivalent"
+    ],
+    [
+        "The given pair of sentences are 'equivalent'.",
+        "not_equivalent"
+    ],
+    [
+        "29, 89, 35. Assistant: 29",
+        "equivalent"
+    ],
+    [
+        "Instruction: Assistant:",
+        "equivalent"
+    ],
+    [
+        "800 people and affected more than 8,400, mostly",
+        "not_equivalent"
+    ],
+    [
+        "Instruction: Assistant:",
+        "equivalent"
+    ],
+    [
+        "Instruction: Assistant: Assistant: Assistant: Assistant: Assistant: Assistant: Assistant:",
+        "not_equivalent"
+    ],
+    [
+        "",
+        "not_equivalent"
+    ],
+    [
+        "The given pair of sentences are 'equivalent'.",
+        "not_equivalent"
+    ],
+    [
+        "Instruction: The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "",
+        "equivalent"
+    ],
+    [
+        "Instruction: Assistant: Assistant: Assistant: Assistant: Assistant: Assistant: Assistant:",
+        "not_equivalent"
+    ],
+    [
+        "Instruction: Assistant: Assistant: Assistant: Assistant: Assistant: Assistant: Assistant:",
+        "equivalent"
+    ],
+    [
+        "Instruction: Assistant:",
+        "equivalent"
+    ],
+    [
+        "Instruction: \" But they never climb out of the pot of beer again. \"",
+        "equivalent"
+    ],
+    [
+        "Instruction: Assistant:",
+        "equivalent"
+    ],
+    [
+        "",
+        "equivalent"
+    ],
+    [
+        "48 per cent year-on-year, compared to an increase of ",
+        "equivalent"
+    ],
+    [
+        "Instruction: The given pair of sentences are 'equivalent'.",
+        "equivalent"
+    ],
+    [
+        "Instruction: The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "1.8 to 4.4 is a margin of error of plus or",
+        "equivalent"
+    ],
+    [
+        "Instruction: The given pair of sentences are 'equivalent'.",
+        "equivalent"
+    ],
+    [
+        "Instruction:",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences are not_equivalent.",
+        "equivalent"
+    ],
+    [
+        "39, 39, 39, 39, ",
+        "not_equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "Instruction: Assistant:",
+        "equivalent"
+    ],
+    [
+        "Instruction: The given pair of sentences are 'equivalent'.",
+        "equivalent"
+    ],
+    [
+        "Instruction: Assistant: Assistant:",
+        "equivalent"
+    ],
+    [
+        "The Dow Jones industrial average fell 10.89 points, or ",
+        "not_equivalent"
+    ],
+    [
+        "Instruction: The given pair of sentences are 'equivalent'.",
+        "equivalent"
+    ],
+    [
+        "",
+        "equivalent"
+    ],
+    [
+        "Instruction: Assistant:",
+        "not_equivalent"
+    ],
+    [
+        "The given pair of sentences are 'equivalent'.",
+        "equivalent"
+    ],
+    [
+        "Instruction: The given pair of sentences are 'equivalent'.",
+        "equivalent"
+    ],
+    [
+        "14.5 percent of the daily calories of the Americans, 2.",
+        "equivalent"
+    ],
+    [
+        "The given pair of sentences are 'equivalent'.",
+        "equivalent"
+    ],
+    [
+        "Instruction: Assistant: Assistant:",
+        "equivalent"
+    ],
+    [
+        "Instruction: Assistant: Assistant: Assistant: Assistant: Assistant: Assistant: Assistant:",
+        "equivalent"
+    ],
+    [
+        "",
+        "equivalent"
+    ],
+    [
+        "Instruction: Assistant: Assistant: Assistant: Assistant: Assistant: Assistant: Assistant:",
+        "not_equivalent"
+    ],
+    [
+        "The woman was exposed to the SARS virus while in the hospital but was not a",
+        "equivalent"
+    ],
+    [
+        "Instruction: These are not solely American principles nor are they exclusively Western.",
+        "equivalent"
+    ],
+    [
+        "2. \" The given pair of sentences are 'equivalent'.",
+        "equivalent"
+    ],
+    [
+        "Instruction: Assistant:",
+        "not_equivalent"
+    ],
+    [
+        "The given pair of sentences are 'equivalent'.",
+        "equivalent"
+    ],
+    [
+        "Instruction: Assistant:",
+        "equivalent"
+    ],
+    [
+        "",
+        "not_equivalent"
+    ],
+    [
+        "Instruction: The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "",
+        "not_equivalent"
+    ],
+    [
+        "Instruction: The given pair of sentences are 'equivalent'.",
+        "equivalent"
+    ],
+    [
+        "20 percent, 2000, 2003.",
+        "not_equivalent"
+    ],
+    [
+        "Instruction: Assistant:",
+        "equivalent"
+    ],
+    [
+        "The first products are likely to be dongles costing $ 100 to",
+        "equivalent"
+    ],
+    [
+        "Instruction: Assistant: Assistant:",
+        "not_equivalent"
+    ],
+    [
+        "Instruction: The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "Instruction: Assistant:",
+        "equivalent"
+    ],
+    [
+        "Instruction: The given pair of sentences are equivalent.",
+        "not_equivalent"
+    ],
+    [
+        "The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "Instruction: The given pair of sentences are equivalent.",
+        "equivalent"
+    ],
+    [
+        "Instruction: The given pair of sentences are 'equivalent'.",
+        "not_equivalent"
+    ],
+    [
+        "37 per cent year-on-year to 1.76bn",
+        "equivalent"
+    ],
+    [
+        "Instruction: If the MTA's appeal is successful, the $ 2 bus",
+        "equivalent"
+    ],
+    [
+        "40, in critical but stable condition at Staten Island University Hospital last night.",
+        "equivalent"
+    ]
+]
