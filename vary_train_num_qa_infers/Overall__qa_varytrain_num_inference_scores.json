@@ -1,0 +1,164 @@
+{
+    "piqa-----__vArY_TrAiN_nUm_ckpts__varyTrainNum___161piqavanilla332164256___finally___piqa_qa_infer_resjson": [
+        0.52,
+        0.528185216470116,
+        0.5241696981338968,
+        0.5042940527678981
+    ],
+    "piqa-----__vArY_TrAiN_nUm_ckpts__varyTrainNum___162piqavanilla332164256___finally___piqa_qa_infer_resjson": [
+        0.513,
+        0.509965003181529,
+        0.5070193973883359,
+        0.47060096031029086
+    ],
+    "piqa-----__vArY_TrAiN_nUm_ckpts__varyTrainNum___163piqavanilla332164256___finally___piqa_qa_infer_resjson": [
+        0.486,
+        0.48745270889216596,
+        0.4877760836244742,
+        0.48346899809064414
+    ],
+    "piqa-----__vArY_TrAiN_nUm_ckpts__varyTrainNum___161piqakd332164256___finally___piqa_qa_infer_resjson": [
+        0.496,
+        0.507338385949416,
+        0.503723802320323,
+        0.43012211668928085
+    ],
+    "piqa-----__vArY_TrAiN_nUm_ckpts__varyTrainNum___162piqakd332164256___finally___piqa_qa_infer_resjson": [
+        0.488,
+        0.4902894222168317,
+        0.4974367593915455,
+        0.3796014908951672
+    ],
+    "piqa-----__vArY_TrAiN_nUm_ckpts__varyTrainNum___163piqakd332164256___finally___piqa_qa_infer_resjson": [
+        0.509,
+        0.25501002004008017,
+        0.4980430528375734,
+        0.3373094764744864
+    ],
+    "piqa-----google__gemma-2b__1_piqa_qa_infer_resjson": [
+        0.498,
+        0.4983721181686029,
+        0.4983732126349153,
+        0.49798192734938457
+    ],
+    "piqa-----google__gemma-2b__2_piqa_qa_infer_resjson": [
+        0.498,
+        0.4983721181686029,
+        0.4983732126349153,
+        0.49798192734938457
+    ],
+    "piqa-----google__gemma-2b__3_piqa_qa_infer_resjson": [
+        0.498,
+        0.4983721181686029,
+        0.4983732126349153,
+        0.49798192734938457
+    ],
+    "truthful_qa-----__vArY_TrAiN_nUm_ckpts__varyTrainNum___161truthful_qavanilla332164256___finally___truthful_qa_qa_infer_resjson": [
+        0.025703794369645042,
+        0.5,
+        0.012851897184822521,
+        0.025059665871121718
+    ],
+    "truthful_qa-----__vArY_TrAiN_nUm_ckpts__varyTrainNum___162truthful_qavanilla332164256___finally___truthful_qa_qa_infer_resjson": [
+        0.598531211750306,
+        0.5,
+        0.299265605875153,
+        0.37442572741194485
+    ],
+    "truthful_qa-----__vArY_TrAiN_nUm_ckpts__varyTrainNum___163truthful_qavanilla332164256___finally___truthful_qa_qa_infer_resjson": [
+        0.019583843329253364,
+        0.5,
+        0.009791921664626682,
+        0.01920768307322929
+    ],
+    "truthful_qa-----__vArY_TrAiN_nUm_ckpts__varyTrainNum___161truthful_qakd332164256___finally___truthful_qa_qa_infer_resjson": [
+        0.019583843329253364,
+        0.5,
+        0.009791921664626682,
+        0.01920768307322929
+    ],
+    "truthful_qa-----__vArY_TrAiN_nUm_ckpts__varyTrainNum___162truthful_qakd332164256___finally___truthful_qa_qa_infer_resjson": [
+        0.028151774785801713,
+        0.5,
+        0.014075887392900856,
+        0.02738095238095238
+    ],
+    "truthful_qa-----__vArY_TrAiN_nUm_ckpts__varyTrainNum___163truthful_qakd332164256___finally___truthful_qa_qa_infer_resjson": [
+        0.014687882496940025,
+        0.5,
+        0.0073439412484700125,
+        0.014475271411338963
+    ],
+    "truthful_qa-----google__gemma-2b__1_truthful_qa_qa_infer_resjson": [
+        0.6254589963280294,
+        0.5,
+        0.3127294981640147,
+        0.38478915662650603
+    ],
+    "truthful_qa-----google__gemma-2b__2_truthful_qa_qa_infer_resjson": [
+        0.5997552019583844,
+        0.5,
+        0.2998776009791922,
+        0.3749043611323642
+    ],
+    "truthful_qa-----google__gemma-2b__3_truthful_qa_qa_infer_resjson": [
+        0.6070991432068543,
+        0.5,
+        0.30354957160342716,
+        0.37776085300837775
+    ],
+    "allenai/ai2_arc-----__vArY_TrAiN_nUm_ckpts__varyTrainNum___161allenai__ai2_arcvanilla332164256___finally___allenai__ai2_arc_qa_infer_resjson": [
+        0.26421404682274247,
+        0.1162488038277512,
+        0.1946536144578313,
+        0.11047990846065828
+    ],
+    "allenai/ai2_arc-----__vArY_TrAiN_nUm_ckpts__varyTrainNum___162allenai__ai2_arcvanilla332164256___finally___allenai__ai2_arc_qa_infer_resjson": [
+        0.27759197324414714,
+        0.10387742338961851,
+        0.20858433734939757,
+        0.1277014987946756
+    ],
+    "allenai/ai2_arc-----__vArY_TrAiN_nUm_ckpts__varyTrainNum___163allenai__ai2_arcvanilla332164256___finally___allenai__ai2_arc_qa_infer_resjson": [
+        0.26421404682274247,
+        0.0988614055751865,
+        0.19179216867469878,
+        0.09511190957406992
+    ],
+    "allenai/ai2_arc-----__vArY_TrAiN_nUm_ckpts__varyTrainNum___161allenai__ai2_arckd332164256___finally___allenai__ai2_arc_qa_infer_resjson": [
+        0.27424749163879597,
+        0.055782312925170066,
+        0.19759036144578312,
+        0.08700265251989389
+    ],
+    "allenai/ai2_arc-----__vArY_TrAiN_nUm_ckpts__varyTrainNum___162allenai__ai2_arckd332164256___finally___allenai__ai2_arc_qa_infer_resjson": [
+        0.2608695652173913,
+        0.05454545454545454,
+        0.18795180722891566,
+        0.0845528455284553
+    ],
+    "allenai/ai2_arc-----__vArY_TrAiN_nUm_ckpts__varyTrainNum___163allenai__ai2_arckd332164256___finally___allenai__ai2_arc_qa_infer_resjson": [
+        0.2709030100334448,
+        0.10442176870748301,
+        0.19551081036474666,
+        0.09007544179957974
+    ],
+    "allenai/ai2_arc-----google__gemma-2b__1_allenai__ai2_arc_qa_infer_resjson": [
+        0.2408026755852843,
+        0.20030841268769276,
+        0.18170487534965996,
+        0.14909004714000335
+    ],
+    "allenai/ai2_arc-----google__gemma-2b__2_allenai__ai2_arc_qa_infer_resjson": [
+        0.2408026755852843,
+        0.20030841268769276,
+        0.18170487534965996,
+        0.14909004714000335
+    ],
+    "allenai/ai2_arc-----google__gemma-2b__3_allenai__ai2_arc_qa_infer_resjson": [
+        0.2408026755852843,
+        0.20030841268769276,
+        0.18170487534965996,
+        0.14909004714000335
+    ]
+}
