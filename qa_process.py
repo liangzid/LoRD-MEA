@@ -15,7 +15,8 @@ QA datasets's process.
 import os
 if __name__ == "__main__":
     # os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
-    os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,6,7"
+    # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,6,7"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "6"
 
 from datasets import load_dataset
 import json
@@ -232,6 +233,8 @@ def infer_qa(modelname, task_name, res_pth,
         print(f"Text Generated:>>> {res}")
         res_ls.append((res, summary))
 
+    model = None
+    gen_pipeline = None
     with open(save_pth, 'w', encoding='utf8') as f:
         json.dump(res_ls, f, ensure_ascii=False, indent=4)
 
@@ -283,6 +286,7 @@ def eval_varytrainum_res():
     # mls = ["google/gemma-2b",]
     train_times = ["1", "2", "3",]
     train_nums = ["4", "8", "16", "32", "64", "100", "256", "512"]
+    train_nums = ["512",]
 
     dir_p = "./vary_train_num_qa_infers/"
     res_dict = {}
@@ -315,9 +319,10 @@ def eval_varytrainum_res():
 
                     if not os.path.exists(dir_p+res_pth):
                         res_ls = infer_qa(ckpt, task, dir_p+res_pth,
-                                          test_set_take_num=100,
+                                          test_set_take_num=1000,
                                           mnt=64)
                     else:
+                        print(f"{dir_p+res_pth} file already exists. directly loading...")
                         # from collections import OrderedDict
                         with open(dir_p+res_pth, 'r', encoding='utf8') as f:
                             res_ls = json.load(
@@ -351,7 +356,8 @@ def eval_qaacc(task, res):
             "3": "Selection 4",
         },
     }
-    extra_ai2={"0":"Selection A","1":"Selection B","2":"Selection C","3":"Selection D",}
+    extra_ai2 = {"0": "Selection A", "1": "Selection B",
+                 "2": "Selection C", "3": "Selection D", }
 
     textlabel_to_reallabel_map = {
         "piqa": {
@@ -383,7 +389,7 @@ def eval_qaacc(task, res):
     for res_sent, lbl in res:
         # print(res_sent)
         res_sent = res_sent.lower()
-        if task=="allenai/ai2_arc":
+        if task == "allenai/ai2_arc":
             # label_ls.append(float(sm_r[lbl]))
             if "1" in res_sent or "Selection A" in res_sent:
                 vv = sm_r["Selection 1"]
@@ -403,7 +409,7 @@ def eval_qaacc(task, res):
 
         predict_ls.append(float(vv))
         if task != "truthful_qa":
-            print("task: ", task)
+            # print("task: ", task)
             label = textlabel_to_reallabel_map[task][lbl]
         else:
             label = "0"
