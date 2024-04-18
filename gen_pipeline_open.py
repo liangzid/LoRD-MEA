@@ -11,9 +11,9 @@ GEN_PIPELINE_OPEN ---
 
 # ------------------------ Code --------------------------------------
 
-## normal import 
+# normal import
 import json
-from typing import List,Tuple,Dict
+from typing import List, Tuple, Dict
 import random
 from pprint import pprint as ppp
 
@@ -25,12 +25,15 @@ from transformers import (
     TrainingArguments,
     pipeline
 )
+from peft import PeftModel
+
 import logging
 from datasets import load_dataset
 
 
 class InferObj:
-    def __init__(self, model_name="gpt2",
+    def __init__(self,
+                 model_name="gpt2",
                  meta_prompt_pth="./instructions/meta-1.txt",
                  prompt_dataset="liangzid/prompts",
                  split="train",
@@ -39,42 +42,54 @@ class InferObj:
                  max_new_tokens=-1,
                  open_16_mode=False,
                  load_in_8_bit=False,
+                 base_model_name=None,
                  ):
-        self.tokenizer = AutoTokenizer.from_pretrained(model_name,
-                                                       trust_remote_code=True,)
-        self.tokenizer.pad_token = self.tokenizer.eos_token
-        self.tokenizer.padding_side = "right"
-
-        self.model_name = model_name
-
-        # Model
-        if open_16_mode:
-            self.model = AutoModelForCausalLM.from_pretrained(
-                model_name,
-                # quantization_config=quant_config,
-                device_map=device,
-                # load_in_8bit=True,
-                trust_remote_code=True,
-                # offload_folder="offload",
-                torch_dtype=torch.float16,
+        if base_model_name is not None:
+            model = AutoModelForCausalLM.from_pretrained(
+                base_model_name,
+                device_map="auto",
             )
-        elif load_in_8_bit:
-            self.model = AutoModelForCausalLM.from_pretrained(
-                model_name,
-                # quantization_config=quant_config,
-                device_map=device,
-                load_in_8bit=True,
-                trust_remote_code=True,
-            )
+            self.model = PeftModel.from_pretrained(model, model_name)
+            # self.model.to("cuda")
+            self.tokenizer = AutoTokenizer\
+                .from_pretrained(base_model_name)
+            self.tokenizer.pad_token = self.tokenizer.eos_token
+            self.tokenizer.padding_side = "right"
         else:
-            self.model = AutoModelForCausalLM.from_pretrained(
-                model_name,
-                # quantization_config=quant_config,
-                device_map=device,
-                # load_in_8bit=True,
-                trust_remote_code=True,
-                offload_folder="offload",
-            )
+            self.tokenizer = AutoTokenizer.from_pretrained(model_name,trust_remote_code=True,)
+            self.tokenizer.pad_token = self.tokenizer.eos_token
+            self.tokenizer.padding_side = "right"
+
+            self.model_name = model_name
+
+            # Model
+            if open_16_mode:
+                self.model = AutoModelForCausalLM.from_pretrained(
+                    model_name,
+                    # quantization_config=quant_config,
+                    device_map=device,
+                    # load_in_8bit=True,
+                    trust_remote_code=True,
+                    # offload_folder="offload",
+                    # torch_dtype=torch.float16,
+                )
+            elif load_in_8_bit:
+                self.model = AutoModelForCausalLM.from_pretrained(
+                    model_name,
+                    # quantization_config=quant_config,
+                    device_map=device,
+                    load_in_8bit=True,
+                    trust_remote_code=True,
+                )
+            else:
+                self.model = AutoModelForCausalLM.from_pretrained(
+                    model_name,
+                    # quantization_config=quant_config,
+                    device_map=device,
+                    # load_in_8bit=True,
+                    trust_remote_code=True,
+                    offload_folder="offload",
+                )
 
         self.text_gen = pipeline(task="text-generation",
                                  model=self.model,
@@ -161,5 +176,3 @@ class InferObj:
             resps.append(t)
         logging.info(resps)
         return resps
-
-

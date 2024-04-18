@@ -131,7 +131,10 @@ def load_qa_datals(
     )
 
 
-def infer_qa(modelname, task_name, res_pth, test_set_take_num=100, mnt=32):
+def infer_qa(modelname, task_name, res_pth, test_set_take_num=100,
+             mnt=32,
+             base_model_name=None,
+             ):
     save_pth = res_pth
 
     tasks_we_used = [
@@ -151,7 +154,9 @@ def infer_qa(modelname, task_name, res_pth, test_set_take_num=100, mnt=32):
     print(task_name)
 
     model = InferObj(
-        model_name=modelname, device="auto", max_length=task_seqlen_map[task_name]
+        model_name=modelname, device="auto",
+        max_length=task_seqlen_map[task_name],
+        base_model_name=base_model_name,
     )
 
     gen_pipeline = model.text_gen

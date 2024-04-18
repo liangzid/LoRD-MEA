@@ -518,6 +518,13 @@ def setup_train_args():
     parser.add_argument('--temperature', default=0.8, type=float,
                         required=False)
 
+    parser.add_argument('--use_lora', default=0, type=int,
+                        required=False)
+    parser.add_argument('--rank', default=64, type=int,
+                        required=False)
+    parser.add_argument('--lora_alpha', default=128, type=int,
+                        required=False)
+
     parser.add_argument('--batch_size', default=1, type=int,
                         required=False)
     parser.add_argument('--task', default="lord", type=str,
@@ -744,6 +751,34 @@ def main():
         else:
             print("EEERRROOORRR: EEERRROOORRR.")
         print("Data LOADING done.")
+
+        print(f">>/> Num of params: {lm.num_parameters()}")
+        if float(lm.num_parameters()) > 6e+9:
+            print(">>/> The model is larger than 6B. We use LoRA.")
+            args.use_lora = 1
+
+        # if use lora, then set new `lm` with the peft library
+        if args.use_lora == 1:
+            from peft import (
+                LoraConfig,
+                # PeftConfig,
+                # PeftModel,
+                get_peft_model,
+                # prepare_model_for_kbit_training,
+            )
+            # apply lora here
+            lora_config = LoraConfig(
+                r=args.rank,
+                lora_alpha=args.lora_alpha,
+                lora_dropout=0.0,
+                # target_modules=["embed_tokens", "lm_head",
+                #                 "q_proj", "v_proj",],
+                target_modules="all-linear",
+            )
+            model = get_peft_model(lm, lora_config)
+            lm = model
+            print(f">>/> Type of the model: {type(lm)}")
+            pass
 
         if "lord" in args.task or "Complex" in args.task:
             print("TRAIN WITH LORD!!!")

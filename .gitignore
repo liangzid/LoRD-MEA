@@ -12,3 +12,6 @@ vArY_TrAiN_nUm_ckpts
 *ckpt
 test/
 *512.pkl
+
+/LoRA-LoRD-ckptsvaryTrainNum___41allenai/
+/vArY_TrAiN_num_LoRA-LoRD-ckpts/
