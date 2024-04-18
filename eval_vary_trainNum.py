@@ -29,6 +29,244 @@ from pprint import pprint as ppp
 
 from wmt_process import eval_varying_train_num
 from wmt_process import eval_wmt, infer_wmt
+from qa_process import infer_qa, eval_qaacc
+
+
+def qa_curve_trainNums():
+    method_ls = [
+        "vanilla",
+        "kd",
+        "google/gemma-2b",
+        # "lord",
+        # "Complex-lord",
+    ]
+
+    marker = {
+        "vanilla": "s",
+        "kd": "D",
+        "Complex-lord": "o",
+        "google/gemma-2b": "*",
+    }
+
+    model_color_dict = {
+        "vanilla": "#4a148c",
+        "kd": "#469de9",
+        "Complex-lord": "#eb3b5a",
+        "google/gemma-2b": "#3867d6",
+    }
+
+    model_color_dict2 = {
+        "vanilla": "#9c27b0",
+        "kd": "#98c8f3",
+        "Complex-lord": "#f78fb3",
+        "google/gemma-2b": "#778beb",
+    }
+
+    taskls = [
+        "piqa",
+        "truthful_qa",
+        "allenai/ai2_arc",
+    ]
+
+    train_times = [
+        "1",
+        "2",
+        "3",
+    ]
+
+    train_nums = ["4", "8", "16", "32", "64", "100", "256", "512"]
+
+    a = 0.4
+    lw = 1.7
+    model_line_style = {
+        "vanilla": "-.",
+        "kd": "-.",
+        "Complex-lord": "-",
+        "google/gemma-2b": "-",
+    }
+    font_size = 21
+
+    results_dict = {}
+    acc_dict = {}
+    p_dict = {}
+    r_dict = {}
+    f1_dict = {}
+
+    infer_save_pth = "./vary_query_num_overall_res_qa.json"
+
+    if not os.path.exists(infer_save_pth):
+        dir_p = "./vary_train_num_qa_infers/"
+        # using existing results of the paths.
+        prefix = "./vArY_TrAiN_nUm_ckpts/varyTrainNum___"
+        for task in taskls:
+            results_dict[task] = {}
+            acc_dict[task] = {}
+            p_dict[task] = {}
+            r_dict[task] = {}
+            f1_dict[task] = {}
+
+            for m in method_ls:
+                results_dict[task][m] = {}
+                acc_dict[task][m] = {}
+                p_dict[task][m] = {}
+                r_dict[task][m] = {}
+                f1_dict[task][m] = {}
+                for tn in train_nums:
+                    results_dict[task][m][tn] = {}
+                    acc_dict[task][m][tn] = {}
+                    p_dict[task][m][tn] = {}
+                    r_dict[task][m][tn] = {}
+                    f1_dict[task][m][tn] = {}
+                    for train_time in train_times:
+                        results_dict[task][m][tn][train_time] = {}
+                        acc_dict[task][m][tn][train_time] = {}
+                        p_dict[task][m][tn][train_time] = {}
+                        r_dict[task][m][tn][train_time] = {}
+                        f1_dict[task][m][tn][train_time] = {}
+
+                        if m == "google/gemma-2b":
+                            pth = m
+                        else:
+                            pth = prefix + \
+                                f"{tn}{train_time}{task}{m}332164256___"
+
+                            if m in [
+                                "vanilla",
+                                "kd",
+                            ]:
+                                pth += "finally"
+                            else:
+                                pth += "period2"
+
+                        if m == "google/gemma-2b":
+                            res_pth = pth + \
+                                f"__{train_time}_{task}_qa_infer_res.json"
+                        else:
+                            res_pth = pth + f"___{task}_qa_infer_res.json"
+                        res_pth = res_pth.replace("/", "__").replace(".", "")
+
+                        print(f"Targeted found pth: {dir_p+res_pth}.")
+                        if not os.path.exists(dir_p + res_pth):
+                            res_ls = infer_qa(
+                                pth,
+                                task,
+                                dir_p + res_pth,
+                                test_set_take_num=100,
+                                mnt=64,
+                            )
+                        else:
+                            # from collections import OrderedDict
+                            with open(dir_p + res_pth, "r", encoding="utf8") as f:
+                                res_ls = json.load(
+                                    f, object_pairs_hook=OrderedDict)
+
+                        ss = eval_qaacc(task, res_ls)
+                        results_dict[task][m][tn][train_time] = ss
+                        acc_dict[task][m][tn][train_time] = ss[0]
+                        p_dict[task][m][tn][train_time] = ss[1]
+                        r_dict[task][m][tn][train_time] = ss[2]
+                        f1_dict[task][m][tn][train_time] = ss[3]
+        with open(infer_save_pth, "w", encoding="utf8") as f:
+            json.dump(
+                [results_dict, acc_dict, p_dict, r_dict, f1_dict],
+                f,
+                ensure_ascii=False,
+                indent=4,
+            )
+    else:
+        # from collections import OrderedDict
+        with open(infer_save_pth, "r", encoding="utf8") as f:
+            data = json.load(f, object_pairs_hook=OrderedDict)
+            results_dict, acc_dict, p_dict, r_dict, f1_dict = data
+
+    res_dict = {}
+    for task in taskls:
+        res_dict[task] = {}
+        res_dict[task]["Accurary"] = acc_dict[task]
+        res_dict[task]["Precision"] = p_dict[task]
+        res_dict[task]["Recall"] = r_dict[task]
+        res_dict[task]["F1"] = f1_dict[task]
+
+    fig, axs = plt.subplots(3, 4, figsize=(20.8, 14.05))
+
+    for i, task in enumerate(list(res_dict.keys())):
+        for j, metricName in enumerate(list(res_dict[task].keys())):
+            adict = res_dict[task][metricName]
+            for method in adict.keys():
+                ylss = []
+                for tn in train_nums:
+                    templs = []
+                    for tt in train_times:
+                        templs.append(adict[method][tn][tt])
+                    ylss.append(templs)
+                ylss = np.array(ylss)
+
+                xls = [float(x) for x in train_nums]
+
+                ymeanls = np.mean(ylss, axis=1)
+                # ymaxls = np.max(ylss, axis=0)
+                # yminls = np.min(ylss, axis=0)
+                ystdls = np.std(ylss, axis=1)
+
+                # print(f"train nums: {train_nums}.")
+                # print(f"y-mean-ls: {ymeanls}.")
+
+                axs[i][j].set_xscale("log")
+                axs[i][j].plot(
+                    xls,
+                    ymeanls,
+                    label=method,
+                    linewidth=lw,
+                    marker=marker[method],
+                    markevery=1,
+                    markersize=15,
+                    markeredgewidth=lw,
+                    markerfacecolor="none",
+                    alpha=1.0,
+                    linestyle=model_line_style[method],
+                    color=model_color_dict[method],
+                )
+
+                axs[i][j].fill_between(
+                    xls,
+                    ymeanls - ystdls,
+                    ymeanls + ystdls,
+                    alpha=a,
+                    linewidth=0.0,
+                    color=model_color_dict2[method],
+                )
+
+                axs[i][j].set_xlabel("# Training Samples", fontsize=font_size)
+                axs[i][j].set_ylabel(metricName, fontsize=font_size - 5)
+                axs[i][j].set_xticks(xls, xls, rotation=48, size=font_size - 4)
+                axs[i][j].tick_params(
+                    axis="y",
+                    labelsize=font_size - 6,
+                    rotation=65,
+                    width=2,
+                    length=2,
+                    pad=0,
+                    direction="in",
+                    which="both",
+                )
+    font_legend = {
+        "weight": "normal",
+        "size": font_size - 1,
+    }
+    plt.legend(
+        loc=(-1.91, 4.2),
+        prop=font_legend,
+        ncol=6,
+        frameon=False,
+        handletextpad=0.0,
+        handlelength=1.2,
+    )  # 设置信息框
+    fig.subplots_adjust(wspace=0.26, hspace=0.6)
+    plt.subplots_adjust(bottom=0.33, top=0.85)
+    # plt.show()
+
+    plt.savefig("./vary_trainNum_QAs.pdf", pad_inches=0.1)
+    print("Save QAs-varing trainnum experiments DONE.")
 
 
 def wmt_curve_trainNums():
@@ -126,7 +364,8 @@ def wmt_curve_trainNums():
                         if m == "google/gemma-2b":
                             pth = m
                         else:
-                            pth = prefix + f"{tn}{train_time}{task}{m}332164256___"
+                            pth = prefix + \
+                                f"{tn}{train_time}{task}{m}332164256___"
 
                             if m in [
                                 "vanilla",
@@ -137,7 +376,8 @@ def wmt_curve_trainNums():
                                 pth += "period2"
 
                         if m == "google/gemma-2b":
-                            res_pth = pth + f"__{train_time}_{task}_wmt_infer_res.json"
+                            res_pth = pth + \
+                                f"__{train_time}_{task}_wmt_infer_res.json"
                         else:
                             res_pth = pth + f"___{task}_wmt_infer_res.json"
                         res_pth = res_pth.replace("/", "__").replace(".", "")
@@ -154,7 +394,8 @@ def wmt_curve_trainNums():
                         else:
                             # from collections import OrderedDict
                             with open(dir_p + res_pth, "r", encoding="utf8") as f:
-                                res_ls = json.load(f, object_pairs_hook=OrderedDict)
+                                res_ls = json.load(
+                                    f, object_pairs_hook=OrderedDict)
 
                         ss = eval_wmt(res_ls)
                         results_dict[task][m][tn][train_time] = ss
@@ -165,7 +406,8 @@ def wmt_curve_trainNums():
                         bl_1_dict[task][m][tn][train_time] = ss["bleu"]["1"]
         with open(infer_save_pth, "w", encoding="utf8") as f:
             json.dump(
-                [results_dict, bs_p_dict, bs_r_dict, bs_f1_dict, rg_f1_dict, bl_1_dict],
+                [results_dict, bs_p_dict, bs_r_dict,
+                    bs_f1_dict, rg_f1_dict, bl_1_dict],
                 f,
                 ensure_ascii=False,
                 indent=4,
@@ -399,7 +641,8 @@ def glue_curve_trainNums():
             #                          color=model_color_dict2[mode])
             axs[i].set_xlabel("Training Periods", fontsize=font_size)
             axs[i].set_ylabel(ylabel, fontsize=font_size - 5)
-            axs[i].set_xticks(train_numls, train_numls, rotation=48, size=font_size - 4)
+            axs[i].set_xticks(train_numls, train_numls,
+                              rotation=48, size=font_size - 4)
             axs[i].tick_params(
                 axis="y",
                 labelsize=font_size - 6,
@@ -433,5 +676,6 @@ def glue_curve_trainNums():
 # running entry
 if __name__ == "__main__":
     # glue()
-    wmt_curve_trainNums()
+    # wmt_curve_trainNums()
+    qa_curve_trainNums()
     print("EVERYTHING DONE.")
