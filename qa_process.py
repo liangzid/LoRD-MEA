@@ -17,7 +17,7 @@ import os
 if __name__ == "__main__":
     # os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,6,7"
-    os.environ["CUDA_VISIBLE_DEVICES"] = "6"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "4"
 
 from datasets import load_dataset
 import json
@@ -55,7 +55,8 @@ def load_qa_datals(
     dataset_name = task_name
     inp_ls = []
     if task_name == tasks_we_used[0]:
-        trainset_text = load_dataset(dataset_name, split=f"train[:{train_num}]")
+        trainset_text = load_dataset(
+            dataset_name, split=f"train[:{train_num}]")
 
         for item in trainset_text:
             question = item["goal"]
@@ -184,7 +185,8 @@ def infer_qa(modelname, task_name, res_pth, test_set_take_num=100,
             inp_ls.append((text, label))
 
     elif task_name == tasks_we_used[1]:
-        trainset_text = load_dataset(task_name, "multiple_choice", split=f"validation")
+        trainset_text = load_dataset(
+            task_name, "multiple_choice", split=f"validation")
         for item in trainset_text:
             question = item["question"]
             assert len(item["mc1_targets"]["choices"]) >= 2
@@ -203,7 +205,8 @@ def infer_qa(modelname, task_name, res_pth, test_set_take_num=100,
             inp_ls.append((text, label))
 
     elif task_name == tasks_we_used[2]:
-        trainset_text = load_dataset(task_name, "ARC-Challenge", split=f"validation")
+        trainset_text = load_dataset(
+            task_name, "ARC-Challenge", split=f"validation")
         for item in trainset_text:
             question = item["question"] + "\n\n"
             choices_text = ""
@@ -244,7 +247,52 @@ def eval_qa_res():
     ckpt_ls = (
         [
             "piqa",
-            "./lordii_ckpt/piqa/LoRD-II816256piqa64__hyper-para-search_ckpt___period14/",
+            "./vArY_TrAiN_nUm_ckpts/varyTrainNum___41piqaComplex-lord112164256___period0/",
+        ],
+
+        [
+            "piqa",
+            "./vArY_TrAiN_nUm_ckpts/varyTrainNum___41piqaLoRD-II112164256___period2/",
+        ],
+        [
+            "piqa",
+            "./vArY_TrAiN_nUm_ckpts/varyTrainNum___41piqaLoRD-II112164256___period5/",
+        ],
+        [
+            "piqa",
+            "./vArY_TrAiN_nUm_ckpts/varyTrainNum___41piqaLoRD-II112164256___period8/",
+        ],
+
+        [
+            "piqa",
+            "./vArY_TrAiN_nUm_ckpts/varyTrainNum___41piqaLoRD-IV112164256___period2/",
+        ],
+
+        [
+            "piqa",
+            "./vArY_TrAiN_nUm_ckpts/varyTrainNum___41piqaLoRD-IV112164256___period5/",
+        ],
+
+        [
+            "piqa",
+            "./vArY_TrAiN_nUm_ckpts/varyTrainNum___41piqaLoRD-IV112164256___period8/",
+        ],
+
+        [
+            "piqa",
+            "./vArY_TrAiN_nUm_ckpts/varyTrainNum___161piqaLoRD-IV112164256___period8/",
+        ],
+        [
+            "piqa",
+            "./vArY_TrAiN_nUm_ckpts/varyTrainNum___161piqaLoRD-IV112164256___period5/",
+        ],
+        [
+            "piqa",
+            "./vArY_TrAiN_nUm_ckpts/varyTrainNum___321piqaLoRD-IV112164256___period8/",
+        ],
+        [
+            "piqa",
+            "google/gemma-2b",
         ],
     )
 
@@ -262,7 +310,7 @@ def eval_qa_res():
                 ckpt,
                 task,
                 dir_p + res_pth,
-                test_set_take_num=500,
+                test_set_take_num=1000,
                 # test_set_take_num=50,
                 mnt=64,
             )
@@ -276,7 +324,7 @@ def eval_qa_res():
         print(task, ckpt)
         print(scores)
         res_dict[task + "-----" + ckpt] = scores
-    with open(dir_p + "wmt_inference_scores_overall.json", "w", encoding="utf8") as f:
+    with open(dir_p + "temp_boring_res_delete_thisfile_itisuseless.json", "w", encoding="utf8") as f:
         json.dump(res_dict, f, ensure_ascii=False, indent=4)
     print("OVERALL Save DONE.")
     pprint(res_dict)
@@ -288,7 +336,8 @@ def eval_varytrainum_res():
         "truthful_qa",
         "allenai/ai2_arc",
     ]
-    mls = ["vanilla", "kd", "google/gemma-2b"]
+    # mls = ["vanilla", "kd", "google/gemma-2b"]
+    mls = ["LoRD-IV"]
     # mls = ["google/gemma-2b",]
     train_times = [
         "1",
@@ -317,6 +366,11 @@ def eval_varytrainum_res():
                             prefix
                             + f"varyTrainNum___{train_num}{itime}{task}{m}332164256___period2"
                         )
+                    elif m == "LoRD-IV":
+                        ckpt = (
+                            prefix
+                            + f"varyTrainNum___{train_num}{itime}{task}{m}332164256___period5"
+                        )
                     else:
                         ckpt = (
                             prefix
@@ -335,10 +389,12 @@ def eval_varytrainum_res():
                                           test_set_take_num=1000,
                                           mnt=64)
                     else:
-                        print(f"{dir_p+res_pth} file already exists. directly loading...")
+                        print(
+                            f"{dir_p+res_pth} file already exists. directly loading...")
                         # from collections import OrderedDict
                         with open(dir_p + res_pth, "r", encoding="utf8") as f:
-                            res_ls = json.load(f, object_pairs_hook=OrderedDict)
+                            res_ls = json.load(
+                                f, object_pairs_hook=OrderedDict)
 
                     scores = eval_qaacc(task, res_ls)
                     res_dict[task + "-----" + res_pth] = scores
@@ -399,7 +455,8 @@ def eval_varytrainum_231_ours():
                             )
 
                         if m == "google/gemma-2b":
-                            res_pth = ckpt + f"__{itime}_{task}_qa_infer_res.json"
+                            res_pth = ckpt + \
+                                f"__{itime}_{task}_qa_infer_res.json"
                         else:
                             res_pth = ckpt + f"___{task}_qa_infer_res.json"
 
@@ -408,13 +465,14 @@ def eval_varytrainum_231_ours():
                         if not os.path.exists(dir_p + res_pth):
                             res_ls = infer_qa(
                                 ckpt, task, dir_p + res_pth,
-                               test_set_take_num=1000,
+                                test_set_take_num=1000,
                                 mnt=64,
                             )
                         else:
                             # from collections import OrderedDict
                             with open(dir_p + res_pth, "r", encoding="utf8") as f:
-                                res_ls = json.load(f, object_pairs_hook=OrderedDict)
+                                res_ls = json.load(
+                                    f, object_pairs_hook=OrderedDict)
 
                         scores = eval_qaacc(task, res_ls)
                         res_dict[task + "-----" + res_pth] = scores
@@ -517,7 +575,7 @@ def eval_qaacc(task, res):
 # running entry
 if __name__ == "__main__":
     # main()
-    # eval_qa_res()
+    eval_qa_res()
     # eval_varytrainum_res()
-    eval_varytrainum_231_ours()
+    # eval_varytrainum_231_ours()
     print("EVERYTHING DONE.")
