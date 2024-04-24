@@ -22,6 +22,7 @@ export POD_save_dir="${root_dir}vArY_TrAiN_num_LoRA-LoRD-ckpts/"
 export from_path="google/gemma-7b"
 export msl=256
 export TRAIN_NUMS=("4" "8" "16" "32" "64" "100" "256" "512")
+export TRAIN_NUMS=("100" "256" "512")
 export train_times=(1 2 3)
 # export task_ls=("cola" "mnli" "mrpc" "qnli" "qqp" "rte" "sst2" "wnli")
 # export task_ls=("cs-en" "de-en" "fi-en" "ro-en" "ru-en" "tr-en")
