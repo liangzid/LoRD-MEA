@@ -154,14 +154,6 @@ def infer_qa(modelname, task_name, res_pth, test_set_take_num=100,
 
     print(task_name)
 
-    model = InferObj(
-        model_name=modelname, device="auto",
-        max_length=task_seqlen_map[task_name],
-        base_model_name=base_model_name,
-    )
-
-    gen_pipeline = model.text_gen
-
     pp = "Please select the correct answer for the Question of Users."
 
     inp_ls = []
@@ -221,19 +213,51 @@ def infer_qa(modelname, task_name, res_pth, test_set_take_num=100,
 
     assert inp_ls != []
 
-    res_ls = []
-    for d in tqdm(inp_ls):
-        inps, summary = d
-        final_inps = "Instruction: " + pp + " User: " + inps + " Assistant: "
-        res = gen_pipeline(
-            final_inps,
-            max_new_tokens=mnt,
-        )[
-            0
-        ]["generated_text"]
-        res = res.split(final_inps)[1]
-        print(f"Text Generated:>>> {res}")
-        res_ls.append((res, summary))
+    if base_model_name is None:
+        model = InferObj(
+            model_name=modelname, device="auto",
+            max_length=task_seqlen_map[task_name],
+        )
+        gen_pipeline = model.text_gen
+        res_ls = []
+        for d in tqdm(inp_ls):
+            inps, summary = d
+            final_inps = "Instruction: " + pp + " User: " + inps + " Assistant: "
+            res = gen_pipeline(
+                final_inps,
+                max_new_tokens=mnt,
+            )[
+                0
+            ]["generated_text"]
+            res = res.split(final_inps)[1]
+            print(f"Text Generated:>>> {res}")
+            res_ls.append((res, summary))
+    else:
+        # load model based on our idea
+        model = AutoModelForCausalLM.from_pretrained(
+            base_model_name,
+            device_map="auto",
+        )
+        model = PeftModel.from_pretrained(model, model_name)
+        tokenizer = AutoTokenizer\
+            .from_pretrained(base_model_name)
+        tokenizer.pad_token = self.tokenizer.eos_token
+        tokenizer.padding_side = "right"
+
+        res_ls = []
+        for d in tqdm(inp_ls):
+            inps, summary = d
+            final_inps = "Instruction: " + pp + " User: " + inps + " Assistant: "
+            inps_idx=tokenizer.encode([final_inps],max_length=128,
+                                      padding="longest",
+                                      return_tensors="pt").input_ids
+            res = model.generate(inps_idx,
+                                 max_new_tokens=mnt,)[
+                0
+            ]["generated_text"]
+            res = res.split(final_inps)[1]
+            print(f"Text Generated:>>> {res}")
+            res_ls.append((res, summary))
 
     model = None
     gen_pipeline = None
@@ -413,7 +437,18 @@ def eval_varytrainum_231_ours():
         "truthful_qa",
         "allenai/ai2_arc",
     ]
-    mls = ["LoRD-II", "LoRD-IV"]
+    # taskls = [
+    #     "piqa",
+    # ]
+    # taskls = [
+        # "truthful_qa",
+    # ]
+    taskls = [
+        "allenai/ai2_arc",
+    ]
+    mls = ["LoRD-II"]
+    # mls = ["LoRD-IV"]
+
     # mls = ["google/gemma-2b",]
     train_times = [
         "1",
@@ -421,7 +456,7 @@ def eval_varytrainum_231_ours():
         "3",
     ]
     train_nums = ["4", "8", "16", "32", "64", "100", "256", "512"]
-    period_nums = ["2", "5", "8"]
+    period_nums = ["8"]
 
     dir_p = "./vary_train_num_qa_infers/"
     res_dict = {}
@@ -572,10 +607,94 @@ def eval_qaacc(task, res):
     return scores
 
 
+
+def eval_all_samles_in_dir(dirp="./vary_train_num_qa_infers"):
+    taskls = [
+        "piqa",
+        "truthful_qa",
+        # "allenai/ai2_arc",
+        "allenai__ai2_arc",
+    ]
+
+    import os
+    fls=os.listdir(dirp)
+
+    res_dict={}
+
+    for fpth in fls:
+        fpth=dirp+"/"+fpth
+        find_task=None
+        for task in taskls:
+            if task in fpth:
+                find_task=task
+                break
+        if find_task is None:
+            continue
+        # if "piqa" not in fpth:
+        #     continue
+        if "period2" in fpth or "period5" in fpth:
+            continue
+        # from collections import OrderedDict
+        with open(fpth, 'r',encoding='utf8') as f:
+            data=json.load(f,object_pairs_hook=OrderedDict)
+
+        if find_task=="allenai__ai2_arc":
+            score= eval_qaacc("allenai/ai2_arc", data)
+        else:
+            score= eval_qaacc(find_task, data)
+        res_dict[fpth]=score
+
+    pprint(res_dict)
+    with open(dirp+"/"+"res_dict_allfiles.json", 'w',encoding='utf8') as f:
+        json.dump(res_dict,f,ensure_ascii=False,indent=4)
+    print("Save done.")
+
+
+def generate_atable(fpth="./vary_train_num_qa_infers/res_dict_allfiles.json",
+                    task="allenai__ai2_arc"):
+    text="|train-num|repeated-time|method|acc|f1|precision|recall|\n"
+    big_ls=[]
+
+    # from collections import OrderedDict
+    with open(fpth, 'r',encoding='utf8') as f:
+        data=json.load(f,object_pairs_hook=OrderedDict)
+
+    for fname, scorelist in data.items():
+        if task not in fname:
+            continue
+        tt=fname.split(task)[0]
+        if "varyTrainNum" not in tt:
+            # text+=f"|{train_num}|{repeated_time}|{method}|{acc}|{f1}|{pre}|{rec}|\n"
+            continue
+        tt=tt.split("varyTrainNum___")[1]
+        repeated_time=tt[-1]
+        train_num=tt[:-1]
+        ttt=fname.split(task)[1]
+        if "332164256" in ttt:
+            method=ttt.split("332164256")[0]
+        else:
+            method=ttt.split("112164256")[0]
+        acc=round(float(scorelist[0]), 3)
+        f1=round(float(scorelist[3]), 3)
+        pre=round(float(scorelist[1]), 3)
+        rec=round(float(scorelist[2]), 3)
+
+        big_ls.append((train_num,
+                       repeated_time,
+                       method,
+                       acc,f1,pre,rec))
+    sorted_ls=sorted(big_ls, key=lambda x: (-float(x[0]),-x[3]))
+    for x in sorted_ls:
+        text+=f"|{x[0]}|{x[1]}|{x[2]}|{x[3]}|{x[4]}|{x[5]}|{x[6]}|\n"
+
+    print(text)
+
 # running entry
 if __name__ == "__main__":
     # main()
-    eval_qa_res()
+    # eval_qa_res()
     # eval_varytrainum_res()
     # eval_varytrainum_231_ours()
+    eval_all_samles_in_dir()
+    generate_atable()
     print("EVERYTHING DONE.")
