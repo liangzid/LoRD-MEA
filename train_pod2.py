@@ -118,8 +118,12 @@ def train_pod(lm,
     seed = time.time()
     p_ls = random_take(subset_num, op_ls, seed,)
     idx2ls = random_take(subset_num, oidx2ls, seed)
-    vic_logits2ls = random_take(subset_num, ologits2ls, seed)
-    idx2_dist = random_take(subset_num, oidx2_dist, seed)
+    if ologits2ls is not None:
+        vic_logits2ls = random_take(subset_num, ologits2ls, seed)
+        idx2_dist = random_take(subset_num, oidx2_dist, seed)
+    else:
+        vic_logits2ls = [None for _ in range(subset_num)]
+        idx2_dist = [None for _ in range(subset_num)]
 
     need_pre_store = 0
     if p_i_11_ls is None:
@@ -260,19 +264,20 @@ def train_pod(lm,
         #                                   max_token_num-1,
         #                                   pad_idx)
 
-        newvic_logits2ls = []
-        for per_data in vic_logits2ls:
-            sl = len(per_data)
-            v = len(per_data[0])
-            tmp_ts = torch.ones((sl, v), dtype=torch.float)
-            for jjjj, per_token_logit in enumerate(per_data):
-                tmp_ts[jjjj] = torch.tensor(per_token_logit,)
-            newvic_logits2ls.append(tmp_ts)
+        if vic_logits2ls[0] is not None:
+            newvic_logits2ls = []
+            for per_data in vic_logits2ls:
+                sl = len(per_data)
+                v = len(per_data[0])
+                tmp_ts = torch.ones((sl, v), dtype=torch.float)
+                for jjjj, per_token_logit in enumerate(per_data):
+                    tmp_ts[jjjj] = torch.tensor(per_token_logit,)
+                newvic_logits2ls.append(tmp_ts)
 
-        vic_logits2ls = my_padding_logits(newvic_logits2ls,
-                                          max_token_num-1, pad_idx)
-        idxs2_dist = my_padding_token_dist(idx2_dist,
-                                           max_token_num-1, pad_idx)
+            vic_logits2ls = my_padding_logits(newvic_logits2ls,
+                                            max_token_num-1, pad_idx)
+            idxs2_dist = my_padding_token_dist(idx2_dist,
+                                            max_token_num-1, pad_idx)
         # print(f"{old_logits11_ls.shape}")
 
         # ---------------------------------------------------------
@@ -343,18 +348,32 @@ def train_pod(lm,
         # not current stage.
         # If it is the first stage, then we use the victim's label
         # to guide the training, for a better bootstrapping.
-        trainset = TensorDataset(
-            p_i_11_ls,
-            p_i_12_ls,
-            p_i2ls,
-            p_m_11_ls,
-            p_m_12_ls,
-            pmask2s,
-            p_logits_11_ls,
-            p_logits_12_ls,
-            p_logits2ls,
-            p_vic_logits2ls,
-        )
+        if vic_logits2ls[0] is not None:
+            trainset = TensorDataset(
+                p_i_11_ls,
+                p_i_12_ls,
+                p_i2ls,
+                p_m_11_ls,
+                p_m_12_ls,
+                pmask2s,
+                p_logits_11_ls,
+                p_logits_12_ls,
+                p_logits2ls,
+                p_vic_logits2ls,
+            )
+        else:
+            trainset = TensorDataset(
+                p_i_11_ls,
+                p_i_12_ls,
+                p_i2ls,
+                p_m_11_ls,
+                p_m_12_ls,
+                pmask2s,
+                p_logits_11_ls,
+                p_logits_12_ls,
+                p_logits2ls,
+                p_logits2ls,
+            )
 
         # reuse the tensors in current stage as the training dataset
         # for next stage.
@@ -453,7 +472,8 @@ def one_period(args, lm,
             old_logits12 = old_logits12.to(device)  # bs, sql,
             old_logits2 = old_logits2.to(device)  # bs, sql,
 
-            vic_logits2 = vic_logits2.to(device)  # bs, sql, 5
+            if args.is_black_box==0:
+                vic_logits2 = vic_logits2.to(device)  # bs, sql, 5
 
             print("===========================================")
             print(f"idx11text:  {lm_tokenizer.decode(idxs11[0])}")
