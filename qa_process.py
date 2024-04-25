@@ -37,6 +37,9 @@ from sklearn.metrics import precision_score
 from sklearn.metrics import recall_score
 from sklearn.metrics import f1_score
 
+from transformers import AutoModelForCausalLM,AutoTokenizer
+from peft import PeftModel
+
 
 def load_qa_datals(
     tokenizer,
@@ -154,14 +157,6 @@ def infer_qa(modelname, task_name, res_pth, test_set_take_num=100,
 
     print(task_name)
 
-    model = InferObj(
-        model_name=modelname, device="auto",
-        max_length=task_seqlen_map[task_name],
-        base_model_name=base_model_name,
-    )
-
-    gen_pipeline = model.text_gen
-
     pp = "Please select the correct answer for the Question of Users."
 
     inp_ls = []
@@ -221,19 +216,54 @@ def infer_qa(modelname, task_name, res_pth, test_set_take_num=100,
 
     assert inp_ls != []
 
-    res_ls = []
-    for d in tqdm(inp_ls):
-        inps, summary = d
-        final_inps = "Instruction: " + pp + " User: " + inps + " Assistant: "
-        res = gen_pipeline(
-            final_inps,
-            max_new_tokens=mnt,
-        )[
-            0
-        ]["generated_text"]
-        res = res.split(final_inps)[1]
-        print(f"Text Generated:>>> {res}")
-        res_ls.append((res, summary))
+    if base_model_name is None:
+        model = InferObj(
+            model_name=modelname, device="auto",
+            max_length=task_seqlen_map[task_name],
+        )
+        gen_pipeline = model.text_gen
+        res_ls = []
+        for d in tqdm(inp_ls):
+            inps, summary = d
+            final_inps = "Instruction: " + pp + " User: " + inps + " Assistant: "
+            res = gen_pipeline(
+                final_inps,
+                max_new_tokens=mnt,
+            )[
+                0
+            ]["generated_text"]
+            res = res.split(final_inps)[1]
+            print(f"Text Generated:>>> {res}")
+            res_ls.append((res, summary))
+    else:
+        print("USING PEFT: BASE MODEL + LORA")
+        # load model based on our idea
+        model = AutoModelForCausalLM.from_pretrained(
+            base_model_name,
+            device_map="auto",
+        )
+        model = PeftModel.from_pretrained(model, modelname)
+        tokenizer = AutoTokenizer\
+            .from_pretrained(base_model_name)
+        tokenizer.pad_token = tokenizer.eos_token
+        tokenizer.padding_side = "right"
+
+        res_ls = []
+        for d in tqdm(inp_ls):
+            inps, summary = d
+            final_inps = "Instruction: " + pp + " User: " + inps + " Assistant: "
+            inps_idx=tokenizer.encode(final_inps,max_length=128,
+                                      padding="longest",
+                                      return_tensors="pt")
+            print(inps_idx)
+            inps_idx=inps_idx.to("cuda:0")
+            res = model.generate(inps_idx,
+                                 max_new_tokens=mnt,)
+            print(res)
+            res=tokenizer.decode(res[0])
+            res = res.split(final_inps)[1]
+            print(f"Text Generated:>>> {res}")
+            res_ls.append((res, summary))
 
     model = None
     gen_pipeline = None
@@ -285,6 +315,10 @@ def eval_qa_res():
         [
             "piqa",
             "./vArY_TrAiN_nUm_ckpts/varyTrainNum___161piqaLoRD-IV112164256___period5/",
+        ],
+        [
+            "piqa",
+            "./vArY_TrAiN_nUm_ckpts/varyTrainNum___321piqaLoRD-IV112164256___period8/",
         ],
         [
             "piqa",
