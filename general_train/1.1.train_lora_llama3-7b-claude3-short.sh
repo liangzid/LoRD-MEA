@@ -19,12 +19,12 @@ export root_dir="${HOME}/alignmentExtraction/"
 export POD_save_dir="${root_dir}/general_train/ckpts/boring_test/"
 export from_path="meta-llama/Meta-Llama-3-8B-Instruct"
 export msl=1024
-export TRAIN_NUMS=(2)
+export TRAIN_NUMS=(249)
 export train_times=(1)
 export task_ls=("liangzid/claude3_short256")
 # export train_taskls=("vanilla")
-export train_taskls=("LoRD-II")
-# export train_taskls=("LoRD-IV")
+# export train_taskls=("LoRD-II")
+export train_taskls=("LoRD-II" "LoRD-IV")
 
 # ## ====================TO DEBUG====================
 # export epoch=1
@@ -34,14 +34,14 @@ export train_taskls=("LoRD-II")
 # export batch_size=1
 # ## ====================TO DEBUG====================
 
+export is_black_box=1
 export use_lora=1
 
 export epoch=1
 export period=1
-export sub_set_num=8
-export sub_stage_num=16
-export train_num=100
-export max_new_tokens=64
+export sub_set_num=128
+export sub_stage_num=4
+export max_new_tokens=1024
 
 export beta=1.0
 export temperature=2
@@ -75,6 +75,7 @@ do
 		$python ${root_dir}lord_train.py\
 		    --use_lora=$use_lora \
 		    --from_path=$from_path \
+		    --is_black_box=$is_black_box \
 		    --task=$train_task \
 		    --device="cuda" \
 		    --epoch=$epoch \

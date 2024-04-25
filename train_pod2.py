@@ -513,7 +513,7 @@ def one_period(args, lm,
             term2 = torch.sum((old_logits11-logits11)
                               * mask11[:, :-1])
 
-            if is_black_box == 0:
+            if args.is_black_box == 0:
                 term3 = \
                     (vic_logits2[:, :, 0]+old_logits2-2*logits2_cons)
             else:
