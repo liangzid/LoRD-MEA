@@ -6,8 +6,8 @@
 #+filetags: :lord:
 
 
-
-* Results on PiQA  [231 SERVER]
+* Changes varing training number: No significant difference
+** Results on PiQA  [231 SERVER]
 
 |-----------+----------+---------+-------+-------+-------+-------|
 | train-num | try-time | method  |   acc |    f1 |   pre |   rec |
@@ -121,7 +121,7 @@
 
 
 
-* Truthful QA [231 SERVER]
+** Truthful QA [231 SERVER]
 
 |-----------+----------+---------+-------+-------+-----+-------|
 | train-num | rep-time | method  |   acc |    f1 | pre |   rec |
@@ -235,7 +235,7 @@
 
 
 
-* AllenAI-ai2arc [231 SERVER]
+** AllenAI-ai2arc [231 SERVER]
 
 |-----------+-------+---------+-------+-------+-------+-------|
 | train-num | rep-t | method  |   acc |    f1 |   pre |   rec |
@@ -381,4 +381,6 @@
 
 
 
-* AllenAI-ai2arc [226 SERVER]
+** AllenAI-ai2arc [226 SERVER]
+
+* Varying Period Num
