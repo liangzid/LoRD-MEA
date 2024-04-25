@@ -17,7 +17,7 @@ import os
 if __name__ == "__main__":
     # os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,6,7"
-    os.environ["CUDA_VISIBLE_DEVICES"] = "1,3"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "6,7"
 
 from datasets import load_dataset
 import json
@@ -45,11 +45,13 @@ def main():
 
     taskls = [
         "piqa",
-        "truthful_qa",
-        "allenai/ai2_arc",
+        # "truthful_qa",
+        # "allenai/ai2_arc",
     ]
     # mls = ["LoRD-II"]
-    mls = ["LoRD-IV"]
+    # mls = ["LoRD-IV"]
+    # mls=["vanilla"]
+    mls=["kd"]
 
     # mls = ["google/gemma-2b",]
     train_times = [
@@ -58,7 +60,8 @@ def main():
         "3",
     ]
     train_nums = ["4", "8", "16", "32", "64", "100", "256", "512"]
-    train_nums = ["4", "8", "16", "32",]
+    # train_nums = ["4", "8", "16", "32",]
+    train_nums = ["32",]
     period_nums = ["8"]
 
     dir_p = "./vary_train_num_qa_infers/"
@@ -105,7 +108,8 @@ def main():
                         if not os.path.exists(dir_p + res_pth):
                             res_ls = infer_qa(
                                 ckpt, task, dir_p + res_pth,
-                                test_set_take_num=1000,
+                                # test_set_take_num=1000,
+                                test_set_take_num=500,
                                 mnt=64,
                                 base_model_name=base_model,
                             )

@@ -283,16 +283,16 @@ def infer_qa(modelname, task_name, res_pth, test_set_take_num=100,
 
 def eval_qa_res():
     ckpt_ls = (
+        # [
+        #     "piqa",
+        #     "gpt-3.5-turbo-1106",
+        # ],
+        # [
+        #     "truthful_qa",
+        #     "gpt-3.5-turbo-1106",
+        # ],
         [
-            "piqa",
-            "gpt-3.5-turbo-1106",
-        ],
-        [
-            "truthful_qa",
-            "gpt-3.5-turbo-1106",
-        ],
-        [
-            "allenai/ai2arc",
+            "allenai/ai2_arc",
             "gpt-3.5-turbo-1106",
         ],
     )
