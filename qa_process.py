@@ -48,7 +48,7 @@ def load_qa_datals(
     model_name="gpt-3.5-turbo-1106",
     topk=5,
     max_length=256,
-    openai_tmp_save_pth="./wmt_data_saveto_",
+    openai_tmp_save_pth="./STEALED_PKLS/wmt_data_saveto_",
 ):
     lm_tokenizer = tokenizer
 
@@ -216,7 +216,15 @@ def infer_qa(modelname, task_name, res_pth, test_set_take_num=100,
 
     assert inp_ls != []
 
-    if base_model_name is None:
+    if modelname=="gpt-3.5-turbo-1106":
+        from training_data_collecting_openai import chatWithOpenAI_APIs
+        res_ls=[]
+        for d in tqdm(inp_ls):
+            inps,summary = d
+            res=chatWithOpenAI_APIs(modelname, pp, inps)
+            print(f"Generated Text: {res}")
+            res_ls.append((res, summary))
+    elif base_model_name is None:
         model = InferObj(
             model_name=modelname, device="auto",
             max_length=task_seqlen_map[task_name],
@@ -275,58 +283,17 @@ def infer_qa(modelname, task_name, res_pth, test_set_take_num=100,
 
 def eval_qa_res():
     ckpt_ls = (
+        # [
+        #     "piqa",
+        #     "gpt-3.5-turbo-1106",
+        # ],
+        # [
+        #     "truthful_qa",
+        #     "gpt-3.5-turbo-1106",
+        # ],
         [
-            "piqa",
-            "./vArY_TrAiN_nUm_ckpts/varyTrainNum___41piqaComplex-lord112164256___period0/",
-        ],
-
-        [
-            "piqa",
-            "./vArY_TrAiN_nUm_ckpts/varyTrainNum___41piqaLoRD-II112164256___period2/",
-        ],
-        [
-            "piqa",
-            "./vArY_TrAiN_nUm_ckpts/varyTrainNum___41piqaLoRD-II112164256___period5/",
-        ],
-        [
-            "piqa",
-            "./vArY_TrAiN_nUm_ckpts/varyTrainNum___41piqaLoRD-II112164256___period8/",
-        ],
-
-        [
-            "piqa",
-            "./vArY_TrAiN_nUm_ckpts/varyTrainNum___41piqaLoRD-IV112164256___period2/",
-        ],
-
-        [
-            "piqa",
-            "./vArY_TrAiN_nUm_ckpts/varyTrainNum___41piqaLoRD-IV112164256___period5/",
-        ],
-
-        [
-            "piqa",
-            "./vArY_TrAiN_nUm_ckpts/varyTrainNum___41piqaLoRD-IV112164256___period8/",
-        ],
-
-        [
-            "piqa",
-            "./vArY_TrAiN_nUm_ckpts/varyTrainNum___161piqaLoRD-IV112164256___period8/",
-        ],
-        [
-            "piqa",
-            "./vArY_TrAiN_nUm_ckpts/varyTrainNum___161piqaLoRD-IV112164256___period5/",
-        ],
-        [
-            "piqa",
-            "./vArY_TrAiN_nUm_ckpts/varyTrainNum___321piqaLoRD-IV112164256___period8/",
-        ],
-        [
-            "piqa",
-            "./vArY_TrAiN_nUm_ckpts/varyTrainNum___321piqaLoRD-IV112164256___period8/",
-        ],
-        [
-            "piqa",
-            "google/gemma-2b",
+            "allenai/ai2_arc",
+            "gpt-3.5-turbo-1106",
         ],
     )
 
@@ -344,7 +311,7 @@ def eval_qa_res():
                 ckpt,
                 task,
                 dir_p + res_pth,
-                test_set_take_num=1000,
+                test_set_take_num=500,
                 # test_set_take_num=50,
                 mnt=64,
             )
@@ -702,9 +669,9 @@ def generate_atable(fpth="./vary_train_num_qa_infers/res_dict_allfiles.json",
 # running entry
 if __name__ == "__main__":
     # main()
-    # eval_qa_res()
+    eval_qa_res()
     # eval_varytrainum_res()
     # eval_varytrainum_231_ours()
-    eval_all_samles_in_dir()
-    generate_atable()
+    # eval_all_samles_in_dir()
+    # generate_atable()
     print("EVERYTHING DONE.")

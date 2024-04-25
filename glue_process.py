@@ -129,7 +129,7 @@ def load_glue_datals(lm_tokenizer,
                      model_name="gpt-3.5-turbo-1106",
                      topk=5,
                      max_length=1024,
-                     openai_tmp_save_pth="./glue_openai_probs_res1__",
+                     openai_tmp_save_pth="./STEALED_PKLS/glue_openai_probs_res1__",
                      ):
     # some preliminary knowledge of GLUE
     tasks_we_used = [
