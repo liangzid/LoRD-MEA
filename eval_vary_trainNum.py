@@ -39,11 +39,16 @@ def qa_curve_trainNums():
         "google/gemma-2b",
         # "lord",
         # "Complex-lord",
+        "LoRD-II",
+        "LoRD-IV",
     ]
 
     marker = {
         "vanilla": "s",
         "kd": "D",
+        # "Complex-lord": "o",
+        "LoRD-II": "v",
+        "LoRD-IV": "^",
         "Complex-lord": "o",
         "google/gemma-2b": "*",
     }
@@ -52,6 +57,8 @@ def qa_curve_trainNums():
         "vanilla": "#4a148c",
         "kd": "#469de9",
         "Complex-lord": "#eb3b5a",
+        "LoRD-II": "#eb3b5a",
+        "LoRD-IV": "#eb3b5a",
         "google/gemma-2b": "#3867d6",
     }
 
@@ -59,6 +66,8 @@ def qa_curve_trainNums():
         "vanilla": "#9c27b0",
         "kd": "#98c8f3",
         "Complex-lord": "#f78fb3",
+        "LoRD-II": "#f78fb3",
+        "LoRD-IV": "#f78fb3",
         "google/gemma-2b": "#778beb",
     }
 
@@ -82,6 +91,8 @@ def qa_curve_trainNums():
         "vanilla": "-.",
         "kd": "-.",
         "Complex-lord": "-",
+        "LoRD-II": "-",
+        "LoRD-IV": "-",
         "google/gemma-2b": "-",
     }
     font_size = 21
@@ -126,6 +137,10 @@ def qa_curve_trainNums():
 
                         if m == "google/gemma-2b":
                             pth = m
+                        elif "LoRD" in m:
+                            pth = prefix + \
+                                f"{tn}{train_time}{task}{m}112164256___"
+                            pth += "period8"
                         else:
                             pth = prefix + \
                                 f"{tn}{train_time}{task}{m}332164256___"
@@ -280,8 +295,8 @@ def wmt_curve_trainNums():
     marker = {
         "vanilla": "s",
         "kd": "D",
-        "Complex-lord": "o",
         "google/gemma-2b": "*",
+        "Complex-lord": "o",
     }
     model_color_dict = {
         "vanilla": "#4a148c",
@@ -494,7 +509,7 @@ def wmt_curve_trainNums():
         "size": font_size - 1,
     }
     plt.legend(
-        loc=(-1.91, 4.2),
+        loc=(-3.21, 2.6),
         prop=font_legend,
         ncol=6,
         frameon=False,
