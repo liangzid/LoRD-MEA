@@ -101,7 +101,7 @@ def load_sum_datals(tokenizer,
                     model_name="gpt-3.5-turbo-1106",
                     topk=5,
                     max_length=1024,
-                    openai_tmp_save_pth="./wmt_data_saveto_"):
+                    openai_tmp_save_pth="./STEALED_PKLS/wmt_data_saveto_"):
 
     lm_tokenizer = tokenizer
 
