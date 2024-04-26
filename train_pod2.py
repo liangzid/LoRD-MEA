@@ -107,6 +107,7 @@ def train_pod(lm,
     tau1 = args.tau1
     tau2 = args.tau2
     print(f" Tau1: {tau1}\t Tau2: {tau2}.")
+    print(f"MAX NEW TOKENS: {max_new_tokens}.")
     # STEP 1: DATA Preperation.
     ITER_num = args.period_num
     tb_writer = SummaryWriter(log_dir=args.save_path+"___log_writer")

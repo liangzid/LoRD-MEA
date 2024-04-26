@@ -99,10 +99,10 @@ def loading_data(
     inpsls=[]
     outls=[]
 
-    print(dataset)
+    # print(dataset)
 
     for item in tqdm(dataset):
-        print(f"ITEM: {item}")
+        # print(f"ITEM: {item}")
         inp = item["prompt"]
         out = item["response"]
         inpsls.append(inp)

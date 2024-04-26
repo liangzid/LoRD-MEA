@@ -19,6 +19,7 @@ from torch.distributions import Categorical
 from torch.utils.data import TensorDataset, DataLoader
 from tqdm import tqdm
 import argparse
+from pprint import pprint as ppp
 from transformers import AutoModelForCausalLM
 from transformers import AutoModelWithLMHead
 from transformers import AutoModelForSequenceClassification
@@ -564,6 +565,10 @@ def main():
 
     args = setup_train_args()
 
+    print("----------------------------------------------------------")
+    ppp(args)
+    print("----------------------------------------------------------")
+
     if "t5" in args.from_path:
         lm = AutoModelWithLMHead.from_pretrained(
             args.from_path,
@@ -760,7 +765,7 @@ def main():
                 nonlabel_trainls = None
 
         elif args.dataset_task in tasks_general:
-            print(f"RUN summarization task: {args.dataset_task}")
+            print(f"RUN general task: {args.dataset_task}")
             from general_train.general_preprocess import general_load_data
             raw_train_datals = general_load_data(
                 tokenizer,
