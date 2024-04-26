@@ -121,11 +121,12 @@ def data_format_transform(inpsls,outls,tokenizer,
                             desc="..."):
         if iii_bgn==train_num:
             break
-        p_idxls.append(tokenizer(q,
+        prompt_input=f"User: {q}\n Assistant: "
+        p_idxls.append(tokenizer(prompt_input,
                                  max_length=max_length,
                                  return_tensors="pt").input_ids[0])
 
-        text=f"User: {q} Assistant: {outls[iii_bgn]}"
+        text=f"User: {q}\n Assistant: {outls[iii_bgn]}"
         text2ls.append(tokenizer(text,
                                  max_length=max_length,
                                  return_tensors="pt").input_ids[0])

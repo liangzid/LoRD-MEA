@@ -48,27 +48,27 @@ export pmp=meta-llama/Meta-Llama-3-8B-Instruct
 #     --batch_size auto
 
 
-## Vanilla LoRA TRAIN on LLAMA3 8B
-export fmp="${save_dir}BORING_TEST___2491liangzid/claude3_short256vanilla3321641024___finally/"
+# ## Vanilla LoRA TRAIN on LLAMA3 8B
+# export fmp="${save_dir}BORING_TEST___2491liangzid/claude3_short256vanilla3321641024___finally/"
 
-echo "================================================================"
-echo "EVALUATION MODEL: pretrained: ${pmp} lora: ${fmp}"
-echo "EVALUATION TASKS: ${qas}"
-echo "================================================================"
+# echo "================================================================"
+# echo "EVALUATION MODEL: pretrained: ${pmp} lora: ${fmp}"
+# echo "EVALUATION TASKS: ${qas}"
+# echo "================================================================"
 
-$eval --model hf \
-    --model_args pretrained=${pmp},parallelize=True,peft=${fmp}\
-    --tasks $qas\
-    --device cuda\
-    --batch_size auto
-
-
-# # ORIGINAL LLAMA3 8B EVAL
 # $eval --model hf \
-#     --model_args pretrained=${pmp},parallelize=True\
+#     --model_args pretrained=${pmp},parallelize=True,peft=${fmp}\
 #     --tasks $qas\
 #     --device cuda\
 #     --batch_size auto
+
+
+# ORIGINAL LLAMA3 8B EVAL
+$eval --model hf \
+    --model_args pretrained=${pmp},parallelize=True\
+    --tasks $qas\
+    --device cuda\
+    --batch_size auto
 
 
 echo "RUNNING 2.1.evalutate_llms.sh DONE."
