@@ -1,0 +1,45 @@
+#+title: Experiments of generalized training.
+#+date: Fri Apr 26 11:18:34 2024
+#+author: Zi Liang
+#+email: zi1415926.liang@connect.polyu.hk
+#+latex_class: elegantpaper
+#+filetags: :exper:research:coding:
+
+
+
+
+
+** Evaluate on PIQA
+
+*** Short text
+
+|-----------+---------+--------+--------|
+| m         | dataset |    acc | strerr |
+|-----------+---------+--------+--------|
+| vanilla   | piqa    | 0.7949 | 0.0094 |
+| lordii    | piqa    | 0.7900 | 0.0095 |
+| llama3-8B | piqa    | 0.7824 | 0.0096 |
+| lordiv    | piqa    | 0.5690 | 0.0116 |
+| claude3   | -       |      - |      - |
+|-----------+---------+--------+--------|
+
+*** Long text (chat 3.3k)
+
+
+|-----------+---------+--------+--------|
+| m         | dataset | acc    | strerr |
+|-----------+---------+--------+--------|
+| llama3-8B | piqa    | 0.7824 | 0.0096 |
+| lordii    | piqa    | -      | -      |
+| lordiv    | piqa    | -      | -      |
+| vanilla   | piqa    | -      | -      |
+| claude3   | -       | -      | -      |
+|-----------+---------+--------+--------|
+
+
+
+
+
+
+
+
