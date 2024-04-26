@@ -19,6 +19,7 @@ from torch.distributions import Categorical
 from torch.utils.data import TensorDataset, DataLoader
 from tqdm import tqdm
 import argparse
+from pprint import pprint as ppp
 from transformers import AutoModelForCausalLM
 from transformers import AutoModelWithLMHead
 from transformers import AutoModelForSequenceClassification
@@ -290,19 +291,24 @@ def train_pod(lm,
                                           max_token_num-1, pad_idx)
         old_logits2_ls = my_padding_logit(old_logits2_ls,
                                           max_token_num-1, pad_idx)
-        newlogits2ls = []
-        for per_data in logits2ls:
-            sl = len(per_data)
-            v = len(per_data[0])
-            tmp_ts = torch.ones((sl, v), dtype=torch.float)
-            for jjjj, per_token_logit in enumerate(per_data):
-                tmp_ts[jjjj] = torch.tensor(per_token_logit,)
-            newlogits2ls.append(tmp_ts)
 
-        logits2ls = my_padding_logits(newlogits2ls,
-                                      max_token_num-1, pad_idx)
-        idxs2_dist = my_padding_token_dist(idx2_dist,
-                                           max_token_num-1, pad_idx)
+        if logits2ls is not None:
+            newlogits2ls = []
+            for per_data in logits2ls:
+                sl = len(per_data)
+                v = len(per_data[0])
+                tmp_ts = torch.ones((sl, v), dtype=torch.float)
+                for jjjj, per_token_logit in enumerate(per_data):
+                    tmp_ts[jjjj] = torch.tensor(per_token_logit,)
+                newlogits2ls.append(tmp_ts)
+
+            logits2ls = my_padding_logits(newlogits2ls,
+                                        max_token_num-1, pad_idx)
+            idxs2_dist = my_padding_token_dist(idx2_dist,
+                                            max_token_num-1, pad_idx)
+        else:
+            logits2ls=[None for _ in range(len(idx2ls))]
+            idx2_dist=[None for _ in range(len(idx2ls))]
 
         print(old_logits1_ls.shape)
         trainset = TensorDataset(
@@ -559,6 +565,10 @@ def main():
 
     args = setup_train_args()
 
+    print("----------------------------------------------------------")
+    ppp(args)
+    print("----------------------------------------------------------")
+
     if "t5" in args.from_path:
         lm = AutoModelWithLMHead.from_pretrained(
             args.from_path,
@@ -614,11 +624,17 @@ def main():
         "spider",
     ]
 
+    tasks_general = [
+        "liangzid/claude3_chat3.3k",
+        "liangzid/claude3_short256",
+    ]
+
     tasks_supported = tasks_glue.copy()
     tasks_supported.extend(tasks_sum)
     tasks_supported.extend(tasks_wmt16)
     tasks_supported.extend(tasks_qa)
     tasks_supported.extend(tasks_data2text)
+    tasks_supported.extend(tasks_general)
 
     print("---------------------------------------------------------")
     print(f"TASKS NOW Supported: {tasks_supported}")
@@ -748,6 +764,21 @@ def main():
             else:
                 nonlabel_trainls = None
 
+        elif args.dataset_task in tasks_general:
+            print(f"RUN general task: {args.dataset_task}")
+            from general_train.general_preprocess import general_load_data
+            raw_train_datals = general_load_data(
+                tokenizer,
+                dataset_name=args.dataset_task,
+                train_num=args.train_num,
+                max_length=args.max_length,
+            )
+
+            if args.extra_nonlabel_data == 1:
+                nonlabel_trainls = None
+            else:
+                nonlabel_trainls = None
+
         else:
             print("EEERRROOORRR: EEERRROOORRR.")
         print("Data LOADING done.")
@@ -844,24 +875,39 @@ def main():
             # print(lm_tokenizer.convert_ids_to_tokens(idx2ls[2]))
             # print(mask2[2])
             newlogits2ls = []
-            for per_data in logits2ls:
-                sl = len(per_data)
-                v = len(per_data[0])
-                tmp_ts = torch.ones((sl, v), dtype=torch.float)
-                for jjjj, per_token_logit in enumerate(per_data):
-                    tmp_ts[jjjj] = torch.tensor(per_token_logit,)
-                newlogits2ls.append(tmp_ts)
-            logits2ls = my_padding_logits(newlogits2ls,
-                                          max_token_num-1, pad_idx)
-            idxs2_dist = my_padding_token_dist(idx2_dist,
-                                               max_token_num-1, pad_idx)
+            if logits2ls is not None:
+                for per_data in logits2ls:
+                    sl = len(per_data)
+                    v = len(per_data[0])
+                    tmp_ts = torch.ones((sl, v), dtype=torch.float)
+                    for jjjj, per_token_logit in enumerate(per_data):
+                        tmp_ts[jjjj] = torch.tensor(per_token_logit,)
+                    newlogits2ls.append(tmp_ts)
+                logits2ls = my_padding_logits(newlogits2ls,
+                                            max_token_num-1, pad_idx)
+                idxs2_dist = my_padding_token_dist(idx2_dist,
+                                                max_token_num-1, pad_idx)
+                trainset = TensorDataset(
+                    idx2ls,
+                    mask2,
+                    logits2ls,
+                    idxs2_dist,
+                    # idx2ls,
+                    # idx2ls,
+                )
+            else:
+                logits2ls=[None for _ in range(len(idx2ls))]
+                idxs2_dist=[None for _ in range(len(idx2ls))]
 
-            trainset = TensorDataset(
-                idx2ls,
-                mask2,
-                logits2ls,
-                idxs2_dist,
-            )
+            
+                trainset = TensorDataset(
+                    idx2ls,
+                    mask2,
+                    # logits2ls,
+                    # idxs2_dist,
+                    idx2ls,
+                    idx2ls,
+                )
 
             loader = DataLoader(trainset,
                                 batch_size=args.batch_size,

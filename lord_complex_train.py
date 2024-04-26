@@ -81,8 +81,9 @@ def complex_train_one_period(args, lm,
             old_logits1 = old_logits1.to(device)  # bs, sql,
             old_logits2 = old_logits2.to(device)  # bs, sql,
 
-            vic_logits2 = vic_logits2.to(device)  # bs, sql, 5
-            idxs2_dist = idxs2_dist.to(device)
+            if args.is_black_box==0:
+                vic_logits2 = vic_logits2.to(device)  # bs, sql, 5
+                idxs2_dist = idxs2_dist.to(device)
 
             print("idx1text: ", lm_tokenizer.decode(idxs1[0]))
             print("idx2text: ", lm_tokenizer.decode(idxs2[0]))

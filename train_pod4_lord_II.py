@@ -90,8 +90,12 @@ def train_pod(lm,
     seed = time.time()
     p_ls = random_take(subset_num, op_ls, seed,)
     idx2ls = random_take(subset_num, oidx2ls, seed)
-    vic_logits2ls = random_take(subset_num, ologits2ls, seed)
-    idx2_dist = random_take(subset_num, oidx2_dist, seed)
+    if ologits2ls is not None:
+        vic_logits2ls = random_take(subset_num, ologits2ls, seed)
+        idx2_dist = random_take(subset_num, oidx2_dist, seed)
+    else:
+        vic_logits2ls = [None for _ in range(subset_num)]
+        idx2_dist = [None for _ in range(subset_num)]
 
     for iter_idx in range(ITER_num):
         tensorboard_name = f"Period {iter_idx}"
@@ -192,19 +196,20 @@ def train_pod(lm,
         old_logits2_ls = my_padding_logit(old_logits2_ls,
                                           max_token_num-1, pad_idx)
 
-        newvic_logits2ls = []
-        for per_data in vic_logits2ls:
-            sl = len(per_data)
-            v = len(per_data[0])
-            tmp_ts = torch.ones((sl, v), dtype=torch.float)
-            for jjjj, per_token_logit in enumerate(per_data):
-                tmp_ts[jjjj] = torch.tensor(per_token_logit,)
-            newvic_logits2ls.append(tmp_ts)
+        if vic_logits2ls[0] is not None:
+            newvic_logits2ls = []
+            for per_data in vic_logits2ls:
+                sl = len(per_data)
+                v = len(per_data[0])
+                tmp_ts = torch.ones((sl, v), dtype=torch.float)
+                for jjjj, per_token_logit in enumerate(per_data):
+                    tmp_ts[jjjj] = torch.tensor(per_token_logit,)
+                newvic_logits2ls.append(tmp_ts)
 
-        vic_logits2ls = my_padding_logits(newvic_logits2ls,
-                                          max_token_num-1, pad_idx)
-        idxs2_dist = my_padding_token_dist(idx2_dist,
-                                           max_token_num-1, pad_idx)
+            vic_logits2ls = my_padding_logits(newvic_logits2ls,
+                                            max_token_num-1, pad_idx)
+            idxs2_dist = my_padding_token_dist(idx2_dist,
+                                            max_token_num-1, pad_idx)
 
         # # ---------------------------------------------------------
         # # now fix the logic of constructive two samples
@@ -248,18 +253,32 @@ def train_pod(lm,
         # not current stage.
         # If it is the first stage, then we use the victim's label
         # to guide the training, for a better bootstrapping.
-        trainset = TensorDataset(
-            idxs11_ls,
-            idxs12_ls,
-            idx2ls,
-            mask11,
-            mask12,
-            mask2,
-            old_logits11_ls,
-            old_logits12_ls,
-            old_logits2_ls,
-            vic_logits2ls,
-        )
+        if vic_logits2ls[0] is not None:
+            trainset = TensorDataset(
+                idxs11_ls,
+                idxs12_ls,
+                idx2ls,
+                mask11,
+                mask12,
+                mask2,
+                old_logits11_ls,
+                old_logits12_ls,
+                old_logits2_ls,
+                vic_logits2ls,
+            )
+        else:
+            trainset = TensorDataset(
+                idxs11_ls,
+                idxs12_ls,
+                idx2ls,
+                mask11,
+                mask12,
+                mask2,
+                old_logits11_ls,
+                old_logits12_ls,
+                old_logits2_ls,
+                old_logits2_ls,
+            )
 
         loader = DataLoader(trainset,
                             batch_size=args.batch_size,
@@ -337,7 +356,8 @@ def one_period(args, lm,
             old_logits12 = old_logits12.to(device)  # bs, sql,
             old_logits2 = old_logits2.to(device)  # bs, sql,
 
-            vic_logits2 = vic_logits2.to(device)  # bs, sql, 5
+            if args.is_black_box==0:
+                vic_logits2 = vic_logits2.to(device)  # bs, sql, 5
 
             print("===========================================")
             print(f"idx11text:  {lm_tokenizer.decode(idxs11[0])}")
@@ -385,7 +405,7 @@ def one_period(args, lm,
             term2 = torch.sum(log_clip(-old_logits11+logits11)
                               * mask11[:, :-1], dim=1)
 
-            if is_black_box == 0:
+            if args.is_black_box == 0:
                 term3 = \
                     (vic_logits2[:, :, 0]+old_logits2-2*logits2_cons)
             else:

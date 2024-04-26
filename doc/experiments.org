@@ -6,8 +6,18 @@
 #+filetags: :lord:
 
 
+* 226 domain-specific training (gemma-7b new version)
 
-* Results on PiQA  [231 SERVER]
+
+| method  | dataset |   acc |   pre |   rec |    f1 |
+| vanilla | piqa    | 0.742 | 0.784 | 0.742 | 0.732 |
+| kd      | piqa    | 0.722 | 0.739 | 0.722 | 0.717 |
+| lordii  | piqa    | 0.742 | 0.784 | 0.742 | 0.732 |
+|         |         |       |       |       |       |
+
+
+* Changes varing training number: No significant difference
+** Results on PiQA  [231 SERVER]
 
 |-----------+----------+---------+-------+-------+-------+-------|
 | train-num | try-time | method  |   acc |    f1 |   pre |   rec |
@@ -120,9 +130,7 @@
 |           |          | gpt3.5  | 0.828 | 0.827 | 0.828 | 0.827 |
 |-----------+----------+---------+-------+-------+-------+-------|
 
-
-
-* Truthful QA [231 SERVER]
+** Truthful QA [231 SERVER]
 
 |-----------+----------+-----------+-------+-------+-------+-------|
 | train-num | rep-time | method    |   acc |    f1 |   pre |   rec |
@@ -235,9 +243,7 @@
 |           |          | 3.5-turbo | 0.414 | 0.293 | 0.500 | 0.207 |
 |-----------+----------+-----------+-------+-------+-------+-------|
 
-
-
-* AllenAI-ai2arc [231 SERVER]
+** AllenAI-ai2arc [231 SERVER]
 
 |-----------+-------+-----------+-------+-------+-------+-------|
 | train-num | rep-t | method    |   acc |    f1 |   pre |   rec |
@@ -382,6 +388,323 @@
 
 
 
+** AllenAI-ai2arc [226 SERVER]
+
+* Varying Period Num
+* LoRD reports
+** REVIEW LoRD-II new hyper parameters
+
+#+BEGIN_SRC shell
+export epoch=1
+export period=1
+export sub_set_num=33
+export sub_stage_num=6
+export train_num=100
+export max_new_tokens=64
+
+#+END_SRC
 
 
-* AllenAI-ai2arc [226 SERVER]
+#+BEGIN_SRC python
+LoRD-II336256cs-en64__hyper-para-search_ckpt___period5': {'bertscore': {'f1': 0.865009069442749,
+                                                                                                        'p': 0.9317170977592468,
+                                                                                                        'r': 0.8088542222976685},
+                                                                                          'bleu': {'1': 0.00015319452012949644,
+                                                                                                   '2': 0.0,
+                                                                                                   '3': 0.0,
+                                                                                                   '4': 0.0},
+                                                                                          'rouge-l': {'f1': 0.13256355766956218,
+                                                                                                      'p': 0.88,
+                                                                                                      'r': 0.07541975227410604}}}
+
+#+END_SRC
+
+** REVIEW LoRD-IV results: 使用了更激進的tau，效果反而下降了。
+
+#+BEGIN_SRC python
+LoRD-IV1003256cs-en64__long_stage_style_ckpt___period2': {'bertscore': {'f1': 0.8108768463134766,
+                                                                                                         'p': 0.7916164994239807,
+                                                                                                         'r': 0.8330056667327881},
+                                                                                           'bleu': {'1': 0.04351020949386707,
+                                                                                                    '2': 0.007814536487901117,
+                                                                                                    '3': 0.0,
+                                                                                                    '4': 0.0},
+                                                                                           'rouge-l': {'f1': 0.11228535223416233,
+                                                                                                       'p': 0.20837741670094612,
+                                                                                                       'r': 0.09534738810343459}},
+
+#+END_SRC
+
+** REVIEW LoRD-IV results: Strange. Not sensitive to $\tau$.
+#+BEGIN_SRC python
+LoRD-IV1003256cs-en64__long_stage_style_ckpt___period2/': {'bertscore': {'f1': 0.8335102796554565,
+                                                                                                          'p': 0.8287380933761597,
+                                                                                                          'r': 0.8393020033836365},
+                                                                                            'bleu': {'1': 0.08503401823527726,
+                                                                                                     '2': 0.014048052681664116,
+                                                                                                     '3': 0.0,
+                                                                                                     '4': 0.0},
+                                                                                            'rouge-l': {'f1': 0.14820793023504303,
+                                                                                                        'p': 0.24574538398515383,
+                                                                                                        'r': 0.11684685503511699}}}
+
+#+END_SRC
+
+** REVIEW LoRD-II old with 4 samples version
+
+#+BEGIN_SRC python
+LoRD-II43256cs-en4__long_stage_style_ckpt___period2/': {'bertscore': {'f1': 0.8588850498199463,
+                                                                                                      'p': 0.9043752551078796,
+                                                                                                      'r': 0.8202759623527527},
+                                                                                        'bleu': {'1': 0.02002250004071359,
+                                                                                                 '2': 0.007277881017808857,
+                                                                                                 '3': 0.0031653509899885073,
+                                                                                                 '4': 0.0},
+                                                                                        'rouge-l': {'f1': 0.15249048028677348,
+                                                                                                    'p': 0.6692454767454769,
+                                                                                                    'r': 0.1012258496142213}}}
+
+#+END_SRC
+
+** REVIEW LoRD-II old version
+
+#+BEGIN_SRC python
+LoRD-II1003256cs-en64__long_stage_style_ckpt___period2/': {'bertscore': {'f1': 0.8509846329689026,
+                                                                                                         'p': 0.8581267595291138,
+                                                                                                         'r': 0.8464218378067017},
+                                                                                           'bleu': {'1': 0.1837484062411199,
+                                                                                                    '2': 0.07312301954539126,
+                                                                                                    '3': 0.032024450578806506,
+                                                                                                    '4': 0.0},
+                                                                                           'rouge-l': {'f1': 0.20952309440966274,
+                                                                                                       'p': 0.4001896000800025,
+                                                                                                       'r': 0.16908922868206605}}}
+
+#+END_SRC
+
+** REVIEW nolog, exp(y_{t-1}/y_{t-1})
+
+#+BEGIN_SRC json
+ 'cs-en-----./POD_SAVE_CKPTs/vary_period0306cs-en/nolog--Complex-lord_256cs-en_test___period2/': {'bertscore': {'f1': 0.8177661299705505,
+                                                                                                                'p': 0.7982205152511597,
+                                                                                                                'r': 0.8404489755630493},
+                                                                                                  'bleu': {'1': 0.12210805534582106,
+                                                                                                           '2': 0.05704303756146297,
+                                                                                                           '3': 0.03120224839684385,
+                                                                                                           '4': 0.019423944126848308},
+                                                                                                  'rouge-l': {'f1': 0.12436128101977616,
+                                                                                                              'p': 0.16300501808824427,
+                                                                                                              'r': 0.11230529785257476}}}
+#+END_SRC
+
+
+#+BEGIN_SRC python
+
+mask = torch.logical_or(mask1, mask2).long()
+# print(mask1)
+# print(mask2)
+# print(mask)
+# print("_____________")
+term1 = log_clip(-old_logits1+logits1)
+term2 = (old_logits2-logits2_cons)
+
+if is_black_box == 0:
+    term3 = \
+        (vic_logits2[:, :, 0]-logits2_cons)
+else:
+    term3 = - logits2_cons
+
+loss_1 = term2 + term3
+loss_2 = torch.exp(term1)
+
+loss = sigmoid(loss_1)*loss_2
+
+if torch.sum(mask[:, :-1]) >= 1:
+    loss = torch.sum(loss*mask[:, :-1])
+    # / torch.sum(mask[:, :-1])
+else:
+    loss = 0.
+
+#+END_SRC
+** REVIEW nolog, $y_{t-1}/y_{t-1}$ , without exp, and use +
+
+#+BEGIN_SRC json
+nolog--Complex-lord_256cs-en_test___period2/': {'bertscore': {'f1': 0.8299728631973267,
+                                                                                                                'p': 0.8093873858451843,
+                                                                                                                'r': 0.8528457880020142},
+                                                                                                  'bleu': {'1': 0.17163788592360021,
+                                                                                                           '2': 0.08542652015463408,
+                                                                                                           '3': 0.04739198225193413,
+                                                                                                           '4': 0.027734961721448008},
+                                                                                                  'rouge-l': {'f1': 0.19153642568433896,
+                                                                                                              'p': 0.22649654224830218,
+                                                                                                              'r': 0.17875681995848097}}}
+
+#+END_SRC
+
+#+BEGIN_SRC python
+    mask = torch.logical_or(mask1, mask2).long()
+    # print(mask1)
+    # print(mask2)
+    # print(mask)
+    # print("_____________")
+    term1 = log_clip(-old_logits1+logits1)
+    term2 = (old_logits2-logits2_cons)
+
+    if is_black_box == 0:
+        term3 = \
+            (vic_logits2[:, :, 0]-logits2_cons)
+    else:
+        term3 = - logits2_cons
+
+    loss_1 = term2 + term3
+    # loss_2 = torch.exp(term1)
+    loss_2 = term1
+
+    loss = sigmoid(loss_1)+loss_2
+
+    if torch.sum(mask[:, :-1]) >= 1:
+        loss = torch.sum(loss*mask[:, :-1])
+        # / torch.sum(mask[:, :-1])
+    else:
+        loss = 0.
+    if loss == torch.tensor(float("nan")):
+        print("++++++++++++++++++++++")
+        print(f"term1: {term1}")
+        print(f"term2: {term3}")
+        print(f"loss1: {loss_1}")
+        print(f"loss2: {loss_2}")
+        print(f"loss: {loss}")
+        print(f"mask: {mask[:,:-1]}")
+        print("++++++++DEBUG DONE.++++++++")
+
+    loss_constractive = loss
+
+    loss_constractive_past = 0.
+    loss_constractive_good = 0.
+    loss_logits = 0.
+
+    overall_loss += loss_constractive + loss_logits
+#+END_SRC
+** REVIEW nolog, same to before, but $log(\sigma)$
+
+#+BEGIN_SRC python
+nolog--Complex-lord_256cs-en_test___period2/': {'bertscore': {'f1': 0.8048646450042725,
+                                                                                                                'p': 0.7763920426368713,
+                                                                                                                'r': 0.8381577134132385},
+                                                                                                  'bleu': {'1': 0.1424546362630487,
+                                                                                                           '2': 0.06282700954931907,
+                                                                                                           '3': 0.02700494647300017,
+                                                                                                           '4': 0.010667637167496042},
+                                                                                                  'rouge-l': {'f1': 0.14550569632496638,
+                                                                                                              'p': 0.19002411304127878,
+                                                                                                              'r': 0.13424617477761605}}}
+
+#+END_SRC
+** CANCELED new nolog complex training with separated aggregation
+CLOSED: [2024-03-30 Sat 19:16]
+Failed.
+** CANCELED outside without exp
+CLOSED: [2024-03-25 Mon 11:24]
+
+#+BEGIN_SRC python
+/nolog--Complex-lord_256cs-en_test___period2/': {'bertscore': {'f1': 0.7254393696784973,
+                                                                                                                'p': 0.6584640741348267,
+                                                                                                                'r': 0.8081263899803162},
+                                                                                                  'bleu': {'1': 0.0,
+                                                                                                           '2': 0.0,
+                                                                                                           '3': 0.0,
+                                                                                                           '4': 0.0},
+                                                                                                  'rouge-l': {'f1': 0.0,
+                                                                                                              'p': 0.0,
+                                                                                                              'r': 0.0}}}
+
+#+END_SRC
+** CANCELED logits2 outside, logits1 and logits2 inside:  *failed* 
+CLOSED: [2024-03-25 Mon 11:24]
+
+#+BEGIN_SRC python
+                mask = torch.logical_or(mask1, mask2).long()
+
+                term1 = (-old_logits1+logits1)
+                term2 = log_clip(old_logits2-logits2_cons)
+
+                if is_black_box == 0:
+                    term3 = \
+                        (vic_logits2[:, :, 0]-logits2_cons)
+                else:
+                    term3 = - logits2_cons
+
+                loss_1 = term1 + term3
+                loss_2 = torch.exp(term2)
+
+                loss = sigmoid(loss_1)*loss_2
+#+END_SRC
+
+** CANCELED Complex V3: failed
+CLOSED: [2024-03-25 Mon 11:24]
+
+#+BEGIN_SRC python
+                mask = torch.logical_or(mask1, mask2).long()
+
+                term1 = (-old_logits1+logits1)
+                term2 = log_clip(old_logits2-logits2_cons)
+
+                if is_black_box == 0:
+                    term3 = \
+                        (vic_logits2[:, :, 0]-logits2_cons)
+                else:
+                    term3 = - logits2_cons
+
+                loss_1 = term1 + term3
+                loss_2 = torch.exp(term2)
+
+                loss = sigmoid(loss_1)*loss_2
+#+END_SRC
+
+So I add =log_clip= on =term2=
+
+** CANCELED Very complex:
+CLOSED: [2024-03-25 Mon 11:24]
+
+
+#+BEGIN_SRC 
+Very--Complex-lord_256cs-en_test___period2/': {'bertscore': {'f1': 0.8080261945724487,
+                                                                                                               'p': 0.799115002155304,
+                                                                                                               'r': 0.8189542889595032},
+                                                                                                 'bleu': {'1': 0.13413304252998906,
+                                                                                                          '2': 0.06397435463303668,
+                                                                                                          '3': 0.030153920565313845,
+                                                                                                          '4': 0.015185027231458436},
+                                                                                                 'rouge-l': {'f1': 0.1309445596024662,
+                                                                                                             'p': 0.16905697525579064,
+                                                                                                             'r': 0.12311342787372885}},
+
+#+END_SRC
+
+
+#+BEGIN_SRC python
+    term1 = -torch.exp(old_logits1)*(
+        log_clip(old_logits1-logits1))
+
+    if is_black_box == 0:
+        term3 = torch.exp(vic_logits2[:, :, 0])\
+            * (
+            (vic_logits2[:, :, 0]-logits2_cons))\
+            + (old_logits2 - logits2_cons)
+    else:
+        term3 = - logits2_cons*2
+
+    loss_constractive_past = torch.sum(
+        term1*mask1[:, :-1])
+    loss_constractive_good = torch.sum(
+        term3*mask2[:, :-1])
+
+    loss_constractive = loss_constractive_good +\
+        loss_constractive_past
+
+#+END_SRC
+
+KL divergence not worked well
+
+
