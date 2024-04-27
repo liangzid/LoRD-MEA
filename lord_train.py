@@ -218,6 +218,10 @@ def train_pod(lm,
     ITER_num = args.period_num
     tb_writer = SummaryWriter(log_dir=args.save_path+"___log_writer")
     p_ls, idx2ls, logits2ls, idx2_dist = raw_train_datals
+    is_black_box=0
+    if logits2ls is None:
+        is_black_box=1
+        
     # print(lm_tokenizer.decode(p_ls[0]),lm_tokenizer.decode(p_ls[1]),
     #                    lm_tokenizer.decode(p_ls[2]))
     # print(lm_tokenizer.decode(idx2ls[0]),lm_tokenizer.decode(idx2ls[1]),
@@ -292,7 +296,7 @@ def train_pod(lm,
         old_logits2_ls = my_padding_logit(old_logits2_ls,
                                           max_token_num-1, pad_idx)
 
-        if logits2ls is not None:
+        if logits2ls is not None and is_black_box == 0:
             newlogits2ls = []
             for per_data in logits2ls:
                 sl = len(per_data)
@@ -306,21 +310,34 @@ def train_pod(lm,
                                         max_token_num-1, pad_idx)
             idxs2_dist = my_padding_token_dist(idx2_dist,
                                             max_token_num-1, pad_idx)
+
+            print(old_logits1_ls.shape)
+            trainset = TensorDataset(
+                idxs1_ls,
+                idx2ls,
+                mask1,
+                mask2,
+                old_logits1_ls,
+                old_logits2_ls,
+                logits2ls,
+                idxs2_dist,
+            )
         else:
             logits2ls=[None for _ in range(len(idx2ls))]
             idx2_dist=[None for _ in range(len(idx2ls))]
 
-        print(old_logits1_ls.shape)
-        trainset = TensorDataset(
-            idxs1_ls,
-            idx2ls,
-            mask1,
-            mask2,
-            old_logits1_ls,
-            old_logits2_ls,
-            logits2ls,
-            idxs2_dist,
-        )
+            print(old_logits1_ls.shape)
+            trainset = TensorDataset(
+                idxs1_ls,
+                idx2ls,
+                mask1,
+                mask2,
+                old_logits1_ls,
+                old_logits2_ls,
+                idx2ls,
+                idx2ls,
+            )
+
 
         loader = DataLoader(trainset,
                             batch_size=args.batch_size,

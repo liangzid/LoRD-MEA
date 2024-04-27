@@ -84,6 +84,7 @@ def complex_train_one_period(args, lm,
             if args.is_black_box==0:
                 vic_logits2 = vic_logits2.to(device)  # bs, sql, 5
                 idxs2_dist = idxs2_dist.to(device)
+                logits2_dist = torch.gather(logits2, 2, idxs2_dist)
 
             print("idx1text: ", lm_tokenizer.decode(idxs1[0]))
             print("idx2text: ", lm_tokenizer.decode(idxs2[0]))
@@ -100,10 +101,8 @@ def complex_train_one_period(args, lm,
                                    torch.arange(sqlen-1).unsqueeze(0),
                                    idxs2[:, 1:sqlen]]
 
-            logits2_dist = torch.gather(logits2, 2, idxs2_dist)
-
             if method == "complex":
-                if is_black_box == 0:
+                if args.is_black_box == 0:
                     loss_constractive_good = -torch.sum(
                         (logits2_cons*2 -
                          vic_logits2[:, :, 0]
@@ -134,7 +133,7 @@ def complex_train_one_period(args, lm,
                 term1 = -torch.exp(old_logits1)*(
                     log_clip(old_logits1-logits1))
 
-                if is_black_box == 0:
+                if args.is_black_box == 0:
                     term3 = torch.exp(vic_logits2[:, :, 0])\
                         * (
                         (vic_logits2[:, :, 0]-logits2_cons))\
@@ -163,7 +162,7 @@ def complex_train_one_period(args, lm,
                 term1 = log_clip(-old_logits1+logits1)
                 term2 = (old_logits2-logits2_cons)
 
-                if is_black_box == 0:
+                if args.is_black_box == 0:
                     term3 = \
                         (vic_logits2[:, :, 0]-logits2_cons)
                 else:
