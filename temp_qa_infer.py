@@ -19,7 +19,8 @@ if __name__ == "__main__":
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,6,7"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "0,1"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5"
-    os.environ["CUDA_VISIBLE_DEVICES"] = "0,1"
+    # os.environ["CUDA_VISIBLE_DEVICES"] = "0,1"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "6,7"
 
 from datasets import load_dataset
 import json
@@ -41,6 +42,43 @@ from sklearn.metrics import f1_score
 
 from qa_process import *
 
+def main2():
+    base_model = "google/gemma-7b"
+
+    task="piqa"
+
+    dir_p = "./vary_train_num_qa_infers/"
+    res_dict = {}
+
+    if not os.path.exists(dir_p):
+        os.makedirs(dir_p)
+    # ===============================================================
+
+    ckpt="./LoRA-LoRD-ckptsvaryTrainNum___321piqaComplex-lord332164256___period2"
+    res_pth = ckpt + f"___{task}_qa_infer_res.json"
+    res_pth = res_pth.replace("/", "__").replace(".", "")
+
+    if not os.path.exists(dir_p + res_pth):
+        print(dir_p+res_pth)
+        print("file not exist.")
+        res_ls = infer_qa(
+            ckpt, task, dir_p + res_pth,
+            # test_set_take_num=1000,
+            test_set_take_num=500,
+            mnt=64,
+            base_model_name=base_model,
+        )
+    else:
+        print("directly loading")
+        # from collections import OrderedDict
+        with open(dir_p + res_pth, "r", encoding="utf8") as f:
+            res_ls = json.load(
+                f, object_pairs_hook=OrderedDict)
+
+    scores = eval_qaacc(task, res_ls)
+    res_dict[task + "-----" + res_pth] = scores
+    print(scores)
+    print("OVERALL Save DONE.")
 
 def main():
     base_model = "google/gemma-7b"
@@ -140,6 +178,7 @@ def main():
 
 ## running entry
 if __name__=="__main__":
-    main()
+    # main()
+    main2()
     print("EVERYTHING DONE.")
 

@@ -17,7 +17,7 @@ import os
 if __name__ == "__main__":
     # os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,6,7"
-    os.environ["CUDA_VISIBLE_DEVICES"] = "4"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "6"
 
 from datasets import load_dataset
 import json
@@ -293,10 +293,17 @@ def eval_qa_res():
         #     "truthful_qa",
         #     "gpt-3.5-turbo-1106",
         # ],
-        [
-            "allenai/ai2_arc",
-            "gpt-3.5-turbo-1106",
-        ],
+        # [
+            # "allenai/ai2_arc",
+            # "gpt-3.5-turbo-1106",
+        # ],
+    #     [
+    #         "piqa",
+    #         "google/gemma-7b",
+    #     ],
+        ["piqa",
+         "./LoRA-LoRD-ckptsvaryTrainNum___321piqaComplex-lord332164256___period2"
+         ],
     )
 
     res_dict = {}
