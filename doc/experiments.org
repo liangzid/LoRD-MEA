@@ -8,13 +8,19 @@
 
 * 226 domain-specific training (gemma-7b new version)
 
-
-| method  | dataset |   acc |   pre |   rec |    f1 |
-| vanilla | piqa    | 0.742 | 0.784 | 0.742 | 0.732 |
-| kd      | piqa    | 0.722 | 0.739 | 0.722 | 0.717 |
-| lordii  | piqa    | 0.742 | 0.784 | 0.742 | 0.732 |
-|         |         |       |       |       |       |
-
+|---------------+---------+-------+-------+-------+-------|
+| method        | dataset |   acc |   pre |   rec |    f1 |
+|---------------+---------+-------+-------+-------+-------|
+| vanilla       | piqa    | 0.742 | 0.784 | 0.742 | 0.732 |
+| kd            | piqa    | 0.722 | 0.739 | 0.722 | 0.717 |
+| lordii        | piqa    | 0.742 | 0.784 | 0.742 | 0.732 |
+| lordiv        | piqa    | 0.540 | 0.540 | 0.539 | 0.538 |
+| complexlord   | piqa    |       |       |       |       |
+| gemma2-7b     | piqa    |       |       |       |       |
+| gpt-3.5-turbo | piqa    | 0.828 | 0.827 | 0.828 | 0.827 |
+|---------------+---------+-------+-------+-------+-------|
+| gemma-2b      |         | 0.498 | 0.497 | 0.498 | 0.497 |
+|---------------+---------+-------+-------+-------+-------|
 
 * Changes varing training number: No significant difference
 ** Results on PiQA  [231 SERVER]
@@ -385,12 +391,6 @@
 
 
 
-
-
-
-** AllenAI-ai2arc [226 SERVER]
-
-* Varying Period Num
 * LoRD reports
 ** REVIEW LoRD-II new hyper parameters
 
