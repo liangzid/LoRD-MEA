@@ -264,7 +264,7 @@ def infer_qa(modelname, task_name, res_pth, test_set_take_num=100,
                                       padding="longest",
                                       return_tensors="pt")
             print(inps_idx)
-            inps_idx=inps_idx.to("cuda:0")
+            inps_idx=inps_idx.to(model.device)
             res = model.generate(inps_idx,
                                  max_new_tokens=mnt,)
             print(res)
@@ -275,8 +275,10 @@ def infer_qa(modelname, task_name, res_pth, test_set_take_num=100,
 
     model = None
     gen_pipeline = None
+    tokenizer = None
     with open(save_pth, 'w', encoding='utf8') as f:
         json.dump(res_ls, f, ensure_ascii=False, indent=4)
+    print(f"save inference file {save_pth} done.")
 
     return res_ls
 

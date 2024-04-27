@@ -17,7 +17,9 @@ import os
 if __name__ == "__main__":
     # os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,6,7"
-    os.environ["CUDA_VISIBLE_DEVICES"] = "6,7"
+    # os.environ["CUDA_VISIBLE_DEVICES"] = "0,1"
+    # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "0,1"
 
 from datasets import load_dataset
 import json
@@ -49,15 +51,16 @@ def main():
         # "allenai/ai2_arc",
     ]
     # mls = ["LoRD-II"]
-    # mls = ["LoRD-IV"]
+    mls = ["LoRD-IV"]
     # mls=["vanilla"]
-    mls=["kd"]
+    # mls=["kd"]
+    # mls=["vanilla", "kd", "LoRD-II", "LoRD-IV"]
 
     # mls = ["google/gemma-2b",]
     train_times = [
         "1",
-        "2",
-        "3",
+        # "2",
+        # "3",
     ]
     train_nums = ["4", "8", "16", "32", "64", "100", "256", "512"]
     # train_nums = ["4", "8", "16", "32",]
@@ -74,6 +77,7 @@ def main():
     for task in taskls:
         for train_num in train_nums:
             for m in mls:
+                print(f"Current task: {m}")
                 for itime in train_times:
                     for periodnum in period_nums:
                         prefix = "./vArY_TrAiN_num_LoRA-LoRD-ckpts/"
@@ -83,12 +87,12 @@ def main():
                         elif m == "Complex-lord":
                             ckpt = (
                                 prefix
-                                + f"varyTrainNum___{train_num}{itime}{task}{m}332164256___period2"
+                                + f"varyTrainNum___{train_num}{itime}{task}{m}332164256___period2/"
                             )
                         elif "LoRD" in m:
                             ckpt = (
                                 prefix
-                                + f"varyTrainNum___{train_num}{itime}{task}{m}112164256___period{periodnum}"
+                                + f"varyTrainNum___{train_num}{itime}{task}{m}112164256___period{periodnum}/"
                             )
                         else:
                             ckpt = (
@@ -106,6 +110,8 @@ def main():
                         res_pth = res_pth.replace("/", "__").replace(".", "")
 
                         if not os.path.exists(dir_p + res_pth):
+                            print(dir_p+res_pth)
+                            print("file not exist.")
                             res_ls = infer_qa(
                                 ckpt, task, dir_p + res_pth,
                                 # test_set_take_num=1000,
@@ -114,6 +120,7 @@ def main():
                                 base_model_name=base_model,
                             )
                         else:
+                            print("directly loading")
                             # from collections import OrderedDict
                             with open(dir_p + res_pth, "r", encoding="utf8") as f:
                                 res_ls = json.load(
@@ -121,6 +128,7 @@ def main():
 
                         scores = eval_qaacc(task, res_ls)
                         res_dict[task + "-----" + res_pth] = scores
+                        print(scores)
     with open(
         dir_p + "Overall__qa_varytrain_num_inference_scores.json", "w", encoding="utf8"
     ) as f:
