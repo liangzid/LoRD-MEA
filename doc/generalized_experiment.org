@@ -19,8 +19,9 @@
 | llama3-8B (init model) | piqa    | 0.7824 | 0.0096 |
 | CE w.o. bug            | piqa    | 0.7802 | 0.0097 |
 | CE w. bug              | piqa    | 0.7949 | 0.0094 |
-| lordii w.o. bug        |         |        |        |
+| lordii w.o. bug        | piqa    | 0.7971 | 0.0094 |
 | lordii w. bug          | piqa    | 0.7900 | 0.0095 |
+| complex-lord           | piqa    | 0.7731 | 0.0098 |
 | claude3 (victim model) | -       |      - |      - |
 |------------------------+---------+--------+--------|
 
@@ -36,6 +37,9 @@
 | vanilla w. bug| arc_easy      | 0.822 | 0.0078 |
 | vanilla w. bug| arc_challenge | 0.503 | 0.0145 |
 |---------+---------------+-------+--------|
+
+
+Results of the llama3-8B model:
 
 |-------------|------:|------|-----:|--------|-----:|---|-----:|
 |    Tasks    |Version|Filter|n-shot| Metric |Value |   |Stderr|
