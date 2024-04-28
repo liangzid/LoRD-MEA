@@ -34,6 +34,7 @@ from sequence_utils import my_padding, my_padding_logits
 from sequence_utils import my_padding_token_dist
 from sequence_utils import my_padding_logit
 from sequence_utils import left_pad
+from sequence_utils import random_shut 
 
 import torch.nn.functional as F
 
@@ -173,6 +174,10 @@ def train_pod(lm,
             ## =======================================================
             ## New version of the code: chunked generation. 
             ## =======================================================
+
+            if args.with_early_shut==1:
+                print("EXECUTE ERALY SHUT...")
+                p_ls=random_shut(p_ls)
 
             chunked_size=args.infer_batch_size
             num_chunks=math.floor(len(p_ls)/chunked_size)
@@ -365,6 +370,9 @@ def train_pod(lm,
                                        p_ls, max_token_num, pad_idx)
         idxs12_ls, mask12 = my_padding(idxs12_ls,
                                        p_ls, max_token_num, pad_idx)
+        if args.with_early_shut:
+            mask11=torch.ones_like(mask11)
+            mask12=torch.ones_like(mask12)
 
         old_logits11_ls = my_padding_logit(old_logits11_ls,
                                            max_token_num-1, pad_idx)

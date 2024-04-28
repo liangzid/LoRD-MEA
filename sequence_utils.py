@@ -15,6 +15,7 @@ Utils for the sequence processing.
 
 import torch
 from typing import List
+import random
 
 
 def my_padding(ts_ls: List[torch.tensor], pls, msl, pad_idx,):
@@ -84,7 +85,23 @@ def my_padding_logit(ts_lss: List[torch.tensor], msl, pad_idx,):
     return target_tensor
 
 
+def random_shut(p_ls):
+    newpls=[]
+    for x in p_ls:
+        lens=len(x)
+        rand_shut_idx=random.randint(0,lens)
+        newx=x[:rand_shut_idx]
+        newpls.append(newx)
+    return newpls
+
+
 # running entry
 if __name__ == "__main__":
-    main()
+    p_ls=[
+        torch.tensor([1,2,3,4,5],dtype=torch.long),
+        torch.tensor([1,2,3,4],dtype=torch.long),
+        torch.tensor([1,2,3,4,5,6],dtype=torch.long),
+        torch.tensor([5,5,5,5,5],dtype=torch.long),
+        ]
+    print(random_shut(p_ls))
     print("EVERYTHING DONE.")
