@@ -33,6 +33,7 @@ import time
 from sequence_utils import my_padding, my_padding_logits
 from sequence_utils import my_padding_token_dist
 from sequence_utils import my_padding_logit
+from sequence_utils import left_pad
 
 import torch.nn.functional as F
 
@@ -75,17 +76,28 @@ def train(lm, lm_tokenizer, args,
     p_logits2ls = None
     p_vic_logits2ls = None
 
+    pp11ls=None
+    pp12ls=None
+
+    preset_subset_num=args.sub_set_num
+
     for ssn in range(sub_stage_num):
+        if ssn<3:
+            args.sub_set_num=16
+        else:
+            args.sub_set_num=preset_subset_num
 
         lm, p_i_11_ls, p_i_12_ls, p_m_11_ls,\
             p_m_12_ls, p_logits_11_ls, p_logits_12_ls,\
-            p_i2ls, pmask2s, p_logits2ls, p_vic_logits2ls\
-            = train_pod(lm, lm_tokenizer,
+            p_i2ls, pmask2s, p_logits2ls, p_vic_logits2ls, \
+            pp11ls, pp12ls = train_pod(
+                lm, lm_tokenizer,
                         args, raw_train_datals,
                         max_new_tokens,
                         p_i_11_ls, p_i_12_ls, p_m_11_ls,
                         p_m_12_ls, p_logits_11_ls, p_logits_12_ls,
-                        p_i2ls, pmask2s, p_logits2ls, p_vic_logits2ls
+                        p_i2ls, pmask2s, p_logits2ls, p_vic_logits2ls,
+                        pp11ls, pp12ls,
                         )
         if (ssn+1) % 3 == 0:
             print(f" -->NOW save the ckpt in stage {ssn}.")
@@ -101,9 +113,10 @@ def train_pod(lm,
               max_new_tokens,
               p_i_11_ls, p_i_12_ls, p_m_11_ls,
               p_m_12_ls, p_logits_11_ls, p_logits_12_ls,
-              p_i2ls, pmask2s, p_logits2ls, p_vic_logits2ls
+              p_i2ls, pmask2s, p_logits2ls, p_vic_logits2ls,
+              pp11ls, pp12ls,
               ):
-    print(">>>> DATA PREPERATION")
+    # print(">>>> DATA PREPERATION")
     tau1 = args.tau1
     tau2 = args.tau2
     print(f" Tau1: {tau1}\t Tau2: {tau2}.")
@@ -157,28 +170,67 @@ def train_pod(lm,
 
         # 2. generate
         with torch.no_grad():
-            for i, prompt in tqdm(enumerate(p_ls),
-                                  desc="Data Collecting..."):
-                prompt = prompt.to(args.device).unsqueeze(0)
-                # Generate New Tokens
-                idxs12 = lm.generate(prompt,
-                                     do_sample=True,
-                                     max_length=args.max_length,
-                                     max_new_tokens=max_new_tokens,
-                                     # temperature=args.temperature,
-                                     )
+            ## =======================================================
+            ## New version of the code: chunked generation. 
+            ## =======================================================
 
-                idxs11 = lm.generate(prompt,
-                                     do_sample=True,
-                                     max_length=args.max_length,
-                                     max_new_tokens=max_new_tokens,
-                                     # temperature=args.temperature,
-                                     )
+            chunked_size=args.infer_batch_size
+            num_chunks=math.floor(len(p_ls)/chunked_size)
+            # 1. first divided the model into chunks.
+            for i_chunked in range(num_chunks+1):
+                if i_chunked == num_chunks:
+                    if i_chunked*chunked_size!=len(p_ls):
+                        prompt=p_ls[i_chunked*chunked_size:]
+                        ## left padding
+                        print(f"BOS TOKEN ID: {lm_tokenizer.bos_token_id}")
+                        prompt=left_pad(prompt,lm_tokenizer.bos_token_id)
+                        prompt=prompt.to(args.device)
+                    else:
+                        break
+                else:
+                    print(f"BOS TOKEN ID: {lm_tokenizer.bos_token_id}")
+                    prompt=p_ls[i_chunked*chunked_size:\
+                                (i_chunked+1)*chunked_size]
+                    prompt=left_pad(prompt,lm_tokenizer.bos_token_id)
+                    prompt=prompt.to(args.device)
 
+                gen_idx=lm.generate(
+                    prompt,
+                    do_sample=True,
+                    max_length=args.max_length,
+                    max_new_tokens=max_new_tokens,
+                    num_return_sequences=2,
+                    temperature=1.5,
+                    top_p=0.98,
+                    use_cache=True,
+                    )
+
+                # gen_idx=lm.generate(
+                #     prompt,
+                #     do_sample=False,
+                #     num_beams=2,
+                #     num_beam_groups=2,
+                #     diversity_penalty=0.3,
+                #     num_return_sequences=2,
+                #     max_length=args.max_length,
+                #     max_new_tokens=max_new_tokens,
+                #     use_cache=True,
+                #     )
+
+
+                # 2. extract idx12 and idx11 from gen_idx
+                idxs11=gen_idx[0::2,:]
+                idxs12=gen_idx[1::2,:]
+
+                # print(gen_idx.shape)
+                # print(idxs11.shape)
+                # print(idxs12.shape)
+
+                # shape of gen idx: (2*chunked_size, msl)
                 bs, sqqql = idxs11.shape
                 # print(idxs1)
-                print(f"idxs11 {lm_tokenizer.decode(idxs11[0])}")
-                print(f"idxs12 {lm_tokenizer.decode(idxs12[0])}")
+                # print(f"idxs11 {lm_tokenizer.decode(idxs11[0])}")
+                # print(f"idxs12 {lm_tokenizer.decode(idxs12[0])}")
 
                 old_logits11 = lm(idxs11[:, :-1]).logits
                 old_logits11 = F.log_softmax(old_logits11, dim=-1)
@@ -197,9 +249,22 @@ def train_pod(lm,
                     idxs12[:, 1:sqqql2]
                 ]
 
+
+                idxs11_ls.extend([x for x in idxs11.to("cpu")])
+                idxs12_ls.extend([x for x in idxs12.to("cpu")])
+                old_logits11_ls.extend([x for x in old_logits11
+                                       .to("cpu")])
+                old_logits12_ls.extend([x for x in old_logits12
+                                       .to("cpu")])
+            # print(idxs11_ls)
+            # print(idxs12_ls)
+            # assert len(idxs11_ls)==len(idxs12_ls)
+            # assert len(idxs11_ls)==len(p_ls)
+                
+            for i in range(len(p_ls)):
                 idxs2 = torch.tensor(idx2ls[i], dtype=torch.long)\
                     .to(args.device).unsqueeze(0)
-                print(f"idxs2 {lm_tokenizer.decode(idxs2[0])}")
+                # print(f"idxs2 {lm_tokenizer.decode(idxs2[0])}")
                 old_logits2 = lm(idxs2[:, :-1]).logits
                 old_logits2 = F.log_softmax(old_logits2, dim=-1)
                 bs, sql2 = idxs2.shape
@@ -208,14 +273,70 @@ def train_pod(lm,
                     torch.arange(sql2-1).unsqueeze(0),
                     idxs2[:, 1:sql2]
                 ]
-
-                idxs11_ls.append(idxs11.squeeze(0).to("cpu"))
-                idxs12_ls.append(idxs12.squeeze(0).to("cpu"))
-                old_logits11_ls.append(old_logits11
-                                       .squeeze(0).to("cpu"))
-                old_logits12_ls.append(old_logits12
-                                       .squeeze(0).to("cpu"))
                 old_logits2_ls.append(old_logits2.squeeze(0).to("cpu"))
+
+            ## =======================================================
+            ## OLD CODE: NOT FAST ENOUGH MAYBE.
+            ## =======================================================
+            # for i, prompt in tqdm(enumerate(p_ls),
+            #                       desc="Data Collecting..."):
+            #     prompt = prompt.to(args.device).unsqueeze(0)
+            #     # Generate New Tokens
+            #     idxs12 = lm.generate(prompt,
+            #                          do_sample=True,
+            #                          max_length=args.max_length,
+            #                          max_new_tokens=max_new_tokens,
+            #                          # temperature=args.temperature,
+            #                          )
+
+            #     idxs11 = lm.generate(prompt,
+            #                          do_sample=True,
+            #                          max_length=args.max_length,
+            #                          max_new_tokens=max_new_tokens,
+            #                          # temperature=args.temperature,
+            #                          )
+
+            #     bs, sqqql = idxs11.shape
+            #     # print(idxs1)
+            #     print(f"idxs11 {lm_tokenizer.decode(idxs11[0])}")
+            #     print(f"idxs12 {lm_tokenizer.decode(idxs12[0])}")
+
+            #     old_logits11 = lm(idxs11[:, :-1]).logits
+            #     old_logits11 = F.log_softmax(old_logits11, dim=-1)
+            #     old_logits11 = old_logits11[
+            #         torch.arange(1).unsqueeze(1),
+            #         torch.arange(sqqql-1).unsqueeze(0),
+            #         idxs11[:, 1:sqqql]
+            #     ]
+
+            #     bs, sqqql2 = idxs12.shape
+            #     old_logits12 = lm(idxs12[:, :-1]).logits
+            #     old_logits12 = F.log_softmax(old_logits12, dim=-1)
+            #     old_logits12 = old_logits12[
+            #         torch.arange(1).unsqueeze(1),
+            #         torch.arange(sqqql2-1).unsqueeze(0),
+            #         idxs12[:, 1:sqqql2]
+            #     ]
+
+            #     idxs2 = torch.tensor(idx2ls[i], dtype=torch.long)\
+            #         .to(args.device).unsqueeze(0)
+            #     print(f"idxs2 {lm_tokenizer.decode(idxs2[0])}")
+            #     old_logits2 = lm(idxs2[:, :-1]).logits
+            #     old_logits2 = F.log_softmax(old_logits2, dim=-1)
+            #     bs, sql2 = idxs2.shape
+            #     old_logits2 = old_logits2[
+            #         torch.arange(1).unsqueeze(1),
+            #         torch.arange(sql2-1).unsqueeze(0),
+            #         idxs2[:, 1:sql2]
+            #     ]
+
+            #     idxs11_ls.append(idxs11.squeeze(0).to("cpu"))
+            #     idxs12_ls.append(idxs12.squeeze(0).to("cpu"))
+            #     old_logits11_ls.append(old_logits11
+            #                            .squeeze(0).to("cpu"))
+            #     old_logits12_ls.append(old_logits12
+            #                            .squeeze(0).to("cpu"))
+            #     old_logits2_ls.append(old_logits2.squeeze(0).to("cpu"))
 
         # do truncations and paddings.
         # max_token_num_11 = min(args.max_length,
@@ -300,6 +421,19 @@ def train_pod(lm,
             pmask2s = mask2
             p_logits2ls = old_logits2_ls
             p_vic_logits2ls = vic_logits2ls
+
+            pp11ls=[]
+            pp12ls=[]
+            for i, prompt in enumerate(p_ls):
+                p11 = float(torch.sum(torch.exp(p_logits_11_ls[i])
+                                      * p_m_11_ls[i, :-1])
+                            / torch.sum(p_m_11_ls[i, :-1]))
+                p12 = float(torch.sum(torch.exp(p_logits_12_ls[i])
+                                      * p_m_12_ls[i, :-1])
+                            / torch.sum(p_m_12_ls[i, :-1]))
+                pp11ls.append(p11)
+                pp12ls.append(p12)
+
         elif need_pre_store == 0:
             for i, prompt in enumerate(p_ls):
                 # print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
@@ -316,6 +450,9 @@ def train_pod(lm,
                 p12 = float(torch.sum(torch.exp(p_logits_12_ls[i])
                                       * p_m_12_ls[i, :-1])
                             / torch.sum(p_m_12_ls[i, :-1]))
+
+                p11=p11-pp11ls[i]
+                p12=p11-pp12ls[i]
 
                 print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
                 print(f"confidence, 1: {p11}, 2: {p12}")
@@ -342,7 +479,21 @@ def train_pod(lm,
                     p_logits_11_ls[i] = p_logits2ls[i]
 
                 if min(p11, p12) < tau2:
-                    period_break = 0
+                   period_break = 0
+
+            ## current the current idx11's probablity on current model
+            pp11ls=[]
+            pp12ls=[]
+            for i, prompt in enumerate(p_ls):
+                p11 = float(torch.sum(torch.exp(old_logits11_ls[i])
+                                      * p_m_11_ls[i, :-1])
+                            / torch.sum(p_m_11_ls[i, :-1]))
+                p12 = float(torch.sum(torch.exp(old_logits12_ls[i])
+                                      * p_m_12_ls[i, :-1])
+                            / torch.sum(p_m_12_ls[i, :-1]))
+                pp11ls.append(p11)
+                pp12ls.append(p12)
+
         need_pre_store = 0
 
         # Dataset what we seen is about the last stage,
@@ -393,7 +544,8 @@ def train_pod(lm,
             print("\n\n NOW BREAK SINCE ENOUGH TRAINING\n\n")
             return lm, p_i_11_ls, p_i_12_ls, p_m_11_ls,\
                 p_m_12_ls, p_logits_11_ls, p_logits_12_ls,\
-                p_i2ls, pmask2s, p_logits2ls, p_vic_logits2ls
+                p_i2ls, pmask2s, p_logits2ls, p_vic_logits2ls,\
+                pp11ls, pp12ls
 
         loader = DataLoader(trainset,
                             batch_size=args.batch_size,
@@ -419,7 +571,8 @@ def train_pod(lm,
     # lm.save_pretrained(args.save_path+"___finally")
     return lm, p_i_11_ls, p_i_12_ls, p_m_11_ls,\
         p_m_12_ls, p_logits_11_ls, p_logits_12_ls,\
-        p_i2ls, pmask2s, p_logits2ls, p_vic_logits2ls
+        p_i2ls, pmask2s, p_logits2ls, p_vic_logits2ls, \
+        pp11ls, pp12ls
 
 
 def one_period(args, lm,
@@ -476,10 +629,10 @@ def one_period(args, lm,
             if args.is_black_box==0:
                 vic_logits2 = vic_logits2.to(device)  # bs, sql, 5
 
-            print("===========================================")
-            print(f"idx11text:  {lm_tokenizer.decode(idxs11[0])}")
-            print(f"idx12text:  {lm_tokenizer.decode(idxs12[0])}")
-            print(f"idx2text:  {lm_tokenizer.decode(idxs2[0])}")
+            # print("===========================================")
+            # print(f">>>idx11text:  {lm_tokenizer.decode(idxs11[0])}")
+            # print(f">>>idx12text:  {lm_tokenizer.decode(idxs12[0])}")
+            # print(f">>>idx2text:  {lm_tokenizer.decode(idxs2[0])}")
 
             # loss1 = lm(idxs11,
             #            labels=labels11).loss

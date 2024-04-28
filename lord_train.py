@@ -550,6 +550,8 @@ def setup_train_args():
 
     parser.add_argument('--batch_size', default=1, type=int,
                         required=False)
+    parser.add_argument('--infer_batch_size', default=32, type=int,
+                        required=False)
     parser.add_argument('--task', default="lord", type=str,
                         required=False,)
     parser.add_argument('--use_old_logits', default="1", type=str,
@@ -595,6 +597,7 @@ def main():
         lm = AutoModelForCausalLM.from_pretrained(
             args.from_path,
             device_map="auto",
+            torch_dtype=torch.float16,
         )
 
     lm_tokenizer = AutoTokenizer.from_pretrained(args.from_path)

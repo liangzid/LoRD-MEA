@@ -6,6 +6,10 @@
 #+filetags: :exper:research:coding:
 
 
+I make sure:
+
+1. Complex-LoRD doesn't work well.
+2. LoRD-IV doesn't work well.
 
 ** Evaluate on PIQA
 

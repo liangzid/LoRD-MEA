@@ -34,6 +34,17 @@ def my_padding(ts_ls: List[torch.tensor], pls, msl, pad_idx,):
     return target_tensor, mask_tensor
 
 
+def left_pad(tensor_list: List[torch.Tensor], pad_id:torch.long):
+    longest_len=max([len(x) for x in tensor_list])
+    new_tensor_ls=[]
+    for x in tensor_list:
+        num_pad=longest_len-len(x)
+        ls=[pad_id for _ in range(num_pad)]
+        ls.extend(x.numpy().tolist())
+        new_tensor_ls.append(ls)
+    return torch.tensor(new_tensor_ls,dtype=torch.long)
+
+
 def my_padding_token_dist(ts_ls: List[torch.tensor], msl, pad_idx,):
     num = len(ts_ls)
     candidate_num = len(ts_ls[0][0])
