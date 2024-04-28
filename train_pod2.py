@@ -672,14 +672,14 @@ def one_period(args, lm,
 
             term1 = torch.sum(log_clip(-old_logits12+logits12)
                               * mask12[:, :-1])
-            term2 = torch.sum((old_logits11-logits11)
+            term2 = torch.sum(log_clip(old_logits11-logits11)
                               * mask11[:, :-1])
 
             if args.is_black_box == 0:
                 term3 = \
                     (vic_logits2[:, :, 0]+old_logits2-2*logits2_cons)
             else:
-                term3 = - logits2_cons
+                term3 = old_logits2 - logits2_cons
 
             term3 = torch.sum(term3 * mask2[:, :-1])
 
@@ -702,37 +702,29 @@ def one_period(args, lm,
             #     print(f"mask: {mask[:,:-1]}")
             #     print("++++++++DEBUG DONE.++++++++")
 
-            loss_constractive = loss
-
-            loss_constractive_past = 0.
-            loss_constractive_good = 0.
-            loss_logits = 0.
-
-            overall_loss += loss_constractive + loss_logits
-
-            # TEMPerial comment to use the new loss function.
-            # logits11 = lm(idxs11).logits[:, :-1, :]
-            # logits11 = F.log_softmax(logits11, dim=-1)
-            # logits11 = logits11[torch.arange(bs).unsqueeze(1),
-            #                     torch.arange(sqlen-1).unsqueeze(0),
-            #                     idxs11[:, 1:sqlen]]
-
-            # logits12 = lm(idxs12).logits[:, :-1, :]
-            # logits12 = F.log_softmax(logits12, dim=-1)
-            # logits12 = logits12[torch.arange(bs).unsqueeze(1),
-            #                     torch.arange(sqlen-1).unsqueeze(0),
-            #                     idxs12[:, 1:sqlen]]
-
-            # # now compute the loss:
-            # loss = -1*(torch.sum(logits11*mask11[:, :-1])
-            #            - torch.sum(logits12*mask12[:, :-1]))
+            overall_loss += loss
 
             overall_loss = loss
             if overall_step % log_step == 0:
                 print(" LOSS: {}".format(
                     overall_loss,
                 ))
+                print(" Neg Loss: {}".format(
+                    term1
+                ))
+                print(" Pos Loss: {}".format(
+                    term2
+                ))
+                print(" Standard Loss: {}".format(
+                    term3
+                ))
                 tb_writer.add_scalar("loss", overall_loss,
+                                     overall_step)
+                tb_writer.add_scalar("term1", term1,
+                                     overall_step)
+                tb_writer.add_scalar("term2", term2,
+                                     overall_step)
+                tb_writer.add_scalar("term3", term3,
                                      overall_step)
 
             if overall_step % save_step == 0:
