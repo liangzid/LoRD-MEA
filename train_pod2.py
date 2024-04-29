@@ -370,9 +370,11 @@ def train_pod(lm,
                                        p_ls, max_token_num, pad_idx)
         idxs12_ls, mask12 = my_padding(idxs12_ls,
                                        p_ls, max_token_num, pad_idx)
-        if args.with_early_shut:
+        if args.with_early_shut==1:
             mask11=torch.ones_like(mask11)
             mask12=torch.ones_like(mask12)
+        else:
+            pass
 
         old_logits11_ls = my_padding_logit(old_logits11_ls,
                                            max_token_num-1, pad_idx)

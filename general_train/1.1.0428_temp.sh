@@ -11,7 +11,7 @@ echo "HOME: ${HOME}"
 export python=${HOME}/anaconda3/envs/align/bin/python3
 # export CUDA_VISIBLE_DEVICES="0,1,2,3"
 # export CUDA_VISIBLE_DEVICES="0,1,2"
-export CUDA_VISIBLE_DEVICES="0"
+export CUDA_VISIBLE_DEVICES="5,6,7"
 export root_dir="${HOME}/alignmentExtraction/"
 export POD_save_dir="${root_dir}/general_train/ckpts/0428newtestlord2"
 export from_path="meta-llama/Meta-Llama-3-8B-Instruct"
@@ -27,11 +27,11 @@ export train_taskls=("LoRD-II")
 
 export is_black_box=1
 export use_lora=1
-export with_early_shut=1
+export with_early_shut=0
 
 export epoch=1
 export period=1
-export sub_set_num=16
+export sub_set_num=64
 export sub_stage_num=12
 export max_new_tokens=256
 export infer_batch_size=8
@@ -65,7 +65,7 @@ do
 		echo "+++++++train_task: ${train_task}+++++++"
 		echo "====================================================="
 
-		export save_path="${POD_save_dir}longtext${train_num}${train_time}${task}${train_task}${epoch}${period}${temperature}${batch_size}${max_new_tokens}${msl}"
+		export save_path="${POD_save_dir}longtext${with_early_shut}${train_num}${train_time}${task}${train_task}${epoch}${period}${temperature}${batch_size}${max_new_tokens}${msl}"
 
 		$python ${root_dir}lord_train.py\
 		    --use_lora=$use_lora \

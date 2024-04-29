@@ -26,7 +26,7 @@ def my_padding(ts_ls: List[torch.tensor], pls, msl, pad_idx,):
     assert len(ts_ls) == len(pls)
     for i, ts in enumerate(ts_ls):
         end_idx = min(msl, len(ts)+1)
-        prompt_idx = min(msl, len(pls[i])-2)
+        prompt_idx = min(msl, max(len(pls[i])-2,0))
         target_tensor[i, :end_idx-1] = torch.tensor(ts[:end_idx-1],
                                                     dtype=torch.long)
 

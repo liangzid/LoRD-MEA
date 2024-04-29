@@ -601,7 +601,7 @@ def main():
         lm = AutoModelForCausalLM.from_pretrained(
             args.from_path,
             device_map="auto",
-            torch_dtype=torch.float16,
+            # torch_dtype=torch.float16,
         )
 
     lm_tokenizer = AutoTokenizer.from_pretrained(args.from_path)
