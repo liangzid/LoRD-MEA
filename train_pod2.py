@@ -83,10 +83,11 @@ def train(lm, lm_tokenizer, args,
     preset_subset_num=args.sub_set_num
 
     for ssn in range(sub_stage_num):
-        if ssn<3:
-            args.sub_set_num=16
-        else:
-            args.sub_set_num=preset_subset_num
+        # if ssn<3:
+        #     args.sub_set_num=16
+        # else:
+        #     args.sub_set_num=preset_subset_num
+        print(f"subset_num: {args.sub_set_num}.")
 
         lm, p_i_11_ls, p_i_12_ls, p_m_11_ls,\
             p_m_12_ls, p_logits_11_ls, p_logits_12_ls,\
@@ -183,6 +184,7 @@ def train_pod(lm,
             num_chunks=math.floor(len(p_ls)/chunked_size)
             # 1. first divided the model into chunks.
             for i_chunked in range(num_chunks+1):
+                print(f"Chunks: {i_chunked}/{num_chunks}")
                 if i_chunked == num_chunks:
                     if i_chunked*chunked_size!=len(p_ls):
                         prompt=p_ls[i_chunked*chunked_size:]
@@ -199,6 +201,7 @@ def train_pod(lm,
                     prompt=left_pad(prompt,lm_tokenizer.bos_token_id)
                     prompt=prompt.to(args.device)
 
+                print(f"prompt.shape: {prompt.shape}")
                 gen_idx=lm.generate(
                     prompt,
                     do_sample=True,

@@ -518,7 +518,7 @@ def setup_train_args():
                         required=False)
     parser.add_argument('--acc_step', default=4, type=int,
                         required=False)
-    parser.add_argument('--log_step', default=100, type=int,
+    parser.add_argument('--log_step', default=1, type=int,
                         required=False)
     parser.add_argument('--save_step', default=10000, type=int,
                         required=False)
