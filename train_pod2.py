@@ -691,11 +691,28 @@ def one_period(args, lm,
             if method == "LoRD-II":
                 loss_1 = term1 + term2
                 loss_2 = term3
-            elif method == "LoRD-II-no_vic":
-                loss_1 = term2
-                loss_2 = term1
+                loss = loss_1 + loss_2
+            elif method == "LoRD-V":
+                if args.is_black_box == 0:
+                    term3 = \
+                        (vic_logits2[:, :, 0]+old_logits2-2*logits2_cons)
+                else:
+                    term3 = old_logits2 - logits2_cons
+                term3 = torch.sum(log_clip(term3) * mask2[:, :-1])
+                loss = 2*term2 - term1 + term3
+            elif method == "LoRD-VI":
+                if args.is_black_box == 0:
+                    term3 = \
+                        (vic_logits2[:, :, 0]+old_logits2-2*logits2_cons)
+                else:
+                    term3 = old_logits2 - logits2_cons
+                term3 = torch.sum(log_clip(term3) * mask2[:, :-1])
 
-            loss = loss_1 + loss_2
+                loss = term3 + 0.5 * term2 + 1.5* term1
+            else:
+                print("NO LOSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.")
+                loss=0.0
+                return -1
 
             # if loss == torch.tensor(float("nan")):
             #     print("++++++++++++++++++++++")
