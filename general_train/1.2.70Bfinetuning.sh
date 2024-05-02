@@ -30,9 +30,11 @@ export is_black_box=1
 export use_lora=1
 export epoch=2
 export period=1
-export sub_set_num=30
-export sub_stage_num=32
+export sub_set_num=32
+export sub_stage_num=30
 export max_new_tokens=2048
+
+export infer_batch_size=32
 
 export beta=1.0
 export temperature=2
