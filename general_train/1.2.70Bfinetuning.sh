@@ -19,20 +19,20 @@ export python=${HOME}/anaconda3/envs/align/bin/python3
 export CUDA_VISIBLE_DEVICES="0,1"
 export root_dir="${HOME}/alignmentExtraction/"
 export POD_save_dir="${root_dir}/general_train/ckpts/boring_test/"
-export from_path="meta-llama/Meta-Llama-3-70B-Instruct"
+export from_path="meta-llama/Meta-Llama-3-8B-Instruct"
 export TRAIN_NUMS=(3000)
 export train_times=(1)
 export msl=2048
 export task_ls=("liangzid/claude3_chat3.3k")
-export train_taskls=("LoRD-II")
+export train_taskls=("LoRD-VI")
 
 export is_black_box=1
 export use_lora=1
 export epoch=2
 export period=1
-export sub_set_num=64
-export sub_stage_num=8
-export max_new_tokens=256
+export sub_set_num=30
+export sub_stage_num=32
+export max_new_tokens=2048
 
 export beta=1.0
 export temperature=2
@@ -43,8 +43,8 @@ export use_vic_logits=1
 export use_kld=0
 export use_entropy=0
 
-export tau1=0.85
-export tau2=0.80
+export tau1=0.01
+export tau2=0.00
 
 # export train_num=100
 
