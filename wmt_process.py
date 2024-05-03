@@ -284,7 +284,7 @@ def commonly_used_openai_post_process(
 
 def infer_wmt(modelname, task_name, res_pth,
               test_set_take_num=100,
-              mnt=16
+              mnt=16,
               base_model=None,
               ):
     save_pth = res_pth
