@@ -16,7 +16,7 @@
 
 echo "HOME: ${HOME}"
 export python=${HOME}/anaconda3/envs/align/bin/python3
-export CUDA_VISIBLE_DEVICES="0,1"
+export CUDA_VISIBLE_DEVICES="0,1,2"
 export root_dir="${HOME}/alignmentExtraction/"
 export POD_save_dir="${root_dir}/general_train/ckpts/boring_test/"
 export from_path="meta-llama/Meta-Llama-3-8B-Instruct"
@@ -28,7 +28,8 @@ export task_ls=("liangzid/claude3_short256")
 # export task_ls=("liangzid/claude3_chat3.3k")
 # export train_taskls=("vanilla")
 # export train_taskls=("LoRD-II")
-export train_taskls=("LoRD-V" "LoRD-VI")
+# export train_taskls=("LoRD-V" "LoRD-VI")
+export train_taskls=("LoRD-VI")
 
 # ## ====================TO DEBUG====================
 # export epoch=1
@@ -51,7 +52,7 @@ export period=1
 export sub_set_num=16
 export sub_stage_num=15
 export max_new_tokens=256
-export infer_batch_size=16
+export infer_batch_size=8
 export batch_size=1
 
 export beta=1.0
@@ -62,7 +63,7 @@ export use_vic_logits=1
 export use_kld=0
 export use_entropy=0
 
-export tau1=0.02
+export tau1=0.00
 export tau2=0.00
 
 # export train_num=100

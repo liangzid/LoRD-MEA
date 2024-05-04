@@ -163,12 +163,28 @@ def train_pod(lm,
     for iter_idx in range(ITER_num):
         tensorboard_name = f"Period {iter_idx}"
 
+        old_logits2_ls = []
+
+        with torch.no_grad():
+            # print(f"device: {idxs11.device}")
+            for i in range(len(idx2ls)):
+                idxs2 = torch.tensor(idx2ls[i])\
+                    .unsqueeze(0)
+                old_logits2 = lm(idxs2).logits
+                old_logits2 = old_logits2[:,:-1]
+                old_logits2 = F.log_softmax(old_logits2, dim=-1)
+                bs, sql2 = idxs2.shape
+                old_logits2 = old_logits2[
+                    torch.arange(1).unsqueeze(1),
+                    torch.arange(sql2-1).unsqueeze(0),
+                    idxs2[:, 1:sql2]
+                ]
+                old_logits2_ls.append(old_logits2.squeeze(0).to("cpu"))
+
         idxs11_ls = []
         idxs12_ls = []
         old_logits11_ls = []
         old_logits12_ls = []
-
-        old_logits2_ls = []
 
         # 2. generate
         with torch.no_grad():
@@ -271,20 +287,6 @@ def train_pod(lm,
             # assert len(idxs11_ls)==len(idxs12_ls)
             # assert len(idxs11_ls)==len(p_ls)
                 
-            for i in range(len(p_ls)):
-                idxs2 = torch.tensor(idx2ls[i], dtype=torch.long)\
-                    .to(args.device).unsqueeze(0)
-                print(f"idxs2.shape: {idxs2.shape}")
-                # print(f"idxs2 {lm_tokenizer.decode(idxs2[0])}")
-                old_logits2 = lm(idxs2[:, :-1]).logits
-                old_logits2 = F.log_softmax(old_logits2, dim=-1)
-                bs, sql2 = idxs2.shape
-                old_logits2 = old_logits2[
-                    torch.arange(1).unsqueeze(1),
-                    torch.arange(sql2-1).unsqueeze(0),
-                    idxs2[:, 1:sql2]
-                ]
-                old_logits2_ls.append(old_logits2.squeeze(0).to("cpu"))
 
             ## =======================================================
             ## OLD CODE: NOT FAST ENOUGH MAYBE.
@@ -497,16 +499,17 @@ def train_pod(lm,
                 if min(p11, p12) < tau2:
                    period_break = 0
 
-            ## current the current idx11's probablity on current model
+            ## compute the current idx11's probablity on current model
+
             pp11ls=[]
             pp12ls=[]
             for i, prompt in enumerate(p_ls):
                 p11 = float(torch.sum(torch.exp(old_logits11_ls[i])
-                                      * p_m_11_ls[i, :-1])
-                            / torch.sum(p_m_11_ls[i, :-1]))
+                                      * mask11[i, :-1])
+                            / torch.sum(mask11[i, :-1]))
                 p12 = float(torch.sum(torch.exp(old_logits12_ls[i])
-                                      * p_m_12_ls[i, :-1])
-                            / torch.sum(p_m_12_ls[i, :-1]))
+                                      * mask12[i, :-1])
+                            / torch.sum(mask12[i, :-1]))
                 pp11ls.append(p11)
                 pp12ls.append(p12)
 

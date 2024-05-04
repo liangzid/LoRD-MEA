@@ -504,7 +504,7 @@ def setup_train_args():
     设置训练参数
     """
     parser = argparse.ArgumentParser()
-    parser.add_argument('--device', default="cuda:0", type=str,
+    parser.add_argument('--device', default="cuda", type=str,
                         required=False)
     parser.add_argument('--epoch', default=2, type=int,
                         required=False)
@@ -601,15 +601,19 @@ def main():
         lm = AutoModelForCausalLM.from_pretrained(
             args.from_path,
             device_map="auto",
-            # torch_dtype=torch.float16,
+            trust_remote_code=True,
+            # torch_dtype=torch.bfloat16,
         )
 
-    lm_tokenizer = AutoTokenizer.from_pretrained(args.from_path)
-    tokenizer = AutoTokenizer.from_pretrained(args.from_path)
+    lm_tokenizer = AutoTokenizer.from_pretrained(args.from_path,
+             trust_remote_code=True,
+                                                 )
+    tokenizer = AutoTokenizer.from_pretrained(args.from_path,
+                                              trust_remote_code=True,)
 
-    # if lm_tokenizer.pad_token is None:
-    lm_tokenizer.pad_token = lm_tokenizer.eos_token
-    tokenizer.pad_token = tokenizer.eos_token
+    if lm_tokenizer.pad_token is None:
+        lm_tokenizer.pad_token = lm_tokenizer.eos_token
+        tokenizer.pad_token = tokenizer.eos_token
 
     tasks_glue = [
         "cola", "mnli",
