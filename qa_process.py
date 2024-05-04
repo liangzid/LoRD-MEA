@@ -17,7 +17,7 @@ import os
 if __name__ == "__main__":
     # os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,6,7"
-    os.environ["CUDA_VISIBLE_DEVICES"] = "6"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "0,7"
 
 from datasets import load_dataset
 import json
@@ -301,9 +301,13 @@ def eval_qa_res():
     #         "piqa",
     #         "google/gemma-7b",
     #     ],
-        ["piqa",
-         "./LoRA-LoRD-ckptsvaryTrainNum___321piqaComplex-lord332164256___period2"
-         ],
+        # ["piqa",
+         # "./LoRA-LoRD-ckptsvaryTrainNum___321piqaComplex-lord332164256___period2"
+         # ],
+        [
+            "piqa",
+            "meta-llama/Meta-Llama-3-8B-Instruct",
+        ],
     )
 
     res_dict = {}
