@@ -462,10 +462,13 @@ def train_pod(lm,
                 pidx11 = p_i_11_ls[i].unsqueeze(0).to(args.device)
                 pidx12 = p_i_12_ls[i].unsqueeze(0).to(args.device)
 
-                p11 = float(torch.sum(torch.exp(p_logits_11_ls[i])
+                P_theta_t_logits11=lm(pidx11).logits[:,:-1]
+                P_theta_t_logits12=lm(pidx11).logits[:,:-1]
+
+                p11 = float(torch.sum(torch.exp(P_theta_t_logits11)
                                       * p_m_11_ls[i, :-1])
                             / torch.sum(p_m_11_ls[i, :-1]))
-                p12 = float(torch.sum(torch.exp(p_logits_12_ls[i])
+                p12 = float(torch.sum(torch.exp(P_theta_t_logits12)
                                       * p_m_12_ls[i, :-1])
                             / torch.sum(p_m_12_ls[i, :-1]))
 
