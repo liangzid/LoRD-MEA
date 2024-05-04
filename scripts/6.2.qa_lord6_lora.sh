@@ -1,24 +1,25 @@
 #!/bin/bash
 ######################################################################
-#6.1.WMT_LORD6_LORA ---
+#6.2.QA_LORD6_LORA ---
 
-# training LORD-VI on WMT16 datasets, for stealing.
+# TRAINING LORD6 on QA TASKS with LORA METHODS.
 
 # Author: Zi Liang <zi1415926.liang@connect.polyu.hk>
 # Copyright © 2024, ZiLiang, all rights reserved.
-# Created:  2 May 2024
+# Created:  4 May 2024
 ######################################################################
 
 echo "HOME: ${HOME}"
 export python=${HOME}/anaconda3/envs/align/bin/python3
-export CUDA_VISIBLE_DEVICES="0,1,2"
+# export CUDA_VISIBLE_DEVICES="0,1,2"
+export CUDA_VISIBLE_DEVICES="4,5,6"
 export root_dir="${HOME}/alignmentExtraction/"
-export POD_save_dir="${root_dir}/wmt16_ckpts/"
+export POD_save_dir="${root_dir}/qa_ckpts/"
 export from_path="meta-llama/Meta-Llama-3-8B-Instruct"
 export TRAIN_NUMS=(256)
 export train_times=(1)
 export msl=256
-export task_ls=("cs-en" "de-en" "fi-en")
+export task_ls=("piqa")
 export train_taskls=("LoRD-VI")
 
 export is_black_box=1
@@ -26,10 +27,10 @@ export use_lora=1
 
 export epoch=2
 export period=1
-export sub_set_num=16
+export sub_set_num=4
 export sub_stage_num=15
-export max_new_tokens=64
-export infer_batch_size=8
+export max_new_tokens=32
+export infer_batch_size=2
 export batch_size=1
 
 export beta=1.0
@@ -58,9 +59,10 @@ do
 		echo "+++++++train_task: ${train_task}+++++++"
 		echo "====================================================="
 
-		export save_path="${POD_save_dir}WMTTT${train_num}${train_time}${task}${train_task}${epoch}${period}${temperature}${batch_size}${max_new_tokens}${msl}"
+		export save_path="${POD_save_dir}QAAA${train_num}${train_time}${task}${train_task}${epoch}${period}${temperature}${batch_size}${max_new_tokens}${msl}"
 
 		$python ${root_dir}lord_train.py\
+		    --dataset_task=$task \
 		    --use_lora=$use_lora \
 		    --from_path=$from_path \
 		    --is_black_box=$is_black_box \
@@ -86,7 +88,6 @@ do
 		    --use_vic_logits=$use_vic_logits\
 		    --use_kld=$use_kld\
 		    --max_length=$msl \
-		    --dataset_task=$task \
 		    --save_path=$save_path
 		echo "DONE FOR ONE TRAIN NUMBERS...."
 	    done
@@ -95,5 +96,5 @@ do
 done
 
 
-echo "RUNNING 6.1.wmt_lord6_lora.sh DONE."
-# 6.1.wmt_lord6_lora.sh ends here
+echo "RUNNING 6.2.qa_lord6_lora.sh DONE."
+# 6.2.qa_lord6_lora.sh ends here

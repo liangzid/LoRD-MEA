@@ -12,9 +12,10 @@ WMT dataset process scripts.
 
 import os
 if __name__ == "__main__":
-    os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
+    # os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,2,7"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,6,7"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "3,7"
 
 from gen_pipeline_open import InferObj
 from training_data_collecting_openai import chatWithOpenAI__LogLogits
@@ -285,7 +286,7 @@ def commonly_used_openai_post_process(
 def infer_wmt(modelname, task_name, res_pth,
               test_set_take_num=100,
               mnt=16,
-              base_model=None,
+              base_model_name=None,
               ):
     save_pth = res_pth
 
@@ -325,6 +326,7 @@ def infer_wmt(modelname, task_name, res_pth,
     if modelname=="gpt-3.5-turbo-1106":
         from training_data_collecting_openai import chatWithOpenAI_APIs
         res_ls=[]
+        pp = task_prompt_map[task_name]
         for d in tqdm(sets):
             d=d["translation"]
             inps=d[from_lang]
