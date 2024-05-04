@@ -43,12 +43,17 @@ I make sure:
 | lord-v epoch11                | piqa    | 0.7916 | 0.0095 |
 | lord-v epoch14                | piqa    | 0.7916 | 0.0095 |
 |-------------------------------+---------+--------+--------|
-| lord-v epoch2                 | piqa    | 0.7916 | 0.0095 |
-| lord-v epoch5                 | piqa    | 0.7938 | 0.0094 |
-| lord-v epoch8                 | piqa    | 0.7911 | 0.0095 |
-| lord-v epoch11                | piqa    | 0.7954 | 0.0094 |
-| lord-v epoch14                | piqa    | 0.7971 | 0.0094 |
+| lord-vi epoch2 (w. bug)       | piqa    | 0.7916 | 0.0095 |
+| lord-vi epoch5  (w. bug)       | piqa    | 0.7938 | 0.0094 |
+| lord-vi epoch8  (w. bug)       | piqa    | 0.7911 | 0.0095 |
+| lord-vi epoch11  (w. bug)      | piqa    | 0.7954 | 0.0094 |
+| lord-vi epoch14  (w. bug)      | piqa    | 0.7971 | 0.0094 |
 |-------------------------------+---------+--------+--------|
+| lord-VI epoch2                | piqa    |        |        |
+| lord-VI epoch5                | piqa    |        |        |
+| lord-VI epoch8                | piqa    |        |        |
+| lord-VI epoch11                | piqa    |        |        |
+| lord-VI epoch14                | piqa    |        |        |
 
 
 |---------+---------------+-------+--------|
