@@ -469,7 +469,7 @@ def train_pod(lm,
                 P_theta_t_logits11=P_theta_t_logits11[
                     torch.arange(1).unsqueeze(1),
                     torch.arange(sqqql-1).unsqueeze(0),
-                    idxs11[:, 1:sqqql]
+                    pidx11[:, 1:sqqql]
                     ]
 
                 bs, sqqql = pidx12.shape
@@ -479,7 +479,7 @@ def train_pod(lm,
                 P_theta_t_logits12=P_theta_t_logits12[
                     torch.arange(1).unsqueeze(1),
                     torch.arange(sqqql-1).unsqueeze(0),
-                    idxs12[:, 1:sqqql]
+                    pidx12[:, 1:sqqql]
                     ]
 
                 p11 = float(torch.sum(torch.exp(P_theta_t_logits11)
