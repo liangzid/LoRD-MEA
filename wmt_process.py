@@ -12,9 +12,10 @@ WMT dataset process scripts.
 
 import os
 if __name__ == "__main__":
-    os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
+    # os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,2,7"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,6,7"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "3,7"
 
 from gen_pipeline_open import InferObj
 from training_data_collecting_openai import chatWithOpenAI__LogLogits
@@ -284,14 +285,11 @@ def commonly_used_openai_post_process(
 
 def infer_wmt(modelname, task_name, res_pth,
               test_set_take_num=100,
-              mnt=16
+              mnt=16,
+              base_model_name=None,
               ):
     save_pth = res_pth
 
-    model = InferObj(model_name=modelname,
-                     device="auto",
-                     max_length=2047)
-    gen_pipeline = model.text_gen
 
     task_prompt_map = {
         "cs-en": "Translate the sentence from Czech to English Please.",
@@ -324,26 +322,81 @@ def infer_wmt(modelname, task_name, res_pth,
     sets = dataset
     from_lang, to_lange = task_name.split("-")
 
-    res_ls = []
-    pp = task_prompt_map[task_name]
-    for d in tqdm(sets):
-        d = d["translation"]
-        inps = d[from_lang]
-        label = d[to_lange]
-        final_inps = "Instruction: " + pp +\
-            " User: "+inps+" Assistant: "
-        res = gen_pipeline(final_inps,
-                           do_sample=True,
-                           max_new_tokens=mnt,
-                           )[0]["generated_text"]
 
-        print("++++++++++++++++++DEBUG INFO+++++++++++++++++++++++")
-        print(f">>>Res with Inpus: {res}")
-        res = res.split(final_inps)[1]
-        print(f">>>Res without Inpus: {res}")
-        print(f">>>Labels: {label}")
-        res_ls.append((res, label))
-        # break
+    if modelname=="gpt-3.5-turbo-1106":
+        from training_data_collecting_openai import chatWithOpenAI_APIs
+        res_ls=[]
+        pp = task_prompt_map[task_name]
+        for d in tqdm(sets):
+            d=d["translation"]
+            inps=d[from_lang]
+            label=d[to_lange]
+            res=chatWithOpenAI_APIs(modelname, pp, inps)
+            print(f"Generated Text: {res}")
+            res_ls.append((res, label))
+    elif base_model_name is None:
+        model = InferObj(model_name=modelname,
+                     device="auto",
+                     max_length=2047)
+        gen_pipeline = model.text_gen
+
+        res_ls = []
+        pp = task_prompt_map[task_name]
+        for d in tqdm(sets):
+            d = d["translation"]
+            inps = d[from_lang]
+            label = d[to_lange]
+            final_inps = "Instruction: " + pp +\
+                " User: "+inps+" Assistant: "
+            res = gen_pipeline(final_inps,
+                            do_sample=True,
+                            max_new_tokens=mnt,
+                            )[0]["generated_text"]
+
+            print("++++++++++++++++++DEBUG INFO+++++++++++++++++++++++")
+            print(f">>>Res with Inpus: {res}")
+            res = res.split(final_inps)[1]
+            print(f">>>Res without Inpus: {res}")
+            print(f">>>Labels: {label}")
+            res_ls.append((res, label))
+            # break
+    else:
+        print("USING PEFT: BASE MODEL + LORA")
+        # load model based on our idea
+        model = AutoModelForCausalLM.from_pretrained(
+            base_model_name,
+            device_map="auto",
+        )
+        model = PeftModel.from_pretrained(model, modelname)
+        tokenizer = AutoTokenizer\
+            .from_pretrained(base_model_name)
+        tokenizer.pad_token = tokenizer.eos_token
+        tokenizer.padding_side = "right"
+
+        res_ls = []
+        for d in tqdm(inp_ls):
+            d = d["translation"]
+            inps = d[from_lang]
+            label = d[to_lange]
+            final_inps = "Instruction: " + pp +\
+                " User: "+inps+" Assistant: "
+            res = gen_pipeline(final_inps,
+                            do_sample=True,
+                            max_new_tokens=mnt,
+                            )[0]["generated_text"]
+
+            print("++++++++++++++++++DEBUG INFO+++++++++++++++++++++++")
+            print(f">>>Res with Inpus: {res}")
+            res = res.split(final_inps)[1]
+            print(f">>>Res without Inpus: {res}")
+            print(f">>>Labels: {label}")
+            res_ls.append((res, label))
+            # break
+        
+    model = None
+    gen_pipeline = None
+    tokenizer = None
+
     with open(save_pth, 'w', encoding='utf8') as f:
         json.dump(res_ls, f, ensure_ascii=False, indent=4)
 
@@ -386,8 +439,7 @@ def evaluation_datas():
         # ["cs-en", "./lord-IV_ckpt/cs-en/LoRD-IV1003256cs-en64__long_stage_style_ckpt___period2"],
 
         # evaluate the experimental results of LoRD-II.
-        ["cs-en", "./lordii_ckpt/cs-en/LoRD-II816256cs-en64__hyper-para-search_ckpt___period14/"],
-
+        # ["cs-en", "./lordii_ckpt/cs-en/LoRD-II816256cs-en64__hyper-para-search_ckpt___period14/"],
 
         # ["cs-en",
         #  "./lord-lord-IV_ckpt/cs-en/"
@@ -399,6 +451,15 @@ def evaluation_datas():
         # ["cs-en", "./lordii_ckpt/cs-en/LoRD-II1003256cs-en64__long_stage_style_ckpt___period2/"],
 
         # ["cs-en", "./lord-IV_ckpt/cs-en/LoRD-IV1003256cs-en64__long_stage_style_ckpt___period2/"],
+        #################################
+        ["cs-en",
+         "gpt-3.5-turbo-1106",
+         ],
+
+        ["cs-en",
+         "meta-llama/Meta-Llama-3-8B-Instruct",
+         ],
+        
     ]
     res_dict = {}
     dir_p = "./wmt16_res/"
@@ -412,7 +473,7 @@ def evaluation_datas():
         if not os.path.exists(dir_p+res_pth):
             res_ls = infer_wmt(ckpt, task, dir_p+res_pth,
                                # test_set_take_num=100,
-                               test_set_take_num=50,
+                               test_set_take_num=500,
                                mnt=64)
         else:
             # from collections import OrderedDict
@@ -531,7 +592,7 @@ def eval_varying_train_num():
 # running entry
 if __name__ == "__main__":
     # main()
-    # evaluation_datas()
+    evaluation_datas()
     # eval_all()
-    eval_varying_train_num()
+    # eval_varying_train_num()
     print("EVERYTHING DONE.")

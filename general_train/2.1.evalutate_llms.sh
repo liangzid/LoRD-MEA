@@ -35,8 +35,8 @@ export pmp=meta-llama/Meta-Llama-3-8B-Instruct
 # export train_taskls=("LoRD-II" "LoRD-IV")
 export m="LoRD-II"
 # export m="LoRD-IV"
-# export fmp="${save_dir}longtext2491liangzid/claude3_short256LoRD-II2121256256___period2/"
-export fmp="${save_dir}longtext2491liangzid/claude3_short256LoRD-II2121256256___period2/"
+export fmp="${save_dir}longtext2491liangzid/claude3_short256LoRD-V2121256256___period2/"
+export fmp="${save_dir}longtext2491liangzid/claude3_short256LoRD-VI2121256256___period2/"
 
 # export fmp="${save_dir}longtext2491liangzid/claude3_short256Complex-lord1521256256___period2"
 

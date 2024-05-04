@@ -182,8 +182,12 @@ def train_pod(lm,
 
             chunked_size=args.infer_batch_size
             num_chunks=math.floor(len(p_ls)/chunked_size)
+            if num_chunks*chunked_size - len(p_ls)==0.0:
+                num_range=num_chunks
+            else:
+                num_range=num_chunks+1
             # 1. first divided the model into chunks.
-            for i_chunked in range(num_chunks+1):
+            for i_chunked in range(num_range):
                 print(f"Chunks: {i_chunked}/{num_chunks}")
                 if i_chunked == num_chunks:
                     if i_chunked*chunked_size!=len(p_ls):
@@ -192,8 +196,6 @@ def train_pod(lm,
                         print(f"BOS TOKEN ID: {lm_tokenizer.bos_token_id}")
                         prompt=left_pad(prompt,lm_tokenizer.bos_token_id)
                         prompt=prompt.to(args.device)
-                    else:
-                        break
                 else:
                     print(f"BOS TOKEN ID: {lm_tokenizer.bos_token_id}")
                     prompt=p_ls[i_chunked*chunked_size:\
@@ -272,6 +274,7 @@ def train_pod(lm,
             for i in range(len(p_ls)):
                 idxs2 = torch.tensor(idx2ls[i], dtype=torch.long)\
                     .to(args.device).unsqueeze(0)
+                print(f"idxs2.shape: {idxs2.shape}")
                 # print(f"idxs2 {lm_tokenizer.decode(idxs2[0])}")
                 old_logits2 = lm(idxs2[:, :-1]).logits
                 old_logits2 = F.log_softmax(old_logits2, dim=-1)

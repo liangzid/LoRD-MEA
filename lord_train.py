@@ -504,7 +504,7 @@ def setup_train_args():
     设置训练参数
     """
     parser = argparse.ArgumentParser()
-    parser.add_argument('--device', default="cuda:3", type=str,
+    parser.add_argument('--device', default="cuda:0", type=str,
                         required=False)
     parser.add_argument('--epoch', default=2, type=int,
                         required=False)
