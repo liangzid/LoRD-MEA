@@ -30,7 +30,7 @@ export period=1
 export sub_set_num=16
 export sub_stage_num=15
 export max_new_tokens=64
-export infer_batch_size=8
+export infer_batch_size=4
 export batch_size=1
 
 export beta=1.0

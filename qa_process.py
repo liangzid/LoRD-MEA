@@ -17,7 +17,9 @@ import os
 if __name__ == "__main__":
     # os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,6,7"
-    os.environ["CUDA_VISIBLE_DEVICES"] = "0,7"
+    # os.environ["CUDA_VISIBLE_DEVICES"] = "3,7"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "4,5"
+    os.environ["TORCH_USE_CUDA_DSA"]="1"
 
 from datasets import load_dataset
 import json
@@ -269,7 +271,10 @@ def infer_qa(modelname, task_name, res_pth, test_set_take_num=100,
                                  max_new_tokens=mnt,)
             print(res)
             res=tokenizer.decode(res[0])
-            res = res.split(final_inps)[1]
+            if final_inps in res:
+                res = res.split(final_inps)[1]
+            else:
+                res = res
             print(f"Text Generated:>>> {res}")
             res_ls.append((res, summary))
 
@@ -308,7 +313,26 @@ def eval_qa_res():
             "piqa",
             "meta-llama/Meta-Llama-3-8B-Instruct",
         ],
+        [
+            "piqa",
+            "./qa_ckpts/QAAA2561piqaLoRD-VI212132256___period5/",
+        ],
+        [
+            "piqa",
+            "./qa_ckpts/QAAA2561piqaLoRD-VI212132256___period8/",
+        ],
+        [
+            "piqa",
+            "./qa_ckpts/QAAA2561piqaLoRD-VI212132256___period11/",
+        ],
+        [
+            "piqa",
+            "./qa_ckpts/QAAA2561piqaLoRD-VI212132256___period14/",
+        ],
+
+
     )
+    base_model_name="meta-llama/Meta-Llama-3-8B-Instruct"
 
     res_dict = {}
     dir_p = "./qa_dataset_res/"
@@ -326,7 +350,9 @@ def eval_qa_res():
                 dir_p + res_pth,
                 test_set_take_num=500,
                 # test_set_take_num=50,
-                mnt=64,
+                # mnt=64,
+                mnt=32,
+                base_model_name=base_model_name
             )
         else:
             # from collections import OrderedDict
