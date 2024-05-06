@@ -44,16 +44,23 @@ I make sure:
 | lord-v epoch14                | piqa    | 0.7916 | 0.0095 |
 |-------------------------------+---------+--------+--------|
 | lord-vi epoch2 (w. bug)       | piqa    | 0.7916 | 0.0095 |
-| lord-vi epoch5  (w. bug)       | piqa    | 0.7938 | 0.0094 |
-| lord-vi epoch8  (w. bug)       | piqa    | 0.7911 | 0.0095 |
-| lord-vi epoch11  (w. bug)      | piqa    | 0.7954 | 0.0094 |
-| lord-vi epoch14  (w. bug)      | piqa    | 0.7971 | 0.0094 |
+| lord-vi epoch5  (w. bug)      | piqa    | 0.7938 | 0.0094 |
+| lord-vi epoch8  (w. bug)      | piqa    | 0.7911 | 0.0095 |
+| lord-vi epoch11  (w. bug)     | piqa    | 0.7954 | 0.0094 |
+| lord-vi epoch14  (w. bug)     | piqa    | 0.7971 | 0.0094 |
 |-------------------------------+---------+--------+--------|
-| lord-VI epoch2                | piqa    |        |        |
-| lord-VI epoch5                | piqa    |        |        |
-| lord-VI epoch8                | piqa    |        |        |
-| lord-VI epoch11                | piqa    |        |        |
-| lord-VI epoch14                | piqa    |        |        |
+| lord-VI epoch2 w.o. bug       | piqa    | 0.7933 | 0.0094 |
+| lord-VI epoch5 w.o. bug       | piqa    | 0.7878 | 0.0095 |
+| lord-VI epoch8 w.o. bug       | piqa    | 0.7835 | 0.0096 |
+| lord-VI epoch11 w.o. bug      | piqa    | 0.7769 | 0.0097 |
+| lord-VI epoch14 w.o. bug      | piqa    | 0.7791 | 0.0097 |
+|-------------------------------+---------+--------+--------|
+| lord-VI epoch2 w.o. bug       | piqa    | 0. | 0.00 |
+| lord-VI epoch5 w.o. bug       | piqa    | 0. | 0.00 |
+| lord-VI epoch8 w.o. bug       | piqa    | 0. | 0.00 |
+| lord-VI epoch11 w.o. bug      | piqa    | 0. | 0.00 |
+| lord-VI epoch14 w.o. bug      | piqa    | 0. | 0.00 |
+|                               |         |        |        |
 
 
 |---------+---------------+-------+--------|

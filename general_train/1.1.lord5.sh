@@ -53,7 +53,7 @@ export period=1
 export sub_set_num=16
 export sub_stage_num=15
 export max_new_tokens=256
-export infer_batch_size=8
+export infer_batch_size=4
 export batch_size=1
 
 export beta=1.0
@@ -64,8 +64,8 @@ export use_vic_logits=1
 export use_kld=0
 export use_entropy=0
 
-export tau1=0.00
-export tau2=0.00
+export tau1=0.02
+export tau2=0.02
 
 # export train_num=100
 
