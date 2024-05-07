@@ -43,6 +43,19 @@ import random
 
 from rlhf_train import clip, log_clip
 
+
+from peft import (
+    LoraConfig,
+    # PeftConfig,
+    # PeftModel,
+    get_peft_model,
+    # prepare_model_for_kbit_training,
+)
+from peft import PeftModel
+from transformers import AutoModelForCausalLM
+from transformers import AutoTokenizer, AutoConfig, AutoModel
+
+
 import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -83,6 +96,26 @@ def train(lm, lm_tokenizer, args,
     preset_subset_num=args.sub_set_num
 
     for ssn in range(sub_stage_num):
+
+        #### Transform the LLM into a single device.
+        print(f" -->NOW save the ckpt in stage {ssn}.")
+        args.temp_save_path=args.save_path+"___period"+str(ssn)
+        lm_tokenizer.save_pretrained(args.temp_save_path)
+        lm.save_pretrained(args.temp_save_path)
+
+        # #### Transform back.
+        # lm=None
+        # print("TO AUTO.")
+        # lm = AutoModelForCausalLM.from_pretrained(
+        #     args.from_path,
+        #     device_map="auto",
+        #     trust_remote_code=True,
+        #     torch_dtype=torch.bfloat16,
+        # )
+        # # if args.use_lora == 1:
+        #     # lm = PeftModel.from_pretrained(lm, args.temp_save_path)
+        # print("TO AUTO DONE.")
+
         # if ssn<3:
         #     args.sub_set_num=16
         # else:
@@ -101,13 +134,8 @@ def train(lm, lm_tokenizer, args,
                         p_i2ls, pmask2s, p_logits2ls, p_vic_logits2ls,
                         pp11ls, pp12ls,
                         )
-        if (ssn+1) % 3 == 0:
-            print(f" -->NOW save the ckpt in stage {ssn}.")
-            lm_tokenizer.save_pretrained(args.save_path +
-                                         "___period"+str(ssn))
-            lm.save_pretrained(args.save_path +
-                               "___period"+str(ssn))
 
+from accelerate import load_checkpoint_and_dispatch
 
 def train_pod(lm,
               lm_tokenizer,
@@ -118,6 +146,7 @@ def train_pod(lm,
               p_i2ls, pmask2s, p_logits2ls, p_vic_logits2ls,
               pp11ls, pp12ls,
               ):
+
     # print(">>>> DATA PREPERATION")
     tau1 = args.tau1
     tau2 = args.tau2
@@ -163,156 +192,102 @@ def train_pod(lm,
     for iter_idx in range(ITER_num):
         tensorboard_name = f"Period {iter_idx}"
 
-        old_logits2_ls = []
-
-        with torch.no_grad():
-            # print(f"device: {idxs11.device}")
-            for i in range(len(idx2ls)):
-                idxs2 = torch.tensor(idx2ls[i])\
-                    .unsqueeze(0)
-                old_logits2 = lm(idxs2).logits
-                old_logits2 = old_logits2[:,:-1]
-                old_logits2 = F.log_softmax(old_logits2, dim=-1)
-                bs, sql2 = idxs2.shape
-                old_logits2 = old_logits2[
-                    torch.arange(1).unsqueeze(1),
-                    torch.arange(sql2-1).unsqueeze(0),
-                    idxs2[:, 1:sql2]
-                ]
-                old_logits2_ls.append(old_logits2.squeeze(0).to("cpu"))
-
         idxs11_ls = []
         idxs12_ls = []
         old_logits11_ls = []
         old_logits12_ls = []
+        old_logits2_ls = []
 
         # 2. generate
-        with torch.no_grad():
-            ## =======================================================
-            ## New version of the code: chunked generation. 
-            ## =======================================================
+        # with torch.no_grad():
+        if True:
 
-            if args.with_early_shut==1:
-                print("EXECUTE ERALY SHUT...")
-                p_ls=random_shut(p_ls)
+            # ## =======================================================
+            # ## New version of the code: chunked generation. 
+            # ## =======================================================
 
-            chunked_size=args.infer_batch_size
-            num_chunks=math.floor(len(p_ls)/chunked_size)
-            if num_chunks*chunked_size - len(p_ls)==0.0:
-                num_range=num_chunks
-            else:
-                num_range=num_chunks+1
-            # 1. first divided the model into chunks.
-            for i_chunked in range(num_range):
-                print(f"Chunks: {i_chunked}/{num_chunks}")
-                if i_chunked == num_chunks:
-                    if i_chunked*chunked_size!=len(p_ls):
-                        prompt=p_ls[i_chunked*chunked_size:]
-                        ## left padding
-                        print(f"BOS TOKEN ID: {lm_tokenizer.bos_token_id}")
-                        prompt=left_pad(prompt,lm_tokenizer.bos_token_id)
-                        prompt=prompt.to(args.device)
-                else:
-                    print(f"BOS TOKEN ID: {lm_tokenizer.bos_token_id}")
-                    prompt=p_ls[i_chunked*chunked_size:\
-                                (i_chunked+1)*chunked_size]
-                    prompt=left_pad(prompt,lm_tokenizer.bos_token_id)
-                    prompt=prompt.to(args.device)
+            # # print(f"device: {idxs11.device}")
+            # for i in range(len(idx2ls)):
+            #     idxs2 = torch.tensor(idx2ls[i])\
+            #         .unsqueeze(0)
+            #     idxs2=idxs2.to("cuda:0")
+            #     old_logits2 = lm(idxs2).logits
+            #     old_logits2 = old_logits2[:,:-1]
+            #     old_logits2 = F.log_softmax(old_logits2, dim=-1)
+            #     bs, sql2 = idxs2.shape
+            #     old_logits2 = old_logits2[
+            #         torch.arange(1).unsqueeze(1),
+            #         torch.arange(sql2-1).unsqueeze(0),
+            #         idxs2[:, 1:sql2]
+            #     ]
+            #     old_logits2_ls.append(old_logits2.squeeze(0).to("cpu"))
 
-                print(f"prompt.shape: {prompt.shape}")
-                gen_idx=lm.generate(
-                    prompt,
-                    do_sample=True,
-                    max_length=args.max_length,
-                    max_new_tokens=max_new_tokens,
-                    num_return_sequences=2,
-                    temperature=1.5,
-                    top_p=0.98,
-                    use_cache=True,
-                    )
+            # if args.with_early_shut==1:
+            #     print("EXECUTE ERALY SHUT...")
+            #     p_ls=random_shut(p_ls)
 
-                # gen_idx=lm.generate(
-                #     prompt,
-                #     do_sample=False,
-                #     num_beams=2,
-                #     num_beam_groups=2,
-                #     diversity_penalty=0.3,
-                #     num_return_sequences=2,
-                #     max_length=args.max_length,
-                #     max_new_tokens=max_new_tokens,
-                #     use_cache=True,
-                #     )
+            # chunked_size=args.infer_batch_size
+            # num_chunks=math.floor(len(p_ls)/chunked_size)
+            # if num_chunks*chunked_size - len(p_ls)==0.0:
+            #     num_range=num_chunks
+            # else:
+            #     num_range=num_chunks+1
 
+            # # 1. first divided the model into chunks.
+            # for i_chunked in range(num_range):
+            #     print(f"Chunks: {i_chunked}/{num_chunks}")
+            #     if i_chunked == num_chunks:
+            #         if i_chunked*chunked_size!=len(p_ls):
+            #             prompt=p_ls[i_chunked*chunked_size:]
+            #             ## left padding
+            #             print(f"BOS TOKEN ID: {lm_tokenizer.bos_token_id}")
+            #             prompt=left_pad(prompt,lm_tokenizer.bos_token_id)
+            #             prompt=prompt.to(args.device)
+            #     else:
+            #         print(f"BOS TOKEN ID: {lm_tokenizer.bos_token_id}")
+            #         prompt=p_ls[i_chunked*chunked_size:\
+            #                     (i_chunked+1)*chunked_size]
+            #         prompt=left_pad(prompt,lm_tokenizer.bos_token_id)
+            #         prompt=prompt.to(args.device)
 
-                # 2. extract idx12 and idx11 from gen_idx
-                idxs11=gen_idx[0::2,:]
-                idxs12=gen_idx[1::2,:]
+            #     print(f"prompt.shape: {prompt.shape}")
+            #     gen_idx=lm.generate(
+            #         prompt,
+            #         do_sample=True,
+            #         max_length=args.max_length,
+            #         max_new_tokens=max_new_tokens,
+            #         num_return_sequences=2,
+            #         temperature=1.5,
+            #         top_p=0.98,
+            #         use_cache=True,
+            #         )
 
-                # print(gen_idx.shape)
-                # print(idxs11.shape)
-                # print(idxs12.shape)
-
-                # shape of gen idx: (2*chunked_size, msl)
-                bs, sqqql = idxs11.shape
-                # print(idxs1)
-                # print(f"idxs11 {lm_tokenizer.decode(idxs11[0])}")
-                # print(f"idxs12 {lm_tokenizer.decode(idxs12[0])}")
-
-                old_logits11 = lm(idxs11[:, :-1]).logits
-                old_logits11 = F.log_softmax(old_logits11, dim=-1)
-                old_logits11 = old_logits11[
-                    torch.arange(1).unsqueeze(1),
-                    torch.arange(sqqql-1).unsqueeze(0),
-                    idxs11[:, 1:sqqql]
-                ]
-
-                bs, sqqql2 = idxs12.shape
-                old_logits12 = lm(idxs12[:, :-1]).logits
-                old_logits12 = F.log_softmax(old_logits12, dim=-1)
-                old_logits12 = old_logits12[
-                    torch.arange(1).unsqueeze(1),
-                    torch.arange(sqqql2-1).unsqueeze(0),
-                    idxs12[:, 1:sqqql2]
-                ]
+            #     # gen_idx=lm.generate(
+            #     #     prompt,
+            #     #     do_sample=False,
+            #     #     num_beams=2,
+            #     #     num_beam_groups=2,
+            #     #     diversity_penalty=0.3,
+            #     #     num_return_sequences=2,
+            #     #     max_length=args.max_length,
+            #     #     max_new_tokens=max_new_tokens,
+            #     #     use_cache=True,
+            #     #     )
 
 
-                idxs11_ls.extend([x for x in idxs11.to("cpu")])
-                idxs12_ls.extend([x for x in idxs12.to("cpu")])
-                old_logits11_ls.extend([x for x in old_logits11
-                                       .to("cpu")])
-                old_logits12_ls.extend([x for x in old_logits12
-                                       .to("cpu")])
-            # print(idxs11_ls)
-            # print(idxs12_ls)
-            # assert len(idxs11_ls)==len(idxs12_ls)
-            # assert len(idxs11_ls)==len(p_ls)
-                
+            #     # 2. extract idx12 and idx11 from gen_idx
+            #     idxs11=gen_idx[0::2,:]
+            #     idxs12=gen_idx[1::2,:]
 
-            ## =======================================================
-            ## OLD CODE: NOT FAST ENOUGH MAYBE.
-            ## =======================================================
-            # for i, prompt in tqdm(enumerate(p_ls),
-            #                       desc="Data Collecting..."):
-            #     prompt = prompt.to(args.device).unsqueeze(0)
-            #     # Generate New Tokens
-            #     idxs12 = lm.generate(prompt,
-            #                          do_sample=True,
-            #                          max_length=args.max_length,
-            #                          max_new_tokens=max_new_tokens,
-            #                          # temperature=args.temperature,
-            #                          )
+            #     # print(gen_idx.shape)
+            #     # print(idxs11.shape)
+            #     # print(idxs12.shape)
 
-            #     idxs11 = lm.generate(prompt,
-            #                          do_sample=True,
-            #                          max_length=args.max_length,
-            #                          max_new_tokens=max_new_tokens,
-            #                          # temperature=args.temperature,
-            #                          )
-
+            #     # shape of gen idx: (2*chunked_size, msl)
             #     bs, sqqql = idxs11.shape
             #     # print(idxs1)
-            #     print(f"idxs11 {lm_tokenizer.decode(idxs11[0])}")
-            #     print(f"idxs12 {lm_tokenizer.decode(idxs12[0])}")
+            #     # print(f"idxs11 {lm_tokenizer.decode(idxs11[0])}")
+            #     # print(f"idxs12 {lm_tokenizer.decode(idxs12[0])}")
 
             #     old_logits11 = lm(idxs11[:, :-1]).logits
             #     old_logits11 = F.log_softmax(old_logits11, dim=-1)
@@ -331,25 +306,83 @@ def train_pod(lm,
             #         idxs12[:, 1:sqqql2]
             #     ]
 
-            #     idxs2 = torch.tensor(idx2ls[i], dtype=torch.long)\
-            #         .to(args.device).unsqueeze(0)
-            #     print(f"idxs2 {lm_tokenizer.decode(idxs2[0])}")
-            #     old_logits2 = lm(idxs2[:, :-1]).logits
-            #     old_logits2 = F.log_softmax(old_logits2, dim=-1)
-            #     bs, sql2 = idxs2.shape
-            #     old_logits2 = old_logits2[
-            #         torch.arange(1).unsqueeze(1),
-            #         torch.arange(sql2-1).unsqueeze(0),
-            #         idxs2[:, 1:sql2]
-            #     ]
 
-            #     idxs11_ls.append(idxs11.squeeze(0).to("cpu"))
-            #     idxs12_ls.append(idxs12.squeeze(0).to("cpu"))
-            #     old_logits11_ls.append(old_logits11
-            #                            .squeeze(0).to("cpu"))
-            #     old_logits12_ls.append(old_logits12
-            #                            .squeeze(0).to("cpu"))
-            #     old_logits2_ls.append(old_logits2.squeeze(0).to("cpu"))
+            #     idxs11_ls.extend([x for x in idxs11.to("cpu")])
+            #     idxs12_ls.extend([x for x in idxs12.to("cpu")])
+            #     old_logits11_ls.extend([x for x in old_logits11
+            #                            .to("cpu")])
+            #     old_logits12_ls.extend([x for x in old_logits12
+            #                            .to("cpu")])
+
+            # print(idxs11_ls)
+            # print(idxs12_ls)
+            # assert len(idxs11_ls)==len(idxs12_ls)
+            # assert len(idxs11_ls)==len(p_ls)
+                
+
+            ## =======================================================
+            ## OLD CODE: NOT FAST ENOUGH MAYBE.
+            ## =======================================================
+            for i, prompt in tqdm(enumerate(p_ls),
+                                  desc="Data Collecting...",
+                                  total=len(p_ls)):
+                prompt = prompt.to(args.device).unsqueeze(0)
+                # Generate New Tokens
+                idxs12 = lm.generate(prompt,
+                                     do_sample=True,
+                                     max_length=args.max_length,
+                                     max_new_tokens=max_new_tokens,
+                                     # temperature=args.temperature,
+                                     )
+
+                idxs11 = lm.generate(prompt,
+                                     do_sample=True,
+                                     max_length=args.max_length,
+                                     max_new_tokens=max_new_tokens,
+                                     # temperature=args.temperature,
+                                     )
+
+                bs, sqqql = idxs11.shape
+                # print(idxs1)
+                print(f"idxs11 {lm_tokenizer.decode(idxs11[0])}")
+                print(f"idxs12 {lm_tokenizer.decode(idxs12[0])}")
+
+                old_logits11 = lm(idxs11[:, :-1]).logits
+                old_logits11 = F.log_softmax(old_logits11, dim=-1)
+                old_logits11 = old_logits11[
+                    torch.arange(1).unsqueeze(1),
+                    torch.arange(sqqql-1).unsqueeze(0),
+                    idxs11[:, 1:sqqql]
+                ]
+
+                bs, sqqql2 = idxs12.shape
+                old_logits12 = lm(idxs12[:, :-1]).logits
+                old_logits12 = F.log_softmax(old_logits12, dim=-1)
+                old_logits12 = old_logits12[
+                    torch.arange(1).unsqueeze(1),
+                    torch.arange(sqqql2-1).unsqueeze(0),
+                    idxs12[:, 1:sqqql2]
+                ]
+
+                idxs2 = torch.tensor(idx2ls[i], dtype=torch.long)\
+                    .to(args.device).unsqueeze(0)
+                print(f"idxs2 {lm_tokenizer.decode(idxs2[0])}")
+                old_logits2 = lm(idxs2[:, :-1]).logits
+                old_logits2 = F.log_softmax(old_logits2, dim=-1)
+                bs, sql2 = idxs2.shape
+                old_logits2 = old_logits2[
+                    torch.arange(1).unsqueeze(1),
+                    torch.arange(sql2-1).unsqueeze(0),
+                    idxs2[:, 1:sql2]
+                ]
+
+                idxs11_ls.append(idxs11.squeeze(0).to("cpu"))
+                idxs12_ls.append(idxs12.squeeze(0).to("cpu"))
+                old_logits11_ls.append(old_logits11
+                                       .squeeze(0).to("cpu"))
+                old_logits12_ls.append(old_logits12
+                                       .squeeze(0).to("cpu"))
+                old_logits2_ls.append(old_logits2.squeeze(0).to("cpu"))
 
         # do truncations and paddings.
         # max_token_num_11 = min(args.max_length,
@@ -590,6 +623,21 @@ def train_pod(lm,
                             batch_size=args.batch_size,
                             shuffle=True,
                             )
+
+        # #### Transform back.
+        # #### Transform back.
+        # lm=None
+        # print("TO AUTO.")
+        # lm = AutoModelForCausalLM.from_pretrained(
+        #     args.from_path,
+        #     device_map="auto",
+        #     trust_remote_code=True,
+        #     torch_dtype=torch.bfloat16,
+        # )
+        # if args.use_lora == 1:
+        #     lm = PeftModel.from_pretrained(lm, args.temp_save_path)
+        # print("TO AUTO DONE.")
+
         print(">>>> Period {}".format(iter_idx))
         lm = one_period(args, lm,
                         lm_tokenizer,
@@ -701,10 +749,13 @@ def one_period(args, lm,
 
             # mask = torch.logical_or(mask11, mask12).long()
 
-            term1 = torch.sum(log_clip(-old_logits12+logits12)
-                              * mask12[:, :-1])
-            term2 = torch.sum(log_clip(old_logits11-logits11)
-                              * mask11[:, :-1])
+            # term1 = torch.sum(log_clip(-old_logits12+logits12)
+            #                   * mask12[:, :-1])
+            # term2 = torch.sum(log_clip(old_logits11-logits11)
+            #                   * mask11[:, :-1])
+
+            term1 = torch.mean(log_clip(-old_logits12+logits12))
+            term2 = torch.mean(log_clip(old_logits11-logits11))
 
             if args.is_black_box == 0:
                 term3 = \
@@ -728,11 +779,16 @@ def one_period(args, lm,
                 loss = 2*term2 - term1 + term3
             elif method == "LoRD-VI":
                 if args.is_black_box == 0:
+                    # term3 = \
+                    #     (vic_logits2[:, :, 0]+old_logits2-2*logits2_cons)
                     term3 = \
-                        (vic_logits2[:, :, 0]+old_logits2-2*logits2_cons)
+                        (vic_logits2[:, :, 0]-logits2_cons)
                 else:
-                    term3 = old_logits2 - logits2_cons
-                term3 = torch.sum(log_clip(term3) * mask2[:, :-1])
+                    # term3 = old_logits2 - logits2_cons
+                    term3 = - logits2_cons
+                # term3 = torch.sum(log_clip(term3) * mask2[:, :-1])
+                # term3 = torch.sum(log_clip(term3) * mask2[:, :-1])
+                term3 = torch.mean(log_clip(term3))
 
                 loss = term3 + 0.5 * term2 + 1.5* term1
             else:

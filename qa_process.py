@@ -17,8 +17,9 @@ import os
 if __name__ == "__main__":
     # os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,6,7"
-    # os.environ["CUDA_VISIBLE_DEVICES"] = "3,7"
-    os.environ["CUDA_VISIBLE_DEVICES"] = "4,5"
+    # os.environ["CUDA_VISIBLE_DEVICES"] = "6,7"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "3"
+    # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5"
     os.environ["TORCH_USE_CUDA_DSA"]="1"
 
 from datasets import load_dataset
@@ -41,6 +42,7 @@ from sklearn.metrics import f1_score
 
 from transformers import AutoModelForCausalLM,AutoTokenizer
 from peft import PeftModel
+import torch
 
 
 def load_qa_datals(
@@ -251,6 +253,8 @@ def infer_qa(modelname, task_name, res_pth, test_set_take_num=100,
         model = AutoModelForCausalLM.from_pretrained(
             base_model_name,
             device_map="auto",
+            trust_remote_code=True,
+            torch_dtype=torch.float16,
         )
         model = PeftModel.from_pretrained(model, modelname)
         tokenizer = AutoTokenizer\
@@ -266,7 +270,7 @@ def infer_qa(modelname, task_name, res_pth, test_set_take_num=100,
                                       padding="longest",
                                       return_tensors="pt")
             print(inps_idx)
-            inps_idx=inps_idx.to(model.device)
+            inps_idx=inps_idx.to("cuda")
             res = model.generate(inps_idx,
                                  max_new_tokens=mnt,)
             print(res)
@@ -309,30 +313,35 @@ def eval_qa_res():
         # ["piqa",
          # "./LoRA-LoRD-ckptsvaryTrainNum___321piqaComplex-lord332164256___period2"
          # ],
-        [
-            "piqa",
-            "meta-llama/Meta-Llama-3-8B-Instruct",
-        ],
-        [
-            "piqa",
-            "./qa_ckpts/QAAA2561piqaLoRD-VI212132256___period5/",
-        ],
-        [
-            "piqa",
-            "./qa_ckpts/QAAA2561piqaLoRD-VI212132256___period8/",
-        ],
-        [
-            "piqa",
-            "./qa_ckpts/QAAA2561piqaLoRD-VI212132256___period11/",
-        ],
-        [
-            "piqa",
-            "./qa_ckpts/QAAA2561piqaLoRD-VI212132256___period14/",
-        ],
+        # [
+        #     "piqa",
+        #     "meta-llama/Meta-Llama-3-8B-Instruct",
+        # ],
+        # [
+        #     "piqa",
+        #     "./qa_ckpts/QAAA2561piqaLoRD-VI212132256___period5/",
+        # ],
 
 
+        # [
+        #     "piqa",
+        #     "./qa_ckpts/QAAA0.202561piqaLoRD-VI212132256___period11/",
+        # ],
+
+        # [
+        #     "piqa",
+        #     "./qa_ckpts/QAAA0.202561piqaLoRD-VI212132256___period5/",
+        # ],
+
+
+        ## 
+        [
+            "piqa",
+            "./qa_ckpts/QAAA2561piqavanilla332132256___finally/"
+            ],
     )
-    base_model_name="meta-llama/Meta-Llama-3-8B-Instruct"
+
+    base_model_name1="meta-llama/Meta-Llama-3-8B-Instruct"
 
     res_dict = {}
     dir_p = "./qa_dataset_res/"
@@ -340,6 +349,10 @@ def eval_qa_res():
         os.makedirs(dir_p)
     for task_ckpt in ckpt_ls:
         task, ckpt = task_ckpt
+        if ckpt==base_model_name1:
+            base_model_name=None
+        else:
+            base_model_name=base_model_name1
         res_pth = ckpt + f"___{task}_qa_infer_res"
         res_pth = res_pth.replace("/", "__").replace(".", "")
         res_pth += ".json"
@@ -351,7 +364,7 @@ def eval_qa_res():
                 test_set_take_num=500,
                 # test_set_take_num=50,
                 # mnt=64,
-                mnt=32,
+                mnt=16,
                 base_model_name=base_model_name
             )
         else:

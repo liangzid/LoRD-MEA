@@ -580,6 +580,9 @@ def setup_train_args():
     parser.add_argument('--save_path',
                         default='model_training_results',
                         type=str, required=True,)
+    parser.add_argument('--temp_save_path',
+                        default='model_training_results',
+                        type=str, required=False,)
 
     return parser.parse_args()
 
@@ -602,7 +605,7 @@ def main():
             args.from_path,
             device_map="auto",
             trust_remote_code=True,
-            # torch_dtype=torch.bfloat16,
+            torch_dtype=torch.bfloat16,
         )
 
     lm_tokenizer = AutoTokenizer.from_pretrained(args.from_path,
