@@ -11,10 +11,8 @@
 
 echo "HOME: ${HOME}"
 export python=${HOME}/anaconda3/envs/align/bin/python3
-# export CUDA_VISIBLE_DEVICES="0,1,2"
-# export CUDA_VISIBLE_DEVICES="0,1,2"
+export CUDA_VISIBLE_DEVICES="0,1,2"
 # export CUDA_VISIBLE_DEVICES="4,5,6"
-export CUDA_VISIBLE_DEVICES="4,5,6"
 # export CUDA_VISIBLE_DEVICES="3,6,7"
 export TORCH_USE_CUDA_DSA="1"
 export root_dir="${HOME}/alignmentExtraction/"
@@ -34,10 +32,10 @@ export use_lora=1
 # export epoch=3
 # export period=3
 
-export epoch=2
+export epoch=1
 export period=1
 
-export sub_set_num=1
+export sub_set_num=16
 export sub_stage_num=32
 export max_new_tokens=32
 export infer_batch_size=4
@@ -51,8 +49,8 @@ export use_vic_logits=1
 export use_kld=0
 export use_entropy=0
 
-export tau1=0.20
-export tau2=0.20
+export tau1=0.90
+export tau2=0.90
 
 for train_num in ${TRAIN_NUMS[*]}
 do
@@ -69,7 +67,7 @@ do
 		echo "+++++++train_task: ${train_task}+++++++"
 		echo "====================================================="
 
-		export save_path="${POD_save_dir}QAAA${tau1}${train_num}${train_time}${task}${train_task}${epoch}${period}${temperature}${batch_size}${max_new_tokens}${msl}"
+		export save_path="${POD_save_dir}QAAA---TEMP--res"
 
 		$python ${root_dir}lord_train.py\
 		    --dataset_task=$task \

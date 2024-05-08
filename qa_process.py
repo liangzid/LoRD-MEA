@@ -254,7 +254,7 @@ def infer_qa(modelname, task_name, res_pth, test_set_take_num=100,
             base_model_name,
             device_map="auto",
             trust_remote_code=True,
-            torch_dtype=torch.float16,
+            torch_dtype=torch.bfloat16,
         )
         model = PeftModel.from_pretrained(model, modelname)
         tokenizer = AutoTokenizer\
@@ -334,11 +334,17 @@ def eval_qa_res():
         # ],
 
 
-        ## 
+        # ## 
+        # [
+        #     "piqa",
+        #     "./qa_ckpts/QAAA2561piqavanilla332132256___finally/"
+        #     ],
+
         [
             "piqa",
-            "./qa_ckpts/QAAA2561piqavanilla332132256___finally/"
-            ],
+            "./qa_ckpts/QAAA---TEMP--res___period10/"
+        ],
+
     )
 
     base_model_name1="meta-llama/Meta-Llama-3-8B-Instruct"
