@@ -55,11 +55,11 @@ I make sure:
 | lord-VI epoch11 w.o. bug      | piqa    | 0.7769 | 0.0097 |
 | lord-VI epoch14 w.o. bug      | piqa    | 0.7791 | 0.0097 |
 |-------------------------------+---------+--------+--------|
-| lord-VI epoch2 w.o. bug       | piqa    | 0. | 0.00 |
-| lord-VI epoch5 w.o. bug       | piqa    | 0. | 0.00 |
-| lord-VI epoch8 w.o. bug       | piqa    | 0. | 0.00 |
-| lord-VI epoch11 w.o. bug      | piqa    | 0. | 0.00 |
-| lord-VI epoch14 w.o. bug      | piqa    | 0. | 0.00 |
+| lord-VI epoch2 w.o. bug       | piqa    | 0.7916 | 0.0095 |
+| lord-VI epoch5 w.o. bug       | piqa    | 0.7960 | 0.0094 |
+| lord-VI epoch8 w.o. bug       | piqa    | 0.7867 | 0.0096 |
+| lord-VI epoch11 w.o. bug      | piqa    | 0.7943 | 0.0094 |
+| lord-VI epoch14 w.o. bug      | piqa    | 0.7807 | 0.0097 |
 |                               |         |        |        |
 
 

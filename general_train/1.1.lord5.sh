@@ -64,8 +64,8 @@ export use_vic_logits=1
 export use_kld=0
 export use_entropy=0
 
-export tau1=0.02
-export tau2=0.02
+export tau1=0.20
+export tau2=0.20
 
 # export train_num=100
 
