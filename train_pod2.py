@@ -545,10 +545,10 @@ def train_pod(lm,
                 delta12=p11-pp12ls[i]
 
                 print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-                # print(f"confidence, 1: {delta11}, 2: {delta12}")
-                # if delta12 > delta11:
-                print(f"confidence, 1: {p11}, 2: {p12}")
-                if p12 > p11:
+                print(f"confidence, 1: {delta11}, 2: {delta12}")
+                if delta12 > delta11:
+                # print(f"confidence, 1: {p11}, 2: {p12}")
+                # if p12 > p11:
                     print("SWAP.")
                     p_i_11_ls[i] = pidx12.squeeze(0).to("cpu")
                     p_i_12_ls[i] = pidx11.squeeze(0).to("cpu")
@@ -811,8 +811,8 @@ def one_period(args, lm,
                 # term3 = torch.sum(log_clip(term3) * mask2[:, :-1])
                 term3 = torch.mean(log_clip(term3))
 
-                loss = -torch.mean(logits2_cons)\
-                    -log_clip(torch.mean(logits11-logits12))
+                loss = -0.5*torch.mean(logits2_cons-logits12)\
+                    -0.5*log_clip(torch.mean(logits11-logits12))
                 print(f"TERM1: {term1}\nTERM2: {term2}\nTERM3: {term3}\n")
                 print(f"LOSS: {loss}\n\n")
             else:

@@ -15,7 +15,8 @@ if __name__ == "__main__":
     # os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,2,7"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,6,7"
-    os.environ["CUDA_VISIBLE_DEVICES"] = "3,7"
+    # os.environ["CUDA_VISIBLE_DEVICES"] = "3,7"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "3"
 
 from gen_pipeline_open import InferObj
 from training_data_collecting_openai import chatWithOpenAI__LogLogits
@@ -31,6 +32,8 @@ import json
 from openai import OpenAI as oa
 from datasets import load_dataset
 import torch
+from transformers import AutoModelForCausalLM,AutoTokenizer
+from peft import PeftModel
 # ------------------------ Code --------------------------------------
 # import time
 
@@ -366,6 +369,8 @@ def infer_wmt(modelname, task_name, res_pth,
         model = AutoModelForCausalLM.from_pretrained(
             base_model_name,
             device_map="auto",
+            # trust_remote_code=True,
+            torch_dtype=torch.bfloat16,
         )
         model = PeftModel.from_pretrained(model, modelname)
         tokenizer = AutoTokenizer\
@@ -374,22 +379,27 @@ def infer_wmt(modelname, task_name, res_pth,
         tokenizer.padding_side = "right"
 
         res_ls = []
-        for d in tqdm(inp_ls):
+        pp = task_prompt_map[task_name]
+        for d in tqdm(sets):
             d = d["translation"]
             inps = d[from_lang]
             label = d[to_lange]
             final_inps = "Instruction: " + pp +\
                 " User: "+inps+" Assistant: "
-            res = gen_pipeline(final_inps,
-                            do_sample=True,
-                            max_new_tokens=mnt,
-                            )[0]["generated_text"]
-
-            print("++++++++++++++++++DEBUG INFO+++++++++++++++++++++++")
-            print(f">>>Res with Inpus: {res}")
-            res = res.split(final_inps)[1]
-            print(f">>>Res without Inpus: {res}")
-            print(f">>>Labels: {label}")
+            inps_idx=tokenizer.encode(final_inps,max_length=128,
+                                      padding="longest",
+                                      return_tensors="pt")
+            print(inps_idx)
+            inps_idx=inps_idx.to("cuda")
+            res = model.generate(inps_idx,
+                                 max_new_tokens=mnt,)
+            print(res)
+            res=tokenizer.decode(res[0])
+            if final_inps in res:
+                res = res.split(final_inps)[1]
+            else:
+                res = res
+            print(f"Text Generated:>>> {res}")
             res_ls.append((res, label))
             # break
         
@@ -452,15 +462,38 @@ def evaluation_datas():
 
         # ["cs-en", "./lord-IV_ckpt/cs-en/LoRD-IV1003256cs-en64__long_stage_style_ckpt___period2/"],
         #################################
-        ["cs-en",
-         "gpt-3.5-turbo-1106",
-         ],
+        # ["cs-en",
+        #  "gpt-3.5-turbo-1106",
+        #  ],
 
-        ["cs-en",
-         "meta-llama/Meta-Llama-3-8B-Instruct",
-         ],
+        # ["cs-en",
+        #  "meta-llama/Meta-Llama-3-8B-Instruct",
+        #  ],
+        ["cs-en","./wmt16_ckpts/WMTTT------TEMP___period1/",],
+        ["cs-en","./wmt16_ckpts/WMTTT------TEMP___period2/",],
+        ["cs-en","./wmt16_ckpts/WMTTT------TEMP___period3/",],
+        ["cs-en","./wmt16_ckpts/WMTTT------TEMP___period4/",],
+        ["cs-en","./wmt16_ckpts/WMTTT------TEMP___period5/",],
+        ["cs-en","./wmt16_ckpts/WMTTT------TEMP___period6/",],
+        ["cs-en","./wmt16_ckpts/WMTTT------TEMP___period7/",],
+        ["cs-en","./wmt16_ckpts/WMTTT------TEMP___period8/",],
+        ["cs-en","./wmt16_ckpts/WMTTT------TEMP___period9/",],
+        ["cs-en","./wmt16_ckpts/WMTTT------TEMP___period10/",],
+        ["cs-en","./wmt16_ckpts/WMTTT------TEMP___period11/",],
+        ["cs-en","./wmt16_ckpts/WMTTT------TEMP___period12/",],
+        ["cs-en","./wmt16_ckpts/WMTTT------TEMP___period13/",],
+        ["cs-en","./wmt16_ckpts/WMTTT------TEMP___finally/",],
+
+        ["cs-en","./wmt16_ckpts/WMTTT0.8------TEMP___period1/",],
+        ["cs-en","./wmt16_ckpts/WMTTT0.8------TEMP___period2/",],
+        ["cs-en","./wmt16_ckpts/WMTTT0.8------TEMP___period3/",],
+        ["cs-en","./wmt16_ckpts/WMTTT0.8------TEMP___period4/",],
+        ["cs-en","./wmt16_ckpts/WMTTT0.8------TEMP___period5/",],
+        ["cs-en","./wmt16_ckpts/WMTTT0.8------TEMP___period6/",],
+        ["cs-en","./wmt16_ckpts/WMTTT0.8------TEMP___period7/",],
         
     ]
+    base_model_name="meta-llama/Meta-Llama-3-8B-Instruct"
     res_dict = {}
     dir_p = "./wmt16_res/"
     if not os.path.exists(dir_p):
@@ -474,7 +507,8 @@ def evaluation_datas():
             res_ls = infer_wmt(ckpt, task, dir_p+res_pth,
                                # test_set_take_num=100,
                                test_set_take_num=500,
-                               mnt=64)
+                               mnt=64,
+                               base_model_name=base_model_name)
         else:
             # from collections import OrderedDict
             with open(dir_p+res_pth, 'r', encoding='utf8') as f:
