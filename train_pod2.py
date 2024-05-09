@@ -12,6 +12,7 @@ New stealing mechamism.
 
 
 # ------------------------ Code --------------------------------------
+import math
 import torch
 # import json
 from torch.utils.tensorboard import SummaryWriter
@@ -42,6 +43,19 @@ import torch.nn.functional as F
 import random
 
 from rlhf_train import clip, log_clip
+
+
+from peft import (
+    LoraConfig,
+    # PeftConfig,
+    # PeftModel,
+    get_peft_model,
+    # prepare_model_for_kbit_training,
+)
+from peft import PeftModel
+from transformers import AutoModelForCausalLM
+from transformers import AutoTokenizer, AutoConfig, AutoModel
+
 
 import logging
 logging.basicConfig(level=logging.INFO)
@@ -81,8 +95,29 @@ def train(lm, lm_tokenizer, args,
     pp12ls=None
 
     preset_subset_num=args.sub_set_num
+    subset_pointer=0
 
     for ssn in range(sub_stage_num):
+
+        #### Transform the LLM into a single device.
+        print(f" -->NOW save the ckpt in stage {ssn}.")
+        args.temp_save_path=args.save_path+"___period"+str(ssn)
+        lm_tokenizer.save_pretrained(args.temp_save_path)
+        lm.save_pretrained(args.temp_save_path)
+
+        # #### Transform back.
+        # lm=None
+        # print("TO AUTO.")
+        # lm = AutoModelForCausalLM.from_pretrained(
+        #     args.from_path,
+        #     device_map="auto",
+        #     trust_remote_code=True,
+        #     torch_dtype=torch.bfloat16,
+        # )
+        # # if args.use_lora == 1:
+        #     # lm = PeftModel.from_pretrained(lm, args.temp_save_path)
+        # print("TO AUTO DONE.")
+
         # if ssn<3:
         #     args.sub_set_num=16
         # else:
@@ -100,14 +135,11 @@ def train(lm, lm_tokenizer, args,
                         p_m_12_ls, p_logits_11_ls, p_logits_12_ls,
                         p_i2ls, pmask2s, p_logits2ls, p_vic_logits2ls,
                         pp11ls, pp12ls,
+                        subset_pointer,
                         )
-        if (ssn+1) % 3 == 0:
-            print(f" -->NOW save the ckpt in stage {ssn}.")
-            lm_tokenizer.save_pretrained(args.save_path +
-                                         "___period"+str(ssn))
-            lm.save_pretrained(args.save_path +
-                               "___period"+str(ssn))
+        subset_pointer+=1
 
+from accelerate import load_checkpoint_and_dispatch
 
 def train_pod(lm,
               lm_tokenizer,
@@ -117,7 +149,9 @@ def train_pod(lm,
               p_m_12_ls, p_logits_11_ls, p_logits_12_ls,
               p_i2ls, pmask2s, p_logits2ls, p_vic_logits2ls,
               pp11ls, pp12ls,
+              subset_pointer,
               ):
+
     # print(">>>> DATA PREPERATION")
     tau1 = args.tau1
     tau2 = args.tau2
@@ -132,11 +166,25 @@ def train_pod(lm,
 
     # 1. in every period, random take a subset.
     seed = time.time()
-    p_ls = random_take(subset_num, op_ls, seed,)
-    idx2ls = random_take(subset_num, oidx2ls, seed)
+    if subset_pointer>= math.floor(len(op_ls)/subset_num)-1:
+        subset_pointer=0
+    p_ls = op_ls[subset_pointer*subset_num:\
+                (subset_pointer+1)*subset_num]
+    idx2ls = oidx2ls[subset_pointer*subset_num:\
+                    (subset_pointer+1)*subset_num]
+    # p_ls = random_take(subset_num, op_ls, seed,)
+    # idx2ls = random_take(subset_num, oidx2ls, seed)
     if ologits2ls is not None:
-        vic_logits2ls = random_take(subset_num, ologits2ls, seed)
-        idx2_dist = random_take(subset_num, oidx2_dist, seed)
+        # vic_logits2ls = random_take(subset_num, ologits2ls, seed)
+        # idx2_dist = random_take(subset_num, oidx2_dist, seed)
+        
+        vic_logits2ls = ologits2ls[subset_pointer*subset_num:\
+                                   (subset_pointer+1)*subset_num
+                                   ]
+        idx2_dist = oidx2_dist[subset_pointer*subset_num:\
+                                   (subset_pointer+1)*subset_num
+                                   ]
+        # idx2_dist = random_take(subset_num, oidx2_dist, seed)
     else:
         vic_logits2ls = [None for _ in range(subset_num)]
         idx2_dist = [None for _ in range(subset_num)]
@@ -163,13 +211,25 @@ def train_pod(lm,
     for iter_idx in range(ITER_num):
         tensorboard_name = f"Period {iter_idx}"
 
+        idxs11_ls = []
+        idxs12_ls = []
+        old_logits11_ls = []
+        old_logits12_ls = []
         old_logits2_ls = []
 
+        # 2. generate
         with torch.no_grad():
+        # if True:
+
+            # ## =======================================================
+            # ## New version of the code: chunked generation. 
+            # ## =======================================================
+
             # print(f"device: {idxs11.device}")
             for i in range(len(idx2ls)):
                 idxs2 = torch.tensor(idx2ls[i])\
                     .unsqueeze(0)
+                idxs2=idxs2.to("cuda:0")
                 old_logits2 = lm(idxs2).logits
                 old_logits2 = old_logits2[:,:-1]
                 old_logits2 = F.log_softmax(old_logits2, dim=-1)
@@ -181,17 +241,6 @@ def train_pod(lm,
                 ]
                 old_logits2_ls.append(old_logits2.squeeze(0).to("cpu"))
 
-        idxs11_ls = []
-        idxs12_ls = []
-        old_logits11_ls = []
-        old_logits12_ls = []
-
-        # 2. generate
-        with torch.no_grad():
-            ## =======================================================
-            ## New version of the code: chunked generation. 
-            ## =======================================================
-
             if args.with_early_shut==1:
                 print("EXECUTE ERALY SHUT...")
                 p_ls=random_shut(p_ls)
@@ -202,6 +251,7 @@ def train_pod(lm,
                 num_range=num_chunks
             else:
                 num_range=num_chunks+1
+
             # 1. first divided the model into chunks.
             for i_chunked in range(num_range):
                 print(f"Chunks: {i_chunked}/{num_chunks}")
@@ -282,17 +332,19 @@ def train_pod(lm,
                                        .to("cpu")])
                 old_logits12_ls.extend([x for x in old_logits12
                                        .to("cpu")])
+
             # print(idxs11_ls)
             # print(idxs12_ls)
             # assert len(idxs11_ls)==len(idxs12_ls)
             # assert len(idxs11_ls)==len(p_ls)
                 
 
-            ## =======================================================
-            ## OLD CODE: NOT FAST ENOUGH MAYBE.
-            ## =======================================================
+            # ## =======================================================
+            # ## OLD CODE: NOT FAST ENOUGH MAYBE.
+            # ## =======================================================
             # for i, prompt in tqdm(enumerate(p_ls),
-            #                       desc="Data Collecting..."):
+            #                       desc="Data Collecting...",
+            #                       total=len(p_ls)):
             #     prompt = prompt.to(args.device).unsqueeze(0)
             #     # Generate New Tokens
             #     idxs12 = lm.generate(prompt,
@@ -489,10 +541,12 @@ def train_pod(lm,
                                       * p_m_12_ls[i, :-1])
                             / torch.sum(p_m_12_ls[i, :-1]))
 
-                p11=p11-pp11ls[i]
-                p12=p11-pp12ls[i]
+                delta11=p11-pp11ls[i]
+                delta12=p11-pp12ls[i]
 
                 print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+                # print(f"confidence, 1: {delta11}, 2: {delta12}")
+                # if delta12 > delta11:
                 print(f"confidence, 1: {p11}, 2: {p12}")
                 if p12 > p11:
                     print("SWAP.")
@@ -590,6 +644,21 @@ def train_pod(lm,
                             batch_size=args.batch_size,
                             shuffle=True,
                             )
+
+        # #### Transform back.
+        # #### Transform back.
+        # lm=None
+        # print("TO AUTO.")
+        # lm = AutoModelForCausalLM.from_pretrained(
+        #     args.from_path,
+        #     device_map="auto",
+        #     trust_remote_code=True,
+        #     torch_dtype=torch.bfloat16,
+        # )
+        # if args.use_lora == 1:
+        #     lm = PeftModel.from_pretrained(lm, args.temp_save_path)
+        # print("TO AUTO DONE.")
+
         print(">>>> Period {}".format(iter_idx))
         lm = one_period(args, lm,
                         lm_tokenizer,
@@ -701,10 +770,13 @@ def one_period(args, lm,
 
             # mask = torch.logical_or(mask11, mask12).long()
 
-            term1 = torch.sum(log_clip(-old_logits12+logits12)
-                              * mask12[:, :-1])
-            term2 = torch.sum(log_clip(old_logits11-logits11)
-                              * mask11[:, :-1])
+            # term1 = torch.sum(log_clip(-old_logits12+logits12)
+            #                   * mask12[:, :-1])
+            # term2 = torch.sum(log_clip(old_logits11-logits11)
+            #                   * mask11[:, :-1])
+
+            term1 = torch.mean(log_clip(-old_logits12+logits12))
+            term2 = torch.mean(log_clip(old_logits11-logits11))
 
             if args.is_black_box == 0:
                 term3 = \
@@ -728,13 +800,21 @@ def one_period(args, lm,
                 loss = 2*term2 - term1 + term3
             elif method == "LoRD-VI":
                 if args.is_black_box == 0:
+                    # term3 = \
+                    #     (vic_logits2[:, :, 0]+old_logits2-2*logits2_cons)
                     term3 = \
-                        (vic_logits2[:, :, 0]+old_logits2-2*logits2_cons)
+                        (vic_logits2[:, :, 0]-logits2_cons)
                 else:
-                    term3 = old_logits2 - logits2_cons
-                term3 = torch.sum(log_clip(term3) * mask2[:, :-1])
+                    # term3 = old_logits2 - logits2_cons
+                    term3 = - logits2_cons
+                # term3 = torch.sum(log_clip(term3) * mask2[:, :-1])
+                # term3 = torch.sum(log_clip(term3) * mask2[:, :-1])
+                term3 = torch.mean(log_clip(term3))
 
-                loss = term3 + 0.5 * term2 + 1.5* term1
+                loss = -torch.mean(logits2_cons)\
+                    -log_clip(torch.mean(logits11-logits12))
+                print(f"TERM1: {term1}\nTERM2: {term2}\nTERM3: {term3}\n")
+                print(f"LOSS: {loss}\n\n")
             else:
                 print("NO LOSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.")
                 loss=0.0
