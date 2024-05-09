@@ -12,6 +12,7 @@ New stealing mechamism.
 
 
 # ------------------------ Code --------------------------------------
+import math
 import torch
 # import json
 from torch.utils.tensorboard import SummaryWriter
@@ -94,6 +95,7 @@ def train(lm, lm_tokenizer, args,
     pp12ls=None
 
     preset_subset_num=args.sub_set_num
+    subset_pointer=0
 
     for ssn in range(sub_stage_num):
 
@@ -133,7 +135,9 @@ def train(lm, lm_tokenizer, args,
                         p_m_12_ls, p_logits_11_ls, p_logits_12_ls,
                         p_i2ls, pmask2s, p_logits2ls, p_vic_logits2ls,
                         pp11ls, pp12ls,
+                        subset_pointer,
                         )
+        subset_pointer+=1
 
 from accelerate import load_checkpoint_and_dispatch
 
@@ -145,6 +149,7 @@ def train_pod(lm,
               p_m_12_ls, p_logits_11_ls, p_logits_12_ls,
               p_i2ls, pmask2s, p_logits2ls, p_vic_logits2ls,
               pp11ls, pp12ls,
+              subset_pointer,
               ):
 
     # print(">>>> DATA PREPERATION")
@@ -161,11 +166,25 @@ def train_pod(lm,
 
     # 1. in every period, random take a subset.
     seed = time.time()
-    p_ls = random_take(subset_num, op_ls, seed,)
-    idx2ls = random_take(subset_num, oidx2ls, seed)
+    if subset_pointer>= math.floor(len(op_ls)/subset_num)-1:
+        subset_pointer=0
+    p_ls = op_ls[subset_pointer*subset_num:\
+                (subset_pointer+1)*subset_num]
+    idx2ls = oidx2ls[subset_pointer*subset_num:\
+                    (subset_pointer+1)*subset_num]
+    # p_ls = random_take(subset_num, op_ls, seed,)
+    # idx2ls = random_take(subset_num, oidx2ls, seed)
     if ologits2ls is not None:
-        vic_logits2ls = random_take(subset_num, ologits2ls, seed)
-        idx2_dist = random_take(subset_num, oidx2_dist, seed)
+        # vic_logits2ls = random_take(subset_num, ologits2ls, seed)
+        # idx2_dist = random_take(subset_num, oidx2_dist, seed)
+        
+        vic_logits2ls = ologits2ls[subset_pointer*subset_num:\
+                                   (subset_pointer+1)*subset_num
+                                   ]
+        idx2_dist = oidx2_dist[subset_pointer*subset_num:\
+                                   (subset_pointer+1)*subset_num
+                                   ]
+        # idx2_dist = random_take(subset_num, oidx2_dist, seed)
     else:
         vic_logits2ls = [None for _ in range(subset_num)]
         idx2_dist = [None for _ in range(subset_num)]

@@ -342,7 +342,7 @@ def eval_qa_res():
 
         [
             "piqa",
-            "./qa_ckpts/QAAA---TEMP--res___period10/"
+            "./qa_ckpts/QAAA---TEMP--res___period3/"
         ],
 
     )
