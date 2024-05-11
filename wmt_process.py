@@ -16,7 +16,7 @@ if __name__ == "__main__":
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,2,7"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,6,7"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "3,7"
-    os.environ["CUDA_VISIBLE_DEVICES"] = "3"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "5"
 
 from gen_pipeline_open import InferObj
 from training_data_collecting_openai import chatWithOpenAI__LogLogits
@@ -469,28 +469,39 @@ def evaluation_datas():
         # ["cs-en",
         #  "meta-llama/Meta-Llama-3-8B-Instruct",
         #  ],
-        ["cs-en","./wmt16_ckpts/WMTTT------TEMP___period1/",],
-        ["cs-en","./wmt16_ckpts/WMTTT------TEMP___period2/",],
-        ["cs-en","./wmt16_ckpts/WMTTT------TEMP___period3/",],
-        ["cs-en","./wmt16_ckpts/WMTTT------TEMP___period4/",],
-        ["cs-en","./wmt16_ckpts/WMTTT------TEMP___period5/",],
-        ["cs-en","./wmt16_ckpts/WMTTT------TEMP___period6/",],
-        ["cs-en","./wmt16_ckpts/WMTTT------TEMP___period7/",],
-        ["cs-en","./wmt16_ckpts/WMTTT------TEMP___period8/",],
-        ["cs-en","./wmt16_ckpts/WMTTT------TEMP___period9/",],
-        ["cs-en","./wmt16_ckpts/WMTTT------TEMP___period10/",],
-        ["cs-en","./wmt16_ckpts/WMTTT------TEMP___period11/",],
-        ["cs-en","./wmt16_ckpts/WMTTT------TEMP___period12/",],
-        ["cs-en","./wmt16_ckpts/WMTTT------TEMP___period13/",],
-        ["cs-en","./wmt16_ckpts/WMTTT------TEMP___finally/",],
 
-        ["cs-en","./wmt16_ckpts/WMTTT0.8------TEMP___period1/",],
-        ["cs-en","./wmt16_ckpts/WMTTT0.8------TEMP___period2/",],
-        ["cs-en","./wmt16_ckpts/WMTTT0.8------TEMP___period3/",],
-        ["cs-en","./wmt16_ckpts/WMTTT0.8------TEMP___period4/",],
-        ["cs-en","./wmt16_ckpts/WMTTT0.8------TEMP___period5/",],
-        ["cs-en","./wmt16_ckpts/WMTTT0.8------TEMP___period6/",],
-        ["cs-en","./wmt16_ckpts/WMTTT0.8------TEMP___period7/",],
+        # ["cs-en","./wmt16_ckpts/WMTTT------TEMP___period1/",],
+        # ["cs-en","./wmt16_ckpts/WMTTT------TEMP___period2/",],
+        # ["cs-en","./wmt16_ckpts/WMTTT------TEMP___period3/",],
+        # ["cs-en","./wmt16_ckpts/WMTTT------TEMP___period4/",],
+        # ["cs-en","./wmt16_ckpts/WMTTT------TEMP___period5/",],
+        # ["cs-en","./wmt16_ckpts/WMTTT------TEMP___period6/",],
+        # ["cs-en","./wmt16_ckpts/WMTTT------TEMP___period7/",],
+        # ["cs-en","./wmt16_ckpts/WMTTT------TEMP___period8/",],
+        # ["cs-en","./wmt16_ckpts/WMTTT------TEMP___period9/",],
+        # ["cs-en","./wmt16_ckpts/WMTTT------TEMP___period10/",],
+        # ["cs-en","./wmt16_ckpts/WMTTT------TEMP___period11/",],
+        # ["cs-en","./wmt16_ckpts/WMTTT------TEMP___period12/",],
+        # ["cs-en","./wmt16_ckpts/WMTTT------TEMP___period13/",],
+        # ["cs-en","./wmt16_ckpts/WMTTT------TEMP___finally/",],
+
+        # ["cs-en","./wmt16_ckpts/WMTTToldcs-en------TEMP___period1/",],
+        # ["cs-en","./wmt16_ckpts/WMTTToldcs-en------TEMP___period2/",],
+        # ["cs-en","./wmt16_ckpts/WMTTToldcs-en------TEMP___period3/",],
+        # ["cs-en","./wmt16_ckpts/WMTTToldcs-en------TEMP___period4/",],
+        # ["cs-en","./wmt16_ckpts/WMTTToldcs-en------TEMP___period5/",],
+        # ["cs-en","./wmt16_ckpts/WMTTToldcs-en------TEMP___period6/",],
+        # ["cs-en","./wmt16_ckpts/WMTTToldcs-en------TEMP___period7/",],
+        # ["cs-en","./wmt16_ckpts/WMTTToldcs-en------TEMP___period8/",],
+
+        ["cs-en","./wmt16_ckpts/WMTTTnewcs-en------TEMP___period1/",],
+        ["cs-en","./wmt16_ckpts/WMTTTnewcs-en------TEMP___period2/",],
+        ["cs-en","./wmt16_ckpts/WMTTTnewcs-en------TEMP___period3/",],
+        ["cs-en","./wmt16_ckpts/WMTTTnewcs-en------TEMP___period4/",],
+        ["cs-en","./wmt16_ckpts/WMTTTnewcs-en------TEMP___period5/",],
+        ["cs-en","./wmt16_ckpts/WMTTTnewcs-en------TEMP___period6/",],
+        ["cs-en","./wmt16_ckpts/WMTTTnewcs-en------TEMP___period7/",],
+        ["cs-en","./wmt16_ckpts/WMTTTnewcs-en------TEMP___period8/",],
         
     ]
     base_model_name="meta-llama/Meta-Llama-3-8B-Instruct"
