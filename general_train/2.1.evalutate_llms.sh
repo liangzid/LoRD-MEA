@@ -19,7 +19,9 @@ export python=${HOME}/anaconda3/envs/align/bin/python3
 # export CUDA_VISIBLE_DEVICES="4,5,6,7"
 # export CUDA_VISIBLE_DEVICES="4,5"
 # export CUDA_VISIBLE_DEVICES="6,7"
-export CUDA_VISIBLE_DEVICES="0,1"
+export PYTORCH_CUDA_ALLOC_CONF="expandable_segments:True"
+export CUDA_VISIBLE_DEVICES="0"
+export TORCH_USE_CUDA_DSA="1"
 export root_dir="${HOME}/alignmentExtraction/"
 export save_dir="${root_dir}/general_train/ckpts/boring_test/"
 export from_path="meta-llama/Meta-Llama-3-8B-Instruct"
@@ -33,10 +35,10 @@ export pmp=meta-llama/Meta-Llama-3-8B-Instruct
 ## LoRD-II Inference.
 # export task_ls=("liangzid/claude3_short256")
 # export train_taskls=("LoRD-II" "LoRD-IV")
-export m="LoRD-II"
-# export m="LoRD-IV"
+# export m="LoRD-II"
+export m="LoRD-IV"
 # export fmp="${save_dir}longtext2491liangzid/claude3_short256LoRD-V2121256256___period2/"
-export fmp="${save_dir}longtext2491liangzid/claude3_short256LoRD-VI2121256256___period14/"
+export fmp="${save_dir}longtext2491liangzid/claude3_short256LoRD-VI2121256256___period7/"
 
 # export fmp="${save_dir}longtext2491liangzid/claude3_short256Complex-lord1521256256___period2"
 
