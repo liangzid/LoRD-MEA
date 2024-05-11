@@ -811,8 +811,10 @@ def one_period(args, lm,
                 # term3 = torch.sum(log_clip(term3) * mask2[:, :-1])
                 term3 = torch.mean(log_clip(term3))
 
-                loss = -torch.mean(logits2_cons)\
-                    -log_clip(torch.mean(logits11-logits12))
+                # loss = -1*torch.mean(logits2_cons-logits12)\
+                    # -0.5*log_clip(torch.mean(logits11-logits12))
+                loss = -1*torch.mean(logits2_cons)\
+                    -1*log_clip(torch.mean(logits11-logits12))
                 print(f"TERM1: {term1}\nTERM2: {term2}\nTERM3: {term3}\n")
                 print(f"LOSS: {loss}\n\n")
             else:

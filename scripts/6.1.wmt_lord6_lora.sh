@@ -11,7 +11,9 @@
 
 echo "HOME: ${HOME}"
 export python=${HOME}/anaconda3/envs/align/bin/python3
-export CUDA_VISIBLE_DEVICES="0,1,2"
+# export CUDA_VISIBLE_DEVICES="5,6,7"
+# export CUDA_VISIBLE_DEVICES="0,1,2"
+export CUDA_VISIBLE_DEVICES="4,5,6"
 export TORCH_USE_CUDA_DSA="1"
 export root_dir="${HOME}/alignmentExtraction/"
 export POD_save_dir="${root_dir}/wmt16_ckpts/"
@@ -19,13 +21,18 @@ export from_path="meta-llama/Meta-Llama-3-8B-Instruct"
 export TRAIN_NUMS=(256)
 export train_times=(1)
 export msl=256
-export task_ls=("cs-en" "de-en" "fi-en")
+# export task_ls=("cs-en" "de-en" "fi-en")
+export task_ls=("cs-en")
 export train_taskls=("LoRD-VI")
+# export train_taskls=("vanilla")
 
 export is_black_box=1
 export use_lora=1
 
-export epoch=2
+# export epoch=3
+# export period=3
+
+export epoch=1
 export period=1
 export sub_set_num=16
 export sub_stage_num=15
@@ -41,8 +48,8 @@ export use_vic_logits=1
 export use_kld=0
 export use_entropy=0
 
-export tau1=0.00
-export tau2=0.00
+export tau1=0.8
+export tau2=0.8
 
 for train_num in ${TRAIN_NUMS[*]}
 do
@@ -59,7 +66,7 @@ do
 		echo "+++++++train_task: ${train_task}+++++++"
 		echo "====================================================="
 
-		export save_path="${POD_save_dir}WMTTT${train_num}${train_time}${task}${train_task}${epoch}${period}${temperature}${batch_size}${max_new_tokens}${msl}"
+		export save_path="${POD_save_dir}WMTTTnew${task}------TEMP"
 
 		$python ${root_dir}lord_train.py\
 		    --use_lora=$use_lora \
