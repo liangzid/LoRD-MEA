@@ -18,11 +18,12 @@ export TORCH_USE_CUDA_DSA="1"
 export root_dir="${HOME}/alignmentExtraction/"
 export POD_save_dir="${root_dir}/wmt16_ckpts/"
 export from_path="meta-llama/Meta-Llama-3-8B-Instruct"
-export TRAIN_NUMS=(512)
+# export TRAIN_NUMS=(512)
+export TRAIN_NUMS=(64 128 256 512)
 export train_times=(1)
 export msl=256
-# export task_ls=("cs-en" "de-en" "fi-en")
-export task_ls=("cs-en")
+export task_ls=("cs-en" "de-en" "fi-en")
+# export task_ls=("cs-en")
 export train_taskls=("LoRD-VI")
 # export train_taskls=("vanilla")
 
@@ -66,7 +67,7 @@ do
 		echo "+++++++train_task: ${train_task}+++++++"
 		echo "====================================================="
 
-		export save_path="${POD_save_dir}WMTTTnew${task}------TEMP"
+		export save_path="${POD_save_dir}WMTTTnew${task}${train_num}${train_time}${train_task}"
 
 		$python ${root_dir}lord_train.py\
 		    --use_lora=$use_lora \
@@ -101,6 +102,18 @@ do
 	done
     done
 done
+
+
+$python ${root_dir}wmt_process.py
+
+
+
+
+
+
+
+
+
 
 
 echo "RUNNING 6.1.wmt_lord6_lora.sh DONE."

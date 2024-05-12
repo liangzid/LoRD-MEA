@@ -494,8 +494,25 @@ def evaluation_datas():
         # ["cs-en","./wmt16_ckpts/WMTTToldcs-en------TEMP___period7/",],
         # ["cs-en","./wmt16_ckpts/WMTTToldcs-en------TEMP___period8/",],
 
-        ["cs-en","./wmt16_ckpts/WMTTTnewcs-en------TEMP___period512/adapter_model.safetensors2/",],
+        # ["cs-en","./wmt16_ckpts/WMTTTnewcs-en------TEMP___period512/",],
+
+        ["cs-en","./wmt16_ckpts/WMTTTnewcs-en5121LoRD-VI___period512/",],
+        ["de-en","./wmt16_ckpts/WMTTTnewde-en5121LoRD-VI___period512/",],
+        ["fi-en","./wmt16_ckpts/WMTTTnewfi-en5121LoRD-VI___period512/",],
+
+        ["cs-en","./wmt16_ckpts/WMTTTnewcs-en2561LoRD-VI___period256/",],
+        ["de-en","./wmt16_ckpts/WMTTTnewde-en2561LoRD-VI___period256/",],
+        ["fi-en","./wmt16_ckpts/WMTTTnewfi-en2561LoRD-VI___period256/",],
         
+        ["cs-en","./wmt16_ckpts/WMTTTnewcs-en1281LoRD-VI___period128/",],
+        ["de-en","./wmt16_ckpts/WMTTTnewde-en1281LoRD-VI___period128/",],
+        ["fi-en","./wmt16_ckpts/WMTTTnewfi-en1281LoRD-VI___period128/",],
+
+        ["cs-en","./wmt16_ckpts/WMTTTnewcs-en641LoRD-VI___period64/",],
+        ["de-en","./wmt16_ckpts/WMTTTnewde-en641LoRD-VI___period64/",],
+        ["fi-en","./wmt16_ckpts/WMTTTnewfi-en641LoRD-VI___period64/",],
+
+
     ]
     base_model_name="meta-llama/Meta-Llama-3-8B-Instruct"
     res_dict = {}
