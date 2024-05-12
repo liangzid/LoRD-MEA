@@ -18,7 +18,7 @@ export TORCH_USE_CUDA_DSA="1"
 export root_dir="${HOME}/alignmentExtraction/"
 export POD_save_dir="${root_dir}/wmt16_ckpts/"
 export from_path="meta-llama/Meta-Llama-3-8B-Instruct"
-export TRAIN_NUMS=(256)
+export TRAIN_NUMS=(512)
 export train_times=(1)
 export msl=256
 # export task_ls=("cs-en" "de-en" "fi-en")
@@ -34,10 +34,10 @@ export use_lora=1
 
 export epoch=1
 export period=1
-export sub_set_num=16
-export sub_stage_num=15
+export sub_set_num=1
+export sub_stage_num=512
 export max_new_tokens=64
-export infer_batch_size=4
+export infer_batch_size=1
 export batch_size=1
 
 export beta=1.0
@@ -48,8 +48,8 @@ export use_vic_logits=1
 export use_kld=0
 export use_entropy=0
 
-export tau1=0.8
-export tau2=0.8
+export tau1=0.85
+export tau2=0.95
 
 for train_num in ${TRAIN_NUMS[*]}
 do

@@ -494,19 +494,7 @@ def evaluation_datas():
         # ["cs-en","./wmt16_ckpts/WMTTToldcs-en------TEMP___period7/",],
         # ["cs-en","./wmt16_ckpts/WMTTToldcs-en------TEMP___period8/",],
 
-        ["cs-en","./wmt16_ckpts/WMTTTnewcs-en------TEMP___period1/",],
-        ["cs-en","./wmt16_ckpts/WMTTTnewcs-en------TEMP___period2/",],
-        ["cs-en","./wmt16_ckpts/WMTTTnewcs-en------TEMP___period3/",],
-        ["cs-en","./wmt16_ckpts/WMTTTnewcs-en------TEMP___period4/",],
-        ["cs-en","./wmt16_ckpts/WMTTTnewcs-en------TEMP___period5/",],
-        ["cs-en","./wmt16_ckpts/WMTTTnewcs-en------TEMP___period6/",],
-        ["cs-en","./wmt16_ckpts/WMTTTnewcs-en------TEMP___period7/",],
-        ["cs-en","./wmt16_ckpts/WMTTTnewcs-en------TEMP___period8/",],
-        ["cs-en","./wmt16_ckpts/WMTTTnewcs-en------TEMP___period9/",],
-        ["cs-en","./wmt16_ckpts/WMTTTnewcs-en------TEMP___period10/",],
-        ["cs-en","./wmt16_ckpts/WMTTTnewcs-en------TEMP___period11/",],
-        ["cs-en","./wmt16_ckpts/WMTTTnewcs-en------TEMP___period12/",],
-        ["cs-en","./wmt16_ckpts/WMTTTnewcs-en------TEMP___period13/",],
+        ["cs-en","./wmt16_ckpts/WMTTTnewcs-en------TEMP___period512/adapter_model.safetensors2/",],
         
     ]
     base_model_name="meta-llama/Meta-Llama-3-8B-Instruct"
