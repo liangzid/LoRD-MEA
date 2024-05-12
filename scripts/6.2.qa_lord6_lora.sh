@@ -11,7 +11,7 @@
 
 echo "HOME: ${HOME}"
 export python=${HOME}/anaconda3/envs/align/bin/python3
-export CUDA_VISIBLE_DEVICES="0,1,2"
+export CUDA_VISIBLE_DEVICES="0"
 # export CUDA_VISIBLE_DEVICES="4,5,6"
 # export CUDA_VISIBLE_DEVICES="3,6,7"
 export TORCH_USE_CUDA_DSA="1"
@@ -35,10 +35,10 @@ export use_lora=1
 export epoch=1
 export period=1
 
-export sub_set_num=16
-export sub_stage_num=32
+export sub_set_num=1
+export sub_stage_num=512
 export max_new_tokens=32
-export infer_batch_size=4
+export infer_batch_size=1
 export batch_size=1
 
 export beta=1.0

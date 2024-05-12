@@ -100,10 +100,11 @@ def train(lm, lm_tokenizer, args,
     for ssn in range(sub_stage_num):
 
         #### Transform the LLM into a single device.
-        print(f" -->NOW save the ckpt in stage {ssn}.")
-        args.temp_save_path=args.save_path+"___period"+str(ssn)
-        lm_tokenizer.save_pretrained(args.temp_save_path)
-        lm.save_pretrained(args.temp_save_path)
+        if (ssn+1)%16==0:
+            print(f" -->NOW save the ckpt in stage {ssn+1}.")
+            args.temp_save_path=args.save_path+"___period"+str(ssn+1)
+            lm_tokenizer.save_pretrained(args.temp_save_path)
+            lm.save_pretrained(args.temp_save_path)
 
         # #### Transform back.
         # lm=None
@@ -545,9 +546,9 @@ def train_pod(lm,
                 delta12=p11-pp12ls[i]
 
                 print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-                # print(f"confidence, 1: {delta11}, 2: {delta12}")
+                print(f"Confidence, 1: {p11}, 2: {p12}")
+                print(f"Delta, 1: {delta11}, 2: {delta12}")
                 # if delta12 > delta11:
-                print(f"confidence, 1: {p11}, 2: {p12}")
                 if p12 > p11:
                     print("SWAP.")
                     p_i_11_ls[i] = pidx12.squeeze(0).to("cpu")

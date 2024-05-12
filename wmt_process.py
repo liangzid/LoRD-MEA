@@ -16,7 +16,7 @@ if __name__ == "__main__":
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,2,7"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,6,7"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "3,7"
-    os.environ["CUDA_VISIBLE_DEVICES"] = "5"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 from gen_pipeline_open import InferObj
 from training_data_collecting_openai import chatWithOpenAI__LogLogits
@@ -345,7 +345,7 @@ def infer_wmt(modelname, task_name, res_pth,
 
         res_ls = []
         pp = task_prompt_map[task_name]
-        for d in tqdm(sets):
+        for d in tqdm(sets,total=test_set_take_num):
             d = d["translation"]
             inps = d[from_lang]
             label = d[to_lange]
@@ -380,7 +380,7 @@ def infer_wmt(modelname, task_name, res_pth,
 
         res_ls = []
         pp = task_prompt_map[task_name]
-        for d in tqdm(sets):
+        for d in tqdm(sets,total=test_set_take_num):
             d = d["translation"]
             inps = d[from_lang]
             label = d[to_lange]
@@ -502,6 +502,11 @@ def evaluation_datas():
         ["cs-en","./wmt16_ckpts/WMTTTnewcs-en------TEMP___period6/",],
         ["cs-en","./wmt16_ckpts/WMTTTnewcs-en------TEMP___period7/",],
         ["cs-en","./wmt16_ckpts/WMTTTnewcs-en------TEMP___period8/",],
+        ["cs-en","./wmt16_ckpts/WMTTTnewcs-en------TEMP___period9/",],
+        ["cs-en","./wmt16_ckpts/WMTTTnewcs-en------TEMP___period10/",],
+        ["cs-en","./wmt16_ckpts/WMTTTnewcs-en------TEMP___period11/",],
+        ["cs-en","./wmt16_ckpts/WMTTTnewcs-en------TEMP___period12/",],
+        ["cs-en","./wmt16_ckpts/WMTTTnewcs-en------TEMP___period13/",],
         
     ]
     base_model_name="meta-llama/Meta-Llama-3-8B-Instruct"

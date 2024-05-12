@@ -18,7 +18,7 @@ if __name__ == "__main__":
     # os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,6,7"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "6,7"
-    os.environ["CUDA_VISIBLE_DEVICES"] = "3"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "0"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5"
     os.environ["TORCH_USE_CUDA_DSA"]="1"
 
@@ -340,9 +340,41 @@ def eval_qa_res():
         #     "./qa_ckpts/QAAA2561piqavanilla332132256___finally/"
         #     ],
 
+        # [
+        #     "piqa",
+        #     "./qa_ckpts/QAAA---TEMP--res___period1/"
+        # ],
+        # [
+        #     "piqa",
+        #     "./qa_ckpts/QAAA---TEMP--res___period2/"
+        # ],
+        # [
+        #     "piqa",
+        #     "./qa_ckpts/QAAA---TEMP--res___period3/"
+        # ],
+        # [
+        #     "piqa",
+        #     "./qa_ckpts/QAAA---TEMP--res___period4/"
+        # ],
+        # [
+        #     "piqa",
+        #     "./qa_ckpts/QAAA---TEMP--res___period5/"
+        # ],
+        # [
+        #     "piqa",
+        #     "./qa_ckpts/QAAA---TEMP--res___period6/"
+        # ],
+        # [
+        #     "piqa",
+        #     "./qa_ckpts/QAAA---TEMP--res___period7/"
+        # ],
+        # [
+        #     "piqa",
+        #     "./qa_ckpts/QAAA---TEMP--res___period8/"
+        # ],
         [
             "piqa",
-            "./qa_ckpts/QAAA---TEMP--res___period7/"
+            "./qa_ckpts/QAAA---TEMP--res___period127/"
         ],
 
     )
