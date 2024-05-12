@@ -100,8 +100,9 @@ def train(lm, lm_tokenizer, args,
     for ssn in range(sub_stage_num):
 
         #### Transform the LLM into a single device.
+        print(f"stage_num: {ssn+1}.")
         if (ssn+1)%16==0:
-            print(f" -->NOW save the ckpt in stage {ssn+1}.")
+            print(f" ------>NOW save the ckpt in stage {ssn+1}.")
             args.temp_save_path=args.save_path+"___period"+str(ssn+1)
             lm_tokenizer.save_pretrained(args.temp_save_path)
             lm.save_pretrained(args.temp_save_path)
@@ -168,7 +169,7 @@ def train_pod(lm,
     # 1. in every period, random take a subset.
     seed = time.time()
     if subset_pointer>= math.floor(len(op_ls)/subset_num)-1:
-        subset_pointer=0
+        subset_pointer=subset_pointer%(math.floor(len(op_ls)/subset_num))
     p_ls = op_ls[subset_pointer*subset_num:\
                 (subset_pointer+1)*subset_num]
     idx2ls = oidx2ls[subset_pointer*subset_num:\
@@ -277,7 +278,7 @@ def train_pod(lm,
                     max_length=args.max_length,
                     max_new_tokens=max_new_tokens,
                     num_return_sequences=2,
-                    temperature=1.5,
+                    temperature=1,
                     top_p=0.98,
                     use_cache=True,
                     )
@@ -548,7 +549,6 @@ def train_pod(lm,
                 print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
                 print(f"Confidence, 1: {p11}, 2: {p12}")
                 print(f"Delta, 1: {delta11}, 2: {delta12}")
-                # if delta12 > delta11:
                 if p12 > p11:
                     print("SWAP.")
                     p_i_11_ls[i] = pidx12.squeeze(0).to("cpu")
@@ -561,6 +561,7 @@ def train_pod(lm,
                     temppp = p_m_11_ls[i]
                     p_m_11_ls[i] = p_m_12_ls[i]
                     p_m_12_ls[i] = temppp
+                # if max(p11, p12) < tau1 or abs(p11-p12)<0.01:
                 if max(p11, p12) < tau1:
                     print("BUT still use the VIC's labels.")
                     # print(f"shape of 11: {p_i_11_ls.shape}")

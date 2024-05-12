@@ -49,8 +49,8 @@ export use_vic_logits=1
 export use_kld=0
 export use_entropy=0
 
-export tau1=0.90
-export tau2=0.90
+export tau1=0.85
+export tau2=0.95
 
 for train_num in ${TRAIN_NUMS[*]}
 do

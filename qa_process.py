@@ -18,7 +18,7 @@ if __name__ == "__main__":
     # os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,6,7"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "6,7"
-    os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "1"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5"
     os.environ["TORCH_USE_CUDA_DSA"]="1"
 
@@ -374,7 +374,7 @@ def eval_qa_res():
         # ],
         [
             "piqa",
-            "./qa_ckpts/QAAA---TEMP--res___period127/"
+            "./qa_ckpts/QAAA---TEMP--res___period256/"
         ],
 
     )
@@ -402,7 +402,7 @@ def eval_qa_res():
                 test_set_take_num=500,
                 # test_set_take_num=50,
                 # mnt=64,
-                mnt=16,
+                mnt=8,
                 base_model_name=base_model_name
             )
         else:
