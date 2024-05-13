@@ -22,8 +22,8 @@ export from_path="meta-llama/Meta-Llama-3-8B-Instruct"
 export TRAIN_NUMS=(256)
 export train_times=(1)
 export msl=256
-export task_ls=("piqa")
-export train_taskls=("LoRD-VI")
+export task_ls=("piqa" "truthful_qa" "allenai/ai2arc")
+export train_taskls=("LoRD-VI" "vanilla")
 # export train_taskls=("vanilla")
 
 export is_black_box=1
@@ -67,7 +67,7 @@ do
 		echo "+++++++train_task: ${train_task}+++++++"
 		echo "====================================================="
 
-		export save_path="${POD_save_dir}QAAA---TEMP--res"
+		export save_path="${POD_save_dir}QAAAnew${task}${train_num}${train_time}${train_task}"
 
 		$python ${root_dir}lord_train.py\
 		    --dataset_task=$task \
@@ -102,6 +102,8 @@ do
 	done
     done
 done
+
+$python ${root_dir}qa_process.py
 
 
 echo "RUNNING 6.2.qa_lord6_lora.sh DONE."

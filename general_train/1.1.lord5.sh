@@ -66,7 +66,7 @@ export use_kld=0
 export use_entropy=0
 
 export tau1=0.85
-export tau2=0.90
+export tau2=0.95
 
 # export train_num=100
 
