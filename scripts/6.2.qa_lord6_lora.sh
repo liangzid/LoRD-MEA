@@ -19,14 +19,15 @@ export root_dir="${HOME}/alignmentExtraction/"
 export POD_save_dir="${root_dir}/qa_ckpts/"
 export from_path="meta-llama/Meta-Llama-3-8B-Instruct"
 # export from_path="google/gemma-7b"
-# export TRAIN_NUMS=(512 128 64)
-export TRAIN_NUMS=(64)
-export train_times=(1)
+export TRAIN_NUMS=(64 128 256 512)
+# export TRAIN_NUMS=(2)
+export train_times=(1 2 3 4 5)
+# export train_times=(1 2)
 export msl=256
-# export task_ls=("piqa" "truthful_qa" "allenai/ai2_arc")
-export task_ls=("piqa")
-# export train_taskls=("LoRD-VI" "vanilla")
-export train_taskls=("LoRD-VI")
+export task_ls=("piqa" "truthful_qa" "allenai/ai2_arc")
+# export task_ls=("piqa")
+# export train_taskls=("LoRD-VI")
+export train_taskls=("LoRD-VI" "vanilla")
 
 export is_black_box=1
 export use_lora=1
@@ -34,11 +35,12 @@ export use_lora=1
 # export epoch=3
 # export period=3
 
-export epoch=1
+export epoch=2
 export period=1
 
 export sub_set_num=1
 export sub_stage_num=512
+# export sub_stage_num=16
 export max_new_tokens=32
 export infer_batch_size=1
 export batch_size=1
@@ -106,7 +108,8 @@ do
     done
 done
 
-# $python ${root_dir}qa_process.py
+echo "NOW BEGIN TO INFERENCE..."
+$python ${root_dir}qa_process.py
 
 
 echo "RUNNING 6.2.qa_lord6_lora.sh DONE."

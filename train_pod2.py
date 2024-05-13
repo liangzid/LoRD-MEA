@@ -693,6 +693,8 @@ def train_pod(lm,
         # print("TO AUTO DONE.")
 
         print(">>>> Period {}".format(iter_idx))
+        print("warning: Set Epoch to 1 without any reason.")
+        args.epoch=1
         lm = one_period(args, lm,
                         lm_tokenizer,
                         loader,
