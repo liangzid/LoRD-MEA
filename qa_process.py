@@ -18,7 +18,7 @@ if __name__ == "__main__":
     # os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,6,7"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "6,7"
-    os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "0"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5"
     os.environ["TORCH_USE_CUDA_DSA"]="1"
 
@@ -77,7 +77,8 @@ def load_qa_datals(
 
     elif task_name == tasks_we_used[1]:
         trainset_text = load_dataset(
-            dataset_name, "multiple_choice", split=f"validation[:{train_num}]"
+            dataset_name, "multiple_choice",
+            split=f"validation[:{train_num}]"
         )
 
         for item in trainset_text:
@@ -85,13 +86,14 @@ def load_qa_datals(
             assert len(item["mc1_targets"]["choices"]) >= 2
             sol1 = item["mc1_targets"]["choices"][0]
             sol2 = item["mc1_targets"]["choices"][1]
+            label = str(0)
 
             if random.random() > 0.5:
                 # then flip
                 temp = sol1
                 sol1 = sol2
                 sol2 = temp
-            label = str(0)
+                label = str(1)
             text = (
                 f"Question: {question}\n\n Selection 1: {sol1} \n\n Selection 2:{sol2}"
             )

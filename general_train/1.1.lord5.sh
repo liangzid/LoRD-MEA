@@ -17,7 +17,7 @@
 echo "HOME: ${HOME}"
 export python=${HOME}/anaconda3/envs/align/bin/python3
 # export CUDA_VISIBLE_DEVICES="0,1,2"
-export CUDA_VISIBLE_DEVICES="0"
+export CUDA_VISIBLE_DEVICES="1"
 export TORCH_USE_CUDA_DSA="1"
 export root_dir="${HOME}/alignmentExtraction/"
 export POD_save_dir="${root_dir}/general_train/ckpts/boring_test/"
@@ -49,12 +49,12 @@ export use_lora=1
 # export epoch=1
 # export period=5
 
-export epoch=2
+export epoch=1
 export period=1
-export sub_set_num=16
-export sub_stage_num=15
+export sub_set_num=1
+export sub_stage_num=500
 export max_new_tokens=256
-export infer_batch_size=4
+export infer_batch_size=1
 export batch_size=1
 
 export beta=1.0
@@ -65,8 +65,8 @@ export use_vic_logits=1
 export use_kld=0
 export use_entropy=0
 
-export tau1=0.20
-export tau2=0.20
+export tau1=0.85
+export tau2=0.90
 
 # export train_num=100
 

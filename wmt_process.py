@@ -513,6 +513,23 @@ def evaluation_datas():
         ["fi-en","./wmt16_ckpts/WMTTTnewfi-en641LoRD-VI___period64/",],
 
 
+        ["cs-en","./wmt16_ckpts/WMTTTnewcs-en5121vanilla___finally/",],
+        ["de-en","./wmt16_ckpts/WMTTTnewde-en5121vanilla___finally/",],
+        ["fi-en","./wmt16_ckpts/WMTTTnewfi-en5121vanilla___finally/",],
+
+        ["cs-en","./wmt16_ckpts/WMTTTnewcs-en2561vanilla___finally/",],
+        ["de-en","./wmt16_ckpts/WMTTTnewde-en2561vanilla___finally/",],
+        ["fi-en","./wmt16_ckpts/WMTTTnewfi-en2561vanilla___finally/",],
+        
+        ["cs-en","./wmt16_ckpts/WMTTTnewcs-en1281vanilla___finally/",],
+        ["de-en","./wmt16_ckpts/WMTTTnewde-en1281vanilla___finally/",],
+        ["fi-en","./wmt16_ckpts/WMTTTnewfi-en1281vanilla___finally/",],
+
+        ["cs-en","./wmt16_ckpts/WMTTTnewcs-en641vanilla___finally/",],
+        ["de-en","./wmt16_ckpts/WMTTTnewde-en641vanilla___finally/",],
+        ["fi-en","./wmt16_ckpts/WMTTTnewfi-en641vanilla___finally/",],
+
+
     ]
     base_model_name="meta-llama/Meta-Llama-3-8B-Instruct"
     res_dict = {}

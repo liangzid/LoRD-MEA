@@ -24,7 +24,8 @@ export train_times=(1)
 export msl=256
 export task_ls=("cs-en" "de-en" "fi-en")
 # export task_ls=("cs-en")
-export train_taskls=("LoRD-VI")
+# export train_taskls=("LoRD-VI")
+export train_taskls=("vanilla")
 # export train_taskls=("vanilla")
 
 export is_black_box=1
@@ -33,7 +34,7 @@ export use_lora=1
 # export epoch=3
 # export period=3
 
-export epoch=1
+export epoch=2
 export period=1
 export sub_set_num=1
 export sub_stage_num=512
