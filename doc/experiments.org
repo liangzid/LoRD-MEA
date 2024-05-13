@@ -82,6 +82,19 @@ QA related experiments.
 |------------+-------+-------+-------+--------+-------+-------+-------|
 
 
+
+
+
+
+
+
+* 215: WMT16 ----> New version of the results.
+
+
+
+
+
+
 * Changes varing training number: No significant difference on Gemma2B
 ** Results on PiQA  [231 SERVER]
 
