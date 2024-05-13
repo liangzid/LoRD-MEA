@@ -19,12 +19,14 @@ export root_dir="${HOME}/alignmentExtraction/"
 export POD_save_dir="${root_dir}/qa_ckpts/"
 export from_path="meta-llama/Meta-Llama-3-8B-Instruct"
 # export from_path="google/gemma-7b"
-export TRAIN_NUMS=(256)
+# export TRAIN_NUMS=(512 128 64)
+export TRAIN_NUMS=(64)
 export train_times=(1)
 export msl=256
-export task_ls=("piqa" "truthful_qa" "allenai/ai2_arc")
-export train_taskls=("LoRD-VI" "vanilla")
-# export train_taskls=("vanilla")
+# export task_ls=("piqa" "truthful_qa" "allenai/ai2_arc")
+export task_ls=("piqa")
+# export train_taskls=("LoRD-VI" "vanilla")
+export train_taskls=("LoRD-VI")
 
 export is_black_box=1
 export use_lora=1
@@ -49,7 +51,8 @@ export use_vic_logits=1
 export use_kld=0
 export use_entropy=0
 
-export tau1=0.85
+# export tau1=0.85
+export tau1=-0.1
 export tau2=0.95
 
 for train_num in ${TRAIN_NUMS[*]}
@@ -103,7 +106,7 @@ do
     done
 done
 
-$python ${root_dir}qa_process.py
+# $python ${root_dir}qa_process.py
 
 
 echo "RUNNING 6.2.qa_lord6_lora.sh DONE."
