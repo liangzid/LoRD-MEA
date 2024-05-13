@@ -22,7 +22,7 @@ export from_path="meta-llama/Meta-Llama-3-8B-Instruct"
 export TRAIN_NUMS=(256)
 export train_times=(1)
 export msl=256
-export task_ls=("piqa" "truthful_qa" "allenai/ai2arc")
+export task_ls=("piqa" "truthful_qa" "allenai/ai2_arc")
 export train_taskls=("LoRD-VI" "vanilla")
 # export train_taskls=("vanilla")
 
