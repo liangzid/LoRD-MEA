@@ -48,7 +48,31 @@ def process_wmt_data(fname):
     return org_table_text
 
 
+def process_qa_data(fname):
+    # from collections import OrderedDict
+    with open(fname, 'r',encoding='utf8') as f:
+        data=json.load(f,object_pairs_hook=OrderedDict)
+
+    key_ls=[0,1,2,3]
+    print(key_ls)
+    flatten_dict={}
+    for key in data:
+        adict=data[key]
+        als=[]
+        for k1 in key_ls:
+            als.append(round(adict[k1],3))
+        flatten_dict[key]=als
+
+    org_table_text=""
+    for fname, value_ls in flatten_dict.items():
+        org_table_text+=f"|{fname}|"
+        value_ls=[str(x) for x in value_ls]
+        str_ls="|".join(value_ls)
+        org_table_text+=str_ls+"| \n"
+    print(f"ORG TABLE TEXT:\n {org_table_text}")
+    return org_table_text
 
 
 if __name__=="__main__":
-    process_wmt_data("./wmt16_res/wmt_inference_scores_overall.json")
+    # process_wmt_data("./wmt16_res/wmt_inference_scores_overall.json")
+    process_qa_data("./qa_dataset_res/temp_boring_res_delete_thisfile_itisuseless.json")

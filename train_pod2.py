@@ -97,7 +97,7 @@ def train(lm, lm_tokenizer, args,
     preset_subset_num=args.sub_set_num
     subset_pointer=0
 
-    for ssn in range(sub_stage_num):
+    for ssn in tqdm(range(sub_stage_num)):
 
         #### Transform the LLM into a single device.
         print(f"stage_num: {ssn+1}.")
@@ -497,12 +497,23 @@ def train_pod(lm,
             pp11ls=[]
             pp12ls=[]
             for i, prompt in enumerate(p_ls):
-                p11 = float(torch.sum(torch.exp(p_logits_11_ls[i])
-                                      * p_m_11_ls[i, :-1])
-                            / torch.sum(p_m_11_ls[i, :-1]))
-                p12 = float(torch.sum(torch.exp(p_logits_12_ls[i])
-                                      * p_m_12_ls[i, :-1])
-                            / torch.sum(p_m_12_ls[i, :-1]))
+
+                # p11 = float(torch.sum(torch.exp(p_logits_11_ls[i])
+                #                       * p_m_11_ls[i, :-1])
+                #             / torch.sum(p_m_11_ls[i, :-1]))
+                # p12 = float(torch.sum(torch.exp(p_logits_12_ls[i])
+                #                       * p_m_12_ls[i, :-1])
+                #             / torch.sum(p_m_12_ls[i, :-1]))
+
+                p11=float(torch.exp(
+                    torch.sum(
+                        p_logits_11_ls[i]*p_m_11_ls[i, :-1]
+                        )/torch.sum(p_m_11_ls[i, :-1])))
+                p12=float(torch.exp(
+                    torch.sum(
+                        p_logits_12_ls[i]*p_m_12_ls[i, :-1]
+                        )/torch.sum(p_m_12_ls[i, :-1])))
+                
                 pp11ls.append(p11)
                 pp12ls.append(p12)
 
@@ -536,18 +547,33 @@ def train_pod(lm,
                     pidx12[:, 1:sqqql]
                     ].to("cpu")
 
-                p11 = float(torch.sum(torch.exp(P_theta_t_logits11)
-                                      * p_m_11_ls[i, :-1])
-                            / torch.sum(p_m_11_ls[i, :-1]))
-                p12 = float(torch.sum(torch.exp(P_theta_t_logits12)
-                                      * p_m_12_ls[i, :-1])
-                            / torch.sum(p_m_12_ls[i, :-1]))
+                # p11 = float(torch.sum(torch.exp(P_theta_t_logits11)
+                #                       * p_m_11_ls[i, :-1])
+                #             / torch.sum(p_m_11_ls[i, :-1]))
+                # p12 = float(torch.sum(torch.exp(P_theta_t_logits12)
+                #                       * p_m_12_ls[i, :-1])
+                #             / torch.sum(p_m_12_ls[i, :-1]))
+
+                p11=float(torch.exp(
+                    torch.sum(
+                        P_theta_t_logits11*p_m_11_ls[i, :-1]
+                        )/torch.sum(p_m_11_ls[i, :-1])))
+                p12=float(torch.exp(
+                    torch.sum(
+                        P_theta_t_logits12*p_m_12_ls[i, :-1]
+                        )/torch.sum(p_m_12_ls[i, :-1])))
+
+                # print("LOGITS 11:")
+                # print(torch.exp(P_theta_t_logits11))
+                # print("LOGITS 12:")
+                # print(torch.exp(P_theta_t_logits12))
 
                 delta11=p11-pp11ls[i]
                 delta12=p11-pp12ls[i]
 
                 print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
-                print(f"Confidence, 1: {p11}, 2: {p12}")
+                print(f"Old Confidence, 1: {pp11ls[i]}, 2: {pp12ls[i]}")
+                print(f"New Confidence, 1: {p11}, 2: {p12}")
                 print(f"Delta, 1: {delta11}, 2: {delta12}")
                 if p12 > p11:
                     print("SWAP.")
@@ -561,9 +587,14 @@ def train_pod(lm,
                     temppp = p_m_11_ls[i]
                     p_m_11_ls[i] = p_m_12_ls[i]
                     p_m_12_ls[i] = temppp
+
+                    temppp = delta12
+                    delta12=delta11
+                    delta11=temppp
                 # if max(p11, p12) < tau1 or abs(p11-p12)<0.01:
+                # if delta11 < tau1:
                 if max(p11, p12) < tau1:
-                    print("BUT still use the VIC's labels.")
+                    print("RED:->BUT still use the VIC's labels.")
                     # print(f"shape of 11: {p_i_11_ls.shape}")
                     # print(f"shape of 2: {idx2ls.shape}")
                     # print(f"shape of 12: {p_i_12_ls.shape}")

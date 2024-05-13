@@ -63,36 +63,36 @@ I make sure:
 |                               |         |        |        |
 
 
-|---------+---------------+-------+--------|
-| method  | task          |   acc |  sterr |
-|---------+---------------+-------+--------|
+|----------------+---------------+-------+--------|
+| method         | task          |   acc |  sterr |
+|----------------+---------------+-------+--------|
 | vanilla w. bug | winogrande    | 0.729 | 0.0125 |
-| vanilla w. bug| piqa          | 0.796 | 0.0094 |
-| vanilla w. bug| openbookqa    | 0.364 | 0.0215 |
-| vanilla w. bug| hellaswag     | 0.603 | 0.0049 |
-| vanilla w. bug| boolq         | 0.832 | 0.0065 |
-| vanilla w. bug| arc_easy      | 0.822 | 0.0078 |
-| vanilla w. bug| arc_challenge | 0.503 | 0.0145 |
-|---------+---------------+-------+--------|
+| vanilla w. bug | piqa          | 0.796 | 0.0094 |
+| vanilla w. bug | openbookqa    | 0.364 | 0.0215 |
+| vanilla w. bug | hellaswag     | 0.603 | 0.0049 |
+| vanilla w. bug | boolq         | 0.832 | 0.0065 |
+| vanilla w. bug | arc_easy      | 0.822 | 0.0078 |
+| vanilla w. bug | arc_challenge | 0.503 | 0.0145 |
+|----------------+---------------+-------+--------|
 
 Results of the llama3-8B model:
 
-|-------------|------:|------|-----:|--------|-----:|---|-----:|
-|    Tasks    |Version|Filter|n-shot| Metric |Value |   |Stderr|
-|-------------|------:|------|-----:|--------|-----:|---|-----:|
-|winogrande   |      1|none  |     0|acc     |0.7190|±  |0.0126|
-|piqa         |      1|none  |     0|acc     |0.7862|±  |0.0096|
-|             |       |none  |     0|acc_norm|0.7867|±  |0.0096|
-|openbookqa   |      1|none  |     0|acc     |0.3380|±  |0.0212|
-|             |       |none  |     0|acc_norm|0.4280|±  |0.0221|
-|hellaswag    |      1|none  |     0|acc     |0.5771|±  |0.0049|
-|             |       |none  |     0|acc_norm|0.7581|±  |0.0043|
-|boolq        |      2|none  |     0|acc     |0.8312|±  |0.0066|
-|arc_easy     |      1|none  |     0|acc     |0.8144|±  |0.0080|
-|             |       |none  |     0|acc_norm|0.7955|±  |0.0083|
-|arc_challenge|      1|none  |     0|acc     |0.5290|±  |0.0146|
-|             |       |none  |     0|acc_norm|0.5674|±  |0.0145|
-|-------------|------:|------|-----:|--------|-----:|---|-----:|
+|---------------+---------+--------+--------+----------+--------+---+--------|
+| Tasks         | Version | Filter | n-shot | Metric   |  Value |   | Stderr |
+|---------------+---------+--------+--------+----------+--------+---+--------|
+| winogrande    |       1 | none   |      0 | acc      | 0.7190 | ±  | 0.0126 |
+| piqa          |       1 | none   |      0 | acc      | 0.7862 | ±  | 0.0096 |
+|               |         | none   |      0 | acc_norm | 0.7867 | ±  | 0.0096 |
+| openbookqa    |       1 | none   |      0 | acc      | 0.3380 | ±  | 0.0212 |
+|               |         | none   |      0 | acc_norm | 0.4280 | ±  | 0.0221 |
+| hellaswag     |       1 | none   |      0 | acc      | 0.5771 | ±  | 0.0049 |
+|               |         | none   |      0 | acc_norm | 0.7581 | ±  | 0.0043 |
+| boolq         |       2 | none   |      0 | acc      | 0.8312 | ±  | 0.0066 |
+| arc_easy      |       1 | none   |      0 | acc      | 0.8144 | ±  | 0.0080 |
+|               |         | none   |      0 | acc_norm | 0.7955 | ±  | 0.0083 |
+| arc_challenge |       1 | none   |      0 | acc      | 0.5290 | ±  | 0.0146 |
+|               |         | none   |      0 | acc_norm | 0.5674 | ±  | 0.0145 |
+|---------------+---------+--------+--------+----------+--------+---+--------|
 
 
 Results of our checkpoint:

@@ -380,37 +380,50 @@ def eval_qa_res():
         #     "./qa_ckpts/QAAA---TEMP--res___period256/"
         # ],
 
+        # ["piqa","./qa_ckpts/QAAAnewpiqa5121LoRD-VI___period512/",],
+        # ["truthful_qa","./qa_ckpts/QAAAnewtruthful_qa5121LoRD-VI___period512/",],
+        # ["allenai/ai2_arc","./qa_ckpts/QAAAnewallenai/ai2_arc5121LoRD-VI___period512/",],
+
+        # ["piqa","./qa_ckpts/QAAAnewpiqa2561LoRD-VI___period256/",],
+        # ["truthful_qa","./qa_ckpts/QAAAnewtruthful_qa2561LoRD-VI___period256/",],
+        # ["allenai/ai2_arc","./qa_ckpts/QAAAnewallenai/ai2_arc2561LoRD-VI___period256/",],
+        
+        # ["piqa","./qa_ckpts/QAAAnewpiqa1281LoRD-VI___period128/",],
+        # ["truthful_qa","./qa_ckpts/QAAAnewtruthful_qa1281LoRD-VI___period128/",],
+        # ["allenai/ai2_arc","./qa_ckpts/QAAAnewallenai/ai2_arc1281LoRD-VI___period128/",],
+
+        # ["piqa","./qa_ckpts/QAAAnewpiqa641LoRD-VI___period64/",],
+        # ["truthful_qa","./qa_ckpts/QAAAnewtruthful_qa641LoRD-VI___period64/",],
+        # ["allenai/ai2_arc","./qa_ckpts/QAAAnewallenai/ai2_arc641LoRD-VI___period64/",],
+
+        # ["piqa","./qa_ckpts/QAAAnewpiqa5121vanilla___finally/",],
+        # ["truthful_qa","./qa_ckpts/QAAAnewtruthful_qa5121vanilla___finally/",],
+        # ["allenai/ai2_arc","./qa_ckpts/QAAAnewallenai/ai2_arc5121vanilla___finally/",],
+
+        # ["piqa","./qa_ckpts/QAAAnewpiqa2561vanilla___finally/",],
+        # ["truthful_qa","./qa_ckpts/QAAAnewtruthful_qa2561vanilla___finally/",],
+        # ["allenai/ai2_arc","./qa_ckpts/QAAAnewallenai/ai2_arc2561vanilla___finally/",],
+        
+        # ["piqa","./qa_ckpts/QAAAnewpiqa1281vanilla___finally/",],
+        # ["truthful_qa","./qa_ckpts/QAAAnewtruthful_qa1281vanilla___finally/",],
+        # ["allenai/ai2_arc","./qa_ckpts/QAAAnewallenai/ai2_arc1281vanilla___finally/",],
+
+        # ["piqa","./qa_ckpts/QAAAnewpiqa641vanilla___finally/",],
+        # ["truthful_qa","./qa_ckpts/QAAAnewtruthful_qa641vanilla___finally/",],
+        # ["allenai/ai2_arc","./qa_ckpts/QAAAnewallenai/ai2_arc641vanilla___finally/",],
+
         ["piqa","./qa_ckpts/QAAAnewpiqa5121LoRD-VI___period512/",],
         ["truthful_qa","./qa_ckpts/QAAAnewtruthful_qa5121LoRD-VI___period512/",],
-        ["allenai/ai2arc","./qa_ckpts/QAAAnewallenai/ai2_arc5121LoRD-VI___period512/",],
-
-        ["piqa","./qa_ckpts/QAAAnewpiqa2561LoRD-VI___period256/",],
-        ["truthful_qa","./qa_ckpts/QAAAnewtruthful_qa2561LoRD-VI___period256/",],
-        ["allenai/ai2arc","./qa_ckpts/QAAAnewallenai/ai2_arc2561LoRD-VI___period256/",],
-        
-        ["piqa","./qa_ckpts/QAAAnewpiqa1281LoRD-VI___period128/",],
-        ["truthful_qa","./qa_ckpts/QAAAnewtruthful_qa1281LoRD-VI___period128/",],
-        ["allenai/ai2arc","./qa_ckpts/QAAAnewallenai/ai2_arc1281LoRD-VI___period128/",],
-
-        ["piqa","./qa_ckpts/QAAAnewpiqa641LoRD-VI___period64/",],
-        ["truthful_qa","./qa_ckpts/QAAAnewtruthful_qa641LoRD-VI___period64/",],
-        ["allenai/ai2arc","./qa_ckpts/QAAAnewallenai/ai2_arc641LoRD-VI___period64/",],
-
-        ["piqa","./qa_ckpts/QAAAnewpiqa5121vanilla___finally/",],
-        ["truthful_qa","./qa_ckpts/QAAAnewtruthful_qa5121vanilla___finally/",],
-        ["allenai/ai2arc","./qa_ckpts/QAAAnewallenai/ai2_arc5121vanilla___finally/",],
-
-        ["piqa","./qa_ckpts/QAAAnewpiqa2561vanilla___finally/",],
-        ["truthful_qa","./qa_ckpts/QAAAnewtruthful_qa2561vanilla___finally/",],
-        ["allenai/ai2arc","./qa_ckpts/QAAAnewallenai/ai2_arc2561vanilla___finally/",],
-        
-        ["piqa","./qa_ckpts/QAAAnewpiqa1281vanilla___finally/",],
-        ["truthful_qa","./qa_ckpts/QAAAnewtruthful_qa1281vanilla___finally/",],
-        ["allenai/ai2arc","./qa_ckpts/QAAAnewallenai/ai2_arc1281vanilla___finally/",],
-
-        ["piqa","./qa_ckpts/QAAAnewpiqa641vanilla___finally/",],
-        ["truthful_qa","./qa_ckpts/QAAAnewtruthful_qa641vanilla___finally/",],
-        ["allenai/ai2arc","./qa_ckpts/QAAAnewallenai/ai2_arc641vanilla___finally/",],
+        ["allenai/ai2_arc","./qa_ckpts/QAAAnewallenai/ai2_arc5121LoRD-VI___period512/",],
+        ["piqa","./qa_ckpts/QAAAnewpiqa2561LoRD-VI___period512/",],
+        ["truthful_qa","./qa_ckpts/QAAAnewtruthful_qa2561LoRD-VI___period512/",],
+        ["allenai/ai2_arc","./qa_ckpts/QAAAnewallenai/ai2_arc2561LoRD-VI___period512/",],
+        ["piqa","./qa_ckpts/QAAAnewpiqa1281LoRD-VI___period512/",],
+        ["truthful_qa","./qa_ckpts/QAAAnewtruthful_qa1281LoRD-VI___period512/",],
+        ["allenai/ai2_arc","./qa_ckpts/QAAAnewallenai/ai2_arc1281LoRD-VI___period512/",],
+        ["piqa","./qa_ckpts/QAAAnewpiqa641LoRD-VI___period512/",],
+        ["truthful_qa","./qa_ckpts/QAAAnewtruthful_qa641LoRD-VI___period512/",],
+        ["allenai/ai2_arc","./qa_ckpts/QAAAnewallenai/ai2_arc641LoRD-VI___period512/",],
 
     )
 

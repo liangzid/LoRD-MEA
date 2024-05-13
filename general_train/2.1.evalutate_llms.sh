@@ -27,8 +27,8 @@ export save_dir="${root_dir}/general_train/ckpts/boring_test/"
 export from_path="meta-llama/Meta-Llama-3-8B-Instruct"
 
 
-# export qas=openbookqa,arc_easy,winogrande,hellaswag,arc_challenge,piqa,boolq
-export qas=piqa
+export qas=openbookqa,arc_easy,winogrande,hellaswag,arc_challenge,piqa,boolq
+# export qas=piqa
 export eval=${HOME}/anaconda3/envs/align/bin/lm_eval
 export pmp=meta-llama/Meta-Llama-3-8B-Instruct
 
@@ -38,7 +38,7 @@ export pmp=meta-llama/Meta-Llama-3-8B-Instruct
 # export m="LoRD-II"
 export m="LoRD-IV"
 # export fmp="${save_dir}longtext2491liangzid/claude3_short256LoRD-V2121256256___period2/"
-export fmp="${save_dir}longtext2491liangzid/claude3_short256LoRD-VI2121256256___period496/"
+export fmp="${save_dir}longtext2491liangzid/claude3_short256LoRD-VI1121256256___period256/"
 
 # export fmp="${save_dir}longtext2491liangzid/claude3_short256Complex-lord1521256256___period2"
 
@@ -51,7 +51,7 @@ $eval --model hf \
     --model_args pretrained=${pmp},parallelize=True,peft=${fmp}\
     --tasks $qas\
     --device cuda\
-    --batch_size auto
+    --batch_size auto:4
 
 
 # ## Vanilla LoRA TRAIN on LLAMA3 8B

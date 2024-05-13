@@ -1,75 +1,158 @@
-#+title: 
+#+title: Experiments Results V2
 #+date: Mon May 13 11:29:29 2024
 #+author: Zi Liang
 #+email: zi1415926.liang@connect.polyu.hk
 #+latex_class: elegantpaper
 #+filetags: ::
 
+* WMTs
 
-## this is the beamer style
-#+title: 
-#+author: Zi Liang
-#+latex_class: lz-beamer
-#+OPTIONS: H:2
-#+PROPERTY: comments yes
-#+PROPERTY: header-args :exports both :eval never-export
-# #+ATTR_latex: :width 200
-
-#+latex_header: \usepackage{amsthm}
-
-#+LATEX_HEADER: \usepackage[hidelinks]{hyperref}
-#+LATEX_HEADER: \usepackage[utf8]{inputenc}
-#+LATEX_HEADER: \usepackage[small]{caption}
-
-#+latex_header: \usepackage{multirow}
-#+latex_header: \usepackage{booktabs}
-#+latex_header: \usepackage{graphicx}
-
-#+latex_header: \usepackage{algorithm}
-#+latex_header: \usepackage{algorithmicx}
-
-#+latex_header: \usepackage{amsmath}
-#+latex_header: \usepackage{amsfonts}
-#+latex_header: \usepackage{algpseudocode}
-
-
-
-
-
-|---------------------------------------------------------------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------|
-| file name                                                     | bleu1 | bleu2 | bleu3 | bleu4 |  bs-p |  bs-r |  bs-f |  rl-p |  rl-r |  rl-f |
-|---------------------------------------------------------------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------|
-| cs-en-----./wmt16_ckpts/WMTTTnewcs-en5121LoRD-VI___period512/ | 0.566 | 0.432 |  0.34 | 0.271 | 0.875 | 0.944 | 0.908 | 0.541 | 0.573 | 0.554 |
-| cs-en-----./wmt16_ckpts/WMTTTnewcs-en5121vanilla___finally/   | 0.567 | 0.433 | 0.341 | 0.272 | 0.876 | 0.946 |  0.91 | 0.542 | 0.586 |  0.56 |
-| cs-en-----./wmt16_ckpts/WMTTTnewcs-en2561LoRD-VI___period256/ | 0.572 | 0.439 | 0.345 | 0.274 | 0.876 | 0.946 | 0.909 | 0.551 | 0.588 | 0.566 |
-| cs-en-----./wmt16_ckpts/WMTTTnewcs-en2561vanilla___finally/   | 0.572 | 0.439 | 0.346 | 0.277 | 0.876 | 0.946 | 0.909 |  0.55 | 0.588 | 0.565 |
-| cs-en-----./wmt16_ckpts/WMTTTnewcs-en1281LoRD-VI___period128/ | 0.562 | 0.429 | 0.337 | 0.269 | 0.875 | 0.944 | 0.908 | 0.543 | 0.579 | 0.557 |
-| cs-en-----./wmt16_ckpts/WMTTTnewcs-en1281vanilla___finally/   | 0.557 | 0.422 | 0.331 | 0.263 | 0.874 | 0.944 | 0.907 | 0.532 | 0.569 | 0.547 |
-| cs-en-----./wmt16_ckpts/WMTTTnewcs-en641LoRD-VI___period64/   | 0.552 | 0.417 | 0.327 |  0.26 | 0.874 | 0.942 | 0.907 | 0.531 | 0.565 | 0.544 |
-| cs-en-----./wmt16_ckpts/WMTTTnewcs-en641vanilla___finally/    | 0.553 | 0.418 | 0.326 | 0.258 | 0.874 | 0.943 | 0.907 | 0.527 | 0.566 | 0.543 |
-|---------------------------------------------------------------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------|
-| de-en-----./wmt16_ckpts/WMTTTnewde-en5121LoRD-VI___period512/ | 0.611 | 0.487 | 0.397 | 0.328 | 0.886 | 0.953 | 0.918 | 0.589 | 0.628 | 0.604 |
-| de-en-----./wmt16_ckpts/WMTTTnewde-en5121vanilla___finally/   | 0.607 | 0.482 | 0.392 | 0.324 | 0.886 | 0.954 | 0.919 | 0.585 | 0.628 | 0.603 |
-| de-en-----./wmt16_ckpts/WMTTTnewde-en2561LoRD-VI___period256/ | 0.609 | 0.484 | 0.394 | 0.324 | 0.886 | 0.954 | 0.919 | 0.592 | 0.633 | 0.609 |
-| de-en-----./wmt16_ckpts/WMTTTnewde-en2561vanilla___finally/   | 0.605 | 0.483 | 0.394 | 0.325 | 0.885 | 0.954 | 0.918 | 0.586 |  0.63 | 0.604 |
-| de-en-----./wmt16_ckpts/WMTTTnewde-en1281LoRD-VI___period128/ | 0.613 | 0.489 | 0.398 | 0.328 | 0.885 | 0.953 | 0.918 | 0.591 | 0.627 | 0.606 |
-| de-en-----./wmt16_ckpts/WMTTTnewde-en1281vanilla___finally/   | 0.602 |  0.48 | 0.392 | 0.325 | 0.886 | 0.954 | 0.919 | 0.586 | 0.636 | 0.607 |
-| de-en-----./wmt16_ckpts/WMTTTnewde-en641LoRD-VI___period64/   | 0.609 | 0.486 | 0.397 | 0.328 | 0.885 | 0.953 | 0.918 | 0.586 | 0.627 | 0.603 |
-| de-en-----./wmt16_ckpts/WMTTTnewde-en641vanilla___finally/    |   0.6 | 0.477 | 0.389 | 0.323 | 0.885 | 0.952 | 0.917 |  0.58 | 0.626 |   0.6 |
-|---------------------------------------------------------------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------|
-| fi-en-----./wmt16_ckpts/WMTTTnewfi-en5121LoRD-VI___period512/ | 0.521 | 0.376 | 0.283 | 0.217 | 0.875 | 0.941 | 0.907 | 0.504 | 0.516 | 0.507 |
-| fi-en-----./wmt16_ckpts/WMTTTnewfi-en5121vanilla___finally/   | 0.515 | 0.372 |  0.28 | 0.214 | 0.875 | 0.941 | 0.907 | 0.498 | 0.532 | 0.511 |
-| fi-en-----./wmt16_ckpts/WMTTTnewfi-en2561LoRD-VI___period256/ | 0.528 | 0.381 | 0.287 | 0.221 | 0.875 | 0.941 | 0.907 | 0.513 | 0.524 | 0.515 |
-| fi-en-----./wmt16_ckpts/WMTTTnewfi-en2561vanilla___finally/   | 0.515 |  0.37 | 0.276 | 0.209 | 0.875 | 0.942 | 0.907 | 0.495 |  0.53 | 0.509 |
-| fi-en-----./wmt16_ckpts/WMTTTnewfi-en1281LoRD-VI___period128/ | 0.515 | 0.369 | 0.275 | 0.208 | 0.874 |  0.94 | 0.906 | 0.504 |  0.53 | 0.514 |
-| fi-en-----./wmt16_ckpts/WMTTTnewfi-en1281vanilla___finally/   | 0.512 | 0.364 |  0.27 | 0.204 | 0.875 |  0.94 | 0.906 | 0.491 | 0.522 | 0.503 |
-| fi-en-----./wmt16_ckpts/WMTTTnewfi-en641LoRD-VI___period64/   | 0.515 | 0.368 | 0.275 | 0.208 | 0.874 | 0.939 | 0.905 | 0.497 | 0.521 | 0.506 |
-| fi-en-----./wmt16_ckpts/WMTTTnewfi-en641vanilla___finally/    | 0.507 | 0.362 |  0.27 | 0.205 | 0.874 | 0.941 | 0.906 | 0.488 | 0.523 | 0.502 |
-|---------------------------------------------------------------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------|
+|--------------------------------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------|
+| file name                      | bleu1 | bleu2 | bleu3 | bleu4 |  bs-p |  bs-r |  bs-f |  rl-p |  rl-r |  rl-f |
+|--------------------------------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------|
+| cs-en-5121LoRD-VI___period512/ | 0.566 | 0.432 |  0.34 | 0.271 | 0.875 | 0.944 | 0.908 | 0.541 | 0.573 | 0.554 |
+| cs-en-5121vanilla___finally/   | 0.567 | 0.433 | 0.341 | 0.272 | 0.876 | 0.946 |  0.91 | 0.542 | 0.586 |  0.56 |
+| cs-en-2561LoRD-VI___period256/ | 0.572 | 0.439 | 0.345 | 0.274 | 0.876 | 0.946 | 0.909 | 0.551 | 0.588 | 0.566 |
+| cs-en-2561vanilla___finally/   | 0.572 | 0.439 | 0.346 | 0.277 | 0.876 | 0.946 | 0.909 |  0.55 | 0.588 | 0.565 |
+| cs-en-1281LoRD-VI___period128/ | 0.562 | 0.429 | 0.337 | 0.269 | 0.875 | 0.944 | 0.908 | 0.543 | 0.579 | 0.557 |
+| cs-en-1281vanilla___finally/   | 0.557 | 0.422 | 0.331 | 0.263 | 0.874 | 0.944 | 0.907 | 0.532 | 0.569 | 0.547 |
+| cs-en-641LoRD-VI___period64/   | 0.552 | 0.417 | 0.327 |  0.26 | 0.874 | 0.942 | 0.907 | 0.531 | 0.565 | 0.544 |
+| cs-en-641vanilla___finally/    | 0.553 | 0.418 | 0.326 | 0.258 | 0.874 | 0.943 | 0.907 | 0.527 | 0.566 | 0.543 |
+|--------------------------------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------|
+| de-en-5121LoRD-VI___period512/ | 0.611 | 0.487 | 0.397 | 0.328 | 0.886 | 0.953 | 0.918 | 0.589 | 0.628 | 0.604 |
+| de-en-5121vanilla___finally/   | 0.607 | 0.482 | 0.392 | 0.324 | 0.886 | 0.954 | 0.919 | 0.585 | 0.628 | 0.603 |
+| de-en-2561LoRD-VI___period256/ | 0.609 | 0.484 | 0.394 | 0.324 | 0.886 | 0.954 | 0.919 | 0.592 | 0.633 | 0.609 |
+| de-en-2561vanilla___finally/   | 0.605 | 0.483 | 0.394 | 0.325 | 0.885 | 0.954 | 0.918 | 0.586 |  0.63 | 0.604 |
+| de-en-1281LoRD-VI___period128/ | 0.613 | 0.489 | 0.398 | 0.328 | 0.885 | 0.953 | 0.918 | 0.591 | 0.627 | 0.606 |
+| de-en-1281vanilla___finally/   | 0.602 |  0.48 | 0.392 | 0.325 | 0.886 | 0.954 | 0.919 | 0.586 | 0.636 | 0.607 |
+| de-en-641LoRD-VI___period64/   | 0.609 | 0.486 | 0.397 | 0.328 | 0.885 | 0.953 | 0.918 | 0.586 | 0.627 | 0.603 |
+| de-en-641vanilla___finally/    |   0.6 | 0.477 | 0.389 | 0.323 | 0.885 | 0.952 | 0.917 |  0.58 | 0.626 |   0.6 |
+|--------------------------------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------|
+| fi-en-5121LoRD-VI___period512/ | 0.521 | 0.376 | 0.283 | 0.217 | 0.875 | 0.941 | 0.907 | 0.504 | 0.516 | 0.507 |
+| fi-en-5121vanilla___finally/   | 0.515 | 0.372 |  0.28 | 0.214 | 0.875 | 0.941 | 0.907 | 0.498 | 0.532 | 0.511 |
+| fi-en-2561LoRD-VI___period256/ | 0.528 | 0.381 | 0.287 | 0.221 | 0.875 | 0.941 | 0.907 | 0.513 | 0.524 | 0.515 |
+| fi-en-2561vanilla___finally/   | 0.515 |  0.37 | 0.276 | 0.209 | 0.875 | 0.942 | 0.907 | 0.495 |  0.53 | 0.509 |
+| fi-en-1281LoRD-VI___period128/ | 0.515 | 0.369 | 0.275 | 0.208 | 0.874 |  0.94 | 0.906 | 0.504 |  0.53 | 0.514 |
+| fi-en-1281vanilla___finally/   | 0.512 | 0.364 |  0.27 | 0.204 | 0.875 |  0.94 | 0.906 | 0.491 | 0.522 | 0.503 |
+| fi-en-641LoRD-VI___period64/   | 0.515 | 0.368 | 0.275 | 0.208 | 0.874 | 0.939 | 0.905 | 0.497 | 0.521 | 0.506 |
+| fi-en-641vanilla___finally/    | 0.507 | 0.362 |  0.27 | 0.205 | 0.874 | 0.941 | 0.906 | 0.488 | 0.523 | 0.502 |
+|--------------------------------+-------+-------+-------+-------+-------+-------+-------+-------+-------+-------|
 
 
 
 
+* QAs
+
+|-------------------------------------------------------------------------------+-------+-------+-------+-------|
+| fname                                                                         |   acc |     p |     r |    f1 |
+|-------------------------------------------------------------------------------+-------+-------+-------+-------|
+| piqa-----./qa_ckpts/QAAAnewpiqa5121LoRD-VI___period512/                       | 0.766 | 0.797 | 0.765 | 0.759 |
+| piqa-----./qa_ckpts/QAAAnewpiqa5121vanilla___finally/                         | 0.796 | 0.811 | 0.796 | 0.793 |
+| piqa-----./qa_ckpts/QAAAnewpiqa2561LoRD-VI___period256/                       | 0.784 | 0.788 | 0.784 | 0.783 |
+| piqa-----./qa_ckpts/QAAAnewpiqa2561vanilla___finally/                         | 0.776 | 0.788 | 0.776 | 0.774 |
+| piqa-----./qa_ckpts/QAAAnewpiqa1281LoRD-VI___period128/                       | 0.768 | 0.791 | 0.767 | 0.763 |
+| piqa-----./qa_ckpts/QAAAnewpiqa1281vanilla___finally/                         | 0.788 | 0.807 | 0.788 | 0.784 |
+| piqa-----./qa_ckpts/QAAAnewpiqa641LoRD-VI___period64/                         |  0.67 | 0.756 | 0.671 | 0.641 |
+| piqa-----./qa_ckpts/QAAAnewpiqa641vanilla___finally/                          | 0.728 | 0.755 | 0.727 |  0.72 |
+|-------------------------------------------------------------------------------+-------+-------+-------+-------|
+| truthful_qa-----./qa_ckpts/QAAAnewtruthful_qa5121LoRD-VI___period512/         | 0.324 |   0.5 | 0.162 | 0.245 |
+| truthful_qa-----./qa_ckpts/QAAAnewtruthful_qa5121vanilla___finally/           | 0.472 |   0.5 | 0.236 | 0.321 |
+| truthful_qa-----./qa_ckpts/QAAAnewtruthful_qa2561LoRD-VI___period256/         | 0.198 |   0.5 | 0.099 | 0.165 |
+| truthful_qa-----./qa_ckpts/QAAAnewtruthful_qa2561vanilla___finally/           | 0.365 |   0.5 | 0.182 | 0.267 |
+| truthful_qa-----./qa_ckpts/QAAAnewtruthful_qa1281LoRD-VI___period128/         | 0.569 |   0.5 | 0.285 | 0.363 |
+| truthful_qa-----./qa_ckpts/QAAAnewtruthful_qa1281vanilla___finally/           |  0.45 |   0.5 | 0.225 | 0.311 |
+| truthful_qa-----./qa_ckpts/QAAAnewtruthful_qa641LoRD-VI___period64/           |  0.25 |   0.5 | 0.125 |   0.2 |
+| truthful_qa-----./qa_ckpts/QAAAnewtruthful_qa641vanilla___finally/            | 0.436 |   0.5 | 0.218 | 0.303 |
+|-------------------------------------------------------------------------------+-------+-------+-------+-------|
+| allenai/ai2_arc-----./qa_ckpts/QAAAnewallenai/ai2_arc5121LoRD-VI___period512/ | 0.288 | 0.456 | 0.209 | 0.105 |
+| allenai/ai2_arc-----./qa_ckpts/QAAAnewallenai/ai2_arc5121vanilla___finally/   | 0.278 | 0.238 | 0.202 | 0.102 |
+| allenai/ai2_arc-----./qa_ckpts/QAAAnewallenai/ai2_arc2561LoRD-VI___period256/ | 0.281 | 0.322 | 0.205 | 0.108 |
+| allenai/ai2_arc-----./qa_ckpts/QAAAnewallenai/ai2_arc2561vanilla___finally/   | 0.288 | 0.389 | 0.209 |  0.11 |
+| allenai/ai2_arc-----./qa_ckpts/QAAAnewallenai/ai2_arc1281LoRD-VI___period128/ | 0.284 | 0.289 | 0.207 | 0.104 |
+| allenai/ai2_arc-----./qa_ckpts/QAAAnewallenai/ai2_arc1281vanilla___finally/   | 0.278 | 0.288 | 0.202 | 0.107 |
+| allenai/ai2_arc-----./qa_ckpts/QAAAnewallenai/ai2_arc641LoRD-VI___period64/   | 0.284 | 0.156 | 0.206 |   0.1 |
+| allenai/ai2_arc-----./qa_ckpts/QAAAnewallenai/ai2_arc641vanilla___finally/    | 0.278 | 0.254 | 0.202 | 0.107 |
+|-------------------------------------------------------------------------------+-------+-------+-------+-------|
+
+* General Train
+
+** Shorttext
+
+|------------------------+---------+--------+--------|
+| method                 | dataset |    acc | strerr |
+|------------------------+---------+--------+--------|
+| llama3-8B (init model) | piqa    | 0.7824 | 0.0096 |
+|------------------------+---------+--------+--------|
+| CE w. bug              | piqa    | 0.7949 | 0.0094 |
+| CE w.o. bug            | piqa    | 0.7802 | 0.0097 |
+|------------------------+---------+--------+--------|
+| LoRD-VI                | piqa    | 0.7987 | 0.0094 |
+
+
+Overall Results:
+
+Vanilla:
+
+|-------------|------:|------|-----:|--------|-----:|---|-----:|
+|    Tasks    |Version|Filter|n-shot| Metric |Value |   |Stderr|
+|-------------|------:|------|-----:|--------|-----:|---|-----:|
+|winogrande   |      1|none  |     0|acc     |0.7190|±  |0.0126|
+|piqa         |      1|none  |     0|acc     |0.7862|±  |0.0096|
+|             |       |none  |     0|acc_norm|0.7867|±  |0.0096|
+|openbookqa   |      1|none  |     0|acc     |0.3380|±  |0.0212|
+|             |       |none  |     0|acc_norm|0.4280|±  |0.0221|
+|hellaswag    |      1|none  |     0|acc     |0.5771|±  |0.0049|
+|             |       |none  |     0|acc_norm|0.7581|±  |0.0043|
+|boolq        |      2|none  |     0|acc     |0.8312|±  |0.0066|
+|arc_easy     |      1|none  |     0|acc     |0.8144|±  |0.0080|
+|             |       |none  |     0|acc_norm|0.7955|±  |0.0083|
+|arc_challenge|      1|none  |     0|acc     |0.5290|±  |0.0146|
+|             |       |none  |     0|acc_norm|0.5674|±  |0.0145|
+|-------------|------:|------|-----:|--------|-----:|---|-----:|
+
+
+LoRD-VI until now
+
+|-------------|------:|------|-----:|--------|-----:|---|-----:|
+|    Tasks    |Version|Filter|n-shot| Metric |Value |   |Stderr|
+|-------------|------:|------|-----:|--------|-----:|---|-----:|
+|winogrande   |      1|none  |     0|acc     |0.7301|±  |0.0125|
+|piqa         |      1|none  |     0|acc     |0.7949|±  |0.0094|
+|             |       |none  |     0|acc_norm|0.7992|±  |0.0093|
+|openbookqa   |      1|none  |     0|acc     |0.3500|±  |0.0214|
+|             |       |none  |     0|acc_norm|0.4500|±  |0.0223|
+|hellaswag    |      1|none  |     0|acc     |0.5929|±  |0.0049|
+|             |       |none  |     0|acc_norm|0.7909|±  |0.0041|
+|boolq        |      2|none  |     0|acc     |0.8370|±  |0.0065|
+|arc_easy     |      1|none  |     0|acc     |0.8274|±  |0.0078|
+|             |       |none  |     0|acc_norm|0.8089|±  |0.0081|
+|arc_challenge|      1|none  |     0|acc     |0.5358|±  |0.0146|
+|             |       |none  |     0|acc_norm|0.5870|±  |0.0144|
+|-------------|------:|------|-----:|--------|-----:|---|-----:|
+
+LoRD-VI new version with more accurate likelihood (tau1,tau2=0.4,0.5)
+
+|    Tasks    |Version|Filter|n-shot| Metric |Value |   |Stderr|
+|-------------|------:|------|-----:|--------|-----:|---|-----:|
+|arc_challenge|      1|none  |     0|acc     |0.5469|±  |0.0145|
+|             |       |none  |     0|acc_norm|0.5939|±  |0.0144|
+|arc_easy     |      1|none  |     0|acc     |0.8295|±  |0.0077|
+|             |       |none  |     0|acc_norm|0.8110|±  |0.0080|
+|boolq        |      2|none  |     0|acc     |0.8321|±  |0.0065|
+|hellaswag    |      1|none  |     0|acc     |0.5966|±  |0.0049|
+|             |       |none  |     0|acc_norm|0.7954|±  |0.0040|
+|openbookqa   |      1|none  |     0|acc     |0.3560|±  |0.0214|
+|             |       |none  |     0|acc_norm|0.4520|±  |0.0223|
+|piqa         |      1|none  |     0|acc     |0.7943|±  |0.0094|
+|             |       |none  |     0|acc_norm|0.8003|±  |0.0093|
+|winogrande   |      1|none  |     0|acc     |0.7285|±  |0.0125|
+
+LoRD-VI with delta (tau1,tau2=)
+** Longtext
+
+
+
+** Continuing Pre-training
 
 
 
