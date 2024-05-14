@@ -592,8 +592,8 @@ def train_pod(lm,
                     delta12=delta11
                     delta11=temppp
                 # if max(p11, p12) < tau1 or abs(p11-p12)<0.01:
-                if delta11 < tau1:
-                # if max(p11, p12) < tau1:
+                # if delta11 < tau1:
+                if max(p11, p12) < tau1:
                     print("RED:->BUT still use the VIC's labels.")
                     # print(f"shape of 11: {p_i_11_ls.shape}")
                     # print(f"shape of 2: {idx2ls.shape}")

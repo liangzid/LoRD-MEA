@@ -479,6 +479,105 @@ def eval_qa_res():
     print("OVERALL Save DONE.")
     pprint(res_dict)
 
+def eval_tau1_res():
+    taskls = [
+        "piqa",
+        # "truthful_qa",
+        # "allenai/ai2_arc",
+    ]
+    mls = [
+        "LoRD-VI",
+        # "vanilla",
+        ]
+    train_times = [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+    ]
+    train_nums = [
+        "64",
+        # "128",
+        # "256",
+        # "512",
+        ]
+    tau1ls= [
+        "0.70",
+        "0.75",
+        "0.80",
+        "0.85",
+        "0.90",
+        "0.95",
+        "1.00",
+        ]
+    base_model_name1="meta-llama/Meta-Llama-3-8B-Instruct"
+
+    dir_p = "./qa_0514_tau1_res/"
+    res_dict = {}
+
+    if not os.path.exists(dir_p):
+        os.makedirs(dir_p)
+    # ===============================================================
+
+    res_dict_averaged={}
+
+    for tau1 in tau1ls:
+        for task in taskls:
+            for train_num in train_nums:
+                for m in mls:
+                    temp_scorels=[]
+                    for itime in train_times:
+                        prefix = f"./qa_ckpts/QAAA-TAU1{tau1}"
+                        ckpt = (
+                            prefix
+                            + f"{task}{train_num}{itime}{m}___period512/"
+                        )
+                        res_pth = ckpt + f"___{task}_qa_infer_res.json"
+                        res_pth = res_pth.replace("/", "__").replace(".", "")
+
+                        if not os.path.exists(dir_p+res_pth):
+                            res_ls = infer_qa(ckpt, task, dir_p+res_pth,
+                                            test_set_take_num=500,
+                                            mnt=8,
+                                            base_model_name=base_model_name1,
+                                            )
+                        else:
+                            print(
+                                f"{dir_p+res_pth} file already exists. directly loading...")
+                            # from collections import OrderedDict
+                            with open(dir_p + res_pth, "r", encoding="utf8") as f:
+                                res_ls = json.load(
+                                    f, object_pairs_hook=OrderedDict)
+
+                        scores = eval_qaacc(task, res_ls)
+                        res_dict[task + "-----" + res_pth] = scores
+                        temp_scorels.append(scores)
+
+                    # obtain the mean value
+                    # obtain the std value
+                    temp_scorels=np.array(temp_scorels)
+                    meanvaluels=np.mean(temp_scorels,axis=0).tolist()
+                    stdvaluels=np.std(temp_scorels,axis=0,ddof=1).tolist()
+                    res_dict_averaged[task+"--"+res_pth]=\
+                        {"mean": meanvaluels,
+                        "std": stdvaluels}
+
+    with open(
+        dir_p + "Overall__qa_varytrain_num_inference_scores.json", "w", encoding="utf8"
+    ) as f:
+        json.dump(res_dict, f, ensure_ascii=False, indent=4)
+
+    with open(
+        dir_p + "OverallScoresAveraged.json",
+            "w", encoding="utf8"
+    ) as f:
+        json.dump(res_dict_averaged, f, ensure_ascii=False, indent=4)
+
+    print("OVERALL Save DONE.")
+    pprint(res_dict)
+    pprint(res_dict_averaged)
+
 
 def eval_varytrainum_res():
     taskls = [
@@ -838,8 +937,9 @@ def generate_atable(fpth="./vary_train_num_qa_infers/res_dict_allfiles.json",
 if __name__ == "__main__":
     # main()
     # eval_qa_res()
-    eval_varytrainum_res()
+    # eval_varytrainum_res()
     # eval_varytrainum_231_ours()
     # eval_all_samles_in_dir()
     # generate_atable()
+    eval_tau1_res()
     print("EVERYTHING DONE.")
