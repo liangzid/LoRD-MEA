@@ -34,6 +34,9 @@ from datasets import load_dataset
 import torch
 from transformers import AutoModelForCausalLM,AutoTokenizer
 from peft import PeftModel
+import numpy as np
+import math
+from sequence_utils import left_pad
 # ------------------------ Code --------------------------------------
 # import time
 
@@ -380,6 +383,7 @@ def infer_wmt(modelname, task_name, res_pth,
 
         res_ls = []
         pp = task_prompt_map[task_name]
+        input_idxls=[]
         for d in tqdm(sets,total=test_set_take_num):
             d = d["translation"]
             inps = d[from_lang]
@@ -389,6 +393,7 @@ def infer_wmt(modelname, task_name, res_pth,
             inps_idx=tokenizer.encode(final_inps,max_length=128,
                                       padding="longest",
                                       return_tensors="pt")
+
             print(inps_idx)
             inps_idx=inps_idx.to("cuda")
             res = model.generate(inps_idx,
@@ -401,7 +406,41 @@ def infer_wmt(modelname, task_name, res_pth,
                 res = res
             print(f"Text Generated:>>> {res}")
             res_ls.append((res, label))
-            # break
+
+        #     # print("------------------")
+        #     # print(inps_idx)
+        #     # print(tokenizer.bos_token_id)
+        #     input_idxls.append(inps_idx[0])
+        # infer_batch_size=24
+        # num_chunks=math.floor(len(input_idxls)/infer_batch_size)
+        # for i_chunked in tqdm(range(num_chunks+1)):
+        #     if i_chunked==num_chunks and num_chunks*infer_batch_size!=len(input_idxls):
+        #         INPS=input_idxls[i_chunked*infer_batch_size:]
+        #     else:
+        #         INPS=input_idxls[i_chunked*infer_batch_size:\
+        #                         (i_chunked+1)*infer_batch_size]
+
+        #     INPS=left_pad(INPS, tokenizer.bos_token_id)
+        #     INPS=INPS.to("cuda")
+        #     res = model.generate(INPS,
+        #                          # do_sample=True,
+        #                          max_new_tokens=mnt,)
+        #     for res_per in res:
+        #         res_per=tokenizer.decode(res_per)
+        #         if "Assistant: " in res_per:
+        #             res_per = res_per.split("Assistant: ")[1]
+        #         elif "Assistant:" in res_per:
+        #             res_per = res_per.split("Assistant:")[1]
+        #         else:
+        #             res_per = res_per
+
+        #         if "<|eot_id|>" in res_per:
+        #             res_per = res_per.split("<|eot_id|>")[0]
+        #         elif "<|end_of_text|>" in res_per:
+        #             res_per = res_per.split("<|end_of_text|>")[0]
+        #         print(f"Text Generated:>>> {res_per}")
+        #     res_ls.append((res_per, label))
+        #     # break
         
     model = None
     gen_pipeline = None
@@ -607,7 +646,7 @@ def eval_all():
 
 def eval_varying_train_num():
     taskls = [
-        "cs-en",
+        # "cs-en",
         "de-en",
         "fi-en",
         ]
@@ -652,7 +691,7 @@ def eval_varying_train_num():
                         )
                     else:
                         ckpt = prefix + \
-                            f"{task}{train_num}{itime}{m}___period512/"
+                            f"{task}{train_num}{itime}{m}___period{train_num}/"
                     res_pth = ckpt+f"___{task}_wmt_infer_res.json"
                     res_pth = res_pth.replace("/", "__").replace(".", "")
 

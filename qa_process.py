@@ -528,7 +528,7 @@ def eval_varytrainum_res():
                     else:
                         ckpt = (
                             prefix
-                            + f"{task}{train_num}{itime}{m}___period512/"
+                            + f"{task}{train_num}{itime}{m}___period{train_num}/"
                         )
                     res_pth = ckpt + f"___{task}_qa_infer_res.json"
                     res_pth = res_pth.replace("/", "__").replace(".", "")
