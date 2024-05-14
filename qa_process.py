@@ -18,7 +18,7 @@ if __name__ == "__main__":
     # os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,6,7"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "6,7"
-    os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "1"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5"
     os.environ["TORCH_USE_CUDA_DSA"]="1"
 
@@ -520,7 +520,13 @@ def eval_varytrainum_res():
                 temp_scorels=[]
                 for itime in train_times:
                     prefix = "./qa_ckpts/QAAAnew"
-                    ckpt = (
+                    if m=="vanilla":
+                        ckpt = (
+                            prefix
+                            + f"{task}{train_num}{itime}{m}___finally/"
+                        )
+                    else:
+                        ckpt = (
                             prefix
                             + f"{task}{train_num}{itime}{m}___period512/"
                         )
