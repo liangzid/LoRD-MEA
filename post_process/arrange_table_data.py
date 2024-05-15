@@ -134,8 +134,8 @@ def process_wmt_data2(fname):
 if __name__=="__main__":
     # process_wmt_data("./wmt16_res/wmt_inference_scores_overall.json")
     # process_qa_data("./qa_dataset_res/temp_boring_res_delete_thisfile_itisuseless.json")
-    # process_qa_data2("./qa_0513_dataset_res/OverallScoresAveraged.json")
+    process_qa_data2("./qa_0513_dataset_res/OverallScoresAveraged.json")
     # process_qa_data2("./qa_0514_tau1_res/OverallScoresAveraged.json")
     # process_wmt_data2("./wmt_0513_dataset_res/OverallScoresAveraged.json")
     # process_qa_data2("./qa_0514_tau1_res/OverallScoresAveraged.json")
-    process_qa_data2("./qa_0515_tau2_res/OverallScoresAveraged.json")
+    # process_qa_data2("./qa_0515_tau2_res/OverallScoresAveraged.json")

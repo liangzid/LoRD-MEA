@@ -52,7 +52,7 @@ export use_lora=1
 export epoch=1
 export period=1
 export sub_set_num=1
-export sub_stage_num=256
+export sub_stage_num=512
 export max_new_tokens=256
 export infer_batch_size=1
 export batch_size=1
@@ -65,8 +65,8 @@ export use_vic_logits=1
 export use_kld=0
 export use_entropy=0
 
-export tau1=-0.1
-export tau2=0.6
+export tau1=0.8
+export tau2=0.85
 
 # export train_num=100
 
@@ -121,6 +121,7 @@ do
     done
 done
 
+bash ${root_dir}/general_train/2.1.evalutate_llms.sh
 
 echo "RUNNING 1.1.lord5.sh DONE."
 # 1.1.lord5.sh ends here

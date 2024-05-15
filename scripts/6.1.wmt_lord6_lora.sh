@@ -25,7 +25,7 @@ export msl=256
 # export task_ls=("cs-en" "de-en" "fi-en")
 export task_ls=("cs-en" "de-en" "fi-en")
 # export train_taskls=("LoRD-VI" "vanilla")
-# export train_taskls=("LoRD-VI")
+export train_taskls=("LoRD-VI")
 # export train_taskls=("vanilla")
 
 export is_black_box=1
