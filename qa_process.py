@@ -624,45 +624,46 @@ def eval_tau2_res():
     res_dict_averaged={}
 
     for tau1 in tau1ls:
-        for task in taskls:
-            for train_num in train_nums:
-                for m in mls:
-                    temp_scorels=[]
-                    for itime in train_times:
-                        prefix = f"./qa_ckpts/QAAA-TAU1{tau1}TAU2${tau2}"
-                        ckpt = (
-                            prefix
-                            + f"{task}{train_num}{itime}{m}___period512/"
-                        )
-                        res_pth = ckpt + f"___{task}_qa_infer_res.json"
-                        res_pth = res_pth.replace("/", "__").replace(".", "")
+        for tau2 in tau2ls:
+            for task in taskls:
+                for train_num in train_nums:
+                    for m in mls:
+                        temp_scorels=[]
+                        for itime in train_times:
+                            prefix = f"./qa_ckpts/QAAA-TAU1{tau1}TAU2{tau2}"
+                            ckpt = (
+                                prefix
+                                + f"{task}{train_num}{itime}{m}___period512/"
+                            )
+                            res_pth = ckpt + f"___{task}_qa_infer_res.json"
+                            res_pth = res_pth.replace("/", "__").replace(".", "")
 
-                        if not os.path.exists(dir_p+res_pth):
-                            res_ls = infer_qa(ckpt, task, dir_p+res_pth,
-                                            test_set_take_num=500,
-                                            mnt=8,
-                                            base_model_name=base_model_name1,
-                                            )
-                        else:
-                            print(
-                                f"{dir_p+res_pth} file already exists. directly loading...")
-                            # from collections import OrderedDict
-                            with open(dir_p + res_pth, "r", encoding="utf8") as f:
-                                res_ls = json.load(
-                                    f, object_pairs_hook=OrderedDict)
+                            if not os.path.exists(dir_p+res_pth):
+                                res_ls = infer_qa(ckpt, task, dir_p+res_pth,
+                                                test_set_take_num=500,
+                                                mnt=8,
+                                                base_model_name=base_model_name1,
+                                                )
+                            else:
+                                print(
+                                    f"{dir_p+res_pth} file already exists. directly loading...")
+                                # from collections import OrderedDict
+                                with open(dir_p + res_pth, "r", encoding="utf8") as f:
+                                    res_ls = json.load(
+                                        f, object_pairs_hook=OrderedDict)
 
-                        scores = eval_qaacc(task, res_ls)
-                        res_dict[task + "-----" + res_pth] = scores
-                        temp_scorels.append(scores)
+                            scores = eval_qaacc(task, res_ls)
+                            res_dict[task + "-----" + res_pth] = scores
+                            temp_scorels.append(scores)
 
-                    # obtain the mean value
-                    # obtain the std value
-                    temp_scorels=np.array(temp_scorels)
-                    meanvaluels=np.mean(temp_scorels,axis=0).tolist()
-                    stdvaluels=np.std(temp_scorels,axis=0,ddof=1).tolist()
-                    res_dict_averaged[task+"--"+res_pth]=\
-                        {"mean": meanvaluels,
-                        "std": stdvaluels}
+                        # obtain the mean value
+                        # obtain the std value
+                        temp_scorels=np.array(temp_scorels)
+                        meanvaluels=np.mean(temp_scorels,axis=0).tolist()
+                        stdvaluels=np.std(temp_scorels,axis=0,ddof=1).tolist()
+                        res_dict_averaged[task+"--"+res_pth]=\
+                            {"mean": meanvaluels,
+                            "std": stdvaluels}
 
     with open(
         dir_p + "Overall__qa_varytrain_num_inference_scores.json", "w", encoding="utf8"
@@ -1042,6 +1043,6 @@ if __name__ == "__main__":
     # eval_varytrainum_231_ours()
     # eval_all_samles_in_dir()
     # generate_atable()
-    eval_tau1_res()
-    # eval_tau2_res()
+    # eval_tau1_res()
+    eval_tau2_res()
     print("EVERYTHING DONE.")
