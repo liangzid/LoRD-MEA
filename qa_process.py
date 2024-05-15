@@ -509,7 +509,7 @@ def eval_tau1_res():
         "0.85",
         "0.90",
         "0.95",
-        "1.00",
+        "1.0",
         ]
     base_model_name1="meta-llama/Meta-Llama-3-8B-Instruct"
 
@@ -531,7 +531,7 @@ def eval_tau1_res():
                         prefix = f"./qa_ckpts/QAAA-TAU1{tau1}"
                         ckpt = (
                             prefix
-                            + f"{task}{train_num}{itime}{m}___period512/"
+                            + f"{task}{train_num}{itime}{m}___period{train_num}/"
                         )
                         res_pth = ckpt + f"___{task}_qa_infer_res.json"
                         res_pth = res_pth.replace("/", "__").replace(".", "")
