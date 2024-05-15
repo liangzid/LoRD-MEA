@@ -18,14 +18,14 @@ export TORCH_USE_CUDA_DSA="1"
 export root_dir="${HOME}/alignmentExtraction/"
 export POD_save_dir="${root_dir}/wmt16_ckpts/"
 export from_path="meta-llama/Meta-Llama-3-8B-Instruct"
-# export TRAIN_NUMS=(64)
-export TRAIN_NUMS=(64 128 256)
+export TRAIN_NUMS=(64)
+# export TRAIN_NUMS=(64 128 256)
 export train_times=(1 2 3 4 5)
 export msl=256
 # export task_ls=("cs-en" "de-en" "fi-en")
 export task_ls=("cs-en" "de-en" "fi-en")
-export train_taskls=("LoRD-VI" "vanilla")
-# export train_taskls=("vanilla")
+# export train_taskls=("LoRD-VI" "vanilla")
+# export train_taskls=("LoRD-VI")
 # export train_taskls=("vanilla")
 
 export is_black_box=1
@@ -52,8 +52,8 @@ export use_kld=0
 export use_entropy=0
 
 # export tau1=0.85
-export tau1=-0.1
-export tau2=0.95
+export tau1=0.80
+export tau2=0.85
 
 for train_num in ${TRAIN_NUMS[*]}
 do

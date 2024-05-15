@@ -683,13 +683,13 @@ def eval_tau2_res():
 
 def eval_varytrainum_res():
     taskls = [
-        "piqa",
+        # "piqa",
         "truthful_qa",
         "allenai/ai2_arc",
     ]
     mls = [
         "LoRD-VI",
-        "vanilla",
+        # "vanilla",
         ]
     train_times = [
         "1",
@@ -700,9 +700,9 @@ def eval_varytrainum_res():
     ]
     train_nums = [
         "64",
-        "128",
-        "256",
-        "512",
+        # "128",
+        # "256",
+        # "512",
         ]
     base_model_name1="meta-llama/Meta-Llama-3-8B-Instruct"
 
@@ -1039,10 +1039,10 @@ def generate_atable(fpth="./vary_train_num_qa_infers/res_dict_allfiles.json",
 if __name__ == "__main__":
     # main()
     # eval_qa_res()
-    # eval_varytrainum_res()
+    eval_varytrainum_res()
     # eval_varytrainum_231_ours()
     # eval_all_samles_in_dir()
     # generate_atable()
     # eval_tau1_res()
-    eval_tau2_res()
+    # eval_tau2_res()
     print("EVERYTHING DONE.")

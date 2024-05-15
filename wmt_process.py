@@ -646,12 +646,12 @@ def eval_all():
 
 def eval_varying_train_num():
     taskls = [
-        # "cs-en",
+        "cs-en",
         "de-en",
         "fi-en",
         ]
     mls = [
-        "vanilla",
+        # "vanilla",
         "LoRD-VI",
         # "kd",
         ]
@@ -665,8 +665,8 @@ def eval_varying_train_num():
         ]
     train_nums = [
         "64",
-        "128",
-        "256",
+        # "128",
+        # "256",
         # "512",
         ]
     base_model_name1="meta-llama/Meta-Llama-3-8B-Instruct"
