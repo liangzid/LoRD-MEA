@@ -15,7 +15,7 @@
 
 echo "HOME: ${HOME}"
 export python=${HOME}/anaconda3/envs/align/bin/python3
-export CUDA_VISIBLE_DEVICES="1"
+export CUDA_VISIBLE_DEVICES="0"
 # export CUDA_VISIBLE_DEVICES="4,5,6"
 # export CUDA_VISIBLE_DEVICES="3,6,7"
 export TORCH_USE_CUDA_DSA="1"
@@ -57,15 +57,18 @@ export use_vic_logits=1
 export use_kld=0
 export use_entropy=0
 
-export tau1_list=(0.70 0.75 0.80 0.85 0.90 0.95 1.0)
-# export tau2_list=(0.75 0.80 1.00 0.85 0.90 0.95 1.0 1.0)
+# export tau1_list=(0.70 0.75 0.80 0.85 0.90 0.95 1.0)
+export tau1_list=(0.80)
+export tau2_list=(0.80 0.85 0.90 0.95 1.0)
 
 # export tau1=-0.1
 # export tau2=0.95
-export tau2=1.0
+# export tau2=1.0
 
 for tau1 in ${tau1_list[*]}
 do
+    for tau2 in ${tau2_list[*]}
+    do
 for train_num in ${TRAIN_NUMS[*]}
 do
     for train_time in ${train_times[*]}
@@ -76,13 +79,14 @@ do
 	    do
 		echo "====================================================="
 		echo "+++++++TAU1: ${tau1}+++++++"
+		echo "+++++++TAU2: ${tau2}+++++++"
 		echo "+++++++train_num: ${train_num}+++++++"
 		echo "+++++++train_time: ${train_time}+++++++"
 		echo "+++++++task: ${task}+++++++"
 		echo "+++++++train_task: ${train_task}+++++++"
 		echo "====================================================="
 
-		export save_path="${POD_save_dir}QAAA-TAU1${tau1}${task}${train_num}${train_time}${train_task}"
+		export save_path="${POD_save_dir}QAAA-TAU1${tau1}TAU2${tau2}${task}${train_num}${train_time}${train_task}"
 
 		$python ${root_dir}lord_train.py\
 		    --dataset_task=$task \
@@ -117,10 +121,11 @@ do
 	done
     done
 done
+    done
 done
 
-echo "NOW BEGIN TO INFERENCE..."
-$python ${root_dir}qa_process.py
+# echo "NOW BEGIN TO INFERENCE..."
+# $python ${root_dir}qa_process.py
 
 echo "RUNNING 6.3.vary_tau1_tau2.sh DONE."
 # 6.3.vary_tau1_tau2.sh ends here
