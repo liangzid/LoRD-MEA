@@ -29,7 +29,9 @@ export train_times=(1 2 3 4 5)
 # export train_times=(1 2)
 export msl=256
 # export task_ls=("piqa" "truthful_qa" "allenai/ai2_arc")
-export task_ls=("piqa")
+# export task_ls=("piqa")
+# export task_ls=("cs-en" "de-en" "fi-en")
+export task_ls=("cs-en")
 export train_taskls=("LoRD-VI")
 # export train_taskls=("LoRD-VI" "vanilla")
 
@@ -45,7 +47,7 @@ export period=1
 export sub_set_num=1
 export sub_stage_num=512
 # export sub_stage_num=16
-export max_new_tokens=32
+export max_new_tokens=64
 export infer_batch_size=1
 export batch_size=1
 
@@ -57,13 +59,13 @@ export use_vic_logits=1
 export use_kld=0
 export use_entropy=0
 
-# export tau1_list=(0.70 0.75 0.80 0.85 0.90 0.95 1.0)
-export tau1_list=(0.80)
-export tau2_list=(0.80 0.85 0.90 0.95 1.0)
+export tau1_list=(0.70 0.75 0.80 0.85 0.90 0.95 1.0)
+# export tau1_list=(0.80)
+# export tau2_list=(0.80 0.85 0.90 0.95 1.0)
 
 # export tau1=-0.1
 # export tau2=0.95
-# export tau2=1.0
+export tau2=1.0
 
 for tau1 in ${tau1_list[*]}
 do
@@ -86,7 +88,7 @@ do
 		echo "+++++++train_task: ${train_task}+++++++"
 		echo "====================================================="
 
-		export save_path="${POD_save_dir}QAAA-TAU1${tau1}TAU2${tau2}${task}${train_num}${train_time}${train_task}"
+		export save_path="${POD_save_dir}WMTTT-TAU1${tau1}TAU2${tau2}${task}${train_num}${train_time}${train_task}"
 
 		$python ${root_dir}lord_train.py\
 		    --dataset_task=$task \
@@ -124,8 +126,8 @@ done
     done
 done
 
-# echo "NOW BEGIN TO INFERENCE..."
-# $python ${root_dir}qa_process.py
+echo "NOW BEGIN TO INFERENCE..."
+$python ${root_dir}wmt_process.py
 
 echo "RUNNING 6.3.vary_tau1_tau2.sh DONE."
 # 6.3.vary_tau1_tau2.sh ends here
