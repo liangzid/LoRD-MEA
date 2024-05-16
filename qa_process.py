@@ -953,7 +953,6 @@ def eval_qaacc(task, res):
     return scores
 
 
-
 def eval_all_samles_in_dir(dirp="./vary_train_num_qa_infers"):
     taskls = [
         "piqa",

@@ -20,7 +20,7 @@ if __name__ == "__main__":
     # os.environ["CUDA_VISIBLE_DEVICES"] = "0,1"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "0,1"
-    os.environ["CUDA_VISIBLE_DEVICES"] = "6,7"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 from datasets import load_dataset
 import json
@@ -45,11 +45,13 @@ from qa_process import *
 
 def main3():
     task="piqa"
-    dir_p = "./vary_train_num_qa_infers/"
+    # dir_p = "./vary_train_num_qa_infers/"
+    dir_p = "./qa_dataset_res/"
     res_dict = {}
     if not os.path.exists(dir_p):
         os.makedirs(dir_p)
-    ckpt="google/gemma-7b"
+    # ckpt="google/gemma-7b"
+    ckpt="meta-llama/Meta-Llama-3-8B-Instruct"
 
     res_pth = ckpt + f"___{task}_qa_infer_res.json"
     res_pth = res_pth.replace("/", "__").replace(".", "")
@@ -61,7 +63,7 @@ def main3():
             ckpt, task, dir_p + res_pth,
             # test_set_take_num=1000,
             test_set_take_num=500,
-            mnt=64,
+            mnt=32,
             # base_model_name=base_model,
         )
     else:
