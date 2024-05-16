@@ -343,7 +343,8 @@ def infer_wmt(modelname, task_name, res_pth,
     elif base_model_name is None:
         model = InferObj(model_name=modelname,
                      device="auto",
-                     max_length=2047)
+                     max_length=2047,
+                     open_16_mode=True,)
         gen_pipeline = model.text_gen
 
         res_ls = []

@@ -16,6 +16,7 @@ import json
 from typing import List, Tuple, Dict
 import random
 from pprint import pprint as ppp
+import torch
 
 
 from transformers import (
@@ -66,12 +67,9 @@ class InferObj:
             if open_16_mode:
                 self.model = AutoModelForCausalLM.from_pretrained(
                     model_name,
-                    # quantization_config=quant_config,
                     device_map=device,
-                    # load_in_8bit=True,
                     trust_remote_code=True,
-                    # offload_folder="offload",
-                    # torch_dtype=torch.float16,
+                    torch_dtype=torch.bfloat16,
                 )
             elif load_in_8_bit:
                 self.model = AutoModelForCausalLM.from_pretrained(

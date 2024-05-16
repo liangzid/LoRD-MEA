@@ -10,16 +10,19 @@ TEMP_WMT_INFER ---
 # ----------------------- Code --------------------------------------
 import os
 if __name__ == "__main__":
-    os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
 from wmt_process import *
 
 def evaluation_datas():
     base_model_name="meta-llama/Meta-Llama-3-8B-Instruct"
     ckpt_ls=[
-        ["cs-en",base_model_name,],
+        # ["cs-en",base_model_name,],
         # ["de-en",base_model_name,],
         # ["fi-en",base_model_name,],
+        ["cs-en","gpt-3.5-turbo-1106",],
+        # ["de-en","gpt-3.5-turbo-1106",],
+        # ["fi-en","gpt-3.5-turbo-1106",],
         ]
     res_dict = {}
     dir_p = "./wmt16_res/"
@@ -31,7 +34,7 @@ def evaluation_datas():
         res_pth = res_pth.replace("/", "__").replace(".", "")
         res_pth += ".json"
         if not os.path.exists(dir_p+res_pth):
-            res_ls = infer_wmt(base_model_name,
+            res_ls = infer_wmt(ckpt,
                                task, dir_p+res_pth,
                                test_set_take_num=500,
                                mnt=64,
