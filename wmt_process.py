@@ -692,7 +692,7 @@ def eval_varying_train_num():
                         )
                     else:
                         ckpt = prefix + \
-                            f"{task}{train_num}{itime}{m}___period{train_num}/"
+                            f"{task}{train_num}{itime}{m}___period512/"
                     res_pth = ckpt+f"___{task}_wmt_infer_res.json"
                     res_pth = res_pth.replace("/", "__").replace(".", "")
 
@@ -750,6 +750,119 @@ def eval_varying_train_num():
     print("OVERALL Save DONE.")
     pprint(res_dict)
     return res_dict
+
+def eval_tau1_res():
+    taskls = [
+        "cs-en",
+        "de-en",
+        "fi-en",
+    ]
+    mls = [
+        "LoRD-VI",
+        # "vanilla",
+        ]
+    train_times = [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+    ]
+    train_nums = [
+        "64",
+        # "128",
+        # "256",
+        # "512",
+        ]
+    tau1ls= [
+        "0.70",
+        "0.75",
+        "0.80",
+        "0.85",
+        "0.90",
+        "0.95",
+        "1.0",
+        ]
+    tau2="1.0"
+    base_model_name1="meta-llama/Meta-Llama-3-8B-Instruct"
+
+    dir_p = "./wmt_0516_tau1_res/"
+    res_dict = {}
+
+    if not os.path.exists(dir_p):
+        os.makedirs(dir_p)
+    # ===============================================================
+
+    res_dict_averaged={}
+
+    for tau1 in tau1ls:
+        for task in taskls:
+            for train_num in train_nums:
+                for m in mls:
+                    temp_scorels=[]
+                    for itime in train_times:
+                        prefix = f"./qa_ckpts/WMTTT-TAU1{tau1}TAU2{tau2}"
+                        ckpt = (
+                            prefix
+                            + f"{task}{train_num}{itime}{m}___period512/"
+                        )
+                        res_pth = ckpt + f"___{task}_qa_infer_res.json"
+                        res_pth = res_pth.replace("/", "__").replace(".", "")
+
+                        if not os.path.exists(dir_p+res_pth):
+                            res_ls = infer_wmt(ckpt, task, dir_p+res_pth,
+                                            test_set_take_num=500,
+                                            mnt=64,
+                                            base_model_name=base_model_name1,
+                                            )
+                        else:
+                            print(
+                                f"{dir_p+res_pth} file already exists. directly loading...")
+                            # from collections import OrderedDict
+                            with open(dir_p + res_pth, "r", encoding="utf8") as f:
+                                res_ls = json.load(
+                                    f, object_pairs_hook=OrderedDict)
+
+                        scores = eval_wmt(res_ls)
+                        res_dict[task + "-----" + res_pth] = scores
+
+                        score_ls=[
+                            scores["bleu"]["1"],
+                            scores["bleu"]["2"],
+                            scores["bleu"]["3"],
+                            scores["bleu"]["4"],
+                            scores["bertscore"]["p"],
+                            scores["bertscore"]["r"],
+                            scores["bertscore"]["f1"],
+                            scores["rouge-l"]["p"],
+                            scores["rouge-l"]["r"],
+                            scores["rouge-l"]["f1"],
+                            ]
+                        temp_scorels.append(score_ls)
+
+                    # obtain the mean value
+                    # obtain the std value
+                    temp_scorels=np.array(temp_scorels)
+                    meanvaluels=np.mean(temp_scorels,axis=0).tolist()
+                    stdvaluels=np.std(temp_scorels,axis=0,ddof=1).tolist()
+                    res_dict_averaged[task+"--"+res_pth]=\
+                        {"mean": meanvaluels,
+                        "std": stdvaluels}
+
+    with open(
+        dir_p + "Overall__qa_varytrain_num_inference_scores.json", "w", encoding="utf8"
+    ) as f:
+        json.dump(res_dict, f, ensure_ascii=False, indent=4)
+
+    with open(
+        dir_p + "OverallScoresAveraged.json",
+            "w", encoding="utf8"
+    ) as f:
+        json.dump(res_dict_averaged, f, ensure_ascii=False, indent=4)
+
+    print("OVERALL Save DONE.")
+    pprint(res_dict)
+    pprint(res_dict_averaged)
 
 
 # running entry
