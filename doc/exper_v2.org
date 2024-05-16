@@ -319,7 +319,21 @@ LoRD-VI with delta (tau1,tau2=-0.1,0.5)
 |             |       |none  |     0|acc_norm|0.7987|±  |0.0094|
 |winogrande   |      1|none  |     0|acc     |0.7348|±  |0.0124|
 
-
+LoRD-VI with delta (tau1,tau2=0.8,0.85)
+|    Tasks    |Version|Filter|n-shot| Metric |Value |   |Stderr|
+|-------------|------:|------|-----:|--------|-----:|---|-----:|
+|arc_challenge|      1|none  |     0|acc     |0.5503|±  |0.0145|
+|             |       |none  |     0|acc_norm|0.5691|±  |0.0145|
+|arc_easy     |      1|none  |     0|acc     |0.8148|±  |0.0080|
+|             |       |none  |     0|acc_norm|0.7929|±  |0.0083|
+|boolq        |      2|none  |     0|acc     |0.8318|±  |0.0065|
+|hellaswag    |      1|none  |     0|acc     |0.5977|±  |0.0049|
+|             |       |none  |     0|acc_norm|0.7912|±  |0.0041|
+|openbookqa   |      1|none  |     0|acc     |0.3640|±  |0.0215|
+|             |       |none  |     0|acc_norm|0.4480|±  |0.0223|
+|piqa         |      1|none  |     0|acc     |0.7900|±  |0.0095|
+|             |       |none  |     0|acc_norm|0.7889|±  |0.0095|
+|winogrande   |      1|none  |     0|acc     |0.7214|±  |0.0126|
 
 
 

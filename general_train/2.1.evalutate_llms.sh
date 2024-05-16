@@ -27,7 +27,8 @@ export save_dir="${root_dir}/general_train/ckpts/boring_test/"
 export from_path="meta-llama/Meta-Llama-3-8B-Instruct"
 
 
-export qas=openbookqa,arc_easy,winogrande,hellaswag,arc_challenge,piqa,boolq
+# export qas=openbookqa,arc_easy,winogrande,hellaswag,arc_challenge,piqa,boolq
+export qas=arc,hellaswag,mmlu,truthfulqa,winogrande,gsm8k
 # export qas=piqa
 export eval=${HOME}/anaconda3/envs/align/bin/lm_eval
 export pmp=meta-llama/Meta-Llama-3-8B-Instruct
