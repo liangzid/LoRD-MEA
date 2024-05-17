@@ -12,6 +12,14 @@ Summerization dataset preperation script.
 
 
 # ------------------------ Code --------------------------------------
+import os
+if __name__ == "__main__":
+    # os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
+    # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,6,7"
+    # os.environ["CUDA_VISIBLE_DEVICES"] = "6,7"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+    # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5"
+    os.environ["TORCH_USE_CUDA_DSA"]="1"
 
 import torch
 from datasets import load_dataset
@@ -32,7 +40,11 @@ from training_data_collecting_openai import chatWithOpenAI__LogLogits
 
 from gen_pipeline_open import InferObj
 from wmt_process import commonly_used_openai_post_process
+from wmt_process import eval_wmt as eval_sum
 
+from transformers import AutoModelForCausalLM,AutoTokenizer
+from peft import PeftModel
+import torch
 
 def load_sum_nonlabel(tokenizer,
                       task_name="UCL-DARK/openai-tldr-filtered",
@@ -172,7 +184,8 @@ def load_sum_datals(tokenizer,
 
 def infer_sum(modelname, task_name, res_pth,
               test_set_take_num=100,
-              mnt=32
+              mnt=32,
+              base_model_name=None,
               ):
 
     save_pth = res_pth
@@ -244,23 +257,130 @@ def infer_sum(modelname, task_name, res_pth,
     assert inp_ls != []
 
     res_ls = []
-    for d in tqdm(inp_ls):
-        inps, summary = d
-        final_inps = "Instruction: " + pp +\
-            " User: "+inps+" Assistant: "
-        res = gen_pipeline(final_inps,
-                           max_new_tokens=mnt,)[0]["generated_text"]
-        res = res.split(final_inps)[1]
-        res_ls.append((res, summary))
-        # print(res)
-        # break
+    if modelname=="gpt-3.5-turbo-1106":
+        from training_data_collecting_openai import chatWithOpenAI_APIs
+        res_ls=[]
+        for d in tqdm(inp_ls):
+            inps,summary = d
+            res=chatWithOpenAI_APIs(modelname, pp, inps)
+            print(f"Generated Text: {res}")
+            res_ls.append((res, summary))
+    elif base_model_name is None:
+        model = InferObj(
+            model_name=modelname, device="auto",
+            max_length=task_seqlen_map[task_name],
+        )
+        gen_pipeline = model.text_gen
+        res_ls = []
+        for d in tqdm(inp_ls):
+            inps, summary = d
+            final_inps = "Instruction: " + pp + " User: " + inps + " Assistant: "
+            res = gen_pipeline(
+                final_inps,
+                max_new_tokens=mnt,
+            )[
+                0
+            ]["generated_text"]
+            res = res.split(final_inps)[1]
+            print(f"Text Generated:>>> {res}")
+            res_ls.append((res, summary))
+    else:
+        print("USING PEFT: BASE MODEL + LORA")
+        # load model based on our idea
+        model = AutoModelForCausalLM.from_pretrained(
+            base_model_name,
+            device_map="auto",
+            trust_remote_code=True,
+            torch_dtype=torch.bfloat16,
+        )
+        model = PeftModel.from_pretrained(model, modelname)
+        tokenizer = AutoTokenizer\
+            .from_pretrained(base_model_name)
+        tokenizer.pad_token = tokenizer.eos_token
+        tokenizer.padding_side = "right"
+
+        res_ls = []
+        for d in tqdm(inp_ls):
+            inps, summary = d
+            final_inps = "Instruction: " + pp + " User: " + inps + " Assistant: "
+            inps_idx=tokenizer.encode(final_inps,max_length=2048,
+                                      padding="longest",
+                                      return_tensors="pt")
+            print(inps_idx)
+            inps_idx=inps_idx.to("cuda")
+            res = model.generate(inps_idx,
+                                 max_new_tokens=mnt,)
+            print(res)
+            res=tokenizer.decode(res[0])
+            if final_inps in res:
+                res = res.split(final_inps)[1]
+            else:
+                res = res
+            print(f"Text Generated:>>> {res}")
+            res_ls.append((res, summary))
+
+    model = None
+    gen_pipeline = None
+    tokenizer = None
     with open(save_pth, 'w', encoding='utf8') as f:
         json.dump(res_ls, f, ensure_ascii=False, indent=4)
 
     return res_ls
 
+def eval_sum_res():
+    ckpt_ls=[
+        ["UCL-DARK/openai-tldr-filtered",         "./summ_ckpts/SUMMMUCL-DARK/openai-tldr-filtered641vanilla___finally",],
+        ["UCL-DARK/openai-tldr-filtered",         "./summ_ckpts/SUMMMUCL-DARK/openai-tldr-filtered642vanilla___finally",],
+        ["UCL-DARK/openai-tldr-filtered",         "./summ_ckpts/SUMMMUCL-DARK/openai-tldr-filtered643vanilla___finally",],
+        ["UCL-DARK/openai-tldr-filtered",         "./summ_ckpts/SUMMMUCL-DARK/openai-tldr-filtered644vanilla___finally",],
+        ["UCL-DARK/openai-tldr-filtered",         "./summ_ckpts/SUMMMUCL-DARK/openai-tldr-filtered645vanilla___finally",],
+        ["UCL-DARK/openai-tldr-filtered",         "./summ_ckpts/SUMMMUCL-DARK/openai-tldr-filtered641LoRD-VI___period51",],
+        ["UCL-DARK/openai-tldr-filtered",         "./summ_ckpts/SUMMMUCL-DARK/openai-tldr-filtered642LoRD-VI___period51",],
+        ["UCL-DARK/openai-tldr-filtered",         "./summ_ckpts/SUMMMUCL-DARK/openai-tldr-filtered643LoRD-VI___period51",],
+        ["UCL-DARK/openai-tldr-filtered",         "./summ_ckpts/SUMMMUCL-DARK/openai-tldr-filtered644LoRD-VI___period51",],
+        ["UCL-DARK/openai-tldr-filtered",         "./summ_ckpts/SUMMMUCL-DARK/openai-tldr-filtered645LoRD-VI___period51",],
+        ]
+    base_model_name1="meta-llama/Meta-Llama-3-8B-Instruct"
+
+    res_dict = {}
+    dir_p = "./summ_dataset_res/"
+    if not os.path.exists(dir_p):
+        os.makedirs(dir_p)
+    for task_ckpt in ckpt_ls:
+        task, ckpt = task_ckpt
+        if ckpt==base_model_name1:
+            base_model_name=None
+        else:
+            base_model_name=base_model_name1
+        res_pth = ckpt + f"___{task}_sum_infer_res"
+        res_pth = res_pth.replace("/", "__").replace(".", "")
+        res_pth += ".json"
+        if not os.path.exists(dir_p + res_pth):
+            res_ls = infer_sum(
+                ckpt,
+                task,
+                dir_p + res_pth,
+                test_set_take_num=500,
+                mnt=128,
+                base_model_name=base_model_name
+            )
+        else:
+            # from collections import OrderedDict
+            with open(dir_p + res_pth, "r", encoding="utf8") as f:
+                res_ls = json.load(f, object_pairs_hook=OrderedDict)
+
+        print(res_ls)
+        scores = eval_sum(res_ls)
+        print(task, ckpt)
+        print(scores)
+        res_dict[task + "-----" + ckpt] = scores
+    with open(dir_p + "temp_boring_res_delete_thisfile_itisuseless.json", "w", encoding="utf8") as f:
+        json.dump(res_dict, f, ensure_ascii=False, indent=4)
+    print("OVERALL Save DONE.")
+    pprint(res_dict)
 
 # running entry
 if __name__ == "__main__":
     # main()
+    eval_sum_res()
     print("EVERYTHING DONE.")

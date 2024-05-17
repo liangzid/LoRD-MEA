@@ -16,7 +16,7 @@ if __name__ == "__main__":
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,2,7"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,6,7"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "3,7"
-    os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
 from gen_pipeline_open import InferObj
 from training_data_collecting_openai import chatWithOpenAI__LogLogits
@@ -272,6 +272,8 @@ def commonly_used_openai_post_process(
             text2ls.append(idx2)
             idx2_dist_ls.append(idx2_dist)
             # iii_bgn+=1
+
+
 
         with open(openai_tmp_save_pth,
                   'wb') as f:
@@ -754,8 +756,8 @@ def eval_varying_train_num():
 def eval_tau1_res():
     taskls = [
         "cs-en",
-        "de-en",
-        "fi-en",
+        # "de-en",
+        # "fi-en",
     ]
     mls = [
         "LoRD-VI",
@@ -870,5 +872,6 @@ if __name__ == "__main__":
     # main()
     # evaluation_datas()
     # eval_all()
-    eval_varying_train_num()
+    # eval_varying_train_num()
+    eval_tau1_res()
     print("EVERYTHING DONE.")

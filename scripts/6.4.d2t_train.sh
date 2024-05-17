@@ -19,13 +19,13 @@ export from_path="meta-llama/Meta-Llama-3-8B-Instruct"
 export TRAIN_NUMS=(64)
 # export TRAIN_NUMS=(64 128 256)
 # export train_times=(1 2 3 4 5)
-export train_times=(1)
+export train_times=(5)
 export msl=256
 # export task_ls=("e2e_nlg" "allenai/common_gen")
-export task_ls=("e2e_nlg")
-# export train_taskls=("LoRD-VI" "vanilla")
+export task_ls=("allenai/common_gen")
+export train_taskls=("LoRD-VI" "vanilla")
 # export train_taskls=("LoRD-VI")
-export train_taskls=("vanilla")
+# export train_taskls=("vanilla")
 
 export is_black_box=1
 export use_lora=1

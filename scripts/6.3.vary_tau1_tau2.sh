@@ -15,7 +15,7 @@
 
 echo "HOME: ${HOME}"
 export python=${HOME}/anaconda3/envs/align/bin/python3
-export CUDA_VISIBLE_DEVICES="0"
+export CUDA_VISIBLE_DEVICES="1"
 # export CUDA_VISIBLE_DEVICES="4,5,6"
 # export CUDA_VISIBLE_DEVICES="3,6,7"
 export TORCH_USE_CUDA_DSA="1"
@@ -65,7 +65,7 @@ export tau1_list=(0.70 0.75 0.80 0.85 0.90 0.95 1.0)
 
 # export tau1=-0.1
 # export tau2=0.95
-export tau2=1.0
+export tau2_list=(1.0)
 
 for tau1 in ${tau1_list[*]}
 do

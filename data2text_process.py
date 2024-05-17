@@ -241,8 +241,30 @@ def infer_d2t(modelname, task_name, res_pth,
 def eval_d2t_res():
     ckpt_ls=[
         ["e2e_nlg","./d2t_ckpts/D2TTTe2e_nlg641vanilla___finally",],
-        # ["allenai/common_gen",
-        #  "./d2t_ckpts/D2TTTe2e_nlg641vanilla___finally",],
+        ["e2e_nlg","./d2t_ckpts/D2TTTe2e_nlg642vanilla___finally",],
+        ["e2e_nlg","./d2t_ckpts/D2TTTe2e_nlg643vanilla___finally",],
+        ["e2e_nlg","./d2t_ckpts/D2TTTe2e_nlg644vanilla___finally",],
+        ["e2e_nlg","./d2t_ckpts/D2TTTe2e_nlg645vanilla___finally",],
+        ["e2e_nlg","./d2t_ckpts/D2TTTe2e_nlg641LoRD-VI___period512/",],
+        ["e2e_nlg","./d2t_ckpts/D2TTTe2e_nlg642LoRD-VI___period512/",],
+        ["e2e_nlg","./d2t_ckpts/D2TTTe2e_nlg643LoRD-VI___period512/",],
+        ["e2e_nlg","./d2t_ckpts/D2TTTe2e_nlg644LoRD-VI___period512/",],
+        ["e2e_nlg","./d2t_ckpts/D2TTTe2e_nlg645LoRD-VI___period512/",],
+        ["allenai/common_gen",
+         "./d2t_ckpts/D2TTTallenai/common_gen641vanilla___finally",],
+        ["allenai/common_gen",
+         "./d2t_ckpts/D2TTTallenai/common_gen642vanilla___finally",],
+        ["allenai/common_gen",
+         "./d2t_ckpts/D2TTTallenai/common_gen643vanilla___finally",],
+        ["allenai/common_gen",
+         "./d2t_ckpts/D2TTTallenai/common_gen644vanilla___finally",],
+        ["allenai/common_gen",
+         "./d2t_ckpts/D2TTTallenai/common_gen645vanilla___finally",],
+        ["allenai/common_gen","./d2t_ckpts/D2TTTallenai/common_gen641LoRD-VI___period512/",],
+        ["allenai/common_gen","./d2t_ckpts/D2TTTallenai/common_gen642LoRD-VI___period512/",],
+        ["allenai/common_gen","./d2t_ckpts/D2TTTallenai/common_gen643LoRD-VI___period512/",],
+        ["allenai/common_gen","./d2t_ckpts/D2TTTallenai/common_gen644LoRD-VI___period512/",],
+        ["allenai/common_gen","./d2t_ckpts/D2TTTallenai/common_gen645LoRD-VI___period512/",],
 
         ]
     base_model_name1="meta-llama/Meta-Llama-3-8B-Instruct"
@@ -275,7 +297,7 @@ def eval_d2t_res():
                 res_ls = json.load(f, object_pairs_hook=OrderedDict)
 
         print(res_ls)
-        scores = eval_d2ttt(task, res_ls)
+        scores = eval_d2ttt(res_ls)
         print(task, ckpt)
         print(scores)
         res_dict[task + "-----" + ckpt] = scores
