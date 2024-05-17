@@ -123,12 +123,6 @@ def infer_d2t(modelname, task_name, res_pth,
         "allenai/common_gen": 256,
     }
 
-    model = InferObj(model_name=modelname,
-                     device="auto",
-                     max_length=task_seqlen_map[task_name])
-
-    gen_pipeline = model.text_gen
-
     pls = {
         "e2e_nlg": "Please translate the information to a sentence with natural language.",
         "allenai/common_gen": "Please generate a sentence based on the words provided by User.",
@@ -174,6 +168,12 @@ def infer_d2t(modelname, task_name, res_pth,
             print(f"Generated Text: {res}")
             res_ls.append((res, summary))
     elif base_model_name is None:
+        # model = InferObj(model_name=modelname,
+        #              device="auto",
+        #              max_length=task_seqlen_map[task_name])
+
+        # gen_pipeline = model.text_gen
+
         model = InferObj(
             model_name=modelname, device="auto",
             max_length=task_seqlen_map[task_name],
