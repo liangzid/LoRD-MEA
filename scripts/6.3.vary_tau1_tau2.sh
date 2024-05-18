@@ -65,7 +65,7 @@ export tau2_list=(0.80 0.85 0.90 0.95)
 
 # export tau1=-0.1
 # export tau2=0.95
-export tau2_list=(1.0)
+# export tau2_list=(1.0)
 
 for tau1 in ${tau1_list[*]}
 do

@@ -787,10 +787,10 @@ def eval_tau1_res():
         ]
     # tau2="1.0"
     tau2ls=[
-        0.80,
-        0.85,
-        0.90,
-        0.95,
+        "0.80",
+        "0.85",
+        "0.90",
+        "0.95",
         ]
     base_model_name1="meta-llama/Meta-Llama-3-8B-Instruct"
 
