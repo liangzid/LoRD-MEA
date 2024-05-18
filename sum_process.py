@@ -203,12 +203,6 @@ def infer_sum(modelname, task_name, res_pth,
         "samsum": 2048,
     }
 
-    model = InferObj(model_name=modelname,
-                     device="auto",
-                     max_length=task_seqlen_map[task_name])
-
-    gen_pipeline = model.text_gen
-
     prompt = "Please **summerize** the content given by user."
     pp = prompt
 
@@ -334,11 +328,11 @@ def eval_sum_res():
         ["UCL-DARK/openai-tldr-filtered",         "./summ_ckpts/SUMMMUCL-DARK/openai-tldr-filtered643vanilla___finally",],
         ["UCL-DARK/openai-tldr-filtered",         "./summ_ckpts/SUMMMUCL-DARK/openai-tldr-filtered644vanilla___finally",],
         ["UCL-DARK/openai-tldr-filtered",         "./summ_ckpts/SUMMMUCL-DARK/openai-tldr-filtered645vanilla___finally",],
-        ["UCL-DARK/openai-tldr-filtered",         "./summ_ckpts/SUMMMUCL-DARK/openai-tldr-filtered641LoRD-VI___period51",],
-        ["UCL-DARK/openai-tldr-filtered",         "./summ_ckpts/SUMMMUCL-DARK/openai-tldr-filtered642LoRD-VI___period51",],
-        ["UCL-DARK/openai-tldr-filtered",         "./summ_ckpts/SUMMMUCL-DARK/openai-tldr-filtered643LoRD-VI___period51",],
-        ["UCL-DARK/openai-tldr-filtered",         "./summ_ckpts/SUMMMUCL-DARK/openai-tldr-filtered644LoRD-VI___period51",],
-        ["UCL-DARK/openai-tldr-filtered",         "./summ_ckpts/SUMMMUCL-DARK/openai-tldr-filtered645LoRD-VI___period51",],
+        ["UCL-DARK/openai-tldr-filtered",         "./summ_ckpts/SUMMMUCL-DARK/openai-tldr-filtered641LoRD-VI___period512",],
+        ["UCL-DARK/openai-tldr-filtered",         "./summ_ckpts/SUMMMUCL-DARK/openai-tldr-filtered642LoRD-VI___period512",],
+        ["UCL-DARK/openai-tldr-filtered",         "./summ_ckpts/SUMMMUCL-DARK/openai-tldr-filtered643LoRD-VI___period512",],
+        ["UCL-DARK/openai-tldr-filtered",         "./summ_ckpts/SUMMMUCL-DARK/openai-tldr-filtered644LoRD-VI___period512",],
+        ["UCL-DARK/openai-tldr-filtered",         "./summ_ckpts/SUMMMUCL-DARK/openai-tldr-filtered645LoRD-VI___period512",],
         ]
     base_model_name1="meta-llama/Meta-Llama-3-8B-Instruct"
 

@@ -16,7 +16,7 @@ if __name__ == "__main__":
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,2,7"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,6,7"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "3,7"
-    os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 from gen_pipeline_open import InferObj
 from training_data_collecting_openai import chatWithOpenAI__LogLogits
@@ -765,10 +765,10 @@ def eval_tau1_res():
         ]
     train_times = [
         "1",
-        "2",
-        "3",
-        "4",
-        "5",
+        # "2",
+        # "3",
+        # "4",
+        # "5",
     ]
     train_nums = [
         "64",
@@ -777,15 +777,21 @@ def eval_tau1_res():
         # "512",
         ]
     tau1ls= [
-        "0.70",
+        # "0.70",
         "0.75",
-        "0.80",
-        "0.85",
-        "0.90",
-        "0.95",
-        "1.0",
+        # "0.80",
+        # "0.85",
+        # "0.90",
+        # "0.95",
+        # "1.0",
         ]
-    tau2="1.0"
+    # tau2="1.0"
+    tau2ls=[
+        0.80,
+        0.85,
+        0.90,
+        0.95,
+        ]
     base_model_name1="meta-llama/Meta-Llama-3-8B-Instruct"
 
     dir_p = "./wmt_0516_tau1_res/"
@@ -798,58 +804,59 @@ def eval_tau1_res():
     res_dict_averaged={}
 
     for tau1 in tau1ls:
-        for task in taskls:
-            for train_num in train_nums:
-                for m in mls:
-                    temp_scorels=[]
-                    for itime in train_times:
-                        prefix = f"./qa_ckpts/WMTTT-TAU1{tau1}TAU2{tau2}"
-                        ckpt = (
-                            prefix
-                            + f"{task}{train_num}{itime}{m}___period512/"
-                        )
-                        res_pth = ckpt + f"___{task}_qa_infer_res.json"
-                        res_pth = res_pth.replace("/", "__").replace(".", "")
+        for tau2 in tau2ls:
+            for task in taskls:
+                for train_num in train_nums:
+                    for m in mls:
+                        temp_scorels=[]
+                        for itime in train_times:
+                            prefix = f"./qa_ckpts/WMTTT-TAU1{tau1}TAU2{tau2}"
+                            ckpt = (
+                                prefix
+                                + f"{task}{train_num}{itime}{m}___period512/"
+                            )
+                            res_pth = ckpt + f"___{task}_qa_infer_res.json"
+                            res_pth = res_pth.replace("/", "__").replace(".", "")
 
-                        if not os.path.exists(dir_p+res_pth):
-                            res_ls = infer_wmt(ckpt, task, dir_p+res_pth,
-                                            test_set_take_num=500,
-                                            mnt=64,
-                                            base_model_name=base_model_name1,
-                                            )
-                        else:
-                            print(
-                                f"{dir_p+res_pth} file already exists. directly loading...")
-                            # from collections import OrderedDict
-                            with open(dir_p + res_pth, "r", encoding="utf8") as f:
-                                res_ls = json.load(
-                                    f, object_pairs_hook=OrderedDict)
+                            if not os.path.exists(dir_p+res_pth):
+                                res_ls = infer_wmt(ckpt, task, dir_p+res_pth,
+                                                test_set_take_num=500,
+                                                mnt=64,
+                                                base_model_name=base_model_name1,
+                                                )
+                            else:
+                                print(
+                                    f"{dir_p+res_pth} file already exists. directly loading...")
+                                # from collections import OrderedDict
+                                with open(dir_p + res_pth, "r", encoding="utf8") as f:
+                                    res_ls = json.load(
+                                        f, object_pairs_hook=OrderedDict)
 
-                        scores = eval_wmt(res_ls)
-                        res_dict[task + "-----" + res_pth] = scores
+                            scores = eval_wmt(res_ls)
+                            res_dict[task + "-----" + res_pth] = scores
 
-                        score_ls=[
-                            scores["bleu"]["1"],
-                            scores["bleu"]["2"],
-                            scores["bleu"]["3"],
-                            scores["bleu"]["4"],
-                            scores["bertscore"]["p"],
-                            scores["bertscore"]["r"],
-                            scores["bertscore"]["f1"],
-                            scores["rouge-l"]["p"],
-                            scores["rouge-l"]["r"],
-                            scores["rouge-l"]["f1"],
-                            ]
-                        temp_scorels.append(score_ls)
+                            score_ls=[
+                                scores["bleu"]["1"],
+                                scores["bleu"]["2"],
+                                scores["bleu"]["3"],
+                                scores["bleu"]["4"],
+                                scores["bertscore"]["p"],
+                                scores["bertscore"]["r"],
+                                scores["bertscore"]["f1"],
+                                scores["rouge-l"]["p"],
+                                scores["rouge-l"]["r"],
+                                scores["rouge-l"]["f1"],
+                                ]
+                            temp_scorels.append(score_ls)
 
-                    # obtain the mean value
-                    # obtain the std value
-                    temp_scorels=np.array(temp_scorels)
-                    meanvaluels=np.mean(temp_scorels,axis=0).tolist()
-                    stdvaluels=np.std(temp_scorels,axis=0,ddof=1).tolist()
-                    res_dict_averaged[task+"--"+res_pth]=\
-                        {"mean": meanvaluels,
-                        "std": stdvaluels}
+                        # obtain the mean value
+                        # obtain the std value
+                        temp_scorels=np.array(temp_scorels)
+                        meanvaluels=np.mean(temp_scorels,axis=0).tolist()
+                        stdvaluels=np.std(temp_scorels,axis=0,ddof=1).tolist()
+                        res_dict_averaged[task+"--"+res_pth]=\
+                            {"mean": meanvaluels,
+                            "std": stdvaluels}
 
     with open(
         dir_p + "Overall__qa_varytrain_num_inference_scores.json", "w", encoding="utf8"

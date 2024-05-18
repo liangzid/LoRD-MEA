@@ -138,4 +138,5 @@ if __name__=="__main__":
     # process_qa_data2("./qa_0514_tau1_res/OverallScoresAveraged.json")
     # process_wmt_data2("./wmt_0513_dataset_res/OverallScoresAveraged.json")
     # process_qa_data2("./qa_0514_tau1_res/OverallScoresAveraged.json")
-    process_qa_data2("./qa_0513_dataset_res/OverallScoresAveraged.json")
+    # process_qa_data2("./qa_0513_dataset_res/OverallScoresAveraged.json")
+    process_wmt_data2("./wmt_0516_tau1_res/OverallScoresAveraged.json")

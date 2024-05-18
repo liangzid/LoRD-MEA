@@ -15,7 +15,7 @@
 
 echo "HOME: ${HOME}"
 export python=${HOME}/anaconda3/envs/align/bin/python3
-export CUDA_VISIBLE_DEVICES="1"
+export CUDA_VISIBLE_DEVICES="0"
 # export CUDA_VISIBLE_DEVICES="4,5,6"
 # export CUDA_VISIBLE_DEVICES="3,6,7"
 export TORCH_USE_CUDA_DSA="1"
@@ -25,8 +25,8 @@ export from_path="meta-llama/Meta-Llama-3-8B-Instruct"
 # export from_path="google/gemma-7b"
 # export TRAIN_NUMS=(64 128 256 512)
 export TRAIN_NUMS=(64)
-export train_times=(1 2 3 4 5)
-# export train_times=(1 2)
+# export train_times=(1 2 3 4 5)
+export train_times=(1)
 export msl=256
 # export task_ls=("piqa" "truthful_qa" "allenai/ai2_arc")
 # export task_ls=("piqa")
@@ -59,9 +59,9 @@ export use_vic_logits=1
 export use_kld=0
 export use_entropy=0
 
-export tau1_list=(0.70 0.75 0.80 0.85 0.90 0.95 1.0)
-# export tau1_list=(0.80)
-# export tau2_list=(0.80 0.85 0.90 0.95 1.0)
+# export tau1_list=(0.70 0.75 0.80 0.85 0.90 0.95 1.0)
+export tau1_list=(0.75)
+export tau2_list=(0.80 0.85 0.90 0.95)
 
 # export tau1=-0.1
 # export tau2=0.95
