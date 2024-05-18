@@ -140,4 +140,6 @@ if __name__=="__main__":
     # process_qa_data2("./qa_0514_tau1_res/OverallScoresAveraged.json")
     # process_qa_data2("./qa_0513_dataset_res/OverallScoresAveraged.json")
     # process_wmt_data2("./wmt_0516_tau1_res/OverallScoresAveraged.json")
-    process_wmt_data2("./D2T-E2E_res5times.json")
+    # process_wmt_data2("./D2T-E2E_res5times.json")
+    # process_wmt_data2("./SUM-UCL_res5times.json")
+    process_wmt_data2("./wmt_0516_tau1_res/OverallScoresAveraged.json")
