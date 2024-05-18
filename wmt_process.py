@@ -170,6 +170,100 @@ def load_wmt_datals(tokenizer,
         lm_tokenizer,
     )
 
+def load_wmt_hyprid_gathering(tokenizer,
+                         max_length=1024,
+                         train_num=64,
+                         hyprid_ls=[
+                             "cs-en",
+                             "de-en",
+                             "fi-en",
+                             ],):
+    
+    lm_tokenizer = tokenizer
+    tasks_we_used = [
+        "cs-en",
+        "de-en",
+        "fi-en",
+        "ro-en",
+        "ru-en",
+        "tr-en",
+    ]
+
+    task_prompt_map = {
+        "cs-en": "Translate the sentence from Czech to English Please.",
+        "de-en": "Translate the sentence from Dutch to English Please.",
+        "fi-en": "Translate the sentence from Finnish to English Please.",
+        "ro-en": "Translate the sentence from Romanian to English Please.",
+        "ru-en": "Translate the sentence from Russian to English Please.",
+        "tr-en": "Translate the sentence from Turkish to English Please.",
+    }
+
+    plsss=[]
+    text2lsss=[]
+    probslsss=[]
+    idx2_dist_lsss=[]
+
+    for task_name in hyprid_ls:
+        assert task_name in tasks_we_used
+        V = lm_tokenizer.vocab_size
+
+        dataset_name = "wmt16"
+        trainset_text = load_dataset(dataset_name, task_name,
+                                    split=f"train[:{train_num}]")
+        trainset_text = load_dataset(dataset_name, task_name,
+                                    split=f"train")\
+            .shuffle(20240306)\
+            .to_iterable_dataset()\
+            .take(train_num)
+
+        inp_ls = []
+        from_lang, to_lange = task_name.split("-")
+        for text in trainset_text:
+            text = text["translation"]
+            from_text = text[from_lang]
+            to_text = text[to_lange]
+            inp_ls.append(from_text)
+
+        pp = task_prompt_map[task_name]
+        prompts = [f"Instruction: {pp} User: {x} Assistant: "
+                for x in inp_ls]
+        p_idxls = []
+        for p in prompts:
+            p_idxls.append(lm_tokenizer(p,
+                return_tensors="pt").input_ids[0])
+        openai_tmp_save_pth = f"./STEALED_PKLS/wmt_data_saveto_WMTtask_{task_name}-trainNUM_{train_num}.pkl"
+        with open(openai_tmp_save_pth, 'rb') as f:
+            data = pickle.load(f,)
+        text2ls = data[0]
+        probsls = data[1]
+        idx2_dist_ls = data[2]
+
+        plsss.extend(p_idxls)
+        text2lsss.extend(text2ls)
+        probslsss.extend(probsls)
+        idx2_dist_lsss.extend(idx2_dist_ls)
+
+    import random
+    i_ls=list(range(len(plsss)))
+    random.seed(20240306)
+    random.shuffle(i_ls)
+
+    npls=[plsss[x] for x in i_ls]
+    ntls=[text2lsss[x] for x in i_ls]
+    nprls=[probslsss[x] for x in i_ls]
+    nils=[idx2_dist_lsss[x] for x in i_ls]
+        
+    overall_save_p="./STEALED_PKLS/wmt_hyprid.pkl"
+    with open(overall_save_p,
+              'w',encoding='utf8') as f:
+        json.dump(
+            [
+                npls,ntls,nprls,nils,
+            ],
+            f,ensure_ascii=False,indent=4)
+    print("Hyprid Save DONE.")
+    return npls,ntls,nprls,nils
+
 
 def commonly_used_openai_post_process(
         openai_tmp_save_pth,
@@ -538,39 +632,45 @@ def evaluation_datas():
 
         # ["cs-en","./wmt16_ckpts/WMTTTnewcs-en------TEMP___period512/",],
 
-        ["cs-en","./wmt16_ckpts/WMTTTnewcs-en5121LoRD-VI___period512/",],
-        ["de-en","./wmt16_ckpts/WMTTTnewde-en5121LoRD-VI___period512/",],
-        ["fi-en","./wmt16_ckpts/WMTTTnewfi-en5121LoRD-VI___period512/",],
+        # ["cs-en","./wmt16_ckpts/WMTTTnewcs-en5121LoRD-VI___period512/",],
+        # ["de-en","./wmt16_ckpts/WMTTTnewde-en5121LoRD-VI___period512/",],
+        # ["fi-en","./wmt16_ckpts/WMTTTnewfi-en5121LoRD-VI___period512/",],
 
-        ["cs-en","./wmt16_ckpts/WMTTTnewcs-en2561LoRD-VI___period256/",],
-        ["de-en","./wmt16_ckpts/WMTTTnewde-en2561LoRD-VI___period256/",],
-        ["fi-en","./wmt16_ckpts/WMTTTnewfi-en2561LoRD-VI___period256/",],
+        # ["cs-en","./wmt16_ckpts/WMTTTnewcs-en2561LoRD-VI___period256/",],
+        # ["de-en","./wmt16_ckpts/WMTTTnewde-en2561LoRD-VI___period256/",],
+        # ["fi-en","./wmt16_ckpts/WMTTTnewfi-en2561LoRD-VI___period256/",],
         
-        ["cs-en","./wmt16_ckpts/WMTTTnewcs-en1281LoRD-VI___period128/",],
-        ["de-en","./wmt16_ckpts/WMTTTnewde-en1281LoRD-VI___period128/",],
-        ["fi-en","./wmt16_ckpts/WMTTTnewfi-en1281LoRD-VI___period128/",],
+        # ["cs-en","./wmt16_ckpts/WMTTTnewcs-en1281LoRD-VI___period128/",],
+        # ["de-en","./wmt16_ckpts/WMTTTnewde-en1281LoRD-VI___period128/",],
+        # ["fi-en","./wmt16_ckpts/WMTTTnewfi-en1281LoRD-VI___period128/",],
 
-        ["cs-en","./wmt16_ckpts/WMTTTnewcs-en641LoRD-VI___period64/",],
-        ["de-en","./wmt16_ckpts/WMTTTnewde-en641LoRD-VI___period64/",],
-        ["fi-en","./wmt16_ckpts/WMTTTnewfi-en641LoRD-VI___period64/",],
+        # ["cs-en","./wmt16_ckpts/WMTTTnewcs-en641LoRD-VI___period64/",],
+        # ["de-en","./wmt16_ckpts/WMTTTnewde-en641LoRD-VI___period64/",],
+        # ["fi-en","./wmt16_ckpts/WMTTTnewfi-en641LoRD-VI___period64/",],
 
 
-        ["cs-en","./wmt16_ckpts/WMTTTnewcs-en5121vanilla___finally/",],
-        ["de-en","./wmt16_ckpts/WMTTTnewde-en5121vanilla___finally/",],
-        ["fi-en","./wmt16_ckpts/WMTTTnewfi-en5121vanilla___finally/",],
+        # ["cs-en","./wmt16_ckpts/WMTTTnewcs-en5121vanilla___finally/",],
+        # ["de-en","./wmt16_ckpts/WMTTTnewde-en5121vanilla___finally/",],
+        # ["fi-en","./wmt16_ckpts/WMTTTnewfi-en5121vanilla___finally/",],
 
-        ["cs-en","./wmt16_ckpts/WMTTTnewcs-en2561vanilla___finally/",],
-        ["de-en","./wmt16_ckpts/WMTTTnewde-en2561vanilla___finally/",],
-        ["fi-en","./wmt16_ckpts/WMTTTnewfi-en2561vanilla___finally/",],
+        # ["cs-en","./wmt16_ckpts/WMTTTnewcs-en2561vanilla___finally/",],
+        # ["de-en","./wmt16_ckpts/WMTTTnewde-en2561vanilla___finally/",],
+        # ["fi-en","./wmt16_ckpts/WMTTTnewfi-en2561vanilla___finally/",],
         
-        ["cs-en","./wmt16_ckpts/WMTTTnewcs-en1281vanilla___finally/",],
-        ["de-en","./wmt16_ckpts/WMTTTnewde-en1281vanilla___finally/",],
-        ["fi-en","./wmt16_ckpts/WMTTTnewfi-en1281vanilla___finally/",],
+        # ["cs-en","./wmt16_ckpts/WMTTTnewcs-en1281vanilla___finally/",],
+        # ["de-en","./wmt16_ckpts/WMTTTnewde-en1281vanilla___finally/",],
+        # ["fi-en","./wmt16_ckpts/WMTTTnewfi-en1281vanilla___finally/",],
 
-        ["cs-en","./wmt16_ckpts/WMTTTnewcs-en641vanilla___finally/",],
-        ["de-en","./wmt16_ckpts/WMTTTnewde-en641vanilla___finally/",],
-        ["fi-en","./wmt16_ckpts/WMTTTnewfi-en641vanilla___finally/",],
+        # ["cs-en","./wmt16_ckpts/WMTTTnewcs-en641vanilla___finally/",],
+        # ["de-en","./wmt16_ckpts/WMTTTnewde-en641vanilla___finally/",],
+        # ["fi-en","./wmt16_ckpts/WMTTTnewfi-en641vanilla___finally/",],
 
+        ["cs-en","./wmt16_ckpts/WMTTT0518newwmt_mix641LoRD-VI___period512/"],
+        ["de-en","./wmt16_ckpts/WMTTT0518newwmt_mix641LoRD-VI___period512/"],
+        ["fi-en","./wmt16_ckpts/WMTTT0518newwmt_mix641LoRD-VI___period512/"],
+        ["cs-en","./wmt16_ckpts/WMTTT0518newwmt_mix641vanilla___finally/"],
+        ["de-en","./wmt16_ckpts/WMTTT0518newwmt_mix641vanilla___finally/"],
+        ["fi-en","./wmt16_ckpts/WMTTT0518newwmt_mix641vanilla___finally/"],
 
     ]
     base_model_name="meta-llama/Meta-Llama-3-8B-Instruct"
@@ -777,8 +877,11 @@ def eval_tau1_res():
         # "512",
         ]
     tau1ls= [
+        "0.4",
+        "0.5",
+        "0.6",
         # "0.70",
-        "0.75",
+        # "0.75",
         # "0.80",
         # "0.85",
         # "0.90",
@@ -787,10 +890,11 @@ def eval_tau1_res():
         ]
     # tau2="1.0"
     tau2ls=[
-        "0.80",
-        "0.85",
-        "0.90",
-        "0.95",
+        # "0.80",
+        # "0.85",
+        # "0.90",
+        # "0.95",
+        "1.0",
         ]
     base_model_name1="meta-llama/Meta-Llama-3-8B-Instruct"
 
@@ -877,8 +981,8 @@ def eval_tau1_res():
 # running entry
 if __name__ == "__main__":
     # main()
-    # evaluation_datas()
+    evaluation_datas()
     # eval_all()
     # eval_varying_train_num()
-    eval_tau1_res()
+    # eval_tau1_res()
     print("EVERYTHING DONE.")

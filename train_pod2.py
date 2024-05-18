@@ -101,7 +101,7 @@ def train(lm, lm_tokenizer, args,
 
         #### Transform the LLM into a single device.
         print(f"stage_num: {ssn+1}.")
-        if (ssn+1)%16==0:
+        if (ssn+1)%64==0:
             print(f" ------>NOW save the ckpt in stage {ssn+1}.")
             args.temp_save_path=args.save_path+"___period"+str(ssn+1)
             lm_tokenizer.save_pretrained(args.temp_save_path)

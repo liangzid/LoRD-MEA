@@ -666,6 +666,7 @@ def main():
     tasks_supported.extend(tasks_qa)
     tasks_supported.extend(tasks_data2text)
     tasks_supported.extend(tasks_general)
+    tasks_supported.extend("wmt_mix")
 
     print("---------------------------------------------------------")
     print(f"TASKS NOW Supported: {tasks_supported}")
@@ -709,6 +710,23 @@ def main():
                     train_num=args.nonlabel_data_num,
                     max_length=args.max_length
                 )
+        elif args.dataset_task == "wmt_mix":
+            print(f"RUN wmt task: {args.dataset_task}")
+            from wmt_process import load_wmt_hyprid_gathering
+            raw_train_datals = load_wmt_hyprid_gathering(
+                tokenizer,
+                train_num=args.train_num,
+                max_length=args.max_length
+            )
+
+            if args.extra_nonlabel_data == 1:
+                nonlabel_trainls = load_wmt_nonlabel(
+                    tokenizer,
+                    task_name=args.dataset_task,
+                    train_num=args.nonlabel_data_num,
+                    max_length=args.max_length
+                )
+
         elif args.dataset_task in tasks_qa:
             print(f"RUN wmt task: {args.dataset_task}")
             from qa_process import load_qa_datals
