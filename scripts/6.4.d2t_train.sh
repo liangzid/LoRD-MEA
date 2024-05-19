@@ -11,18 +11,18 @@
 
 echo "HOME: ${HOME}"
 export python=${HOME}/anaconda3/envs/align/bin/python3
-export CUDA_VISIBLE_DEVICES="0"
+export CUDA_VISIBLE_DEVICES="1"
 export TORCH_USE_CUDA_DSA="1"
 export root_dir="${HOME}/alignmentExtraction/"
 export POD_save_dir="${root_dir}/d2t_ckpts/"
 export from_path="meta-llama/Meta-Llama-3-8B-Instruct"
-export TRAIN_NUMS=(64)
+export TRAIN_NUMS=(16)
 # export TRAIN_NUMS=(64 128 256)
-# export train_times=(1 2 3 4 5)
-export train_times=(5)
+export train_times=(1 2 3 4 5)
+# export train_times=(5)
 export msl=256
-# export task_ls=("e2e_nlg" "allenai/common_gen")
-export task_ls=("allenai/common_gen")
+export task_ls=("e2e_nlg" "allenai/common_gen")
+# export task_ls=("allenai/common_gen")
 export train_taskls=("LoRD-VI" "vanilla")
 # export train_taskls=("LoRD-VI")
 # export train_taskls=("vanilla")
@@ -106,4 +106,4 @@ do
 done
 
 
-# $python ${root_dir}data2text_process.py
+$python ${root_dir}data2text_process.py

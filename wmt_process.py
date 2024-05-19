@@ -754,7 +754,7 @@ def eval_varying_train_num():
         "fi-en",
         ]
     mls = [
-        # "vanilla",
+        "vanilla",
         "LoRD-VI",
         # "kd",
         ]
@@ -767,14 +767,15 @@ def eval_varying_train_num():
         "5",
         ]
     train_nums = [
-        "64",
+        "16",
+        # "64",
         # "128",
         # "256",
         # "512",
         ]
     base_model_name1="meta-llama/Meta-Llama-3-8B-Instruct"
 
-    dir_p = "./wmt_0513_dataset_res/"
+    dir_p = "./wmt_0519_dataset_res/"
     res_dict = {}
     if not os.path.exists(dir_p):
         os.makedirs(dir_p)
@@ -786,7 +787,7 @@ def eval_varying_train_num():
             for m in mls:
                 temp_scorels=[]
                 for itime in train_times:
-                    prefix = "./wmt16_ckpts/WMTTTnew"
+                    prefix = "./wmt16_ckpts/WMTTT0519"
                     if m=="vanilla":
                         ckpt = (
                             prefix
@@ -981,8 +982,8 @@ def eval_tau1_res():
 # running entry
 if __name__ == "__main__":
     # main()
-    evaluation_datas()
+    # evaluation_datas()
     # eval_all()
-    # eval_varying_train_num()
+    eval_varying_train_num()
     # eval_tau1_res()
     print("EVERYTHING DONE.")

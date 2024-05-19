@@ -322,18 +322,18 @@ Vanilla:
 |-------------|------:|------|-----:|--------|-----:|---|-----:|
 |    Tasks    |Version|Filter|n-shot| Metric |Value |   |Stderr|
 |-------------|------:|------|-----:|--------|-----:|---|-----:|
-|winogrande   |      1|none  |     0|acc     |0.7190|±  |0.0126|
-|piqa         |      1|none  |     0|acc     |0.7862|±  |0.0096|
-|             |       |none  |     0|acc_norm|0.7867|±  |0.0096|
-|openbookqa   |      1|none  |     0|acc     |0.3380|±  |0.0212|
-|             |       |none  |     0|acc_norm|0.4280|±  |0.0221|
-|hellaswag    |      1|none  |     0|acc     |0.5771|±  |0.0049|
-|             |       |none  |     0|acc_norm|0.7581|±  |0.0043|
-|boolq        |      2|none  |     0|acc     |0.8312|±  |0.0066|
-|arc_easy     |      1|none  |     0|acc     |0.8144|±  |0.0080|
-|             |       |none  |     0|acc_norm|0.7955|±  |0.0083|
 |arc_challenge|      1|none  |     0|acc     |0.5290|±  |0.0146|
 |             |       |none  |     0|acc_norm|0.5674|±  |0.0145|
+|arc_easy     |      1|none  |     0|acc     |0.8144|±  |0.0080|
+|             |       |none  |     0|acc_norm|0.7955|±  |0.0083|
+|boolq        |      2|none  |     0|acc     |0.8312|±  |0.0066|
+|hellaswag    |      1|none  |     0|acc     |0.5771|±  |0.0049|
+|             |       |none  |     0|acc_norm|0.7581|±  |0.0043|
+|openbookqa   |      1|none  |     0|acc     |0.3380|±  |0.0212|
+|             |       |none  |     0|acc_norm|0.4280|±  |0.0221|
+|piqa         |      1|none  |     0|acc     |0.7862|±  |0.0096|
+|             |       |none  |     0|acc_norm|0.7867|±  |0.0096|
+|winogrande   |      1|none  |     0|acc     |0.7190|±  |0.0126|
 |-------------|------:|------|-----:|--------|-----:|---|-----:|
 
 
@@ -410,5 +410,19 @@ LoRD-VI with delta (tau1,tau2=0.8,0.85)
 
 ** Longtext
 
+|    Tasks    |Version|Filter|n-shot| Metric |Value |   |Stderr|
+|-------------|------:|------|-----:|--------|-----:|---|-----:|
+|arc_challenge|      1|none  |     0|acc     |0.5435|±  |0.0146|
+|             |       |none  |     0|acc_norm|0.5879|±  |0.0144|
+|arc_easy     |      1|none  |     0|acc     |0.8287|±  |0.0077|
+|             |       |none  |     0|acc_norm|0.8106|±  |0.0080|
+|boolq        |      2|none  |     0|acc     |0.8379|±  |0.0064|
+|hellaswag    |      1|none  |     0|acc     |0.5961|±  |0.0049|
+|             |       |none  |     0|acc_norm|0.7966|±  |0.0040|
+|openbookqa   |      1|none  |     0|acc     |0.3480|±  |0.0213|
+|             |       |none  |     0|acc_norm|0.4480|±  |0.0223|
+|piqa         |      1|none  |     0|acc     |0.8003|±  |0.0093|
+|             |       |none  |     0|acc_norm|0.7992|±  |0.0093|
+|winogrande   |      1|none  |     0|acc     |0.7348|±  |0.0124|
 
 ** Continuing Pre-training

@@ -18,7 +18,7 @@ if __name__ == "__main__":
     # os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,6,7"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "6,7"
-    os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "1"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5"
     os.environ["TORCH_USE_CUDA_DSA"]="1"
 from datasets import load_dataset
@@ -236,6 +236,111 @@ def infer_d2t(modelname, task_name, res_pth,
 
     return res_ls
 
+def eval_varying_train_num():
+    taskls = [
+        "e2e_nlg",
+        "allenai/common_gen",
+        ]
+    mls = [
+        "vanilla",
+        "LoRD-VI",
+        # "kd",
+        ]
+    # mls = ["vanilla", "kd", "google/gemma-2b", "Complex-lord",]
+    train_times = [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        ]
+    train_nums = [
+        "16",
+        # "64",
+        # "128",
+        # "256",
+        # "512",
+        ]
+    base_model_name1="meta-llama/Meta-Llama-3-8B-Instruct"
+
+    dir_p = "./d2t_0519_dataset_res/"
+    res_dict = {}
+    if not os.path.exists(dir_p):
+        os.makedirs(dir_p)
+
+    res_dict_averaged={}
+
+    for task in taskls:
+        for train_num in train_nums:
+            for m in mls:
+                temp_scorels=[]
+                for itime in train_times:
+                    prefix = "./d2t_ckptst_ckpts/D2TTT"
+                    if m=="vanilla":
+                        ckpt = (
+                            prefix
+                            + f"{task}{train_num}{itime}{m}___finally/"
+                        )
+                    else:
+                        ckpt = prefix + \
+                            f"{task}{train_num}{itime}{m}___period512/"
+                    res_pth = ckpt+f"___{task}_d2t_infer_res.json"
+                    res_pth = res_pth.replace("/", "__").replace(".", "")
+
+                    if not os.path.exists(dir_p+res_pth):
+                        res_ls = infer_d2t(ckpt,
+                                           task,
+                                           dir_p+res_pth,
+                                           test_set_take_num=500,
+                                           mnt=64,
+                                           base_model_name=base_model_name1,
+                                           )
+                    else:
+                        # from collections import OrderedDict
+                        with open(dir_p+res_pth, 'r', encoding='utf8') as f:
+                            res_ls = json.load(
+                                f, object_pairs_hook=OrderedDict)
+
+                    scores = eval_d2ttt(res_ls)
+                    print(task, ckpt)
+                    print(scores)
+                    res_dict[task+"-----"+res_pth] = scores
+                    score_ls=[
+                        scores["bleu"]["1"],
+                        scores["bleu"]["2"],
+                        scores["bleu"]["3"],
+                        scores["bleu"]["4"],
+                        scores["bertscore"]["p"],
+                        scores["bertscore"]["r"],
+                        scores["bertscore"]["f1"],
+                        scores["rouge-l"]["p"],
+                        scores["rouge-l"]["r"],
+                        scores["rouge-l"]["f1"],
+                        ]
+                    temp_scorels.append(score_ls)
+
+                # obtain the mean value
+                # obtain the std value
+                temp_scorels=np.array(temp_scorels)
+                meanvaluels=np.mean(temp_scorels,axis=0).tolist()
+                stdvaluels=np.std(temp_scorels,axis=0,ddof=1).tolist()
+                res_dict_averaged[task+"--"+res_pth]=\
+                    {"mean": meanvaluels,
+                     "std": stdvaluels}
+
+    with open(dir_p+"Overall__d2t_varytrain_num_inference_scores.json",
+              'w', encoding='utf8') as f:
+        json.dump(res_dict, f, ensure_ascii=False, indent=4)
+
+    with open(
+        dir_p + "OverallScoresAveraged.json",
+            "w", encoding="utf8"
+    ) as f:
+        json.dump(res_dict_averaged, f, ensure_ascii=False, indent=4)
+
+    print("OVERALL Save DONE.")
+    pprint(res_dict)
+    return res_dict
 
 
 def eval_d2t_res():
