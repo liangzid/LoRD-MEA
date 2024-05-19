@@ -17,21 +17,24 @@
 echo "HOME: ${HOME}"
 export python=${HOME}/anaconda3/envs/align/bin/python3
 # export CUDA_VISIBLE_DEVICES="0,1,2"
-export CUDA_VISIBLE_DEVICES="1"
+export CUDA_VISIBLE_DEVICES="0"
 export TORCH_USE_CUDA_DSA="1"
 export root_dir="${HOME}/alignmentExtraction/"
 export POD_save_dir="${root_dir}/general_train/ckpts/boring_test/"
 export from_path="meta-llama/Meta-Llama-3-8B-Instruct"
-export TRAIN_NUMS=(249)
-export train_times=(1)
+export TRAIN_NUMS=(240)
+export train_times=(1 2 3)
+
 export msl=256
 export task_ls=("liangzid/claude3_short256")
-# export msl=2048
+
+# export msl=1024
 # export task_ls=("liangzid/claude3_chat3.3k")
+
 # export train_taskls=("vanilla")
 # export train_taskls=("LoRD-II")
 # export train_taskls=("LoRD-V" "LoRD-VI")
-export train_taskls=("LoRD-VI")
+export train_taskls=("LoRD-VI" "vanilla")
 
 # ## ====================TO DEBUG====================
 # export epoch=1
@@ -67,6 +70,7 @@ export use_entropy=0
 
 export tau1=0.8
 export tau2=0.85
+export save_step=512
 
 # export train_num=100
 
@@ -85,6 +89,7 @@ do
 		echo "+++++++train_task: ${train_task}+++++++"
 		echo "====================================================="
 
+		# export save_path="${POD_save_dir}longtext${train_num}${train_time}${task}${train_task}${epoch}${period}${temperature}${batch_size}${max_new_tokens}${msl}"
 		export save_path="${POD_save_dir}longtext${train_num}${train_time}${task}${train_task}${epoch}${period}${temperature}${batch_size}${max_new_tokens}${msl}"
 
 		$python ${root_dir}lord_train.py\
@@ -106,6 +111,7 @@ do
 		    --train_num=$train_num \
 		    --max_new_tokens=$max_new_tokens \
 		    --LR="3e-5" \
+		    --save_step=${save_step} \
 		    --beta=$beta \
 		    --temperature=$temperature \
 		    --batch_size=$batch_size \
@@ -121,7 +127,7 @@ do
     done
 done
 
-bash ${root_dir}/general_train/2.1.evalutate_llms.sh
+# bash ${root_dir}/general_train/2.1.evalutate_llms.sh
 
 echo "RUNNING 1.1.lord5.sh DONE."
 # 1.1.lord5.sh ends here

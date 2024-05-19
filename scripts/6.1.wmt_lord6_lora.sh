@@ -18,16 +18,17 @@ export TORCH_USE_CUDA_DSA="1"
 export root_dir="${HOME}/alignmentExtraction/"
 export POD_save_dir="${root_dir}/wmt16_ckpts/"
 export from_path="meta-llama/Meta-Llama-3-8B-Instruct"
-export TRAIN_NUMS=(64)
+export TRAIN_NUMS=(16)
 # export TRAIN_NUMS=(64 128 256)
-# export train_times=(1 2 3 4 5)
-export train_times=(1)
+export train_times=(1 2 3 4 5)
+# export train_times=(1)
 export msl=256
-# export task_ls=("cs-en" "de-en" "fi-en")
-export task_ls=("wmt_mix")
+export task_ls=("cs-en" "de-en" "fi-en")
+# export task_ls=("wmt_mix")
+# export task_ls=("cs-en")
 # export train_taskls=("LoRD-VI" "vanilla")
 export train_taskls=("LoRD-VI" "vanilla")
-# export train_taskls=("vanilla")
+# export train_taskls=("LoRD-VI")
 
 export is_black_box=1
 export use_lora=1
@@ -39,7 +40,7 @@ export epoch=2
 export period=1
 
 export sub_set_num=1
-export sub_stage_num=1024
+export sub_stage_num=256
 export max_new_tokens=64
 export infer_batch_size=1
 export batch_size=1
@@ -71,7 +72,7 @@ do
 		echo "+++++++train_task: ${train_task}+++++++"
 		echo "====================================================="
 
-		export save_path="${POD_save_dir}WMTTT0518${task}${train_num}${train_time}${train_task}"
+		export save_path="${POD_save_dir}WMTTT0519${task}${train_num}${train_time}${train_task}"
 
 		$python ${root_dir}lord_train.py\
 		    --use_lora=$use_lora \
@@ -92,6 +93,7 @@ do
 		    --train_num=$train_num \
 		    --max_new_tokens=$max_new_tokens \
 		    --LR="3e-5" \
+		    --save_step=$sub_stage_num \
 		    --beta=$beta \
 		    --temperature=$temperature \
 		    --batch_size=$batch_size \

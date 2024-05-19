@@ -101,7 +101,7 @@ def train(lm, lm_tokenizer, args,
 
         #### Transform the LLM into a single device.
         print(f"stage_num: {ssn+1}.")
-        if (ssn+1)%64==0:
+        if (ssn+1)%args.save_step==0:
             print(f" ------>NOW save the ckpt in stage {ssn+1}.")
             args.temp_save_path=args.save_path+"___period"+str(ssn+1)
             lm_tokenizer.save_pretrained(args.temp_save_path)
@@ -850,6 +850,8 @@ def one_period(args, lm,
                     # -0.5*log_clip(torch.mean(logits11-logits12))
                 loss = -1*torch.mean(logits2_cons)\
                     -1*log_clip(torch.mean(logits11-logits12))
+                # loss = \
+                    # -1*log_clip(torch.mean(logits11-logits12))
                 print(f"TERM1: {term1}\nTERM2: {term2}\nTERM3: {term3}\n")
                 print(f"LOSS: {loss}\n\n")
             else:

@@ -16,7 +16,7 @@ if __name__ == "__main__":
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,2,7"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,6,7"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "3,7"
-    os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 from gen_pipeline_open import InferObj
 from training_data_collecting_openai import chatWithOpenAI__LogLogits
@@ -665,12 +665,12 @@ def evaluation_datas():
         # ["de-en","./wmt16_ckpts/WMTTTnewde-en641vanilla___finally/",],
         # ["fi-en","./wmt16_ckpts/WMTTTnewfi-en641vanilla___finally/",],
 
-        # ["cs-en","./wmt16_ckpts/WMTTT0518wmt_mix641LoRD-VI___period512/"],
-        # ["de-en","./wmt16_ckpts/WMTTT0518wmt_mix641LoRD-VI___period512/"],
-        # ["fi-en","./wmt16_ckpts/WMTTT0518wmt_mix641LoRD-VI___period512/"],
-        ["cs-en","./wmt16_ckpts/WMTTT0518wmt_mix641vanilla___finally/"],
-        ["de-en","./wmt16_ckpts/WMTTT0518wmt_mix641vanilla___finally/"],
-        ["fi-en","./wmt16_ckpts/WMTTT0518wmt_mix641vanilla___finally/"],
+        ["cs-en","./wmt16_ckpts/WMTTT0519cs-en161LoRD-VI___period256/"],
+        # ["de-en","./wmt16_ckpts/WMTTT0519cs-en321LoRD-VI___period512/"],
+        # ["fi-en","./wmt16_ckpts/WMTTT0519cs-en321LoRD-VI___period512/"],
+        ["cs-en","./wmt16_ckpts/WMTTT0519cs-en161vanilla___finally/"],
+        # ["de-en","./wmt16_ckpts/WMTTT0519cs-en321vanilla___finally/"],
+        # ["fi-en","./wmt16_ckpts/WMTTT0519cs-en321vanilla___finally/"],
 
     ]
     base_model_name="meta-llama/Meta-Llama-3-8B-Instruct"
