@@ -39,7 +39,7 @@ export epoch=2
 export period=1
 
 export sub_set_num=1
-export sub_stage_num=512
+export sub_stage_num=1024
 export max_new_tokens=64
 export infer_batch_size=1
 export batch_size=1

@@ -666,7 +666,7 @@ def main():
     tasks_supported.extend(tasks_qa)
     tasks_supported.extend(tasks_data2text)
     tasks_supported.extend(tasks_general)
-    tasks_supported.extend("wmt_mix")
+    tasks_supported.append("wmt_mix")
 
     print("---------------------------------------------------------")
     print(f"TASKS NOW Supported: {tasks_supported}")
@@ -719,13 +719,7 @@ def main():
                 max_length=args.max_length
             )
 
-            if args.extra_nonlabel_data == 1:
-                nonlabel_trainls = load_wmt_nonlabel(
-                    tokenizer,
-                    task_name=args.dataset_task,
-                    train_num=args.nonlabel_data_num,
-                    max_length=args.max_length
-                )
+            nonlabel_trainls = None
 
         elif args.dataset_task in tasks_qa:
             print(f"RUN wmt task: {args.dataset_task}")

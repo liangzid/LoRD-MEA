@@ -16,7 +16,7 @@ if __name__ == "__main__":
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,2,7"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,6,7"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "3,7"
-    os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "1"
 
 from gen_pipeline_open import InferObj
 from training_data_collecting_openai import chatWithOpenAI__LogLogits
@@ -255,12 +255,12 @@ def load_wmt_hyprid_gathering(tokenizer,
         
     overall_save_p="./STEALED_PKLS/wmt_hyprid.pkl"
     with open(overall_save_p,
-              'w',encoding='utf8') as f:
-        json.dump(
+              'wb') as f:
+        pickle.dump(
             [
-                npls,ntls,nprls,nils,
+                ntls,nprls,nils,
             ],
-            f,ensure_ascii=False,indent=4)
+            f,)
     print("Hyprid Save DONE.")
     return npls,ntls,nprls,nils
 
@@ -665,12 +665,12 @@ def evaluation_datas():
         # ["de-en","./wmt16_ckpts/WMTTTnewde-en641vanilla___finally/",],
         # ["fi-en","./wmt16_ckpts/WMTTTnewfi-en641vanilla___finally/",],
 
-        ["cs-en","./wmt16_ckpts/WMTTT0518newwmt_mix641LoRD-VI___period512/"],
-        ["de-en","./wmt16_ckpts/WMTTT0518newwmt_mix641LoRD-VI___period512/"],
-        ["fi-en","./wmt16_ckpts/WMTTT0518newwmt_mix641LoRD-VI___period512/"],
-        ["cs-en","./wmt16_ckpts/WMTTT0518newwmt_mix641vanilla___finally/"],
-        ["de-en","./wmt16_ckpts/WMTTT0518newwmt_mix641vanilla___finally/"],
-        ["fi-en","./wmt16_ckpts/WMTTT0518newwmt_mix641vanilla___finally/"],
+        # ["cs-en","./wmt16_ckpts/WMTTT0518wmt_mix641LoRD-VI___period512/"],
+        # ["de-en","./wmt16_ckpts/WMTTT0518wmt_mix641LoRD-VI___period512/"],
+        # ["fi-en","./wmt16_ckpts/WMTTT0518wmt_mix641LoRD-VI___period512/"],
+        ["cs-en","./wmt16_ckpts/WMTTT0518wmt_mix641vanilla___finally/"],
+        ["de-en","./wmt16_ckpts/WMTTT0518wmt_mix641vanilla___finally/"],
+        ["fi-en","./wmt16_ckpts/WMTTT0518wmt_mix641vanilla___finally/"],
 
     ]
     base_model_name="meta-llama/Meta-Llama-3-8B-Instruct"
