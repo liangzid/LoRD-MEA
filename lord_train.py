@@ -665,6 +665,7 @@ def main():
     tasks_supported.extend(tasks_wmt16)
     tasks_supported.extend(tasks_qa)
     tasks_supported.extend(tasks_data2text)
+    tasks_supported.extend(tasks_text2sql)
     tasks_supported.extend(tasks_general)
     tasks_supported.append("wmt_mix")
 
