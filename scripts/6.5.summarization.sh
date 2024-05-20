@@ -88,7 +88,6 @@ do
 		    --period_num=$period \
 		    --acc_step=1 \
 		    --log_step=50 \
-		    --save_step=100000 \
 		    --train_num=$train_num \
 		    --max_new_tokens=$max_new_tokens \
 		    --LR="3e-5" \

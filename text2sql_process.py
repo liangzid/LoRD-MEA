@@ -263,11 +263,11 @@ def infer_t2s(modelname, task_name, res_pth,
 def eval_varying_train_num():
     taskls = [
         "wikisql",
-        "spider",
+        # "spider",
         ]
     mls = [
         "vanilla",
-        # "LoRD-VI",
+        "LoRD-VI",
         # "kd",
         ]
     # mls = ["vanilla", "kd", "google/gemma-2b", "Complex-lord",]
@@ -307,7 +307,7 @@ def eval_varying_train_num():
                         )
                     else:
                         ckpt = prefix + \
-                            f"{task}{train_num}{itime}{m}___period512/"
+                            f"{task}{train_num}{itime}{m}___period256/"
                     res_pth = ckpt+f"___{task}_t2s_infer_res.json"
                     res_pth = res_pth.replace("/", "__").replace(".", "")
 
