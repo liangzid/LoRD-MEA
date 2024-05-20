@@ -35,6 +35,7 @@ from wmt_process import eval_wmt as eval_d2ttt
 from transformers import AutoModelForCausalLM,AutoTokenizer
 from peft import PeftModel
 import torch
+import numpy as np
 
 def load_data2text_datals(tokenizer,
                           task_name="e2e_nlg",
@@ -275,7 +276,7 @@ def eval_varying_train_num():
             for m in mls:
                 temp_scorels=[]
                 for itime in train_times:
-                    prefix = "./d2t_ckptst_ckpts/D2TTT"
+                    prefix = "./d2t_ckpts/D2TTT"
                     if m=="vanilla":
                         ckpt = (
                             prefix
@@ -414,5 +415,6 @@ def eval_d2t_res():
 # running entry
 if __name__ == "__main__":
     # main()
-    eval_d2t_res()
+    # eval_d2t_res()
+    eval_varying_train_num()
     print("EVERYTHING DONE.")

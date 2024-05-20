@@ -173,10 +173,11 @@ def infer_t2s(modelname, task_name, res_pth,
             .take(test_set_take_num)
 
         for item in trainset_text:
+            print(">>>>: ",item)
             question = item["question"]
-            table = item["table"]
-            sql = item["sql"]["human_readable"]
-            text = f"Qestion: {question}\n\n Table: {table}."
+            # table = item["table"]
+            sql = item["query"]
+            text = f"Qestion: {question}"
 
             inp_ls.append((text, sql))
 
@@ -262,7 +263,7 @@ def infer_t2s(modelname, task_name, res_pth,
 def eval_varying_train_num():
     taskls = [
         "wikisql",
-        # "spider",
+        "spider",
         ]
     mls = [
         "vanilla",

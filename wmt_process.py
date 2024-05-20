@@ -795,7 +795,7 @@ def eval_varying_train_num():
                         )
                     else:
                         ckpt = prefix + \
-                            f"{task}{train_num}{itime}{m}___period512/"
+                            f"{task}{train_num}{itime}{m}___period256/"
                     res_pth = ckpt+f"___{task}_wmt_infer_res.json"
                     res_pth = res_pth.replace("/", "__").replace(".", "")
 
