@@ -364,6 +364,7 @@ def eval_varying_train_num():
 
     print("OVERALL Save DONE.")
     pprint(res_dict)
+    pprint(res_dict_averaged)
     return res_dict
 
 

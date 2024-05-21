@@ -415,7 +415,7 @@ def eval_varying_train_num():
             for m in mls:
                 temp_scorels=[]
                 for itime in train_times:
-                    prefix = "./summ_ckpts/SUMMM0519"
+                    prefix = "./summ_ckpts/SUMMM"
                     if m=="vanilla":
                         ckpt = (
                             prefix
@@ -432,7 +432,7 @@ def eval_varying_train_num():
                                            task,
                                            dir_p+res_pth,
                                            test_set_take_num=500,
-                                           mnt=64,
+                                           mnt=256,
                                            base_model_name=base_model_name1,
                                            )
                     else:
