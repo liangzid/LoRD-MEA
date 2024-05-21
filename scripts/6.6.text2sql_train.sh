@@ -22,11 +22,11 @@ export POD_save_dir="${root_dir}/text2sql_ckpts/"
 export from_path="meta-llama/Meta-Llama-3-8B-Instruct"
 export TRAIN_NUMS=(64)
 # export TRAIN_NUMS=(64 128 256)
-# export train_times=(1 2 3 4 5)
-export train_times=(1)
+export train_times=(2 3 4 5)
+# export train_times=(1)
 export msl=1024
-# export task_ls=("wikisql" "spider")
-export task_ls=("wikisql")
+export task_ls=("wikisql" "spider")
+# export task_ls=("wikisql")
 export train_taskls=("vanilla" "LoRD-VI")
 # export train_taskls=("LoRD-VI" "vanilla")
 # export train_taskls=("vanilla")
@@ -112,7 +112,7 @@ done
 
 
 
-# $python ${root_dir}text2sql_process.py
+$python ${root_dir}text2sql_process.py
 
 
 echo "RUNNING 6.6.text2sql_train.sh DONE."
