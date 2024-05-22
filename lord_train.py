@@ -524,7 +524,7 @@ def setup_train_args():
                         required=False)
 
     parser.add_argument('--extra_nonlabel_data',
-                        default=1, type=int,
+                        default=0, type=int,
                         required=False)
     parser.add_argument('--nonlabel_data_num',
                         default=32, type=int,

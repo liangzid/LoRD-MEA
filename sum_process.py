@@ -152,7 +152,7 @@ def load_sum_datals(tokenizer,
             inp_ls.append(text)
     elif task_name == tasks_we_used[2]:
 
-        trainset_text = load_dataset(dataset_name,
+        trainset_text = load_dataset("knkarthick/samsum",
                                      split=f"train[:{train_num}]")
 
         for item in trainset_text:
@@ -239,7 +239,7 @@ def infer_sum(modelname, task_name, res_pth,
             inp_ls.append((text, summary))
     elif task_name == tasks_we_used[2]:
 
-        trainset_text = load_dataset("Samsung/samsum",
+        trainset_text = load_dataset("knkarthick/samsum",
                                      split=f"test")\
             .shuffle(20240307)\
             .to_iterable_dataset()\
