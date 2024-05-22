@@ -46,6 +46,7 @@ from transformers import AutoModelForCausalLM,AutoTokenizer
 from peft import PeftModel
 import torch
 from pprint import pprint
+import numpy as np
 
 def load_sum_nonlabel(tokenizer,
                       task_name="UCL-DARK/openai-tldr-filtered",
@@ -238,7 +239,7 @@ def infer_sum(modelname, task_name, res_pth,
             inp_ls.append((text, summary))
     elif task_name == tasks_we_used[2]:
 
-        trainset_text = load_dataset(task_name,
+        trainset_text = load_dataset("Samsung/samsum",
                                      split=f"test")\
             .shuffle(20240307)\
             .to_iterable_dataset()\
