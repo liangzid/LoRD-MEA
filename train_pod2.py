@@ -157,6 +157,7 @@ def train_pod(lm,
     # print(">>>> DATA PREPERATION")
     tau1 = args.tau1
     tau2 = args.tau2
+    tau_delta = args.tau_delta
     print(f" Tau1: {tau1}\t Tau2: {tau2}.")
     print(f"MAX NEW TOKENS: {max_new_tokens}.")
     # STEP 1: DATA Preperation.
@@ -307,8 +308,9 @@ def train_pod(lm,
                 # shape of gen idx: (2*chunked_size, msl)
                 bs, sqqql = idxs11.shape
                 # print(idxs1)
-                # print(f"idxs11 {lm_tokenizer.decode(idxs11[0])}")
-                # print(f"idxs12 {lm_tokenizer.decode(idxs12[0])}")
+                print("========================================")
+                print(f"idxs11 {lm_tokenizer.decode(idxs11[0])}")
+                print(f"idxs12 {lm_tokenizer.decode(idxs12[0])}")
 
                 old_logits11 = lm(idxs11[:, :-1]).logits
                 old_logits11 = F.log_softmax(old_logits11, dim=-1)
@@ -569,7 +571,7 @@ def train_pod(lm,
                 # print(torch.exp(P_theta_t_logits12))
 
                 delta11=p11-pp11ls[i]
-                delta12=p11-pp12ls[i]
+                delta12=p12-pp12ls[i]
 
                 print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
                 print(f"Old Confidence, 1: {pp11ls[i]}, 2: {pp12ls[i]}")
@@ -593,7 +595,7 @@ def train_pod(lm,
                     delta11=temppp
                 # if max(p11, p12) < tau1 or abs(p11-p12)<0.01:
                 # if delta11 < tau1:
-                if max(p11, p12) < tau1:
+                if max(p11, p12) < tau1 and delta11<tau_delta:
                     print("RED:->BUT still use the VIC's labels.")
                     # print(f"shape of 11: {p_i_11_ls.shape}")
                     # print(f"shape of 2: {idx2ls.shape}")

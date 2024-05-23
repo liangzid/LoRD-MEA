@@ -536,6 +536,8 @@ def setup_train_args():
 
     parser.add_argument('--tau1', default=0.99, type=float,
                         required=False)
+    parser.add_argument('--tau_delta', default=0.999, type=float,
+                        required=False)
     parser.add_argument('--tau2', default=0.998, type=float,
                         required=False)
     parser.add_argument('--LR', default=3e-4, type=float,

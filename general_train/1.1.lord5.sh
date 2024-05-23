@@ -17,7 +17,7 @@
 echo "HOME: ${HOME}"
 export python=${HOME}/anaconda3/envs/align/bin/python3
 # export CUDA_VISIBLE_DEVICES="0,1,2"
-export CUDA_VISIBLE_DEVICES="1"
+export CUDA_VISIBLE_DEVICES="0"
 export TORCH_USE_CUDA_DSA="1"
 export root_dir="${HOME}/alignmentExtraction/"
 export POD_save_dir="${root_dir}/general_train/ckpts/longtext/"
@@ -34,7 +34,8 @@ export task_ls=("liangzid/claude3_chat3.3k")
 # export train_taskls=("vanilla")
 # export train_taskls=("LoRD-II")
 # export train_taskls=("LoRD-V" "LoRD-VI")
-export train_taskls=("vanilla" "LoRD-VI")
+# export train_taskls=("vanilla" "LoRD-VI")
+export train_taskls=("LoRD-VI")
 
 export is_black_box=1
 export use_lora=1
@@ -48,7 +49,7 @@ export epoch=1
 export period=1
 export sub_set_num=1
 export sub_stage_num=6000
-export max_new_tokens=256
+export max_new_tokens=800
 export infer_batch_size=1
 export batch_size=1
 
@@ -60,8 +61,9 @@ export use_vic_logits=1
 export use_kld=0
 export use_entropy=0
 
-export tau1=0.75
+export tau1=0.5
 export tau2=0.8
+export tau_delta=-0.1
 export save_step=1000
 
 # export train_num=100
@@ -82,7 +84,8 @@ do
 		echo "====================================================="
 
 		# export save_path="${POD_save_dir}longtext${train_num}${train_time}${task}${train_task}${epoch}${period}${temperature}${batch_size}${max_new_tokens}${msl}"
-		export save_path="${POD_save_dir}longtext${train_num}${train_time}${task}${train_task}${epoch}${period}${temperature}${batch_size}${max_new_tokens}${msl}"
+		# export save_path="${POD_save_dir}longtext${train_num}${train_time}${task}${train_task}${epoch}${period}${temperature}${batch_size}${max_new_tokens}${msl}"
+		export save_path="${POD_save_dir}lordvi-explore"
 
 		$python ${root_dir}lord_train.py\
 		    --use_lora=$use_lora \
@@ -93,6 +96,7 @@ do
 		    --infer_batch_size=$infer_batch_size\
 		    --tau1=$tau1 \
 		    --tau2=$tau2 \
+		    --tau_delta=$tau_delta \
 		    --task=$train_task \
 		    --device="cuda" \
 		    --epoch=$epoch \
