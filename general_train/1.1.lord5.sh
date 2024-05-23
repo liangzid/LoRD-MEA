@@ -17,32 +17,24 @@
 echo "HOME: ${HOME}"
 export python=${HOME}/anaconda3/envs/align/bin/python3
 # export CUDA_VISIBLE_DEVICES="0,1,2"
-export CUDA_VISIBLE_DEVICES="0"
+export CUDA_VISIBLE_DEVICES="1"
 export TORCH_USE_CUDA_DSA="1"
 export root_dir="${HOME}/alignmentExtraction/"
-export POD_save_dir="${root_dir}/general_train/ckpts/boring_test/"
+export POD_save_dir="${root_dir}/general_train/ckpts/longtext/"
 export from_path="meta-llama/Meta-Llama-3-8B-Instruct"
-export TRAIN_NUMS=(240)
-export train_times=(1 2 3)
+export TRAIN_NUMS=(3000)
+export train_times=(1)
 
-export msl=256
-export task_ls=("liangzid/claude3_short256")
+# export msl=256
+# export task_ls=("liangzid/claude3_short256")
 
-# export msl=1024
-# export task_ls=("liangzid/claude3_chat3.3k")
+export msl=1024
+export task_ls=("liangzid/claude3_chat3.3k")
 
 # export train_taskls=("vanilla")
 # export train_taskls=("LoRD-II")
 # export train_taskls=("LoRD-V" "LoRD-VI")
-export train_taskls=("LoRD-VI" "vanilla")
-
-# ## ====================TO DEBUG====================
-# export epoch=1
-# export period=2
-# export beta=1.0
-# export temperature=2
-# export batch_size=1
-# ## ====================TO DEBUG====================
+export train_taskls=("vanilla" "LoRD-VI")
 
 export is_black_box=1
 export use_lora=1
@@ -55,7 +47,7 @@ export use_lora=1
 export epoch=1
 export period=1
 export sub_set_num=1
-export sub_stage_num=512
+export sub_stage_num=6000
 export max_new_tokens=256
 export infer_batch_size=1
 export batch_size=1
@@ -68,9 +60,9 @@ export use_vic_logits=1
 export use_kld=0
 export use_entropy=0
 
-export tau1=0.8
-export tau2=0.85
-export save_step=512
+export tau1=0.75
+export tau2=0.8
+export save_step=1000
 
 # export train_num=100
 
@@ -107,7 +99,6 @@ do
 		    --period_num=$period \
 		    --acc_step=1 \
 		    --log_step=50 \
-		    --save_step=100000 \
 		    --train_num=$train_num \
 		    --max_new_tokens=$max_new_tokens \
 		    --LR="3e-5" \

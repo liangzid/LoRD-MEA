@@ -144,3 +144,5 @@ if __name__=="__main__":
     # process_wmt_data2("./SUM-UCL_res5times.json")
     # process_wmt_data2("./wmt_0519_dataset_res/OverallScoresAveraged.json")
     process_wmt_data2("./d2t_0519_dataset_res/OverallScoresAveraged.json")
+    # process_wmt_data2("./text2sql_0519_dataset_res/OverallScoresAveraged.json")
+    # process_wmt_data2("./sum_0519_dataset_res/OverallScoresAveraged.json")
