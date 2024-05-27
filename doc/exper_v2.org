@@ -555,7 +555,6 @@ tau1=0.8
 |winogrande   |      1|none  |     0|acc     |0.7356|±  |0.0124|
 
 
-
 tau1=0.9
 
 |    Tasks    |Version|Filter|n-shot| Metric |Value |   |Stderr|
@@ -568,13 +567,17 @@ tau1=0.9
 |piqa         |      1|none  |     0|acc     |0.7938|±  |0.0094|
 |winogrande   |      1|none  |     0|acc     |0.7206|±  |0.0126|
 
-
-
-
 tau1=1.0
 
-
-
+|    Tasks    |Version|Filter|n-shot| Metric |Value |   |Stderr|
+|-------------|------:|------|-----:|--------|-----:|---|-----:|
+|arc_challenge|      1|none  |     0|acc     |0.5410|±  |0.0146|
+|arc_easy     |      1|none  |     0|acc     |0.8194|±  |0.0079|
+|boolq        |      2|none  |     0|acc     |0.8343|±  |0.0065|
+|hellaswag    |      1|none  |     0|acc     |0.5975|±  |0.0049|
+|openbookqa   |      1|none  |     0|acc     |0.3540|±  |0.0214|
+|piqa         |      1|none  |     0|acc     |0.7911|±  |0.0095|
+|winogrande   |      1|none  |     0|acc     |0.7214|±  |0.0126|
 
 
 ** Longtext

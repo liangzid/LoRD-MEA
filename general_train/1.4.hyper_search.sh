@@ -41,12 +41,12 @@ export use_lora=1
 # export period=3
 # export epoch=1
 # export period=5
-                    prefix = f"./text2sql_ckpts/text2sql---{task}{train_num}{itime}{m}_res.json"
 
 export epoch=1
 export period=1
 export sub_set_num=1
-export sub_stage_num=500
+# export sub_stage_num=500
+export sub_stage_num=1000
 export max_new_tokens=256
 export infer_batch_size=1
 export batch_size=1
@@ -64,8 +64,8 @@ export tau2=0.8
 export tau_delta=-0.1
 export save_step=100
 
-export tau1_ls=(0.8 0.9 1.0)
-# export tau2_ls=(0.3 0.4 0.5 0.6 0.7 0.8)
+export tau1_ls=(0.8)
+export tau2_ls=(0.8 0.85 0.9 0.95)
 export tau2_ls=(1.0)
 
 for tau1 in ${tau1_ls[*]}
