@@ -386,16 +386,17 @@ def eval_varying_train_num():
     mls = [
         # "vanilla",
         # "LoRD-VI",
-        "pretrained",
+        # "pretrained",
+        "gpt-3.5-turbo-1106",
         # "kd",
         ]
     # mls = ["vanilla", "kd", "google/gemma-2b", "Complex-lord",]
     train_times = [
         "1",
-        "2",
-        "3",
-        "4",
-        "5",
+        # "2",
+        # "3",
+        # "4",
+        # "5",
         ]
     train_nums = [
         "16",
@@ -426,6 +427,8 @@ def eval_varying_train_num():
                         )
                     elif m =="pretrained":
                         ckpt = f"./text2sql_ckpts/summ---{task}{train_num}{itime}{m}_res.json"
+                    elif m=="gpt-3.5-turbo-1106":
+                        ckpt=m
                     else:
                         ckpt = prefix + \
                             f"{task}{train_num}{itime}{m}___period512/"
