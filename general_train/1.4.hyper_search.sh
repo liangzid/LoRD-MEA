@@ -41,6 +41,7 @@ export use_lora=1
 # export period=3
 # export epoch=1
 # export period=5
+                    prefix = f"./text2sql_ckpts/text2sql---{task}{train_num}{itime}{m}_res.json"
 
 export epoch=1
 export period=1
