@@ -460,6 +460,161 @@ LoRD-VI with delta (tau1,tau2=0.8,0.85)
 
 
 
+** SHORT-TEXT (VARY HYPER-PARAMETER)
+
+baseline 1 Vanilla:
+
+|-------------|------:|------|-----:|--------|-----:|---|-----:|
+|    Tasks    |Version|Filter|n-shot| Metric |Value |   |Stderr|
+|-------------|------:|------|-----:|--------|-----:|---|-----:|
+|arc_challenge|      1|none  |     0|acc     |0.5290|±  |0.0146|
+|             |       |none  |     0|acc_norm|0.5674|±  |0.0145|
+|arc_easy     |      1|none  |     0|acc     |0.8144|±  |0.0080|
+|             |       |none  |     0|acc_norm|0.7955|±  |0.0083|
+|boolq        |      2|none  |     0|acc     |0.8312|±  |0.0066|
+|hellaswag    |      1|none  |     0|acc     |0.5771|±  |0.0049|
+|             |       |none  |     0|acc_norm|0.7581|±  |0.0043|
+|openbookqa   |      1|none  |     0|acc     |0.3380|±  |0.0212|
+|             |       |none  |     0|acc_norm|0.4280|±  |0.0221|
+|piqa         |      1|none  |     0|acc     |0.7862|±  |0.0096|
+|             |       |none  |     0|acc_norm|0.7867|±  |0.0096|
+|winogrande   |      1|none  |     0|acc     |0.7190|±  |0.0126|
+|-------------|------:|------|-----:|--------|-----:|---|-----:|
+
+
+baseline 2 Pre-trained:
+
+|    Tasks    |Version|Filter|n-shot| Metric |Value |   |Stderr|
+|-------------|------:|------|-----:|--------|-----:|---|-----:|
+|arc_challenge|      1|none  |     0|acc     |0.5299|±  |0.0146|
+|             |       |none  |     0|acc_norm|0.5683|±  |0.0145|
+|arc_easy     |      1|none  |     0|acc     |0.8152|±  |0.0080|
+|             |       |none  |     0|acc_norm|0.7967|±  |0.0083|
+|boolq        |      2|none  |     0|acc     |0.8303|±  |0.0066|
+|hellaswag    |      1|none  |     0|acc     |0.5775|±  |0.0049|
+|             |       |none  |     0|acc_norm|0.7574|±  |0.0043|
+|openbookqa   |      1|none  |     0|acc     |0.3400|±  |0.0212|
+|             |       |none  |     0|acc_norm|0.4280|±  |0.0221|
+|piqa         |      1|none  |     0|acc     |0.7867|±  |0.0096|
+|             |       |none  |     0|acc_norm|0.7856|±  |0.0096|
+|winogrande   |      1|none  |     0|acc     |0.7206|±  |0.0126|
+
+
+tau1=0.2
+
+| Tasks         | Version | Filter | n-shot | Metric   |  Value |   | Stderr |
+|---------------+---------+--------+--------+----------+--------+---+--------|
+| arc_challenge |       1 | none   |      0 | acc      | 0.5461 | ±  | 0.0145 |
+|               |         | none   |      0 | acc_norm | 0.5811 | ±  | 0.0144 |
+| arc_easy      |       1 | none   |      0 | acc      | 0.8194 | ±  | 0.0079 |
+|               |         | none   |      0 | acc_norm | 0.7967 | ±  | 0.0083 |
+| boolq         |       2 | none   |      0 | acc      | 0.8306 | ±  | 0.0066 |
+| hellaswag     |       1 | none   |      0 | acc      | 0.5935 | ±  | 0.0049 |
+|               |         | none   |      0 | acc_norm | 0.7949 | ±  | 0.0040 |
+| openbookqa    |       1 | none   |      0 | acc      | 0.3580 | ±  | 0.0215 |
+|               |         | none   |      0 | acc_norm | 0.4500 | ±  | 0.0223 |
+| piqa          |       1 | none   |      0 | acc      | 0.7922 | ±  | 0.0095 |
+|               |         | none   |      0 | acc_norm | 0.8003 | ±  | 0.0093 |
+| winogrande    |       1 | none   |      0 | acc      | 0.7167 | ±  | 0.0127 |
+
+
+tau1=0.3
+
+| Tasks         | Version | Filter | n-shot | Metric   |  Value |   | Stderr |
+|---------------+---------+--------+--------+----------+--------+---+--------|
+| arc_challenge |       1 | none   |      0 | acc      | 0.5495 | ±  | 0.0145 |
+|               |         | none   |      0 | acc_norm | 0.5862 | ±  | 0.0144 |
+| arc_easy      |       1 | none   |      0 | acc      | 0.8258 | ±  | 0.0078 |
+|               |         | none   |      0 | acc_norm | 0.8043 | ±  | 0.0081 |
+| boolq         |       2 | none   |      0 | acc      | 0.8343 | ±  | 0.0065 |
+| hellaswag     |       1 | none   |      0 | acc      | 0.5971 | ±  | 0.0049 |
+|               |         | none   |      0 | acc_norm | 0.7947 | ±  | 0.0040 |
+| openbookqa    |       1 | none   |      0 | acc      | 0.3520 | ±  | 0.0214 |
+|               |         | none   |      0 | acc_norm | 0.4440 | ±  | 0.0222 |
+| piqa          |       1 | none   |      0 | acc      | 0.7922 | ±  | 0.0095 |
+|               |         | none   |      0 | acc_norm | 0.7965 | ±  | 0.0094 |
+| winogrande    |       1 | none   |      0 | acc      | 0.7214 | ±  | 0.0126 |
+
+tau1=0.4
+
+| Tasks         | Version | Filter | n-shot | Metric   |  Value |   | Stderr |
+|---------------+---------+--------+--------+----------+--------+---+--------|
+| arc_challenge |       1 | none   |      0 | acc      | 0.5401 | ±  | 0.0146 |
+|               |         | none   |      0 | acc_norm | 0.5708 | ±  | 0.0145 |
+| arc_easy      |       1 | none   |      0 | acc      | 0.8165 | ±  | 0.0079 |
+|               |         | none   |      0 | acc_norm | 0.7950 | ±  | 0.0083 |
+| boolq         |       2 | none   |      0 | acc      | 0.8346 | ±  | 0.0065 |
+| hellaswag     |       1 | none   |      0 | acc      | 0.5959 | ±  | 0.0049 |
+|               |         | none   |      0 | acc_norm | 0.7943 | ±  | 0.0040 |
+| openbookqa    |       1 | none   |      0 | acc      | 0.3540 | ±  | 0.0214 |
+|               |         | none   |      0 | acc_norm | 0.4460 | ±  | 0.0223 |
+| piqa          |       1 | none   |      0 | acc      | 0.7900 | ±  | 0.0095 |
+|               |         | none   |      0 | acc_norm | 0.7954 | ±  | 0.0094 |
+| winogrande    |       1 | none   |      0 | acc      | 0.7293 | ±  | 0.0125 |
+
+
+tau1=0.5
+
+| Tasks         | Version | Filter | n-shot | Metric   |  Value |   | Stderr |
+|---------------+---------+--------+--------+----------+--------+---+--------|
+| arc_challenge |       1 | none   |      0 | acc      | 0.5418 | ±  | 0.0146 |
+|               |         | none   |      0 | acc_norm | 0.5734 | ±  | 0.0145 |
+| arc_easy      |       1 | none   |      0 | acc      | 0.8190 | ±  | 0.0079 |
+|               |         | none   |      0 | acc_norm | 0.7959 | ±  | 0.0083 |
+| boolq         |       2 | none   |      0 | acc      | 0.8352 | ±  | 0.0065 |
+| hellaswag     |       1 | none   |      0 | acc      | 0.5966 | ±  | 0.0049 |
+|               |         | none   |      0 | acc_norm | 0.7962 | ±  | 0.0040 |
+| openbookqa    |       1 | none   |      0 | acc      | 0.3580 | ±  | 0.0215 |
+|               |         | none   |      0 | acc_norm | 0.4440 | ±  | 0.0222 |
+| piqa          |       1 | none   |      0 | acc      | 0.7916 | ±  | 0.0095 |
+|               |         | none   |      0 | acc_norm | 0.7938 | ±  | 0.0094 |
+| winogrande    |       1 | none   |      0 | acc      | 0.7285 | ±  | 0.0125 |
+
+
+tau1=0.6
+
+| Tasks         | Version | Filter | n-shot | Metric   |  Value |   | Stderr |    |
+|---------------+---------+--------+--------+----------+--------+---+--------+----|
+| arc_challenge |       1 | none   |      0 | acc      | 0.5410 | ±  | 0.0146 |    |
+|               |         | none   |      0 | acc_norm | 0.5759 | ±  | 0.0144 |    |
+| arc_easy      |       1 | none   |      0 | acc      | 0.8165 | ±  | 0.0079 |    |
+|               |         | none   |      0 | acc_norm | 0.7938 | ±  | 0.0083 |    |
+| boolq         |       2 | none   |      0 | acc      | 0.8327 | ±  | 0.0065 |    |
+| hellaswag     |       1 | none   |      0 | acc      | 0.5981 | ±  | 0.0049 |    |
+|               |         | none   |      0 | acc_norm | 0.7960 | ±  | 0.0040 |    |
+| openbookqa    |       1 | none   |      0 | acc      | 0.3600 | ±  | 0.0215 |    |
+|               |         | none   |      0 | acc_norm | 0.4520 | ±  | 0.0223 |    |
+| piqa          |       1 | none   |      0 | acc      | 0.7905 | ±  | 0.0095 |    |
+|               |         | none   |      0 | acc_norm | 0.7971 | ±  | 0.0094 |    |
+| winogrande    |       1 | none   |      0 | acc      | 0.7238 | ±  | 0.0126 |  |
+
+
+tau1=0.7
+
+| Tasks         | Version | Filter | n-shot | Metric   |  Value |   | Stderr |
+|---------------+---------+--------+--------+----------+--------+---+--------|
+| arc_challenge |       1 | none   |      0 | acc      | 0.5503 | ±  | 0.0145 |
+|               |         | none   |      0 | acc_norm | 0.5776 | ±  | 0.0144 |
+| arc_easy      |       1 | none   |      0 | acc      | 0.8157 | ±  | 0.0080 |
+|               |         | none   |      0 | acc_norm | 0.7980 | ±  | 0.0082 |
+| boolq         |       2 | none   |      0 | acc      | 0.8358 | ±  | 0.0065 |
+| hellaswag     |       1 | none   |      0 | acc      | 0.5963 | ±  | 0.0049 |
+|               |         | none   |      0 | acc_norm | 0.7965 | ±  | 0.0040 |
+| openbookqa    |       1 | none   |      0 | acc      | 0.3540 | ±  | 0.0214 |
+|               |         | none   |      0 | acc_norm | 0.4540 | ±  | 0.0223 |
+| piqa          |       1 | none   |      0 | acc      | 0.7889 | ±  | 0.0095 |
+|               |         | none   |      0 | acc_norm | 0.7960 | ±  | 0.0094 |
+| winogrande |       1 | none   |      0 | acc      | 0.7301 | ±  | 0.0125 |
+
+
+
+
+
+
+
+
+
+
 ** Longtext
 
 *** Unknown old results.
@@ -845,7 +1000,6 @@ LoRD-VI (train-num 3000, max_new_tokens=256, N=1024, tau1=0.75, tau2=0.8)
 | - other          |N/A    |none  |     0|acc        | 0.7203|±  |0.0078|
 | - social_sciences|N/A    |none  |     0|acc        | 0.7361|±  |0.0078|
 | - stem           |N/A    |none  |     0|acc        | 0.5461|±  |0.0086|
-
 
 
 
