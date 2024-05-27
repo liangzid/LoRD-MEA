@@ -27,8 +27,8 @@ export save_dir="${root_dir}/general_train/ckpts/boring_test/"
 export from_path="meta-llama/Meta-Llama-3-8B-Instruct"
 
 
-# export qas=openbookqa,arc_easy,winogrande,hellaswag,arc_challenge,piqa,boolq
-export qas=arc,hellaswag,mmlu,truthfulqa,winogrande,gsm8k
+export qas=openbookqa,arc_easy,winogrande,hellaswag,arc_challenge,piqa,boolq
+# export qas=arc_challenge,hellaswag,mmlu,truthfulqa,winogrande,gsm8k
 # export qas=piqa
 export eval=${HOME}/anaconda3/envs/align/bin/lm_eval
 export pmp=meta-llama/Meta-Llama-3-8B-Instruct
@@ -42,21 +42,21 @@ export pmp=meta-llama/Meta-Llama-3-8B-Instruct
 
 # export fmp="${save_dir}longtext2491liangzid/claude3_short256Complex-lord1521256256___period2"
 
-## ------------------------------------------------------------------
-# Now for long text models
-export fmp="${root_dir}general_train/ckpts/longtext/longtext30001liangzid/claude3_chat3.3kvanilla11212561024___finally"
-# export fmp="${root_dir}general_train/ckpts/longtext/longtext30001liangzid/claude3_chat3.3kLoRD-VI11212561024___3000"
+# ## ------------------------------------------------------------------
+# # Now for long text models
+# export fmp="${root_dir}general_train/ckpts/longtext/longtext30001liangzid/claude3_chat3.3kvanilla11212561024___finally"
+# # export fmp="${root_dir}general_train/ckpts/longtext/longtext30001liangzid/claude3_chat3.3kLoRD-VI11212561024___3000"
 
-echo "================================================================"
-echo "EVALUATION MODEL: pretrained: ${pmp} lora: ${fmp}"
-echo "EVALUATION TASKS: ${qas}"
-echo "================================================================"
+# echo "================================================================"
+# echo "EVALUATION MODEL: pretrained: ${pmp} lora: ${fmp}"
+# echo "EVALUATION TASKS: ${qas}"
+# echo "================================================================"
 
-$eval --model hf \
-    --model_args pretrained=${pmp},parallelize=True,peft=${fmp}\
-    --tasks $qas\
-    --device cuda\
-    --batch_size auto:4
+# $eval --model hf \
+#     --model_args pretrained=${pmp},parallelize=True,peft=${fmp}\
+#     --tasks $qas\
+#     --device cuda\
+#     --batch_size auto:4
 
 
 # ## Vanilla LoRA TRAIN on LLAMA3 8B
@@ -75,12 +75,12 @@ $eval --model hf \
 #     --batch_size auto
 
 
-# # ORIGINAL LLAMA3 8B EVAL
-# $eval --model hf \
-#     --model_args pretrained=${pmp},parallelize=True\
-#     --tasks $qas\
-#     --device cuda\
-#     --batch_size auto
+# ORIGINAL LLAMA3 8B EVAL
+$eval --model hf \
+    --model_args pretrained=${pmp},parallelize=True\
+    --tasks $qas\
+    --device cuda\
+    --batch_size auto
 
 
 echo "RUNNING 2.1.evalutate_llms.sh DONE."

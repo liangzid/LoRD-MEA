@@ -14,7 +14,7 @@
 echo "HOME: ${HOME}"
 export python=${HOME}/anaconda3/envs/align/bin/python3
 # export CUDA_VISIBLE_DEVICES="0,1,2"
-export CUDA_VISIBLE_DEVICES="1"
+export CUDA_VISIBLE_DEVICES="0"
 export TORCH_USE_CUDA_DSA="1"
 export root_dir="${HOME}/alignmentExtraction/"
 export POD_save_dir="${root_dir}/general_train/ckpts/shorttext/"
@@ -63,7 +63,7 @@ export tau2=0.8
 export tau_delta=-0.1
 export save_step=100
 
-export tau1_ls=(0.2 0.3 0.4 0.5 0.6 0.7)
+export tau1_ls=(0.8 0.9 1.0)
 # export tau2_ls=(0.3 0.4 0.5 0.6 0.7 0.8)
 export tau2_ls=(1.0)
 
