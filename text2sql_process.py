@@ -218,7 +218,8 @@ def infer_t2s(modelname, task_name, res_pth,
             # trust_remote_code=True,
             torch_dtype=torch.bfloat16,
         )
-        model = PeftModel.from_pretrained(model, modelname)
+        if modelname is not None:
+            model = PeftModel.from_pretrained(model, modelname)
         tokenizer = AutoTokenizer\
             .from_pretrained(base_model_name)
         tokenizer.pad_token = tokenizer.eos_token
@@ -266,8 +267,9 @@ def eval_varying_train_num():
         "spider",
         ]
     mls = [
-        "vanilla",
-        "LoRD-VI",
+        # "vanilla",
+        # "LoRD-VI",
+        "pretrained",
         # "kd",
         ]
     # mls = ["vanilla", "kd", "google/gemma-2b", "Complex-lord",]
@@ -305,6 +307,8 @@ def eval_varying_train_num():
                             prefix
                             + f"{task}{train_num}{itime}{m}___finally/"
                         )
+                    elif m =="pretrained":
+                        ckpt = f"./text2sql_ckpts/text2sql---{task}{train_num}{itime}{m}_res.json"
                     else:
                         ckpt = prefix + \
                             f"{task}{train_num}{itime}{m}___period512/"
@@ -312,13 +316,22 @@ def eval_varying_train_num():
                     res_pth = res_pth.replace("/", "__").replace(".", "")
 
                     if not os.path.exists(dir_p+res_pth):
-                        res_ls = infer_t2s(ckpt,
+                        if m=="pretrained":
+                            res_ls = infer_t2s(None,
                                            task,
                                            dir_p+res_pth,
                                            test_set_take_num=500,
                                            mnt=64,
                                            base_model_name=base_model_name1,
                                            )
+                        else:
+                            res_ls = infer_t2s(ckpt,
+                                            task,
+                                            dir_p+res_pth,
+                                            test_set_take_num=500,
+                                            mnt=64,
+                                            base_model_name=base_model_name1,
+                                            )
                     else:
                         # from collections import OrderedDict
                         with open(dir_p+res_pth, 'r', encoding='utf8') as f:
