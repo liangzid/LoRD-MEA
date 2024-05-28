@@ -66,7 +66,7 @@ export save_step=100
 
 export tau1_ls=(0.8)
 export tau2_ls=(0.8 0.85 0.9 0.95)
-export tau2_ls=(1.0)
+# export tau2_ls=(1.0)
 
 for tau1 in ${tau1_ls[*]}
 do

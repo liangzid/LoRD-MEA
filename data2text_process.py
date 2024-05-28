@@ -18,7 +18,7 @@ if __name__ == "__main__":
     # os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,6,7"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "6,7"
-    os.environ["CUDA_VISIBLE_DEVICES"] = "2"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "1"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5"
     os.environ["TORCH_USE_CUDA_DSA"]="1"
 from datasets import load_dataset
@@ -240,28 +240,28 @@ def infer_d2t(modelname, task_name, res_pth,
 
 def eval_varying_train_num():
     taskls = [
-        "e2e_nlg",
+        # "e2e_nlg",
         "allenai/common_gen",
         ]
     mls = [
-        # "vanilla",
-        # "LoRD-VI",
+        "vanilla",
+        "LoRD-VI",
         # "pretrained",
-        "gpt-3.5-turbo-1106",
+        # "gpt-3.5-turbo-1106",
         # "kd",
         ]
     # mls = ["vanilla", "kd", "google/gemma-2b", "Complex-lord",]
     train_times = [
         "1",
-        # "2",
-        # "3",
-        # "4",
-        # "5",
+        "2",
+        "3",
+        "4",
+        "5",
         ]
     train_nums = [
-        "8",
+        # "8",
         # "16",
-        # "64",
+        "64",
         # "128",
         # "256",
         # "512",
