@@ -27,22 +27,25 @@ export save_dir="${root_dir}/general_train/ckpts/boring_test/"
 export from_path="meta-llama/Meta-Llama-3-8B-Instruct"
 
 
-export qas=openbookqa,arc_easy,winogrande,hellaswag,arc_challenge,piqa,boolq
+# export qas=openbookqa,arc_easy,winogrande,hellaswag,arc_challenge,piqa,boolq
 # export qas=arc_challenge,hellaswag,mmlu,truthfulqa,winogrande,gsm8k
+export qas=arc_challenge,hellaswag,winogrande,gsm8k
 # export qas=piqa
 export eval=${HOME}/anaconda3/envs/align/bin/lm_eval
 export pmp=meta-llama/Meta-Llama-3-8B-Instruct
 
-## LoRD-II Inference.
-# export task_ls=("liangzid/claude3_short256")
-# export train_taskls=("LoRD-II" "LoRD-IV")
-# export m="LoRD-II"
-# export fmp="${save_dir}longtext2401liangzid/claude3_short256LoRD-VI1121256256___period512/"
-# export fmp="${save_dir}longtext30001liangzid/claude3_chat3.3kLoRD-VI11218001024___period500/"
+# LoRD-VI Inference.
+export task_ls=("liangzid/claude3_short256")
 
-# export fmp="${save_dir}longtext2491liangzid/claude3_short256Complex-lord1521256256___period2"
+export fmp="${root_dir}general_train/ckpts/shorttext/lordvi-explore0.80.9___period300"
 
-# ## ------------------------------------------------------------------
+$eval --model hf \
+    --model_args pretrained=${pmp},parallelize=True,peft=${fmp}\
+    --tasks $qas\
+    --device cuda\
+    --batch_size auto:4
+
+# ------------------------------------------------------------------
 # # Now for long text models
 # export fmp="${root_dir}general_train/ckpts/longtext/longtext30001liangzid/claude3_chat3.3kvanilla11212561024___finally"
 # # export fmp="${root_dir}general_train/ckpts/longtext/longtext30001liangzid/claude3_chat3.3kLoRD-VI11212561024___3000"
@@ -75,12 +78,12 @@ export pmp=meta-llama/Meta-Llama-3-8B-Instruct
 #     --batch_size auto
 
 
-# ORIGINAL LLAMA3 8B EVAL
-$eval --model hf \
-    --model_args pretrained=${pmp},parallelize=True\
-    --tasks $qas\
-    --device cuda\
-    --batch_size auto
+# # ORIGINAL LLAMA3 8B EVAL
+# $eval --model hf \
+#     --model_args pretrained=${pmp},parallelize=True\
+#     --tasks $qas\
+#     --device cuda\
+#     --batch_size auto
 
 
 echo "RUNNING 2.1.evalutate_llms.sh DONE."

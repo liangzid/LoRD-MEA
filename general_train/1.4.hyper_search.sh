@@ -61,12 +61,12 @@ export use_entropy=0
 
 export tau1=0.5
 export tau2=0.8
-export tau_delta=-0.1
+export tau_delta=0.999
 export save_step=100
 
-export tau1_ls=(0.8)
-export tau2_ls=(0.8 0.85 0.9 0.95)
-# export tau2_ls=(1.0)
+export tau1_ls=(0.6 0.7 0.8 0.9)
+# export tau2_ls=(0.8 0.85 0.9 0.95)
+export tau2_ls=(1.0)
 
 for tau1 in ${tau1_ls[*]}
 do
@@ -123,7 +123,8 @@ do
 		echo "DONE FOR ONE TRAIN NUMBERS...."
 
 
-export qas=openbookqa,arc_easy,winogrande,hellaswag,arc_challenge,piqa,boolq
+# export qas=openbookqa,arc_easy,winogrande,hellaswag,arc_challenge,piqa,boolq
+export qas=arc_challenge,hellaswag,mmlu,truthfulqa,winogrande,gsm8k
 export eval=${HOME}/anaconda3/envs/align/bin/lm_eval
 export pmp=meta-llama/Meta-Llama-3-8B-Instruct
 export fmp="${save_path}___period500"
