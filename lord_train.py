@@ -546,6 +546,8 @@ def setup_train_args():
                         required=False)
     parser.add_argument('--temperature', default=0.8, type=float,
                         required=False)
+    parser.add_argument('--T', default=1.0, type=float,
+                        required=False)
 
     parser.add_argument('--use_lora', default=0, type=int,
                         required=False)
@@ -909,6 +911,16 @@ def main():
             )
         elif args.task=="LoRD-VI":
             print("TRAIN WITH LORD-VI!!!")
+            from train_pod2 import train
+            train(
+                lm,
+                lm_tokenizer,
+                args,
+                raw_train_datals,
+                max_new_tokens=args.max_new_tokens,
+            )
+        elif args.task=="LoRD-VII":
+            print("TRAIN WITH LORD-VII!!!")
             from train_pod2 import train
             train(
                 lm,

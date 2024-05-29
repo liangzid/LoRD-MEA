@@ -769,17 +769,49 @@ TRAIN STEP 300:
 
 tau1=0.8, tau2=1.0 is acceptable.
 
+
 ** SHORT-TEXT: ON NEW DATASET
+*** DONE pretrained
+CLOSED: [2024-05-29 Wed 10:50]
+
+| Tasks      | Version | Filter           | n-shot | Metric      |  Value |   | Stderr |
+|------------+---------+------------------+--------+-------------+--------+---+--------|
+| winogrande |       1 | none             |      0 | acc         | 0.7190 | ±  | 0.0126 |
+| hellaswag  |       1 | none             |      0 | acc         | 0.5771 | ±  | 0.0049 |
+|            |         | none             |      0 | acc_norm    | 0.7581 | ±  | 0.0043 |
+| gsm8k      |       3 | strict-match     |      5 | exact_match | 0.7597 | ±  | 0.0118 |
+|            |         | flexible-extract |      5 | exact_match | 0.7574 | ±  | 0.0118 |
+| arc_easy   |       1 | none             |      0 | acc         | 0.8144 | ±  | 0.0080 |
+|            |         | none             |      0 | acc_norm    | 0.7955 | ±  | 0.0083 |
+
+*** DONE vanilla
+CLOSED: [2024-05-29 Wed 10:50]
+
+|    Tasks    |Version|     Filter     |n-shot|  Metric   |Value |   |Stderr|
+|-------------|------:|----------------|-----:|-----------|-----:|---|-----:|
+|arc_challenge|      1|none            |     0|acc        |0.5486|±  |0.0145|
+|             |       |none            |     0|acc_norm   |0.5887|±  |0.0144|
+|gsm8k        |      3|strict-match    |     5|exact_match|0.7521|±  |0.0119|
+|             |       |flexible-extract|     5|exact_match|0.7544|±  |0.0119|
+|hellaswag    |      1|none            |     0|acc        |0.5993|±  |0.0049|
+|             |       |none            |     0|acc_norm   |0.7970|±  |0.0040|
+|winogrande   |      1|none            |     0|acc        |0.7332|±  |0.0124|
+
+*** DONE [DEPERATED] OURS: old long result: LoRD-VI (train-num 3000, max_new_tokens=256, N=1024, tau1=0.75, tau2=0.8)
+CLOSED: [2024-05-29 Wed 10:50]
+
+| Tasks      | Version | Filter           | n-shot | Metric      |  Value |   | Stderr |
+|------------+---------+------------------+--------+-------------+--------+---+--------|
+| winogrande |       1 | none             |      0 | acc         | 0.7332 | ±  | 0.0124 |
+| hellaswag  |       1 | none             |      0 | acc         | 0.5970 | ±  | 0.0049 |
+|            |         | none             |      0 | acc_norm    | 0.7966 | ±  | 0.0040 |
+| gsm8k      |       3 | strict-match     |      5 | exact_match | 0.7415 | ±  | 0.0121 |
+|            |         | flexible-extract |      5 | exact_match | 0.7415 | ±  | 0.0121 |
+| arc_easy   |       1 | none             |      0 | acc         | 0.8152 | ±  | 0.0080 |
+|            |         | none             |      0 | acc_norm    | 0.7925 | ±  | 0.0083 |
 
 
-
-
-
-
-
-
-
-
+*** INPROGRESS LoRD-VI \tau_1=0.8,\tau_2=0.9
 
 ** Longtext
 

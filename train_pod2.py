@@ -279,7 +279,7 @@ def train_pod(lm,
                     max_length=args.max_length,
                     max_new_tokens=max_new_tokens,
                     num_return_sequences=2,
-                    temperature=1,
+                    temperature=args.T,
                     top_p=0.98,
                     use_cache=True,
                     )
@@ -854,6 +854,19 @@ def one_period(args, lm,
                     -1*log_clip(torch.mean(logits11-logits12))
                 # loss = \
                     # -1*log_clip(torch.mean(logits11-logits12))
+                print(f"TERM1: {term1}\nTERM2: {term2}\nTERM3: {term3}\n")
+                print(f"LOSS: {loss}\n\n")
+            elif method == "LoRD-VII":
+                if args.is_black_box == 0:
+                    term3 = \
+                        (vic_logits2[:, :, 0]-logits2_cons)
+                else:
+                    # term3 = old_logits2 - logits2_cons
+                    term3 = - logits2_cons
+                term3 = torch.mean(log_clip(term3))
+
+                loss = -1*torch.mean(logits2_cons)\
+                    -1*(torch.mean(logits11-logits12))
                 print(f"TERM1: {term1}\nTERM2: {term2}\nTERM3: {term3}\n")
                 print(f"LOSS: {loss}\n\n")
             else:

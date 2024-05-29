@@ -37,7 +37,8 @@ export pmp=meta-llama/Meta-Llama-3-8B-Instruct
 # LoRD-VI Inference.
 export task_ls=("liangzid/claude3_short256")
 
-export fmp="${root_dir}general_train/ckpts/shorttext/lordvi-explore0.80.9___period300"
+# export fmp="${root_dir}general_train/ckpts/shorttext/lordvi-explore0.80.9___period300"
+export fmp=${save_dir}longtext2491liangzid/claude3_short256vanilla2121256256___finally
 
 $eval --model hf \
     --model_args pretrained=${pmp},parallelize=True,peft=${fmp}\

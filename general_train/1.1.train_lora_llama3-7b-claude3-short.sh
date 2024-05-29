@@ -15,7 +15,7 @@ echo "HOME: ${HOME}"
 export python=${HOME}/anaconda3/envs/align/bin/python3
 # export CUDA_VISIBLE_DEVICES="0,1,2,3"
 # export CUDA_VISIBLE_DEVICES="0,1,2"
-export CUDA_VISIBLE_DEVICES="1"
+export CUDA_VISIBLE_DEVICES="0"
 export root_dir="${HOME}/alignmentExtraction/"
 export POD_save_dir="${root_dir}/general_train/ckpts/boring_test/"
 export from_path="meta-llama/Meta-Llama-3-8B-Instruct"
@@ -25,8 +25,10 @@ export msl=256
 export task_ls=("liangzid/claude3_short256")
 # export msl=2048
 # export task_ls=("liangzid/claude3_chat3.3k")
-export train_taskls=("vanilla")
-# export train_taskls=("LoRD-II")
+# export train_taskls=("vanilla")
+# export epoch=2
+export train_taskls=("LoRD-VII")
+export epoch=1
 # export train_taskls=("LoRD-II")
 
 # ## ====================TO DEBUG====================
@@ -45,24 +47,25 @@ export use_lora=1
 # export epoch=1
 # export period=5
 
-export epoch=2
 export period=1
-export sub_set_num=128
-export sub_stage_num=15
+export sub_set_num=1
+export sub_stage_num=500
 export max_new_tokens=256
-export infer_batch_size=8
+export infer_batch_size=1
 export batch_size=1
 
 export beta=1.0
-export temperature=2
 
 export use_old_logits=1
 export use_vic_logits=1
 export use_kld=0
 export use_entropy=0
 
-export tau1=0.02
-export tau2=0.00
+export tau1=0.8
+export tau2=0.9
+export tau_delta=-0.1
+export save_step=100
+export temperature=0.5
 
 # export train_num=100
 
@@ -81,7 +84,7 @@ do
 		echo "+++++++train_task: ${train_task}+++++++"
 		echo "====================================================="
 
-		export save_path="${POD_save_dir}longtext${train_num}${train_time}${task}${train_task}${epoch}${period}${temperature}${batch_size}${max_new_tokens}${msl}"
+		export save_path="${POD_save_dir}NewTemperatureNewLoss"
 
 		$python ${root_dir}lord_train.py\
 		    --use_lora=$use_lora \
@@ -90,6 +93,7 @@ do
 		    --sub_set_num=$sub_set_num \
 		    --sub_stage_num=$sub_stage_num\
 		    --infer_batch_size=$infer_batch_size\
+		    --T=$temperature\
 		    --tau1=$tau1 \
 		    --tau2=$tau2 \
 		    --task=$train_task \
@@ -112,7 +116,8 @@ do
 		    --save_path=$save_path
 		echo "DONE FOR ONE TRAIN NUMBERS...."
 
-export qas=openbookqa,arc_easy,winogrande,hellaswag,arc_challenge,piqa,boolq
+# export qas=openbookqa,arc_easy,winogrande,hellaswag,arc_challenge,piqa,boolq
+export qas=arc_challenge,hellaswag,winogrande,gsm8k
 export eval=${HOME}/anaconda3/envs/align/bin/lm_eval
 export pmp=meta-llama/Meta-Llama-3-8B-Instruct
 export fmp="${save_path}___finally"

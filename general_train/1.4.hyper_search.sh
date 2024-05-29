@@ -52,7 +52,7 @@ export infer_batch_size=1
 export batch_size=1
 
 export beta=1.0
-export temperature=2
+export temperature=1
 
 export use_old_logits=1
 export use_vic_logits=1
@@ -61,7 +61,7 @@ export use_entropy=0
 
 export tau1=0.5
 export tau2=0.8
-export tau_delta=0.999
+export tau_delta=-0.1
 export save_step=100
 
 export tau1_ls=(0.6 0.7 0.8 0.9)
