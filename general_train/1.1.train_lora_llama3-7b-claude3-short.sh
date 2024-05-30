@@ -15,7 +15,7 @@ echo "HOME: ${HOME}"
 export python=${HOME}/anaconda3/envs/align/bin/python3
 # export CUDA_VISIBLE_DEVICES="0,1,2,3"
 # export CUDA_VISIBLE_DEVICES="0,1,2"
-export CUDA_VISIBLE_DEVICES="0"
+export CUDA_VISIBLE_DEVICES="1"
 export root_dir="${HOME}/alignmentExtraction/"
 export POD_save_dir="${root_dir}/general_train/ckpts/boring_test/"
 export from_path="meta-llama/Meta-Llama-3-8B-Instruct"
@@ -50,7 +50,7 @@ export use_lora=1
 export period=1
 export sub_set_num=1
 export sub_stage_num=500
-export max_new_tokens=256
+export max_new_tokens=500
 export infer_batch_size=1
 export batch_size=1
 
@@ -65,7 +65,7 @@ export tau1=0.8
 export tau2=0.9
 export tau_delta=-0.1
 export save_step=100
-export temperature=0.5
+export temperature=0.8
 
 # export train_num=100
 
@@ -101,6 +101,7 @@ do
 		    --epoch=$epoch \
 		    --period_num=$period \
 		    --acc_step=1 \
+		    --save_step=$save_step \
 		    --log_step=50 \
 		    --train_num=$train_num \
 		    --max_new_tokens=$max_new_tokens \
@@ -117,10 +118,11 @@ do
 		echo "DONE FOR ONE TRAIN NUMBERS...."
 
 # export qas=openbookqa,arc_easy,winogrande,hellaswag,arc_challenge,piqa,boolq
-export qas=arc_challenge,hellaswag,winogrande,gsm8k
+# export qas=arc_challenge,hellaswag,winogrande,gsm8k
+export qas=arc_challenge,hellaswag,winogrande
 export eval=${HOME}/anaconda3/envs/align/bin/lm_eval
 export pmp=meta-llama/Meta-Llama-3-8B-Instruct
-export fmp="${save_path}___finally"
+export fmp="${save_path}___period500"
 
 echo "================================================================"
 echo "EVALUATION MODEL: pretrained: ${pmp} lora: ${fmp}"

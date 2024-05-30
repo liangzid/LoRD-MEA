@@ -813,6 +813,27 @@ CLOSED: [2024-05-29 Wed 10:50]
 
 *** INPROGRESS LoRD-VI \tau_1=0.8,\tau_2=0.9
 
+|    Tasks    |Version|     Filter     |n-shot|  Metric   |Value |   |Stderr|
+|-------------|------:|----------------|-----:|-----------|-----:|---|-----:|
+|arc_challenge|      1|none            |     0|acc        |0.5392|±  |0.0146|
+|             |       |none            |     0|acc_norm   |0.5759|±  |0.0144|
+|gsm8k        |      3|strict-match    |     5|exact_match|0.7392|±  |0.0121|
+|             |       |flexible-extract|     5|exact_match|0.7392|±  |0.0121|
+|hellaswag    |      1|none            |     0|acc        |0.5953|±  |0.0049|
+|             |       |none            |     0|acc_norm   |0.7935|±  |0.0040|
+|winogrande   |      1|none            |     0|acc        |0.7309|±  |0.0125|
+
+
+longer sequence length: No influence.
+
+|    Tasks    |Version|Filter|n-shot| Metric |Value |   |Stderr|
+|-------------|------:|------|-----:|--------|-----:|---|-----:|
+|arc_challenge|      1|none  |     0|acc     |0.5427|±  |0.0146|
+|             |       |none  |     0|acc_norm|0.5819|±  |0.0144|
+|hellaswag    |      1|none  |     0|acc     |0.5981|±  |0.0049|
+|             |       |none  |     0|acc_norm|0.7961|±  |0.0040|
+|winogrande   |      1|none  |     0|acc     |0.7277|±  |0.0125|
+
 ** Longtext
 
 *** Unknown old results.

@@ -20,7 +20,7 @@ export python=${HOME}/anaconda3/envs/align/bin/python3
 # export CUDA_VISIBLE_DEVICES="4,5"
 # export CUDA_VISIBLE_DEVICES="6,7"
 export PYTORCH_CUDA_ALLOC_CONF="expandable_segments:True"
-export CUDA_VISIBLE_DEVICES="1"
+export CUDA_VISIBLE_DEVICES="0"
 export TORCH_USE_CUDA_DSA="1"
 export root_dir="${HOME}/alignmentExtraction/"
 export save_dir="${root_dir}/general_train/ckpts/boring_test/"
@@ -38,7 +38,8 @@ export pmp=meta-llama/Meta-Llama-3-8B-Instruct
 export task_ls=("liangzid/claude3_short256")
 
 # export fmp="${root_dir}general_train/ckpts/shorttext/lordvi-explore0.80.9___period300"
-export fmp=${save_dir}longtext2491liangzid/claude3_short256vanilla2121256256___finally
+# export fmp=${save_dir}longtext2491liangzid/claude3_short256vanilla2121256256___finally
+export fmp="${save_dir}NewTemperatureNewLoss___period100"
 
 $eval --model hf \
     --model_args pretrained=${pmp},parallelize=True,peft=${fmp}\
