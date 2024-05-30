@@ -273,28 +273,28 @@ def train_pod(lm,
                     prompt=prompt.to(args.device)
 
                 print(f"prompt.shape: {prompt.shape}")
-                # gen_idx=lm.generate(
-                #     prompt,
-                #     do_sample=True,
-                #     max_length=args.max_length,
-                #     max_new_tokens=max_new_tokens,
-                #     num_return_sequences=2,
-                #     temperature=args.T,
-                #     top_p=0.98,
-                #     use_cache=True,
-                #     )
-
                 gen_idx=lm.generate(
                     prompt,
-                    do_sample=False,
-                    num_beams=2,
-                    num_beam_groups=2,
-                    diversity_penalty=3.3,
-                    num_return_sequences=2,
+                    do_sample=True,
                     max_length=args.max_length,
                     max_new_tokens=max_new_tokens,
+                    num_return_sequences=2,
+                    temperature=args.T,
+                    top_p=0.98,
                     use_cache=True,
                     )
+
+                # gen_idx=lm.generate(
+                #     prompt,
+                #     do_sample=False,
+                #     num_beams=2,
+                #     num_beam_groups=2,
+                #     diversity_penalty=3.3,
+                #     num_return_sequences=2,
+                #     max_length=args.max_length,
+                #     max_new_tokens=max_new_tokens,
+                #     use_cache=True,
+                #     )
 
                 # 2. extract idx12 and idx11 from gen_idx
                 idxs11=gen_idx[0::2,:]
