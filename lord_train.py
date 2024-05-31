@@ -662,6 +662,7 @@ def main():
     tasks_general = [
         "liangzid/claude3_chat3.3k",
         "liangzid/claude3_short256",
+        "teknium/GPT4-LLM-Cleaned",
     ]
 
     tasks_supported = tasks_glue.copy()

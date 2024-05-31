@@ -141,10 +141,28 @@ def general_load_data(
     topk=1,
     dataset_name="liangzid/claude3_chat3.3k",
         ):
-    ips,ots=loading_data(dataset_name)
+    if dataset_name=="teknium/GPT4-LLM-Cleaned":
+        dataset=load_dataset(dataset_name, split="train")
+        inpsls=[]
+        outls=[]
+        # print(dataset)
+        for item in tqdm(dataset):
+            # print(f"ITEM: {item}")
+            inp = item["instruction"]
+            inp1=item["input"]
+            out = item["output"]
+            if inp1=="":
+                print("find it! get validated...")
+            inpsls.append(inp+" "+inp1)
+            outls.append(out)
+        print(f"total length: {len(inpsls)}")
+        ips,ots=inpsls,outls
+    else:
+        ips,ots=loading_data(dataset_name)
     return data_format_transform(ips,ots,tokenizer,
                                  train_num,max_length,
                                  topk=topk)
+
 
 ## running entry
 if __name__=="__main__":
