@@ -12,13 +12,20 @@ Generate watermarks from the victim model.
 
 
 # ------------------------ Code --------------------------------------
+import os
+if __name__ == "__main__":
+    os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+    os.environ["TORCH_USE_CUDA_DSA"]="1"
 
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import pickle
 import torch.nn.functional as F
 
+import sys
+sys.path.append("/home/zi/alignmentExtraction/watermark")
 from extended_watermark_processor import WatermarkLogitsProcessor
+from transformers import LogitsProcessorList
 
 
 def wrmk_gen(tokenizer, model, input_text,):
@@ -53,7 +60,7 @@ def wrmk_gen(tokenizer, model, input_text,):
                                          skip_special_tokens=True)[0]
     return output_text
 
-def wrmk_gen(model, input_idx,):
+def wrmk_gen2(model, tokenizer, input_idx,):
     """
     input_idx: shape[1, MSL_INPUT]
     generated_idx: shape[1, MSL]
@@ -72,6 +79,8 @@ def wrmk_gen(model, input_idx,):
     # and thus the watermarking rng is cuda-based.
     # This is a different generator than the cpu-based rng in pytorch!
 
+
+    input_idx=input_idx.unsqueeze(0).to("cuda")
     output_tokens = model.generate(
         input_idx,
         logits_processor=LogitsProcessorList(
@@ -102,7 +111,7 @@ def commonly_used_wrmk_post_process(
     model=AutoModelForCausalLM.from_pretrained(
         victim,
         device_map="auto",
-        torch.dtype=torch.bfloat16,
+        torch_dtype=torch.bfloat16,
         )
     tokenizer=lm_tokenizer
 
@@ -113,8 +122,9 @@ def commonly_used_wrmk_post_process(
         probsls = []
 
         for i_for, inp in enumerate(inp_ls):
-            generated_tokens,logits=wrmk_gen(
+            generated_tokens,logits=wrmk_gen2(
                 model,
+                tokenizer,
                 p_idxls[i_for],
                 )
             text2ls.append(generated_tokens.squeeze(0).to("cpu"))

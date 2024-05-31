@@ -13,7 +13,17 @@ Detect whether a watermark is contained in a given text.
 
 # ------------------------ Code --------------------------------------
 
+import os
+if __name__ == "__main__":
+    os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+    os.environ["TORCH_USE_CUDA_DSA"]="1"
 from extended_watermark_processor import WatermarkDetector
+from transformers import AutoTokenizer
+
+import sys
+sys.path.append("/home/zi/alignmentExtraction")
+sys.path.append("/home/zi/alignmentExtraction/watermark")
+from data2text_process import infer_d2t, eval_d2ttt
 
 def wrmk_dtct(output_text,
               tokenizer,

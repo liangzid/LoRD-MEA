@@ -649,8 +649,8 @@ def main():
     ]
 
     tasks_data2text_wrmk=[
-        "e2e_nlg`wrmk",
-        "allenai/common_gen`wrmk",
+        "e2e_nlg@wrmk",
+        "allenai/common_gen@wrmk",
         ]
 
     tasks_sum = [
@@ -780,6 +780,7 @@ def main():
         elif args.dataset_task in tasks_data2text_wrmk:
             print(f"RUN wmt task: {args.dataset_task}")
             from data2text_process import load_data2text_datals
+            args.dataset_task=args.dataset_task.split("@")[0]
             raw_train_datals = load_data2text_datals(
                 tokenizer,
                 task_name=args.dataset_task,
