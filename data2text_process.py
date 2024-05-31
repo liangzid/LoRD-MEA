@@ -32,6 +32,8 @@ from gen_pipeline_open import InferObj
 from wmt_process import commonly_used_openai_post_process
 from wmt_process import eval_wmt as eval_d2ttt
 
+from watermark.llama3_watermark_gen import commonly_used_wrmk_post_process
+
 from transformers import AutoModelForCausalLM,AutoTokenizer
 from peft import PeftModel
 import torch
@@ -43,7 +45,8 @@ def load_data2text_datals(tokenizer,
                           model_name="gpt-3.5-turbo-1106",
                           topk=5,
                           max_length=512,
-                          openai_tmp_save_pth="./STEALED_PKLS/wmt_data_saveto_"):
+                          use_local_model_with_wrmk=None,
+                          openai_tmp_save_pth="./STEALED_PKLS/wmt_data_saveto_",):
 
     lm_tokenizer = tokenizer
 
@@ -89,19 +92,33 @@ def load_data2text_datals(tokenizer,
     for p in prompts:
         p_idxls.append(lm_tokenizer(p, return_tensors="pt").input_ids[0])
 
-    openai_tmp_save_pth += f"Data2Ttask_{task_name}-trainNUM_{train_num}.pkl"
 
-    return commonly_used_openai_post_process(
-        openai_tmp_save_pth,
-        inp_ls,
-        pp,
-        model_name,
-        topk,
-        max_length,
-        p_idxls,
-        V,
-        lm_tokenizer,
-    )
+    if use_local_model_with_wrmk is None:
+        openai_tmp_save_pth += f"Data2Ttask_{task_name}-trainNUM_{train_num}.pkl"
+        return commonly_used_openai_post_process(
+            openai_tmp_save_pth,
+            inp_ls,
+            pp,
+            model_name,
+            topk,
+            max_length,
+            p_idxls,
+            V,
+            lm_tokenizer,
+        )
+    else:
+        openai_tmp_save_pth += f"WaterMark-----Data2Ttask_{task_name}-trainNUM_{train_num}.pkl"
+        return commonly_used_wrmk_post_process(
+            openai_tmp_save_pth,
+            inp_ls,
+            pp,
+            model_name,
+            topk,
+            max_length,
+            p_idxls,
+            V,
+            lm_tokenizer,
+        )
 
 
 def infer_d2t(modelname, task_name, res_pth,

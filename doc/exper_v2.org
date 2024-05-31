@@ -1245,6 +1245,8 @@ LoRD-VI (train-num 3000, max_new_tokens=256, N=1024, tau1=0.75, tau2=0.8)
 | - other          |N/A    |none  |     0|acc        | 0.7203|±  |0.0078|
 | - social_sciences|N/A    |none  |     0|acc        | 0.7361|±  |0.0078|
 | - stem           |N/A    |none  |     0|acc        | 0.5461|±  |0.0086|
+
+
 ** GPT-4 cleaned
 
 lord-vi
@@ -1257,10 +1259,20 @@ lord-vi
 |             |       |none  |     0|acc_norm|0.7690|±  |0.0042|
 |winogrande   |      1|none  |     0|acc     |0.7309|±  |0.0125|
 
+vanilla
+
+|    Tasks    |Version|Filter|n-shot| Metric |Value |   |Stderr|
+|-------------|------:|------|-----:|--------|-----:|---|-----:|
+|arc_challenge|      1|none  |     0|acc     |0.5401|±  |0.0146|
+|             |       |none  |     0|acc_norm|0.5691|±  |0.0145|
+|hellaswag    |      1|none  |     0|acc     |0.5818|±  |0.0049|
+|             |       |none  |     0|acc_norm|0.7719|±  |0.0042|
+|winogrande   |      1|none  |     0|acc     |0.7364|±  |0.0124|
 
 
+Prof. HU: not the same method, but the same *core idea*.
 
-
+Are there any other core idea to solve this improvements???
 
 
 ** Continuing Pre-training
