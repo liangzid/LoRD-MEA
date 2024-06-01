@@ -15,8 +15,9 @@ Detect whether a watermark is contained in a given text.
 
 import os
 if __name__ == "__main__":
-    os.environ["CUDA_VISIBLE_DEVICES"] = "1"
-    os.environ["TORCH_USE_CUDA_DSA"]="1"
+    # os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+    # os.environ["TORCH_USE_CUDA_DSA"]="1"
+    pass
 from extended_watermark_processor import WatermarkDetector
 from transformers import AutoTokenizer
 
@@ -24,6 +25,10 @@ import sys
 sys.path.append("/home/zi/alignmentExtraction")
 sys.path.append("/home/zi/alignmentExtraction/watermark")
 from data2text_process import infer_d2t, eval_d2ttt
+import json
+import numpy as np
+from collections import OrderedDict
+from pprint import pprint
 
 def wrmk_dtct(output_text,
               tokenizer,
@@ -46,12 +51,12 @@ def wrmk_dtct(output_text,
 
 def eval_varying_train_num():
     taskls = [
-        # "e2e_nlg",
-        "allenai/common_gen",
+        "e2e_nlg",
+        # "allenai/common_gen",
         ]
     mls = [
         "vanilla",
-        # "LoRD-VI",
+        "LoRD-VII",
         # "pretrained",
         # "gpt-3.5-turbo-1106",
         # "kd",
@@ -74,6 +79,9 @@ def eval_varying_train_num():
     base_model_name1="meta-llama/Meta-Llama-3-8B-Instruct"
 
     tokenizer=AutoTokenizer.from_pretrained(base_model_name1)
+    if tokenizer.pad_token is None:
+        tokenizer.pad_token = tokenizer.eos_token
+        tokenizer.pad_token = tokenizer.eos_token
 
     dir_p = "./watermark_res/"
     res_dict = {}
@@ -91,16 +99,16 @@ def eval_varying_train_num():
                     if m=="vanilla":
                         ckpt = (
                             prefix
-                            + f"{task}{train_num}{itime}{m}___finally/"
+                            + f"{task}@wrmk{train_num}{itime}{m}___finally/"
                         )
                     elif m =="pretrained":
-                        ckpt = f"./text2sql_ckpts/d2t---{task}{train_num}{itime}{m}_res.json"
+                        ckpt = f"./text2sql_ckpts/d2t---{task}@wrmk{train_num}{itime}{m}_res.json"
                     elif m=="gpt-3.5-turbo-1106":
                         ckpt=m
                     else:
                         ckpt = prefix + \
-                            f"{task}{train_num}{itime}{m}___period512/"
-                    res_pth = ckpt+f"___{task}_d2t_infer_res.json"
+                            f"{task}@wrmk{train_num}{itime}{m}___period512/"
+                    res_pth = ckpt+f"___{task}@wrmk_d2t_infer_res.json"
                     res_pth = res_pth.replace("/", "__").replace(".", "")
 
                     if not os.path.exists(dir_p+res_pth):
@@ -140,6 +148,8 @@ def eval_varying_train_num():
                     print("=======================================")
 
                     for keyy in another_dict:
+                        if keyy =="z_score_at_T":
+                            continue
                         scores[keyy]=another_dict[keyy]
                     
                     print(task, ckpt)

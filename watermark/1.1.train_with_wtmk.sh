@@ -15,20 +15,22 @@
 
 echo "HOME: ${HOME}"
 export python=${HOME}/anaconda3/envs/align/bin/python3
-export CUDA_VISIBLE_DEVICES="1"
+export CUDA_VISIBLE_DEVICES="0"
 export TORCH_USE_CUDA_DSA="1"
 export root_dir="${HOME}/alignmentExtraction/"
 export POD_save_dir="${root_dir}/watermark/d2t_ckpts/"
 export from_path="meta-llama/Meta-Llama-3-8B-Instruct"
-export TRAIN_NUMS=(64)
+export TRAIN_NUMS=(1000)
+# export TRAIN_NUMS=(64)
 # export train_times=(1 2 3 4 5)
 export train_times=(1)
 export msl=256
-# export task_ls=("e2e_nlg`wrmk" "allenai/common_gen@wrmk")
-export task_ls=("allenai/common_gen@wrmk")
-# export train_taskls=("LoRD-VI" "vanilla")
-# export train_taskls=("LoRD-VI")
-export train_taskls=("vanilla")
+# export task_ls=("e2e_nlg@wrmk" "allenai/common_gen@wrmk")
+# export task_ls=("allenai/common_gen@wrmk")
+export task_ls=("e2e_nlg@wrmk")
+export train_taskls=("LoRD-VI" "vanilla")
+# export train_taskls=("LoRD-VII")
+# export train_taskls=("vanilla")
 
 export is_black_box=1
 export use_lora=1
@@ -38,6 +40,7 @@ export period=1
 
 export sub_set_num=1
 export sub_stage_num=512
+# export sub_stage_num=2000
 export max_new_tokens=64
 export infer_batch_size=1
 export batch_size=1
@@ -99,11 +102,11 @@ do
 		    --dataset_task=$task \
 		    --save_path=$save_path
 		echo "DONE FOR ONE TRAIN NUMBERS...."
+
 	    done
 	done
     done
 done
-
 
 # $python ${root_dir}data2text_process.py
 $python ${root_dir}watermark/watermark_detect.py

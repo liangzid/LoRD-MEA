@@ -558,7 +558,11 @@ class WatermarkDetector(WatermarkBase):
                 "requires an instance of the tokenizer ",
                 "that was used at generation time.",
             )
-            tokenized_text = self.tokenizer(text, return_tensors="pt", add_special_tokens=False)["input_ids"][0].to(self.device)
+            tokenized_text = self.tokenizer(
+                text, return_tensors="pt",
+                padding=True,
+                truncation=True,
+                                            add_special_tokens=False)["input_ids"][0].to(self.device)
             if tokenized_text[0] == self.tokenizer.bos_token_id:
                 tokenized_text = tokenized_text[1:]
         else:

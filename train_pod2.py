@@ -165,6 +165,14 @@ def train_pod(lm,
     tb_writer = SummaryWriter(log_dir=args.save_path+"___log_writer")
     op_ls, oidx2ls, ologits2ls, oidx2_dist = raw_train_datals
 
+    tasks_data2text_wrmk=[
+        "e2e_nlg@wrmk",
+        "allenai/common_gen@wrmk",
+        ]
+    if args.dataset_task in tasks_data2text_wrmk:
+        ologits2ls=None
+        oidxs2_dist=None
+
     subset_num = args.sub_set_num
 
     # 1. in every period, random take a subset.

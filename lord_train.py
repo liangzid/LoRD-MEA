@@ -780,10 +780,10 @@ def main():
         elif args.dataset_task in tasks_data2text_wrmk:
             print(f"RUN wmt task: {args.dataset_task}")
             from data2text_process import load_data2text_datals
-            args.dataset_task=args.dataset_task.split("@")[0]
+            dataset_task=args.dataset_task.split("@")[0]
             raw_train_datals = load_data2text_datals(
                 tokenizer,
-                task_name=args.dataset_task,
+                task_name=dataset_task,
                 train_num=args.train_num,
                 max_length=args.max_length,
                 use_local_model_with_wrmk=1,
@@ -961,7 +961,7 @@ def main():
                 max_new_tokens=args.max_new_tokens,
             )
         elif args.task in ["kd", "vanilla"]:
-            print("TRAIN WITH KD~~~")
+            print("TRAIN WITH KD and Vanilla~~~")
             p_ls, idx2ls, logits2ls, idx2_dist = raw_train_datals
             max_token_num = min(args.max_length,
                                 max([len(x) for x in idx2ls]))
@@ -983,9 +983,13 @@ def main():
             # print(lm_tokenizer.decode(idx2ls[2]))
             # print(lm_tokenizer.convert_ids_to_tokens(idx2ls[2]))
             # print(mask2[2])
+            if args.dataset_task in tasks_data2text_wrmk:
+                logits2ls=None
+                idxs2_dist=None
             newlogits2ls = []
             if logits2ls is not None:
                 for per_data in logits2ls:
+                    # print(per_data.shape)
                     sl = len(per_data)
                     v = len(per_data[0])
                     tmp_ts = torch.ones((sl, v), dtype=torch.float)

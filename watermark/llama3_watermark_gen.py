@@ -14,13 +14,17 @@ Generate watermarks from the victim model.
 # ------------------------ Code --------------------------------------
 import os
 if __name__ == "__main__":
-    os.environ["CUDA_VISIBLE_DEVICES"] = "1"
-    os.environ["TORCH_USE_CUDA_DSA"]="1"
+    # os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+    # os.environ["TORCH_USE_CUDA_DSA"]="1"
+    pass
 
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import pickle
 import torch.nn.functional as F
+from tqdm import tqdm
+
+torch.arrange=torch.arange
 
 import sys
 sys.path.append("/home/zi/alignmentExtraction/watermark")
@@ -80,20 +84,23 @@ def wrmk_gen2(model, tokenizer, input_idx,):
     # This is a different generator than the cpu-based rng in pytorch!
 
 
-    input_idx=input_idx.unsqueeze(0).to("cuda")
+    input_idx=input_idx.unsqueeze(0).to(model.device)
     output_tokens = model.generate(
         input_idx,
         logits_processor=LogitsProcessorList(
             [watermark_processor]))
     _,sql=output_tokens.shape
 
-    logits=model(output_tokens).logits[:,:-1]
-    logits = F.log_softmax(logits, dim=-1)
-    logits = logits[torch.arrange(1).unsqueeze(1),
-                    torch.arrange(sql-1).unsqueeze(0),
-                    output_tokens[:,1:sql]]
+    input_idx=None
 
-    return output_tokens,logits
+    # logits=model(output_tokens).logits[:,:-1]
+    # logits = F.log_softmax(logits, dim=-1)
+    # logits = logits[torch.arrange(1).unsqueeze(1),
+                    # torch.arrange(sql-1).unsqueeze(0),
+                    # output_tokens[:,1:sql]]
+    # return output_tokens,logits
+
+    return output_tokens
 
 def commonly_used_wrmk_post_process(
         save_pth,
@@ -108,38 +115,47 @@ def commonly_used_wrmk_post_process(
         victim="meta-llama/Meta-Llama-3-70B-Instruct",
         ):
 
-    model=AutoModelForCausalLM.from_pretrained(
-        victim,
-        device_map="auto",
-        torch_dtype=torch.bfloat16,
-        )
-    tokenizer=lm_tokenizer
-
     if not os.path.exists(save_pth):
+        model=AutoModelForCausalLM.from_pretrained(
+            victim,
+            device_map="auto",
+            torch_dtype=torch.bfloat16,
+            trust_remote_code=True,
+            )
+        tokenizer=lm_tokenizer
+
         print(f"RUNNING {victim} Stealing...")
         text2ls = []
         idx2_dist_ls = []
         probsls = []
 
-        for i_for, inp in enumerate(inp_ls):
-            generated_tokens,logits=wrmk_gen2(
+        for i_for, inp in tqdm(enumerate(inp_ls),
+                               desc="Steal Progress: "):
+            generated_tokens=wrmk_gen2(
                 model,
                 tokenizer,
                 p_idxls[i_for],
                 )
+            # generated_tokens,logits=wrmk_gen2(
+                # model,
+                # tokenizer,
+                # p_idxls[i_for],
+                # )
             text2ls.append(generated_tokens.squeeze(0).to("cpu"))
-            probsls.append(logits.squeeze(0).to("cpu"))
+            probsls.append(generated_tokens.squeeze(0).to("cpu"))
             idx2_dist_ls.append(generated_tokens
                                 .squeeze(0).to("cpu"))
+            generated_tokens=None
+            logits=None
 
-        with open(openai_tmp_save_pth,
+        with open(save_pth,
                   'wb') as f:
             pickle.dump([text2ls, probsls, idx2_dist_ls],
                         f,)
     else:
         print("Directly Loading...")
         # from collections import OrderedDict
-        with open(openai_tmp_save_pth, 'rb') as f:
+        with open(save_pth, 'rb') as f:
             data = pickle.load(f,)
         text2ls = data[0]
         probsls = data[1]
