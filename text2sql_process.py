@@ -267,10 +267,10 @@ def eval_varying_train_num():
         "spider",
         ]
     mls = [
-        # "vanilla",
-        # "LoRD-VI",
+        "vanilla",
+        "LoRD-VI",
         # "pretrained",
-        "gpt-3.5-turbo-1106",
+        # "gpt-3.5-turbo-1106",
         # "kd",
         ]
     # mls = ["vanilla", "kd", "google/gemma-2b", "Complex-lord",]
@@ -282,15 +282,18 @@ def eval_varying_train_num():
         # "5",
         ]
     train_nums = [
-        # "16",
+        "4",
+        "8",
+        "16",
+        "32",
         "64",
-        # "128",
-        # "256",
-        # "512",
+        "128",
+        "256",
+        "512",
         ]
     base_model_name1="meta-llama/Meta-Llama-3-8B-Instruct"
 
-    dir_p = "./text2sql_0519_dataset_res/"
+    dir_p = "./vary_query_times_text2sql_0602_dataset_res/"
     res_dict = {}
     if not os.path.exists(dir_p):
         os.makedirs(dir_p)
