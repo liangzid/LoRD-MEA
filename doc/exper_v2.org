@@ -1289,6 +1289,20 @@ vanilla
 |             |       |none  |     0|acc_norm|0.7768|±  |0.0042|
 |winogrande   |      1|none  |     0|acc     |0.7174|±  |0.0127|
 
+lord-vi
+
+|    Tasks    |Version|Filter|n-shot| Metric |Value |   |Stderr|
+|-------------|------:|------|-----:|--------|-----:|---|-----:|
+|arc_challenge|      1|none  |     0|acc     |0.5486|±  |0.0145|
+|             |       |none  |     0|acc_norm|0.5691|±  |0.0145|
+|hellaswag    |      1|none  |     0|acc     |0.5898|±  |0.0049|
+|             |       |none  |     0|acc_norm|0.7727|±  |0.0042|
+|winogrande   |      1|none  |     0|acc     |0.7293|±  |0.0125|
+
+
+
+
+
 
 ** watermark
 
