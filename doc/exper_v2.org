@@ -1280,7 +1280,9 @@ Prof. HU: not the same method, but the same *core idea*.
 Are there any other core idea to solve this improvements???
 
 *** With 1000 samples
+
 vanilla
+
 |    Tasks    |Version|Filter|n-shot| Metric |Value |   |Stderr|
 |-------------|------:|------|-----:|--------|-----:|---|-----:|
 |arc_challenge|      1|none  |     0|acc     |0.5674|±  |0.0145|
@@ -1289,7 +1291,7 @@ vanilla
 |             |       |none  |     0|acc_norm|0.7768|±  |0.0042|
 |winogrande   |      1|none  |     0|acc     |0.7174|±  |0.0127|
 
-lord-vi
+lord-vi (2000 steps)
 
 |    Tasks    |Version|Filter|n-shot| Metric |Value |   |Stderr|
 |-------------|------:|------|-----:|--------|-----:|---|-----:|
@@ -1298,6 +1300,31 @@ lord-vi
 |hellaswag    |      1|none  |     0|acc     |0.5898|±  |0.0049|
 |             |       |none  |     0|acc_norm|0.7727|±  |0.0042|
 |winogrande   |      1|none  |     0|acc     |0.7293|±  |0.0125|
+
+lord-vi (3000 steps)
+
+|    Tasks    |Version|Filter|n-shot| Metric |Value |   |Stderr|
+|-------------|------:|------|-----:|--------|-----:|---|-----:|
+|arc_challenge|      1|none  |     0|acc     |0.5213|±  |0.0146|
+|             |       |none  |     0|acc_norm|0.5452|±  |0.0146|
+|hellaswag    |      1|none  |     0|acc     |0.5822|±  |0.0049|
+|             |       |none  |     0|acc_norm|0.7574|±  |0.0043|
+|winogrande   |      1|none  |     0|acc     |0.7182|±  |0.0126|
+
+
+lord-vi (4000 steps)
+
+| Tasks         | Version | Filter | n-shot | Metric   |  Value |   | Stderr |
+|---------------+---------+--------+--------+----------+--------+---+--------|
+| arc_challenge |       1 | none   |      0 | acc      | 0.4821 | ±  | 0.0146 |
+|               |         | none   |      0 | acc_norm | 0.5068 | ±  | 0.0146 |
+| hellaswag     |       1 | none   |      0 | acc      | 0.5756 | ±  | 0.0049 |
+|               |         | none   |      0 | acc_norm | 0.7487 | ±  | 0.0043 |
+| winogrande    |       1 | none   |      0 | acc      | 0.7056 | ±  | 0.0128 |
+
+
+
+
 
 
 
