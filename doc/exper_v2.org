@@ -1289,7 +1289,7 @@ vanilla
 |             |       |none  |     0|acc_norm|0.5819|±  |0.0144|
 |hellaswag    |      1|none  |     0|acc     |0.5907|±  |0.0049|
 |             |       |none  |     0|acc_norm|0.7768|±  |0.0042|
-|winogrande   |      1|none  |     0|acc     |0.7174|±  |0.0127|
+
 
 lord-vi (2000 steps)
 
@@ -1325,13 +1325,13 @@ lord-vi (4000 steps)
 
 
 
-
-
-
-
-
-
 ** watermark
+
+
+We expect in the watermark experiments:
++ P-value: LoRD> vanilla
++ Green-word fraction: LoRD < vanilla
++ Z-score: LoRD<vanilla
 
 
 with 64 times of querys

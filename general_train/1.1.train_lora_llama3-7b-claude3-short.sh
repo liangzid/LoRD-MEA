@@ -15,17 +15,18 @@ echo "HOME: ${HOME}"
 export python=${HOME}/anaconda3/envs/align/bin/python3
 # export CUDA_VISIBLE_DEVICES="0,1,2,3"
 # export CUDA_VISIBLE_DEVICES="0,1,2"
-export CUDA_VISIBLE_DEVICES="0"
+export CUDA_VISIBLE_DEVICES="1"
 export root_dir="${HOME}/alignmentExtraction/"
 export POD_save_dir="${root_dir}/general_train/ckpts/boring_test/"
-# export from_path="meta-llama/Meta-Llama-3-8B-Instruct"
-export from_path="Vezora/Mistral-22B-v0.1"
+export from_path="meta-llama/Meta-Llama-3-8B-Instruct"
+# export from_path="Vezora/Mistral-22B-v0.1"
 export pmp=$from_path
-export TRAIN_NUMS=(3000)
+# export TRAIN_NUMS=(3000)
+export TRAIN_NUMS=(249)
 export train_times=(1)
 export msl=256
-# export task_ls=("liangzid/claude3_short256")
-export task_ls=("liangzid/claude3_chat3.3k")
+export task_ls=("liangzid/claude3_short256")
+# export task_ls=("liangzid/claude3_chat3.3k")
 # export msl=2048
 # export train_taskls=("vanilla")
 # export epoch=2
@@ -51,7 +52,8 @@ export use_lora=1
 
 export period=1
 export sub_set_num=1
-export sub_stage_num=6000
+# export sub_stage_num=6000
+export sub_stage_num=500
 export max_new_tokens=1000
 export infer_batch_size=1
 export batch_size=1
@@ -66,7 +68,7 @@ export use_entropy=0
 export tau1=0.8
 export tau2=0.9
 export tau_delta=-0.1
-export save_step=1000
+export save_step=500
 export temperature=1.0
 
 # export train_num=100
@@ -123,7 +125,7 @@ do
 # export qas=arc_challenge,hellaswag,winogrande,gsm8k
 export qas=arc_challenge,hellaswag,winogrande
 export eval=${HOME}/anaconda3/envs/align/bin/lm_eval
-export fmp="${save_path}___period6000"
+export fmp="${save_path}___period500/"
 
 echo "================================================================"
 echo "EVALUATION MODEL: pretrained: ${pmp} lora: ${fmp}"
