@@ -30,7 +30,7 @@ export task_ls=("liangzid/claude3_short256")
 # export msl=2048
 # export train_taskls=("vanilla")
 # export epoch=2
-export train_taskls=("LoRD-VII")
+export train_taskls=("LoRD-VII" "LoRD-VI")
 export epoch=1
 # export train_taskls=("LoRD-II")
 
@@ -54,7 +54,8 @@ export period=1
 export sub_set_num=1
 # export sub_stage_num=6000
 export sub_stage_num=500
-export max_new_tokens=1000
+# export max_new_tokens=1000
+export max_new_tokens=512
 export infer_batch_size=1
 export batch_size=1
 
@@ -88,7 +89,7 @@ do
 		echo "+++++++train_task: ${train_task}+++++++"
 		echo "====================================================="
 
-		export save_path="${POD_save_dir}NewTemperatureNewLoss"
+		export save_path="${POD_save_dir}NewTemperature${train_task}NewLoss"
 
 		$python ${root_dir}lord_train.py\
 		    --use_lora=$use_lora \
@@ -137,7 +138,6 @@ $eval --model hf \
     --tasks $qas\
     --device cuda\
     --batch_size auto:4
-
 	    done
 	done
     done

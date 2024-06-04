@@ -183,8 +183,10 @@ def train_pod(lm,
                 (subset_pointer+1)*subset_num]
     idx2ls = oidx2ls[subset_pointer*subset_num:\
                     (subset_pointer+1)*subset_num]
+
     # p_ls = random_take(subset_num, op_ls, seed,)
     # idx2ls = random_take(subset_num, oidx2ls, seed)
+
     if ologits2ls is not None:
         # vic_logits2ls = random_take(subset_num, ologits2ls, seed)
         # idx2_dist = random_take(subset_num, oidx2_dist, seed)
@@ -770,8 +772,15 @@ def one_period(args, lm,
             mask12 = mask12.to(device)
             mask2 = mask2.to(device)
 
-            mask11 = mask11 == 0
-            mask12 = mask12 == 0
+            # mask11 = mask11 == 0
+            # mask12 = mask12 == 0
+
+            # print(f"idxs11: {idxs11}")
+            # print(f"idxs12: {idxs12}")
+            # print(f"idxs2: {idxs2}")
+            # print(f"MASK11: {mask11}")
+            # print(f"MASK12: {mask12}")
+            # print(f"MASK2: {mask2}")
 
             # already normalized by softmax
             old_logits11 = old_logits11.to(device)  # bs, sql,
@@ -842,28 +851,29 @@ def one_period(args, lm,
                     term3 = old_logits2 - logits2_cons
                 term3 = torch.sum(log_clip(term3) * mask2[:, :-1])
                 loss = 2*term2 - term1 + term3
-            elif method == "LoRD-VI":
-                if args.is_black_box == 0:
-                    # term3 = \
-                    #     (vic_logits2[:, :, 0]+old_logits2-2*logits2_cons)
-                    term3 = \
-                        (vic_logits2[:, :, 0]-logits2_cons)
-                else:
-                    # term3 = old_logits2 - logits2_cons
-                    term3 = - logits2_cons
-                # term3 = torch.sum(log_clip(term3) * mask2[:, :-1])
-                # term3 = torch.sum(log_clip(term3) * mask2[:, :-1])
-                term3 = torch.mean(log_clip(term3))
+            # elif method == "LoRD-VI":
+            #     if args.is_black_box == 0:
+            #         # term3 = \
+            #         #     (vic_logits2[:, :, 0]+old_logits2-2*logits2_cons)
+            #         term3 = \
+            #             (vic_logits2[:, :, 0]-logits2_cons)
+            #     else:
+            #         # term3 = old_logits2 - logits2_cons
+            #         term3 = - logits2_cons
+            #     # term3 = torch.sum(log_clip(term3) * mask2[:, :-1])
+            #     # term3 = torch.sum(log_clip(term3) * mask2[:, :-1])
+            #     term3 = torch.mean(log_clip(term3))
 
-                # loss = -1*torch.mean(logits2_cons-logits12)\
-                    # -0.5*log_clip(torch.mean(logits11-logits12))
-                loss = -1*torch.mean(logits2_cons)\
-                    -1*log_clip(torch.mean(logits11-logits12))
-                # loss = \
-                    # -1*log_clip(torch.mean(logits11-logits12))
-                print(f"TERM1: {term1}\nTERM2: {term2}\nTERM3: {term3}\n")
-                print(f"LOSS: {loss}\n\n")
-            elif method == "LoRD-VII":
+            #     # loss = -1*torch.mean(logits2_cons-logits12)\
+            #         # -0.5*log_clip(torch.mean(logits11-logits12))
+            #     loss = -1*torch.mean(logits2_cons)\
+            #         -1*log_clip(torch.mean(logits11-logits12))
+            #     # loss = \
+            #         # -1*log_clip(torch.mean(logits11-logits12))
+            #     print(f"TERM1: {term1}\nTERM2: {term2}\nTERM3: {term3}\n")
+            #     print(f"LOSS: {loss}\n\n")
+
+            elif method == "LoRD-VII" or method=="LoRD-VI":
                 if args.is_black_box == 0:
                     term3 = \
                         (vic_logits2[:, :, 0]-logits2_cons)
@@ -874,10 +884,29 @@ def one_period(args, lm,
 
                 # loss = -1*torch.mean(logits2_cons)\
                 #     -1*log_clip(torch.mean(logits11-logits12))
-                loss = \
-                    -1*log_clip(torch.mean(logits11-logits12))
 
-                print(f"TERM1: {term1}\nTERM2: {term2}\nTERM3: {term3}\n")
+                # loss = -1*log_clip(torch.mean(logits2_cons-logits12))\
+                #     -1*log_clip(torch.mean(logits11-logits12))
+
+                los2=-1*(torch.sum(logits2_cons*mask2[:,:-1])/torch.sum(mask2[:,:-1]))
+
+                loss = los2\
+                    -1*(torch.sum(logits11*mask11[:,:-1])/torch.sum(mask11[:,:-1]))\
+                    +2*(torch.sum(logits12*mask12[:,:-1])/torch.sum(mask12[:,:-1]))
+
+                if method=="LoRD-VII":
+                    loss=sigmoid(loss/los2)
+                else:
+                    loss=sigmoid(loss)
+
+                print(f"term2: {-1*torch.sum(logits2_cons*mask2[:,:-1])/torch.sum(mask2[:,:-1])}")
+                print(f"term11: {-1*torch.sum(logits11*mask11[:,:-1])/torch.sum(mask11[:,:-1])}")
+                print(f"term12: {-2*torch.sum(logits12*mask12[:,:-1])/torch.sum(mask12[:,:-1])}")
+
+                # print(f"normalized term2: {-1*clip(torch.sum(logits2_cons*mask2[:,:-1])/torch.sum(mask2[:,:-1]))}")
+                # print(f"normalized term11: {-1*clip(torch.sum(logits11*mask11[:,:-1])/torch.sum(mask11[:,:-1]))}")
+                # print(f"normalized term12: {-2*clip(torch.sum(logits12*mask12[:,:-1])/torch.sum(mask12[:,:-1]))}")
+
                 print(f"LOSS: {loss}\n\n")
             else:
                 print("NO LOSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS.")

@@ -5,6 +5,8 @@
 #+latex_class: elegantpaper
 #+filetags: ::
 
+
+
 * QAs
 
 SETTINGS: P_\theta_t  [1 times] NSD
@@ -797,6 +799,32 @@ CLOSED: [2024-05-29 Wed 10:50]
 |             |       |none            |     0|acc_norm   |0.7970|±  |0.0040|
 |winogrande   |      1|none            |     0|acc        |0.7332|±  |0.0124|
 
+*** Random taking
+
+|    Tasks    |Version|Filter|n-shot| Metric |Value |   |Stderr|
+|-------------|------:|------|-----:|--------|-----:|---|-----:|
+|arc_challenge|      1|none  |     0|acc     |0.5230|±  |0.0146|
+|             |       |none  |     0|acc_norm|0.5623|±  |0.0145|
+|hellaswag    |      1|none  |     0|acc     |0.5913|±  |0.0049|
+|             |       |none  |     0|acc_norm|0.7878|±  |0.0041|
+|winogrande   |      1|none  |     0|acc     |0.7301|±  |0.0125|
+
+*** New loss function 
+
+loss = -1*log_clip(torch.mean(logits2_cons-logits12))\
+    -1*log_clip(torch.mean(logits11-logits12))
+
+|    Tasks    |Version|Filter|n-shot| Metric |Value |   |Stderr|
+|-------------|------:|------|-----:|--------|-----:|---|-----:|
+|arc_challenge|      1|none  |     0|acc     |0.5316|±  |0.0146|
+|             |       |none  |     0|acc_norm|0.5700|±  |0.0145|
+|hellaswag    |      1|none  |     0|acc     |0.5760|±  |0.0049|
+|             |       |none  |     0|acc_norm|0.7709|±  |0.0042|
+|winogrande   |      1|none  |     0|acc     |0.7293|±  |0.0125|
+
+
+*** XXXXX
+
 *** DONE [DEPERATED] OURS: old long result: LoRD-VI (train-num 3000, max_new_tokens=256, N=1024, tau1=0.75, tau2=0.8)
 CLOSED: [2024-05-29 Wed 10:50]
 
@@ -863,7 +891,6 @@ vanilla
 |hellaswag    |      1|none  |     0|acc     |0.2852|±  |0.0045|
 |             |       |none  |     0|acc_norm|0.3135|±  |0.0046|
 |winogrande   |      1|none  |     0|acc     |0.5170|±  |0.0140|
-
 
 
 ** Longtext
@@ -1250,9 +1277,7 @@ LoRD-VI (train-num 3000, max_new_tokens=256, N=1024, tau1=0.75, tau2=0.8)
 | - social_sciences|N/A    |none  |     0|acc        | 0.7361|±  |0.0078|
 | - stem           |N/A    |none  |     0|acc        | 0.5461|±  |0.0086|
 
-
 ** GPT-4 cleaned
-
 *** With 256 samples
 lord-vi
 
@@ -1273,6 +1298,16 @@ vanilla
 |hellaswag    |      1|none  |     0|acc     |0.5818|±  |0.0049|
 |             |       |none  |     0|acc_norm|0.7719|±  |0.0042|
 |winogrande   |      1|none  |     0|acc     |0.7364|±  |0.0124|
+
+lord-vi (only contrastive loss)
+|    Tasks    |Version|Filter|n-shot| Metric |Value |   |Stderr|
+|-------------|------:|------|-----:|--------|-----:|---|-----:|
+|arc_challenge|      1|none  |     0|acc     |0.5256|±  |0.0146|
+|             |       |none  |     0|acc_norm|0.5589|±  |0.0145|
+|hellaswag    |      1|none  |     0|acc     |0.5755|±  |0.0049|
+|             |       |none  |     0|acc_norm|0.7679|±  |0.0042|
+|winogrande   |      1|none  |     0|acc     |0.7253|±  |0.0125|
+
 
 
 Prof. HU: not the same method, but the same *core idea*.
@@ -1322,17 +1357,12 @@ lord-vi (4000 steps)
 |               |         | none   |      0 | acc_norm | 0.7487 | ±  | 0.0043 |
 | winogrande    |       1 | none   |      0 | acc      | 0.7056 | ±  | 0.0128 |
 
-
-
-
 ** watermark
-
 
 We expect in the watermark experiments:
 + P-value: LoRD> vanilla
 + Green-word fraction: LoRD < vanilla
 + Z-score: LoRD<vanilla
-
 
 with 64 times of querys
 
@@ -1411,6 +1441,5 @@ with 1000 times of query
                                                                                                                                                                  'r': 0.39496569908656803},
                                                                                                                                                      'z_score': -0.936585811581694}}
 #+end_src
-
 
 ** Continuing Pre-training
