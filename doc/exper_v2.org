@@ -799,7 +799,7 @@ CLOSED: [2024-05-29 Wed 10:50]
 |             |       |none            |     0|acc_norm   |0.7970|±  |0.0040|
 |winogrande   |      1|none            |     0|acc        |0.7332|±  |0.0124|
 
-*** Random taking
+*** Random taking [CANCELED]
 
 |    Tasks    |Version|Filter|n-shot| Metric |Value |   |Stderr|
 |-------------|------:|------|-----:|--------|-----:|---|-----:|
@@ -809,7 +809,7 @@ CLOSED: [2024-05-29 Wed 10:50]
 |             |       |none  |     0|acc_norm|0.7878|±  |0.0041|
 |winogrande   |      1|none  |     0|acc     |0.7301|±  |0.0125|
 
-*** New loss function 
+*** New loss function [CANCELED] 
 
 loss = -1*log_clip(torch.mean(logits2_cons-logits12))\
     -1*log_clip(torch.mean(logits11-logits12))
@@ -823,7 +823,80 @@ loss = -1*log_clip(torch.mean(logits2_cons-logits12))\
 |winogrande   |      1|none  |     0|acc     |0.7293|±  |0.0125|
 
 
-*** XXXXX
+*** With Sigmoid with the fraction <LOS2>
+
+#+begin_src python
+los2=-1*(torch.sum(logits2_cons*mask2[:,:-1])/torch.sum(mask2[:,:-1]))
+loss = los2\
+    -1*(torch.sum(logits11*mask11[:,:-1])/torch.sum(mask11[:,:-1]))\
+    +2*(torch.sum(logits12*mask12[:,:-1])/torch.sum(mask12[:,:-1]))
+if method=="LoRD-VII":
+    loss=sigmoid(loss/los2)
+#+end_src
+
+| Tasks         | Version | Filter | n-shot | Metric   |  Value |   | Stderr |
+|---------------+---------+--------+--------+----------+--------+---+--------|
+| arc_challenge |       1 | none   |      0 | acc      | 0.5375 | ±  | 0.0146 |
+|               |         | none   |      0 | acc_norm | 0.5811 | ±  | 0.0144 |
+| hellaswag     |       1 | none   |      0 | acc      | 0.6115 | ±  | 0.0049 |
+|               |         | none   |      0 | acc_norm | 0.8258 | ±  | 0.0038 |
+| winogrande    |       1 | none   |      0 | acc      | 0.7348 | ±  | 0.0124 |
+
+
+*** With Sigmoid with the fraction <LOS11>
+
+#+begin_src python
+    los2=-1*(torch.sum(logits2_cons*mask2[:,:-1])/torch.sum(mask2[:,:-1]))
+    loss11=-1*(torch.sum(logits11*mask11[:,:-1])/torch.sum(mask11[:,:-1]))
+    loss12=+2*(torch.sum(logits12*mask12[:,:-1])/torch.sum(mask12[:,:-1]))
+
+    loss = los2+loss11+loss12
+
+    if method=="LoRD-VII":
+        # loss=sigmoid(loss/los2)
+        loss=sigmoid(loss/loss11)
+    else:
+        # loss=sigmoid(loss)
+        loss=sigmoid(loss/loss12)
+#+end_src
+
+
+*** With Sigmoid with the fraction <LOS12>
+
+#+begin_src python
+    los2=-1*(torch.sum(logits2_cons*mask2[:,:-1])/torch.sum(mask2[:,:-1]))
+    loss11=-1*(torch.sum(logits11*mask11[:,:-1])/torch.sum(mask11[:,:-1]))
+    loss12=+2*(torch.sum(logits12*mask12[:,:-1])/torch.sum(mask12[:,:-1]))
+
+    loss = los2+loss11+loss12
+
+    if method=="LoRD-VII":
+        # loss=sigmoid(loss/los2)
+        loss=sigmoid(loss/loss11)
+    else:
+        # loss=sigmoid(loss)
+        loss=sigmoid(loss/loss12)
+#+end_src
+
+
+
+
+
+
+
+
+
+
+*** With Sigmoid with no fraction [CANCELED]
+
+| Tasks         | Version | Filter | n-shot | Metric   |  Value |   | Stderr |
+|---------------+---------+--------+--------+----------+--------+---+--------|
+| arc_challenge |       1 | none   |      0 | acc      | 0.5307 | ±  | 0.0146 |
+|               |         | none   |      0 | acc_norm | 0.5768 | ±  | 0.0144 |
+| hellaswag     |       1 | none   |      0 | acc      | 0.5976 | ±  | 0.0049 |
+|               |         | none   |      0 | acc_norm | 0.8187 | ±  | 0.0038 |
+| winogrande    |       1 | none   |      0 | acc      | 0.7411 | ±  | 0.0123 |
+
 
 *** DONE [DEPERATED] OURS: old long result: LoRD-VI (train-num 3000, max_new_tokens=256, N=1024, tau1=0.75, tau2=0.8)
 CLOSED: [2024-05-29 Wed 10:50]
