@@ -26,10 +26,11 @@ export TRAIN_NUMS=(1000)
 export train_times=(1)
 export msl=256
 # export task_ls=("e2e_nlg@wrmk" "allenai/common_gen@wrmk")
-# export task_ls=("allenai/common_gen@wrmk")
-export task_ls=("e2e_nlg@wrmk")
-export train_taskls=("LoRD-VI" "vanilla")
+export task_ls=("allenai/common_gen@wrmk")
+# export task_ls=("e2e_nlg@wrmk")
+# export train_taskls=("LoRD-VI" "vanilla")
 # export train_taskls=("LoRD-VII")
+export train_taskls=("LoRD-VI")
 # export train_taskls=("vanilla")
 
 export is_black_box=1
@@ -39,8 +40,8 @@ export epoch=2
 export period=1
 
 export sub_set_num=1
-export sub_stage_num=512
-# export sub_stage_num=2000
+# export sub_stage_num=512
+export sub_stage_num=2000
 export max_new_tokens=64
 export infer_batch_size=1
 export batch_size=1

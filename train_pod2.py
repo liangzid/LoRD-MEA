@@ -895,11 +895,11 @@ def one_period(args, lm,
                 loss = los2+loss11+loss12
 
                 if method=="LoRD-VII":
-                    # loss=sigmoid(loss/los2)
-                    loss=sigmoid(loss/loss11)
+                    loss=sigmoid(loss/los2)
+                    # loss=sigmoid(loss/loss11)
                 else:
-                    # loss=sigmoid(loss)
-                    loss=sigmoid(loss/loss12)
+                    loss=sigmoid(loss)
+                    # loss=sigmoid(loss/loss12)
 
                 print(f"term2: {-1*torch.sum(logits2_cons*mask2[:,:-1])/torch.sum(mask2[:,:-1])}")
                 print(f"term11: {-1*torch.sum(logits11*mask11[:,:-1])/torch.sum(mask11[:,:-1])}")

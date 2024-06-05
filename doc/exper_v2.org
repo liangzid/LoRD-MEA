@@ -861,6 +861,15 @@ if method=="LoRD-VII":
 #+end_src
 
 
+| Tasks         | Version | Filter | n-shot | Metric   |  Value |   | Stderr |
+|---------------+---------+--------+--------+----------+--------+---+--------|
+| arc_challenge |       1 | none   |      0 | acc      | 0.5375 | ±  | 0.0146 |
+|               |         | none   |      0 | acc_norm | 0.5725 | ±  | 0.0145 |
+| hellaswag     |       1 | none   |      0 | acc      | 0.6268 | ±  | 0.0048 |
+|               |         | none   |      0 | acc_norm | 0.8351 | ±  | 0.0037 |
+| winogrande    |       1 | none   |      0 | acc      | 0.7388 | ±  | 0.0123 |
+
+
 *** With Sigmoid with the fraction <LOS12>
 
 #+begin_src python
@@ -878,12 +887,13 @@ if method=="LoRD-VII":
         loss=sigmoid(loss/loss12)
 #+end_src
 
-
-
-
-
-
-
+| Tasks         | Version | Filter | n-shot | Metric   |  Value |   | Stderr |
+|---------------+---------+--------+--------+----------+--------+---+--------|
+| arc_challenge |       1 | none   |      0 | acc      | 0.4087 | ±  | 0.0144 |
+|               |         | none   |      0 | acc_norm | 0.4147 | ±  | 0.0144 |
+| hellaswag     |       1 | none   |      0 | acc      | 0.4933 | ±  | 0.0050 |
+|               |         | none   |      0 | acc_norm | 0.6281 | ±  | 0.0048 |
+| winogrande    |       1 | none   |      0 | acc      | 0.6906 | ±  | 0.0130 |
 
 
 
