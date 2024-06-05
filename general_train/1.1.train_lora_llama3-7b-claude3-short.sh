@@ -30,7 +30,8 @@ export task_ls=("liangzid/claude3_short256")
 # export msl=2048
 # export train_taskls=("vanilla")
 # export epoch=2
-export train_taskls=("LoRD-VII" "LoRD-VI")
+# export train_taskls=("LoRD-VII" "LoRD-VI")
+export train_taskls=("LoRD-VII")
 export epoch=1
 # export train_taskls=("LoRD-II")
 
@@ -53,7 +54,7 @@ export use_lora=1
 export period=1
 export sub_set_num=1
 # export sub_stage_num=6000
-export sub_stage_num=500
+export sub_stage_num=1000
 # export max_new_tokens=1000
 export max_new_tokens=512
 export infer_batch_size=1
@@ -69,7 +70,7 @@ export use_entropy=0
 export tau1=0.8
 export tau2=0.9
 export tau_delta=-0.1
-export save_step=500
+export save_step=250
 export temperature=1.0
 
 # export train_num=100
@@ -126,7 +127,7 @@ do
 # export qas=arc_challenge,hellaswag,winogrande,gsm8k
 export qas=arc_challenge,hellaswag,winogrande
 export eval=${HOME}/anaconda3/envs/align/bin/lm_eval
-export fmp="${save_path}___period500/"
+export fmp="${save_path}___period1000/"
 
 echo "================================================================"
 echo "EVALUATION MODEL: pretrained: ${pmp} lora: ${fmp}"
@@ -138,11 +139,29 @@ $eval --model hf \
     --tasks $qas\
     --device cuda\
     --batch_size auto:4
+
+export fmp="${save_path}___period750/"
+
+echo "================================================================"
+echo "EVALUATION MODEL: pretrained: ${pmp} lora: ${fmp}"
+echo "EVALUATION TASKS: ${qas}"
+echo "================================================================"
+
+$eval --model hf \
+    --model_args pretrained=${pmp},parallelize=True,peft=${fmp}\
+    --tasks $qas\
+    --device cuda\
+    --batch_size auto:4
+
 	    done
 	done
     done
 done
 
+
+echo "{{{{THEN WE TEST THE LONG TEXT TRAINING.}}}}"
+
+bash ${root_dir}/general_train/1.2.train_longtext.sh
 
 echo "RUNNING 1.1.train_lora_llama3-7b-claude3-short.sh DONE."
 # 1.1.train_lora_llama3-7b-claude3-short.sh ends here

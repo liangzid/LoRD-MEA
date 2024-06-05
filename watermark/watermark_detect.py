@@ -56,7 +56,7 @@ def eval_varying_train_num():
         ]
     mls = [
         "vanilla",
-        "LoRD-VII",
+        "LoRD-VI",
         # "pretrained",
         # "gpt-3.5-turbo-1106",
         # "kd",
@@ -71,7 +71,8 @@ def eval_varying_train_num():
     train_nums = [
         # "8",
         # "16",
-        "64",
+        # "64",
+        "1000",
         # "128",
         # "256",
         # "512",
@@ -107,7 +108,7 @@ def eval_varying_train_num():
                         ckpt=m
                     else:
                         ckpt = prefix + \
-                            f"{task}@wrmk{train_num}{itime}{m}___period512/"
+                            f"{task}@wrmk{train_num}{itime}{m}___period1024/"
                     res_pth = ckpt+f"___{task}@wrmk_d2t_infer_res.json"
                     res_pth = res_pth.replace("/", "__").replace(".", "")
 
