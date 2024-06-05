@@ -19,7 +19,7 @@ if __name__ == "__main__":
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,2,7"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,6,7"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "3,7"
-    os.environ["CUDA_VISIBLE_DEVICES"] = "7"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "5,6,7"
     os.environ["TORCH_USE_CUDA_DSA"]="1"
 
 import torch
@@ -236,7 +236,7 @@ def infer_t2s(modelname, task_name, res_pth,
                                       return_tensors="pt")
 
             # print(inps_idx)
-            inps_idx=inps_idx.to("cuda")
+            inps_idx=inps_idx.to("cuda:0")
             res = model.generate(inps_idx,
                                  max_new_tokens=mnt,)
             # print(res)
