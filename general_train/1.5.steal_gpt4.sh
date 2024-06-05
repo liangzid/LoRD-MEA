@@ -110,8 +110,8 @@ do
 # export qas=arc_challenge,hellaswag,winogrande,gsm8k
 export qas=arc_challenge,hellaswag,winogrande
 export eval=${HOME}/anaconda3/envs/align/bin/lm_eval
-# export fmp="${save_path}___period2000/"
-export fmp="${save_path}___finally/"
+export fmp="${save_path}___period2000/"
+# export fmp="${save_path}___finally/"
 
 echo "================================================================"
 echo "EVALUATION MODEL: pretrained: ${pmp} lora: ${fmp}"
