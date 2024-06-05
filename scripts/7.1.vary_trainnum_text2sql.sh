@@ -73,44 +73,43 @@ do
 
 		export save_path="${POD_save_dir}text2sql${task}${train_num}${train_time}${train_task}"
 
-		$python ${root_dir}lord_train.py\
-		    --use_lora=$use_lora \
-		    --from_path=$from_path \
-		    --is_black_box=$is_black_box \
-		    --sub_set_num=$sub_set_num \
-		    --sub_stage_num=$sub_stage_num\
-		    --infer_batch_size=$infer_batch_size\
-		    --tau1=$tau1 \
-		    --tau2=$tau2 \
-		    --task=$train_task \
-		    --device="cuda" \
-		    --epoch=$epoch \
-		    --period_num=$period \
-		    --acc_step=1 \
-		    --log_step=50 \
-		    --train_num=$train_num \
-		    --max_new_tokens=$max_new_tokens \
-		    --LR="3e-5" \
-		    --save_step=$sub_stage_num \
-		    --beta=$beta \
-		    --temperature=$temperature \
-		    --batch_size=$batch_size \
-		    --use_old_logits=$use_old_logits\
-		    --use_vic_logits=$use_vic_logits\
-		    --use_kld=$use_kld\
-		    --max_length=$msl \
-		    --dataset_task=$task \
-		    --save_path=$save_path
-		echo "DONE FOR ONE TRAIN NUMBERS...."
+		# $python ${root_dir}lord_train.py\
+		#     --use_lora=$use_lora \
+		#     --from_path=$from_path \
+		#     --is_black_box=$is_black_box \
+		#     --sub_set_num=$sub_set_num \
+		#     --sub_stage_num=$sub_stage_num\
+		#     --infer_batch_size=$infer_batch_size\
+		#     --tau1=$tau1 \
+		#     --tau2=$tau2 \
+		#     --task=$train_task \
+		#     --device="cuda" \
+		#     --epoch=$epoch \
+		#     --period_num=$period \
+		#     --acc_step=1 \
+		#     --log_step=50 \
+		#     --train_num=$train_num \
+		#     --max_new_tokens=$max_new_tokens \
+		#     --LR="3e-5" \
+		#     --save_step=$sub_stage_num \
+		#     --beta=$beta \
+		#     --temperature=$temperature \
+		#     --batch_size=$batch_size \
+		#     --use_old_logits=$use_old_logits\
+		#     --use_vic_logits=$use_vic_logits\
+		#     --use_kld=$use_kld\
+		#     --max_length=$msl \
+		#     --dataset_task=$task \
+		#     --save_path=$save_path
+		# echo "DONE FOR ONE TRAIN NUMBERS...."
+
 	    done
 	done
     done
 done
 
 
-
 $python ${root_dir}text2sql_process.py
-
 
 echo "RUNNING 7.1.vary_trainnum_text2sql.sh DONE."
 # 7.1.vary_trainnum_text2sql.sh ends here
