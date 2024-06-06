@@ -396,7 +396,6 @@ Stable method now: No significant difference
 #+end_src
 
 
-
 * Summarization
 
 |----------------+-------------+-------------+-------------+-------------+-------------+-----------+-------------+-------------+-------------+-------------|
@@ -451,7 +450,6 @@ Stable method now: No significant difference
                                                                          'p': 0.24230915195634306,                                                                                                                                  
                                                                          'r': 0.5056513873325041}}}   
 #+end_src
-
 
 
 
@@ -863,8 +861,6 @@ if method=="LoRD-VII":
 | hellaswag     |       1 | none   |      0 | acc      | 0.6151 | ±  | 0.0049 |
 |               |         | none   |      0 | acc_norm | 0.8288 | ±  | 0.0038 |
 | winogrande    |       1 | none   |      0 | acc      | 0.7451 | ±  | 0.0122 |
-
-njj
 
 *** With Sigmoid with the fraction <LOS11>[canceled]
 
@@ -1509,6 +1505,7 @@ with 64 times of querys
 
 
 #+end_src
+
 
 with 1000 times of query
 

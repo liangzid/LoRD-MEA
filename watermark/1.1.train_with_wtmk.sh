@@ -30,7 +30,7 @@ export task_ls=("allenai/common_gen@wrmk")
 # export task_ls=("e2e_nlg@wrmk")
 # export train_taskls=("LoRD-VI" "vanilla")
 # export train_taskls=("LoRD-VII")
-export train_taskls=("LoRD-VI")
+export train_taskls=("LoRD-VII")
 # export train_taskls=("vanilla")
 
 export is_black_box=1
@@ -42,6 +42,7 @@ export period=1
 export sub_set_num=1
 # export sub_stage_num=512
 export sub_stage_num=2000
+export save_step=1000
 export max_new_tokens=64
 export infer_batch_size=1
 export batch_size=1
@@ -90,6 +91,7 @@ do
 		    --period_num=$period \
 		    --acc_step=1 \
 		    --log_step=50 \
+		    --save_step=$save_step \
 		    --train_num=$train_num \
 		    --max_new_tokens=$max_new_tokens \
 		    --LR="3e-5" \

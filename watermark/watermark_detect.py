@@ -51,12 +51,12 @@ def wrmk_dtct(output_text,
 
 def eval_varying_train_num():
     taskls = [
-        "e2e_nlg",
-        # "allenai/common_gen",
+        # "e2e_nlg",
+        "allenai/common_gen",
         ]
     mls = [
-        "vanilla",
-        "LoRD-VI",
+        # "vanilla",
+        "LoRD-VII",
         # "pretrained",
         # "gpt-3.5-turbo-1106",
         # "kd",
@@ -108,7 +108,7 @@ def eval_varying_train_num():
                         ckpt=m
                     else:
                         ckpt = prefix + \
-                            f"{task}@wrmk{train_num}{itime}{m}___period1024/"
+                            f"{task}@wrmk{train_num}{itime}{m}___period2000/"
                     res_pth = ckpt+f"___{task}@wrmk_d2t_infer_res.json"
                     res_pth = res_pth.replace("/", "__").replace(".", "")
 
