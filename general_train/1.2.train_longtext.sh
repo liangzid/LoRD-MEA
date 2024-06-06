@@ -23,7 +23,7 @@ export pmp=$from_path
 export TRAIN_NUMS=(3000)
 export train_times=(1)
 export task_ls=("liangzid/claude3_chat3.3k")
-export msl=2048
+export msl=1500
 export train_taskls=("LoRD-VII")
 export epoch=1
 
@@ -34,7 +34,7 @@ export period=1
 export sub_set_num=1
 export sub_stage_num=6000
 # export sub_stage_num=1000
-export max_new_tokens=1000
+export max_new_tokens=512
 # export max_new_tokens=512
 export infer_batch_size=1
 export batch_size=1
