@@ -834,6 +834,8 @@ if method=="LoRD-VII":
     loss=sigmoid(loss/los2)
 #+end_src
 
+500 step results:
+
 | Tasks         | Version | Filter | n-shot | Metric   |  Value |   | Stderr |
 |---------------+---------+--------+--------+----------+--------+---+--------|
 | arc_challenge |       1 | none   |      0 | acc      | 0.5375 | ±  | 0.0146 |
@@ -842,8 +844,29 @@ if method=="LoRD-VII":
 |               |         | none   |      0 | acc_norm | 0.8258 | ±  | 0.0038 |
 | winogrande    |       1 | none   |      0 | acc      | 0.7348 | ±  | 0.0124 |
 
+1000 step results:
 
-*** With Sigmoid with the fraction <LOS11>
+| Tasks         | Version | Filter | n-shot | Metric   |  Value |   | Stderr |
+|---------------+---------+--------+--------+----------+--------+---+--------|
+| arc_challenge |       1 | none   |      0 | acc      | 0.5375 | ±  | 0.0146 |
+|               |         | none   |      0 | acc_norm | 0.5734 | ±  | 0.0145 |
+| hellaswag     |       1 | none   |      0 | acc      | 0.6255 | ±  | 0.0048 |
+|               |         | none   |      0 | acc_norm | 0.8340 | ±  | 0.0037 |
+| winogrande    |       1 | none   |      0 | acc      | 0.7356 | ±  | 0.0124 |
+
+750 step results:
+
+| Tasks         | Version | Filter | n-shot | Metric   |  Value |   | Stderr |
+|---------------+---------+--------+--------+----------+--------+---+--------|
+| arc_challenge |       1 | none   |      0 | acc      | 0.5392 | ±  | 0.0146 |
+|               |         | none   |      0 | acc_norm | 0.5819 | ±  | 0.0144 |
+| hellaswag     |       1 | none   |      0 | acc      | 0.6151 | ±  | 0.0049 |
+|               |         | none   |      0 | acc_norm | 0.8288 | ±  | 0.0038 |
+| winogrande    |       1 | none   |      0 | acc      | 0.7451 | ±  | 0.0122 |
+
+njj
+
+*** With Sigmoid with the fraction <LOS11>[canceled]
 
 #+begin_src python
     los2=-1*(torch.sum(logits2_cons*mask2[:,:-1])/torch.sum(mask2[:,:-1]))
@@ -870,8 +893,7 @@ if method=="LoRD-VII":
 | winogrande    |       1 | none   |      0 | acc      | 0.7388 | ±  | 0.0123 |
 
 
-*** With Sigmoid with the fraction <LOS12>
-
+*** With Sigmoid with the fraction <LOS12> [canceled]
 #+begin_src python
     los2=-1*(torch.sum(logits2_cons*mask2[:,:-1])/torch.sum(mask2[:,:-1]))
     loss11=-1*(torch.sum(logits11*mask11[:,:-1])/torch.sum(mask11[:,:-1]))
