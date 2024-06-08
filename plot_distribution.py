@@ -221,7 +221,7 @@ def visualize_heat(
 
     xls = list(res_dict.keys())
 
-    fig, axs = plt.subplots(4, 8, figsize=(40, 3.7*4))
+    fig, axs = plt.subplots(4, 8, figsize=(35, 3.7*4))
     fig.subplots_adjust(wspace=0.01, hspace=0.5)
 
     fs = 17
