@@ -862,6 +862,16 @@ if method=="LoRD-VII":
 |               |         | none   |      0 | acc_norm | 0.8288 | ±  | 0.0038 |
 | winogrande    |       1 | none   |      0 | acc      | 0.7451 | ±  | 0.0122 |
 
+*** LoRD-VIII (similar results.): STRANGE. IT's generation is not ok.
+
+| Tasks         | Version | Filter | n-shot | Metric   |  Value |   | Stderr |
+|---------------+---------+--------+--------+----------+--------+---+--------|
+| arc_challenge |       1 | none   |      0 | acc      | 0.5333 | ±  | 0.0146 |
+|               |         | none   |      0 | acc_norm | 0.5717 | ±  | 0.0145 |
+| hellaswag     |       1 | none   |      0 | acc      | 0.6257 | ±  | 0.0048 |
+|               |         | none   |      0 | acc_norm | 0.8345 | ±  | 0.0037 |
+| winogrande    |       1 | none   |      0 | acc      | 0.7395 | ±  | 0.0123 |
+
 *** With Sigmoid with the fraction <LOS11>[canceled]
 
 #+begin_src python
