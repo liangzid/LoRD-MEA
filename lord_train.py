@@ -637,6 +637,13 @@ def main():
         "tr-en",
     ]
 
+    tasks_wmt16_wrmk=[
+        "cs-en@wrmk",
+        "de-en@wrmk",
+        "fi-en@wrmk",
+        "ro-en@wrmk",
+        ]
+
     tasks_qa = [
         "piqa",
         "truthful_qa",
@@ -679,6 +686,7 @@ def main():
     tasks_supported.extend(tasks_general)
     tasks_supported.append("wmt_mix")
     tasks_supported.extend(tasks_data2text_wrmk)
+    tasks_supported.extend(tasks_wmt16_wrmk)
 
     print("---------------------------------------------------------")
     print(f"TASKS NOW Supported: {tasks_supported}")
@@ -722,6 +730,31 @@ def main():
                     train_num=args.nonlabel_data_num,
                     max_length=args.max_length
                 )
+
+        elif args.dataset_task in tasks_wmt16_wrmk:
+            print(f"RUN wmt task: {args.dataset_task}")
+            from wmt_process import load_wmt_datals
+            dataset_task=args.dataset_task.split("@")[0]
+            raw_train_datals = load_wmt_datals(
+                tokenizer,
+                task_name=dataset_task,
+                train_num=args.train_num,
+                max_length=args.max_length,
+                use_local_model_with_wrmk=1,
+            )
+
+            # if args.extra_nonlabel_data == 1:
+            #     nonlabel_trainls = load_wmt_nonlabel(
+            #         tokenizer,
+            #         task_name=args.dataset_task,
+            #         train_num=args.nonlabel_data_num,
+            #         max_length=args.max_length
+            #     )
+
+            # else:
+            #     nonlabel_trainls = None
+            nonlabel_trainls = None
+
         elif args.dataset_task == "wmt_mix":
             print(f"RUN wmt task: {args.dataset_task}")
             from wmt_process import load_wmt_hyprid_gathering

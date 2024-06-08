@@ -105,7 +105,9 @@ def load_wmt_datals(tokenizer,
                     model_name="gpt-3.5-turbo-1106",
                     topk=5,
                     max_length=1024,
-                    openai_tmp_save_pth="./STEALED_PKLS/wmt_data_saveto_"):
+                    openai_tmp_save_pth="./STEALED_PKLS/wmt_data_saveto_",
+                    use_local_model_with_wrmk=None,
+                    ):
 
     lm_tokenizer = tokenizer
     tasks_we_used = [
@@ -156,19 +158,34 @@ def load_wmt_datals(tokenizer,
     for p in prompts:
         p_idxls.append(lm_tokenizer(p, return_tensors="pt").input_ids[0])
 
-    openai_tmp_save_pth += f"WMTtask_{task_name}-trainNUM_{train_num}.pkl"
-
-    return commonly_used_openai_post_process(
-        openai_tmp_save_pth,
-        inp_ls,
-        pp,
-        model_name,
-        topk,
-        max_length,
-        p_idxls,
-        V,
-        lm_tokenizer,
-    )
+    if use_local_model_with_wrmk is None:
+        openai_tmp_save_pth += f"WMTtask_{task_name}-trainNUM_{train_num}.pkl"
+        return commonly_used_openai_post_process(
+            openai_tmp_save_pth,
+            inp_ls,
+            pp,
+            model_name,
+            topk,
+            max_length,
+            p_idxls,
+            V,
+            lm_tokenizer,
+        )
+    else:
+        from watermark.llama3_watermark_gen import commonly_used_wrmk_post_process
+        openai_tmp_save_pth += f"WaterMark-----WMTtask_{task_name}-trainNUM_{train_num}.pkl"
+        return commonly_used_wrmk_post_process(
+            openai_tmp_save_pth,
+            inp_ls,
+            pp,
+            model_name,
+            topk,
+            max_length,
+            p_idxls,
+            V,
+            lm_tokenizer,
+        )
+        
 
 def load_wmt_hyprid_gathering(tokenizer,
                          max_length=1024,
