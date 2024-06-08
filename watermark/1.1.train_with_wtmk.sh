@@ -15,34 +15,35 @@
 
 echo "HOME: ${HOME}"
 export python=${HOME}/anaconda3/envs/align/bin/python3
-export CUDA_VISIBLE_DEVICES="0"
+export CUDA_VISIBLE_DEVICES="1"
 export TORCH_USE_CUDA_DSA="1"
 export root_dir="${HOME}/alignmentExtraction/"
 export POD_save_dir="${root_dir}/watermark/d2t_ckpts/"
 export from_path="meta-llama/Meta-Llama-3-8B-Instruct"
-export TRAIN_NUMS=(1000)
-# export TRAIN_NUMS=(64)
+# export TRAIN_NUMS=(1000)
+export TRAIN_NUMS=(64)
 # export train_times=(1 2 3 4 5)
 export train_times=(1)
 export msl=256
-# export task_ls=("e2e_nlg@wrmk" "allenai/common_gen@wrmk")
-export task_ls=("allenai/common_gen@wrmk")
+export task_ls=("e2e_nlg@wrmk" "allenai/common_gen@wrmk")
+# export task_ls=("allenai/common_gen@wrmk")
+# export task_ls=("cs-en" "de-en")
 # export task_ls=("e2e_nlg@wrmk")
 # export train_taskls=("LoRD-VI" "vanilla")
 # export train_taskls=("LoRD-VII")
-export train_taskls=("LoRD-VII")
+export train_taskls=("LoRD-VI")
 # export train_taskls=("vanilla")
 
 export is_black_box=1
 export use_lora=1
 
-export epoch=2
+export epoch=1
 export period=1
 
 export sub_set_num=1
-# export sub_stage_num=512
-export sub_stage_num=2000
-export save_step=1000
+export sub_stage_num=512
+# export sub_stage_num=2000
+export save_step=64
 export max_new_tokens=64
 export infer_batch_size=1
 export batch_size=1
@@ -58,6 +59,7 @@ export use_entropy=0
 # export tau1=0.85
 export tau1=0.80
 export tau2=0.85
+export tau_delta=-0.1
 
 for train_num in ${TRAIN_NUMS[*]}
 do
@@ -113,6 +115,9 @@ done
 
 # $python ${root_dir}data2text_process.py
 $python ${root_dir}watermark/watermark_detect.py
+
+
+bash ${root_dir}general_train/1.1.train_lora_llama3-7b-claude3-short.sh
 
 echo "RUNNING 1.1.train_with_wtmk.sh DONE."
 # 1.1.train_with_wtmk.sh ends here
