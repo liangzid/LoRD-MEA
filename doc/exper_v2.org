@@ -1377,6 +1377,24 @@ LoRD-VI (train-num 3000, max_new_tokens=256, N=1024, tau1=0.75, tau2=0.8)
 | - other          |N/A    |none  |     0|acc        | 0.7203|±  |0.0078|
 | - social_sciences|N/A    |none  |     0|acc        | 0.7361|±  |0.0078|
 | - stem           |N/A    |none  |     0|acc        | 0.5461|±  |0.0086|
+*** LoRD-VII results
+
+| Tasks         | Version | Filter | n-shot | Metric   |  Value |   | Stderr |
+|---------------+---------+--------+--------+----------+--------+---+--------|
+| arc_challenge |       1 | none   |      0 | acc      | 0.5401 | ±  | 0.0146 |
+|               |         | none   |      0 | acc_norm | 0.5794 | ±  | 0.0144 |
+| hellaswag     |       1 | none   |      0 | acc      | 0.6060 | ±  | 0.0049 |
+|               |         | none   |      0 | acc_norm | 0.8102 | ±  | 0.0039 |
+| winogrande    |       1 | none   |      0 | acc      | 0.7427 | ±  | 0.0123 |
+
+
+| Tasks         | Version | Filter | n-shot | Metric   |  Value |   | Stderr |
+|---------------+---------+--------+--------+----------+--------+---+--------|
+| arc_challenge |       1 | none   |      0 | acc      | 0.5452 | ±  | 0.0146 |
+|               |         | none   |      0 | acc_norm | 0.5862 | ±  | 0.0144 |
+| hellaswag     |       1 | none   |      0 | acc      | 0.6100 | ±  | 0.0049 |
+|               |         | none   |      0 | acc_norm | 0.8148 | ±  | 0.0039 |
+| winogrande    |       1 | none   |      0 | acc      | 0.7395 | ±  | 0.0123 |
 
 ** GPT-4 cleaned
 *** With 256 samples

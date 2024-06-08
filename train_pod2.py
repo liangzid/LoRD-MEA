@@ -704,8 +704,8 @@ def train_pod(lm,
         # print("TO AUTO DONE.")
 
         print(">>>> Period {}".format(iter_idx))
-        print("warning: Set Epoch to 1 without any reason.")
-        args.epoch=1
+        # print("warning: Set Epoch to 1 without any reason.")
+        # args.epoch=1
         lm = one_period(args, lm,
                         lm_tokenizer,
                         loader,
@@ -895,7 +895,7 @@ def one_period(args, lm,
                 loss = los2+loss11+loss12
 
                 if method=="LoRD-VII":
-                    loss=sigmoid(loss/los2)
+                    loss=sigmoid(loss/(loss11+loss12))
                     # loss=sigmoid(loss/loss11)
                 else:
                     loss=sigmoid(loss)
