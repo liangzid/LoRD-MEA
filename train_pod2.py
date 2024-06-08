@@ -873,7 +873,8 @@ def one_period(args, lm,
             #     print(f"TERM1: {term1}\nTERM2: {term2}\nTERM3: {term3}\n")
             #     print(f"LOSS: {loss}\n\n")
 
-            elif method == "LoRD-VII" or method=="LoRD-VI":
+            elif method == "LoRD-VII" or method=="LoRD-VI"\
+                 or method =="LoRD-VIII":
                 if args.is_black_box == 0:
                     term3 = \
                         (vic_logits2[:, :, 0]-logits2_cons)
@@ -890,13 +891,16 @@ def one_period(args, lm,
 
                 los2=-1*(torch.sum(logits2_cons*mask2[:,:-1])/torch.sum(mask2[:,:-1]))
                 loss11=-1*(torch.sum(logits11*mask11[:,:-1])/torch.sum(mask11[:,:-1]))
-                loss12=+2*(torch.sum(logits12*mask12[:,:-1])/torch.sum(mask12[:,:-1]))
+                loss12=1*(torch.sum(logits12*mask12[:,:-1])/torch.sum(mask12[:,:-1]))
 
-                loss = los2+loss11+loss12
+                loss = los2+loss11+2*loss12
 
                 if method=="LoRD-VII":
-                    loss=sigmoid(loss/(loss11+loss12))
+                    # loss=sigmoid(loss/(loss11+loss12))
+                    loss=sigmoid(loss/(los2))
                     # loss=sigmoid(loss/loss11)
+                elif method=="LoRD-VIII":
+                    loss=sigmoid((los2+loss12)/los2+(los11+loss12)/los11)
                 else:
                     loss=sigmoid(loss)
                     # loss=sigmoid(loss/loss12)

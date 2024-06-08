@@ -15,7 +15,7 @@ echo "HOME: ${HOME}"
 export python=${HOME}/anaconda3/envs/align/bin/python3
 # export CUDA_VISIBLE_DEVICES="0,1,2,3"
 # export CUDA_VISIBLE_DEVICES="0,1,2"
-export CUDA_VISIBLE_DEVICES="0"
+export CUDA_VISIBLE_DEVICES="1"
 export root_dir="${HOME}/alignmentExtraction/"
 export POD_save_dir="${root_dir}/general_train/ckpts/boring_test/"
 export from_path="meta-llama/Meta-Llama-3-8B-Instruct"
@@ -31,8 +31,8 @@ export task_ls=("liangzid/claude3_short256")
 # export train_taskls=("vanilla")
 # export epoch=2
 # export train_taskls=("LoRD-VII" "LoRD-VI")
-export train_taskls=("LoRD-VII")
-export epoch=3
+export train_taskls=("LoRD-VIII")
+export epoch=1
 # export train_taskls=("LoRD-II")
 
 # ## ====================TO DEBUG====================
@@ -51,7 +51,7 @@ export use_lora=1
 # export epoch=1
 # export period=5
 
-export period=2
+export period=1
 export sub_set_num=1
 # export sub_stage_num=6000
 # export sub_stage_num=1000
@@ -91,7 +91,7 @@ do
 		echo "+++++++train_task: ${train_task}+++++++"
 		echo "====================================================="
 
-		# export save_path="${POD_save_dir}NewTemperature${train_task}NewLoss"
+		# # export save_path="${POD_save_dir}NewTemperature${train_task}NewLoss"
 		export save_path="${POD_save_dir}NewTemperatureNewTau${train_task}NewLoss"
 
 		$python ${root_dir}lord_train.py\
@@ -125,24 +125,12 @@ do
 		    --save_path=$save_path
 		echo "DONE FOR ONE TRAIN NUMBERS...."
 
+
 # export qas=openbookqa,arc_easy,winogrande,hellaswag,arc_challenge,piqa,boolq
 # export qas=arc_challenge,hellaswag,winogrande,gsm8k
 export qas=arc_challenge,hellaswag,winogrande
 export eval=${HOME}/anaconda3/envs/align/bin/lm_eval
-export fmp="${save_path}___period1000/"
-
-echo "================================================================"
-echo "EVALUATION MODEL: pretrained: ${pmp} lora: ${fmp}"
-echo "EVALUATION TASKS: ${qas}"
-echo "================================================================"
-
-$eval --model hf \
-    --model_args pretrained=${pmp},parallelize=True,peft=${fmp}\
-    --tasks $qas\
-    --device cuda\
-    --batch_size auto:4
-
-export fmp="${save_path}___period750/"
+export fmp="${save_path}___period500/"
 
 echo "================================================================"
 echo "EVALUATION MODEL: pretrained: ${pmp} lora: ${fmp}"
@@ -163,7 +151,7 @@ done
 
 echo "{{{{THEN WE TEST THE LONG TEXT TRAINING.}}}}"
 
-bash ${root_dir}/general_train/1.2.train_longtext.sh
+# bash ${root_dir}/general_train/1.2.train_longtext.sh
 
 echo "RUNNING 1.1.train_lora_llama3-7b-claude3-short.sh DONE."
 # 1.1.train_lora_llama3-7b-claude3-short.sh ends here

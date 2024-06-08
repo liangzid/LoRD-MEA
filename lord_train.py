@@ -960,6 +960,16 @@ def main():
                 raw_train_datals,
                 max_new_tokens=args.max_new_tokens,
             )
+        elif args.task=="LoRD-VIII":
+            print("TRAIN WITH LORD-VIII!!!")
+            from train_pod2 import train
+            train(
+                lm,
+                lm_tokenizer,
+                args,
+                raw_train_datals,
+                max_new_tokens=args.max_new_tokens,
+            )
         elif args.task in ["kd", "vanilla"]:
             print("TRAIN WITH KD and Vanilla~~~")
             p_ls, idx2ls, logits2ls, idx2_dist = raw_train_datals
