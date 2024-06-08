@@ -909,7 +909,7 @@ def main():
                 raw_train_datals,
                 max_new_tokens=args.max_new_tokens,
             )
-        elif "III" in args.task:
+        elif "LoRD-III"== args.task:
             print("TRAIN WITH LORD-III!!!")
             from train_pod3 import train
             train(
@@ -920,7 +920,7 @@ def main():
                 nonlabel_trainls,
                 max_new_tokens=args.max_new_tokens,
             )
-        elif "IV" in args.task:
+        elif "LoRD-IV"== args.task:
             print("TRAIN WITH LORD-IV!!!")
             from train_pod4_lord_II import train
             train(
