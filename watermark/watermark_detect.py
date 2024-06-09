@@ -51,11 +51,14 @@ def wrmk_dtct(output_text,
 
 def eval_varying_train_num():
     taskls = [
-        "e2e_nlg",
-        "allenai/common_gen",
+        # "e2e_nlg",
+        # "allenai/common_gen",
+
+        "cs-en",
+        "de-en",
         ]
     mls = [
-        # "vanilla",
+        "vanilla",
         "LoRD-VI",
         # "pretrained",
         # "gpt-3.5-turbo-1106",
@@ -96,46 +99,91 @@ def eval_varying_train_num():
             for m in mls:
                 temp_scorels=[]
                 for itime in train_times:
-                    prefix = "./watermark/d2t_ckpts/D2TTT"
-                    if m=="vanilla":
-                        ckpt = (
-                            prefix
-                            + f"{task}@wrmk{train_num}{itime}{m}___finally/"
-                        )
-                    elif m =="pretrained":
-                        ckpt = f"./text2sql_ckpts/d2t---{task}@wrmk{train_num}{itime}{m}_res.json"
-                    elif m=="gpt-3.5-turbo-1106":
-                        ckpt=m
-                    else:
-                        ckpt = prefix + \
-                            f"{task}@wrmk{train_num}{itime}{m}___period512/"
-                    res_pth = ckpt+f"___{task}@wrmk_d2t_infer_res.json"
-                    res_pth = res_pth.replace("/", "__").replace(".", "")
 
-                    if not os.path.exists(dir_p+res_pth):
-                        if m=="pretrained":
-                            res_ls = infer_d2t(None,
-                                            task,
-                                            dir_p+res_pth,
-                                            test_set_take_num=500,
-                                            mnt=64,
-                                            base_model_name=base_model_name1,
-                                            )
+                    if task=="e2e_nlg" or task=="allenai/common_gen":
+                        prefix = "./watermark/d2t_ckpts/D2TTT"
+                        if m=="vanilla":
+                            ckpt = (
+                                prefix
+                                + f"{task}@wrmk{train_num}{itime}{m}___finally/"
+                            )
+                        elif m =="pretrained":
+                            ckpt = f"./text2sql_ckpts/d2t---{task}@wrmk{train_num}{itime}{m}_res.json"
+                        elif m=="gpt-3.5-turbo-1106":
+                            ckpt=m
                         else:
-                            res_ls = infer_d2t(ckpt,
-                                            task,
-                                            dir_p+res_pth,
-                                            test_set_take_num=500,
-                                            mnt=64,
-                                            base_model_name=base_model_name1,
-                                            )
-                    else:
-                        # from collections import OrderedDict
-                        with open(dir_p+res_pth, 'r', encoding='utf8') as f:
-                            res_ls = json.load(
-                                f, object_pairs_hook=OrderedDict)
+                            ckpt = prefix + \
+                                f"{task}@wrmk{train_num}{itime}{m}___period512/"
+                        res_pth = ckpt+f"___{task}@wrmk_d2t_infer_res.json"
+                        res_pth = res_pth.replace("/", "__").replace(".", "")
 
-                    scores = eval_d2ttt(res_ls)
+                        if not os.path.exists(dir_p+res_pth):
+                            if m=="pretrained":
+                                res_ls = infer_d2t(None,
+                                                task,
+                                                dir_p+res_pth,
+                                                test_set_take_num=500,
+                                                mnt=64,
+                                                base_model_name=base_model_name1,
+                                                )
+                            else:
+                                res_ls = infer_d2t(ckpt,
+                                                task,
+                                                dir_p+res_pth,
+                                                test_set_take_num=500,
+                                                mnt=64,
+                                                base_model_name=base_model_name1,
+                                                )
+                        else:
+                            # from collections import OrderedDict
+                            with open(dir_p+res_pth, 'r', encoding='utf8') as f:
+                                res_ls = json.load(
+                                    f, object_pairs_hook=OrderedDict)
+
+                        scores = eval_d2ttt(res_ls)
+                    elif task=="cs-en" or task=="de-en":
+                        prefix = "./watermark/d2t_ckpts/D2TTT"
+                        if m=="vanilla":
+                            ckpt = (
+                                prefix
+                                + f"{task}@wrmk{train_num}{itime}{m}___finally/"
+                            )
+                        elif m =="pretrained":
+                            ckpt = f"./text2sql_ckpts/d2t---{task}@wrmk{train_num}{itime}{m}_res.json"
+                        elif m=="gpt-3.5-turbo-1106":
+                            ckpt=m
+                        else:
+                            ckpt = prefix + \
+                                f"{task}@wrmk{train_num}{itime}{m}___period512/"
+                        res_pth = ckpt+f"___{task}@wrmk_d2t_infer_res.json"
+                        res_pth = res_pth.replace("/", "__").replace(".", "")
+
+                        if not os.path.exists(dir_p+res_pth):
+                            if m=="pretrained":
+                                res_ls = infer_wmt(None,
+                                                task,
+                                                dir_p+res_pth,
+                                                test_set_take_num=500,
+                                                mnt=64,
+                                                base_model_name=base_model_name1,
+                                                )
+                            else:
+                                res_ls = infer_wmt(ckpt,
+                                                task,
+                                                dir_p+res_pth,
+                                                test_set_take_num=500,
+                                                mnt=64,
+                                                base_model_name=base_model_name1,
+                                                )
+                        else:
+                            # from collections import OrderedDict
+                            with open(dir_p+res_pth, 'r', encoding='utf8') as f:
+                                res_ls = json.load(
+                                    f, object_pairs_hook=OrderedDict)
+
+                        scores = eval_wmt(res_ls)
+                    else:
+                        print("NOT FOUNDDDDDDDDDDDDDDDDDDDDDDD.")
 
                     another_dict=wrmk_dtct(
                         res_ls,

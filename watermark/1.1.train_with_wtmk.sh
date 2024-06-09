@@ -25,13 +25,13 @@ export TRAIN_NUMS=(64)
 # export train_times=(1 2 3 4 5)
 export train_times=(1)
 export msl=256
-export task_ls=("e2e_nlg@wrmk" "allenai/common_gen@wrmk")
+# export task_ls=("e2e_nlg@wrmk" "allenai/common_gen@wrmk")
 # export task_ls=("allenai/common_gen@wrmk")
-# export task_ls=("cs-en" "de-en")
+export task_ls=("cs-en@wrmk" "de-en@wrmk")
 # export task_ls=("e2e_nlg@wrmk")
-# export train_taskls=("LoRD-VI" "vanilla")
+export train_taskls=("LoRD-VI" "vanilla")
 # export train_taskls=("LoRD-VII")
-export train_taskls=("LoRD-VI")
+# export train_taskls=("LoRD-VI")
 # export train_taskls=("vanilla")
 
 export is_black_box=1
@@ -117,7 +117,7 @@ done
 $python ${root_dir}watermark/watermark_detect.py
 
 
-bash ${root_dir}general_train/1.1.train_lora_llama3-7b-claude3-short.sh
+# bash ${root_dir}general_train/1.1.train_lora_llama3-7b-claude3-short.sh
 
 echo "RUNNING 1.1.train_with_wtmk.sh DONE."
 # 1.1.train_with_wtmk.sh ends here
