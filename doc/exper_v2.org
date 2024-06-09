@@ -872,6 +872,18 @@ if method=="LoRD-VII":
 |               |         | none   |      0 | acc_norm | 0.8345 | ±  | 0.0037 |
 | winogrande    |       1 | none   |      0 | acc      | 0.7395 | ±  | 0.0123 |
 
+
+
+| Tasks         | Version | Filter | n-shot | Metric   |  Value |   | Stderr |
+|---------------+---------+--------+--------+----------+--------+---+--------|
+| arc_challenge |       1 | none   |      0 | acc      | 0.5367 | ±  | 0.0146 |
+|               |         | none   |      0 | acc_norm | 0.5768 | ±  | 0.0144 |
+| hellaswag     |       1 | none   |      0 | acc      | 0.6048 | ±  | 0.0049 |
+|               |         | none   |      0 | acc_norm | 0.8235 | ±  | 0.0038 |
+| winogrande    |       1 | none   |      0 | acc      | 0.7403 | ±  | 0.0123 |
+
+
+
 *** With Sigmoid with the fraction <LOS11>[canceled]
 
 #+begin_src python
@@ -1497,42 +1509,114 @@ with 64 times of querys
 
 #+begin_src python
 
-{'allenai/common_gen-----__watermark__d2t_ckpts__D2TTTallenai__common_gen@wrmk641LoRD-VII___period512_____allenai__common_gen@wrmk_d2t_infer_resjson': {'bertscore': {'f1': 0.8729249835014343,
-                                                                                                                                                                      'p': 0.8357633948326111,
-                                                                                                                                                                      'r': 0.9136953353881836},
-                                                                                                                                                        'bleu': {'1': 0.2900471804088969,
-                                                                                                                                                                 '2': 0.16535052424503632,
-                                                                                                                                                                 '3': 0.09603687741617183,
-                                                                                                                                                                 '4': 0.05836925987378035},
-                                                                                                                                                        'green_fraction': 0.2571428571428571,
-                                                                                                                                                        'num_green_tokens': 9,
-                                                                                                                                                        'num_tokens_scored': 35,
-                                                                                                                                                        'p_value': 0.46112892982603093,
-                                                                                                                                                        'prediction': False,
-                                                                                                                                                        'rouge-l': {'f1': 0.3448845893780957,
-                                                                                                                                                                    'p': 0.303859410691967,
-                                                                                                                                                                    'r': 0.42021409996329706},
-                                                                                                                                                        'z_score': 0.09759000729485333},
- 'allenai/common_gen-----__watermark__d2t_ckpts__D2TTTallenai__common_gen@wrmk641vanilla___finally_____allenai__common_gen@wrmk_d2t_infer_resjson': {'bertscore': {'f1': 0.8720371127128601,
-                                                                                                                                                                   'p': 0.835751473903656,
-                                                                                                                                                                   'r': 0.911758303642273},
-                                                                                                                                                     'bleu': {'1': 0.2652624826258954,
-                                                                                                                                                              '2': 0.14009199915667944,
-                                                                                                                                                              '3': 0.07761501639646104,
-                                                                                                                                                              '4': 0.043474863630707856},
-                                                                                                                                                     'green_fraction': 0.21212121212121213,
-                                                                                                                                                     'num_green_tokens': 7,
-                                                                                                                                                     'num_tokens_scored': 33,
-                                                                                                                                                     'p_value': 0.6923487221547446,
+{'allenai/common_gen-----__watermark__d2t_ckpts__D2TTTallenai__common_gen@wrmk641LoRD-VI___period512_____allenai__common_gen@wrmk_d2t_infer_resjson': {'bertscore': {'f1': 0.8722925782203674,
+                                                                                                                                                                     'p': 0.8345624208450317,
+                                                                                                                                                                     'r': 0.9137428998947144},
+                                                                                                                                                       'bleu': {'1': 0.35043698900479286,
+                                                                                                                                                                '2': 0.2032080966682189,
+                                                                                                                                                                '3': 0.12093166283138004,
+                                                                                                                                                                '4': 0.07363683945946936},
+                                                                                                                                                       'green_fraction': 0.2647058823529412,
+                                                                                                                                                       'num_green_tokens': 9,
+                                                                                                                                                       'num_tokens_scored': 34,
+                                                                                                                                                       'p_value': 0.42151098818486243,
+                                                                                                                                                       'prediction': False,
+                                                                                                                                                       'rouge-l': {'f1': 0.3796643044590478,
+                                                                                                                                                                   'p': 0.35598089286897266,
+                                                                                                                                                                   'r': 0.4237586268588298},
+                                                                                                                                                       'z_score': 0.19802950859533489},
+ 'allenai/common_gen-----__watermark__d2t_ckpts__D2TTTallenai__common_gen@wrmk641vanilla___finally_____allenai__common_gen@wrmk_d2t_infer_resjson': {'bertscore': {'f1': 0.8726513385772705,
+                                                                                                                                                                   'p': 0.8354629278182983,
+                                                                                                                                                                   'r': 0.9134514927864075},
+                                                                                                                                                     'bleu': {'1': 0.3178174295319369,
+                                                                                                                                                              '2': 0.17969801208376904,
+                                                                                                                                                              '3': 0.10361766613745924,
+                                                                                                                                                              '4': 0.06146900055516714},
+                                                                                                                                                     'green_fraction': 0.38235294117647056,
+                                                                                                                                                     'num_green_tokens': 13,
+                                                                                                                                                     'num_tokens_scored': 34,
+                                                                                                                                                     'p_value': 0.03735296665606522,
                                                                                                                                                      'prediction': False,
-                                                                                                                                                     'rouge-l': {'f1': 0.3120328730682109,
-                                                                                                                                                                 'p': 0.26734720782324245,
-                                                                                                                                                                 'r': 0.3940548930853383},
-                                                                                                                                                     'z_score': -0.502518907629606}}
-
+                                                                                                                                                     'rouge-l': {'f1': 0.35694429477240597,
+                                                                                                                                                                 'p': 0.323578978766058,
+                                                                                                                                                                 'r': 0.41506365007215607},
+                                                                                                                                                     'z_score': 1.7822655773580138},
+ 'e2e_nlg-----__watermark__d2t_ckpts__D2TTTe2e_nlg@wrmk641LoRD-VI___period512_____e2e_nlg@wrmk_d2t_infer_resjson': {'bertscore': {'f1': 0.9073704481124878,
+                                                                                                                                  'p': 0.8802347779273987,
+                                                                                                                                  'r': 0.9364007115364075},
+                                                                                                                    'bleu': {'1': 0.49008658053436366,
+                                                                                                                             '2': 0.33756781232336586,
+                                                                                                                             '3': 0.23743468812796212,
+                                                                                                                             '4': 0.1619372156200498},
+                                                                                                                    'green_fraction': 0.27906976744186046,
+                                                                                                                    'num_green_tokens': 12,
+                                                                                                                    'num_tokens_scored': 43,
+                                                                                                                    'p_value': 0.3298869132560869,
+                                                                                                                    'prediction': False,
+                                                                                                                    'rouge-l': {'f1': 0.4443390372515331,
+                                                                                                                                'p': 0.44010526350393564,
+                                                                                                                                'r': 0.459521135438056},
+                                                                                                                    'z_score': 0.4402254531628119},
+ 'e2e_nlg-----__watermark__d2t_ckpts__D2TTTe2e_nlg@wrmk641vanilla___finally_____e2e_nlg@wrmk_d2t_infer_resjson': {'bertscore': {'f1': 0.909862220287323,
+                                                                                                                                'p': 0.8831789493560791,
+                                                                                                                                'r': 0.9383627772331238},
+                                                                                                                  'bleu': {'1': 0.504872797454937,
+                                                                                                                           '2': 0.34240284009039,
+                                                                                                                           '3': 0.23611685741884592,
+                                                                                                                           '4': 0.1581794014781304},
+                                                                                                                  'green_fraction': 0.3023255813953488,
+                                                                                                                  'num_green_tokens': 13,
+                                                                                                                  'num_tokens_scored': 43,
+                                                                                                                  'p_value': 0.21406204473308316,
+                                                                                                                  'prediction': False,
+                                                                                                                  'rouge-l': {'f1': 0.4512897178346773,
+                                                                                                                              'p': 0.4456838476446302,
+                                                                                                                              'r': 0.4678684280080462},
+                                                                                                                  'z_score': 0.7924058156930615}}
 
 
 #+end_src
+
+LoRD-VII: Experiment Results.
+
+
+#+begin_src python
+{'allenai/common_gen-----__watermark__d2t_ckpts__D2TTTallenai__common_gen@wrmk641LoRD-VI___period512_____allenai__common_gen@wrmk_d2t_infer_resjson': {'bertscore': {'f1': 0.8722925782203674,                                  
+                                                                                                                                                                     'p': 0.8345624208450317,                                   
+                                                                                                                                                                     'r': 0.9137428998947144},                                  
+                                                                                                                                                       'bleu': {'1': 0.35043698900479286,                                       
+                                                                                                                                                                '2': 0.2032080966682189,                                        
+                                                                                                                                                                '3': 0.12093166283138004,                                       
+                                                                                                                                                                '4': 0.07363683945946936},                                      
+                                                                                                                                                       'green_fraction': 0.2647058823529412,                                    
+                                                                                                                                                       'num_green_tokens': 9,                                                   
+                                                                                                                                                       'num_tokens_scored': 34,                                                 
+                                                                                                                                                       'p_value': 0.42151098818486243,                                          
+                                                                                                                                                       'prediction': False,                                                     
+                                                                                                                                                       'rouge-l': {'f1': 0.3796643044590478,                                    
+                                                                                                                                                                   'p': 0.35598089286897266,                                    
+                                                                                                                                                                   'r': 0.4237586268588298},                                    
+                                                                                                                                                       'z_score': 0.19802950859533489},                                         
+ 'e2e_nlg-----__watermark__d2t_ckpts__D2TTTe2e_nlg@wrmk641LoRD-VI___period512_____e2e_nlg@wrmk_d2t_infer_resjson': {'bertscore': {'f1': 0.9073704481124878,                                                                     
+                                                                                                                                  'p': 0.8802347779273987,                                                                      
+                                                                                                                                  'r': 0.9364007115364075},                                                                     
+                                                                                                                    'bleu': {'1': 0.49008658053436366,                                                                          
+                                                                                                                             '2': 0.33756781232336586,                                                                          
+                                                                                                                             '3': 0.23743468812796212,                                                                          
+                                                                                                                             '4': 0.1619372156200498},                                                                          
+                                                                                                                    'green_fraction': 0.27906976744186046,                                                                      
+                                                                                                                    'num_green_tokens': 12,                                                                                     
+                                                                                                                    'num_tokens_scored': 43,                                                                                    
+                                                                                                                    'p_value': 0.3298869132560869,                                                                              
+                                                                                                                    'prediction': False,                                                                                        
+                                                                                                                    'rouge-l': {'f1': 0.4443390372515331,                                                                       
+                                                                                                                                'p': 0.44010526350393564,                                                                       
+                                                                                                                                'r': 0.459521135438056},                                                                        
+                                                                                                                    'z_score': 0.4402254531628119}}
+  
+#+end_src
+
+
 
 
 with 1000 times of query
