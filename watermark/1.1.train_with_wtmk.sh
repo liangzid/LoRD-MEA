@@ -118,6 +118,7 @@ $python ${root_dir}watermark/watermark_detect.py
 
 
 # bash ${root_dir}general_train/1.1.train_lora_llama3-7b-claude3-short.sh
+bash ${root_dir}general_train/2.2.huggingface_llm_eval.sh
 
 echo "RUNNING 1.1.train_with_wtmk.sh DONE."
 # 1.1.train_with_wtmk.sh ends here
