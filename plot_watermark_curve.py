@@ -85,11 +85,11 @@ def main1():
     overall_data={
         "P-value":pvaluels,
         "Z-score":zscorels,
-        "Green Word Fraction":greenwordfracls,
+        "Watermark Frac.":greenwordfracls,
         }
 
     row_ls=["CommonGen", "E2E NLG",]
-    column_ls=["P-value","Z-score","Green Word Fraction"]
+    column_ls=["P-value", "Z-score", "Watermark Frac.",]
 
     method_ls=[
         "Watermarked Victim Model",
@@ -97,7 +97,7 @@ def main1():
         "LoRD",
         ]
 
-    fig, axs = plt.subplots(2, 3, figsize=(15, 9.3))
+    fig, axs = plt.subplots(2, 3, figsize=(15, 7.0))
 
     font_size = 21
     a=0.2
