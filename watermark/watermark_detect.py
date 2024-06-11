@@ -25,6 +25,7 @@ import sys
 sys.path.append("/home/zi/alignmentExtraction")
 sys.path.append("/home/zi/alignmentExtraction/watermark")
 from data2text_process import infer_d2t, eval_d2ttt
+from wmt_process import infer_wmt,eval_wmt
 import json
 import numpy as np
 from collections import OrderedDict

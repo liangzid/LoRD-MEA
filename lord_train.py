@@ -1028,7 +1028,7 @@ def main():
             # print(lm_tokenizer.decode(idx2ls[2]))
             # print(lm_tokenizer.convert_ids_to_tokens(idx2ls[2]))
             # print(mask2[2])
-            if args.dataset_task in tasks_data2text_wrmk:
+            if args.dataset_task in tasks_data2text_wrmk or args.dataset_task in tasks_wmt16_wrmk:
                 logits2ls=None
                 idxs2_dist=None
             newlogits2ls = []

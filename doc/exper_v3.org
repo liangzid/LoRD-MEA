@@ -293,6 +293,33 @@ CLOSED: [2024-06-11 Tue 09:49]
 |     |       |flexible-extract|     5|exact_match|0.7422|±  |0.0120|
 *** TODO NewTemperatureNewLoss___finally
 
+| Tasks         | Version | Filter | n-shot | Metric   |  Value |   | Stderr |
+|---------------+---------+--------+--------+----------+--------+---+--------|
+| arc_challenge |       1 | none   |     25 | acc      | 0.6101 | ± | 0.0143 |
+|               |         | none   |     25 | acc_norm | 0.6587 | ± | 0.0139 |
+
+
+| Tasks     | Version | Filter | n-shot | Metric   |  Value |   | Stderr |
+|-----------+---------+--------+--------+----------+--------+---+--------|
+| hellaswag |       1 | none   |     10 | acc      | 0.6082 | ± | 0.0049 |
+|           |         | none   |     10 | acc_norm | 0.8191 | ± | 0.0038 |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
