@@ -28,11 +28,11 @@ export msl=256
 export task_ls=("liangzid/claude3_short256")
 # export task_ls=("liangzid/claude3_chat3.3k")
 # export msl=2048
-# export train_taskls=("vanilla")
-# export epoch=2
+export train_taskls=("vanilla")
+export epoch=2
 # export train_taskls=("LoRD-VII" "LoRD-VI")
-export train_taskls=("LoRD-VIII")
-export epoch=1
+# export train_taskls=("LoRD-VIII")
+# export epoch=1
 # export train_taskls=("LoRD-II")
 
 # ## ====================TO DEBUG====================
@@ -40,7 +40,7 @@ export epoch=1
 # export period=2
 # export beta=1.0
 # export temperature=2
-# export batch_size=1
+export batch_size=1
 # ## ====================TO DEBUG====================
 
 export is_black_box=1
@@ -126,22 +126,22 @@ do
 		# echo "DONE FOR ONE TRAIN NUMBERS...."
 
 
-# export qas=openbookqa,arc_easy,winogrande,hellaswag,arc_challenge,piqa,boolq
-# export qas=arc_challenge,hellaswag,winogrande,gsm8k
-export qas=arc_challenge,hellaswag,winogrande
-export eval=${HOME}/anaconda3/envs/align/bin/lm_eval
-export fmp="${save_path}___period500/"
+# # export qas=openbookqa,arc_easy,winogrande,hellaswag,arc_challenge,piqa,boolq
+# # export qas=arc_challenge,hellaswag,winogrande,gsm8k
+# export qas=arc_challenge,hellaswag,winogrande
+# export eval=${HOME}/anaconda3/envs/align/bin/lm_eval
+# export fmp="${save_path}___period500/"
 
-echo "================================================================"
-echo "EVALUATION MODEL: pretrained: ${pmp} lora: ${fmp}"
-echo "EVALUATION TASKS: ${qas}"
-echo "================================================================"
+# echo "================================================================"
+# echo "EVALUATION MODEL: pretrained: ${pmp} lora: ${fmp}"
+# echo "EVALUATION TASKS: ${qas}"
+# echo "================================================================"
 
-$eval --model hf \
-    --model_args pretrained=${pmp},parallelize=True,peft=${fmp}\
-    --tasks $qas\
-    --device cuda\
-    --batch_size auto:4
+# $eval --model hf \
+#     --model_args pretrained=${pmp},parallelize=True,peft=${fmp}\
+#     --tasks $qas\
+#     --device cuda\
+#     --batch_size auto:4
 
 	    done
 	done
