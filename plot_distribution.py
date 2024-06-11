@@ -147,7 +147,7 @@ def get_dist_mat(ckpt_pth, task_name,
             original_logits = tmp_ts.numpy()[ssll-1:,][:5]
             matrix_ls.append(original_logits)
 
-    return matrix_ls
+    return matrix_ls, idx2_distls
 
 
 def visualize_heat(
@@ -162,30 +162,31 @@ def visualize_heat(
         select_num=8,
         train_num=16,
         task_name="spider",
-        save_path="distribute_heat_res.pdf",):
+        save_path="distribute_heat_res.pdf",
+        ):
 
-    origin_mat = get_dist_mat(ckpt_pth=lord_ckpt,
+    origin_mat, idx2distls = get_dist_mat(ckpt_pth=lord_ckpt,
                               pretrained_model=pretrained_model_pth,
                               task_name=task_name,
                               select_num=select_num,
                               train_num=train_num,
                               only_original=True,
                               )
-    lord_mat = get_dist_mat(ckpt_pth=lord_ckpt,
+    lord_mat,_ = get_dist_mat(ckpt_pth=lord_ckpt,
                             pretrained_model=pretrained_model_pth,
                             task_name=task_name,
                             select_num=select_num,
                             train_num=train_num,
                             only_original=False,
                             )
-    ce_mat = get_dist_mat(ckpt_pth=ce_ckpt,
+    ce_mat,_ = get_dist_mat(ckpt_pth=ce_ckpt,
                           pretrained_model=pretrained_model_pth,
                           task_name=task_name,
                           select_num=select_num,
                           train_num=train_num,
                           only_original=False,
                           )
-    init_mat = get_dist_mat(ckpt_pth=pretrained_model_pth,
+    init_mat,_ = get_dist_mat(ckpt_pth=pretrained_model_pth,
                           pretrained_model=None,
                           task_name=task_name,
                           select_num=select_num,
@@ -230,8 +231,10 @@ def visualize_heat(
             axs[row, col].imshow(res_dict[xls[row]][col],
                                  cmap=plt.cm.Blues,
                                  )
-            axs[row, col].set_xlabel("Token Indexs", fontsize=fs)
+            axs[row, col].set_xlabel("Top-5 Tokens", fontsize=fs)
             axs[row, col].set_ylabel("Generated Token", fontsize=fs)
+            # print("Type of dist idxes: ",type(idx2distls[col]))
+            # axs[row, col].set_xticklabels(idx2distls[col])
 
             text = f"Distribution of\n{xls[row]}'s {col+1} Sample."
             axs[row, col].title.set_text(text)
@@ -328,7 +331,7 @@ def visualize_3d(
 
 
 if __name__ == "__main__":
-    visualize_heat()
+    # visualize_heat()
 
     # visualize_heat(
     #     lord_ckpt="./text2sql_ckpts/text2sqlspider161vanilla___finally/",
