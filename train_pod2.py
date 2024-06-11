@@ -168,6 +168,8 @@ def train_pod(lm,
     tasks_data2text_wrmk=[
         "e2e_nlg@wrmk",
         "allenai/common_gen@wrmk",
+        "cs-en@wrmk",
+        "de-en@wrmk",
         ]
     if args.dataset_task in tasks_data2text_wrmk:
         ologits2ls=None
@@ -472,6 +474,7 @@ def train_pod(lm,
         if vic_logits2ls[0] is not None:
             newvic_logits2ls = []
             for per_data in vic_logits2ls:
+                print(f"PER_DATA: {per_data}")
                 sl = len(per_data)
                 v = len(per_data[0])
                 tmp_ts = torch.ones((sl, v), dtype=torch.float)

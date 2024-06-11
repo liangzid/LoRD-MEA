@@ -53,8 +53,8 @@ def eval_varying_train_num():
     taskls = [
         "e2e_nlg",
         "allenai/common_gen",
-        # "cs-en",
-        # "de-en",
+        "cs-en",
+        "de-en",
         ]
     mls = [
         "vanilla",

@@ -25,9 +25,9 @@ export TRAIN_NUMS=(64)
 # export train_times=(1 2 3 4 5)
 export train_times=(1)
 export msl=256
-export task_ls=("e2e_nlg@wrmk" "allenai/common_gen@wrmk")
+# export task_ls=("e2e_nlg@wrmk" "allenai/common_gen@wrmk")
 # export task_ls=("allenai/common_gen@wrmk")
-# export task_ls=("cs-en@wrmk" "de-en@wrmk")
+export task_ls=("cs-en@wrmk" "de-en@wrmk")
 # export task_ls=("e2e_nlg@wrmk")
 export train_taskls=("LoRD-VI" "vanilla")
 # export train_taskls=("LoRD-VII")
@@ -114,7 +114,6 @@ do
 		    --dataset_task=$task \
 		    --save_path=$save_path
 		echo "DONE FOR ONE TRAIN NUMBERS...."
-
 	    done
 	done
     done
@@ -126,11 +125,11 @@ done
 
 # $python ${root_dir}data2text_process.py
 
-# $python ${root_dir}watermark/watermark_detect.py
+$python ${root_dir}watermark/watermark_detect.py
 
 
 # # bash ${root_dir}general_train/1.1.train_lora_llama3-7b-claude3-short.sh
-# bash ${root_dir}general_train/2.2.huggingface_llm_eval.sh
+bash ${root_dir}general_train/2.2.huggingface_llm_eval.sh
 
 echo "RUNNING 1.1.train_with_wtmk.sh DONE."
 # 1.1.train_with_wtmk.sh ends here
