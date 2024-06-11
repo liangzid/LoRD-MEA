@@ -51,11 +51,10 @@ def wrmk_dtct(output_text,
 
 def eval_varying_train_num():
     taskls = [
-        # "e2e_nlg",
-        # "allenai/common_gen",
-
-        "cs-en",
-        "de-en",
+        "e2e_nlg",
+        "allenai/common_gen",
+        # "cs-en",
+        # "de-en",
         ]
     mls = [
         "vanilla",

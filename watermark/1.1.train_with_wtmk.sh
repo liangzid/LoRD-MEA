@@ -25,9 +25,9 @@ export TRAIN_NUMS=(64)
 # export train_times=(1 2 3 4 5)
 export train_times=(1)
 export msl=256
-# export task_ls=("e2e_nlg@wrmk" "allenai/common_gen@wrmk")
+export task_ls=("e2e_nlg@wrmk" "allenai/common_gen@wrmk")
 # export task_ls=("allenai/common_gen@wrmk")
-export task_ls=("cs-en@wrmk" "de-en@wrmk")
+# export task_ls=("cs-en@wrmk" "de-en@wrmk")
 # export task_ls=("e2e_nlg@wrmk")
 export train_taskls=("LoRD-VI" "vanilla")
 # export train_taskls=("LoRD-VII")
@@ -61,6 +61,11 @@ export tau1=0.80
 export tau2=0.85
 export tau_delta=-0.1
 
+export lambda1ls=(0.0 0.2 0.4 0.6 0.8 1.0)
+
+for lambda1 in ${lambda1ls[*]}
+do
+
 for train_num in ${TRAIN_NUMS[*]}
 do
     for train_time in ${train_times[*]}
@@ -74,9 +79,10 @@ do
 		echo "+++++++train_time: ${train_time}+++++++"
 		echo "+++++++task: ${task}+++++++"
 		echo "+++++++train_task: ${train_task}+++++++"
+		echo "+++++++lambda1: ${lambda1}+++++++"
 		echo "====================================================="
 
-		export save_path="${POD_save_dir}D2TTT${task}${train_num}${train_time}${train_task}"
+		export save_path="${POD_save_dir}D2TTT${task}${train_num}${train_time}${train_task}${lambda1}"
 
 		$python ${root_dir}lord_train.py\
 		    --use_lora=$use_lora \
@@ -85,6 +91,7 @@ do
 		    --sub_set_num=$sub_set_num \
 		    --sub_stage_num=$sub_stage_num\
 		    --infer_batch_size=$infer_batch_size\
+		    --lambda1=$lambda1 \
 		    --tau1=$tau1 \
 		    --tau2=$tau2 \
 		    --task=$train_task \
@@ -113,12 +120,17 @@ do
     done
 done
 
+
+
+done
+
 # $python ${root_dir}data2text_process.py
-$python ${root_dir}watermark/watermark_detect.py
+
+# $python ${root_dir}watermark/watermark_detect.py
 
 
-# bash ${root_dir}general_train/1.1.train_lora_llama3-7b-claude3-short.sh
-bash ${root_dir}general_train/2.2.huggingface_llm_eval.sh
+# # bash ${root_dir}general_train/1.1.train_lora_llama3-7b-claude3-short.sh
+# bash ${root_dir}general_train/2.2.huggingface_llm_eval.sh
 
 echo "RUNNING 1.1.train_with_wtmk.sh DONE."
 # 1.1.train_with_wtmk.sh ends here

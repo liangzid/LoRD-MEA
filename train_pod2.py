@@ -904,7 +904,8 @@ def one_period(args, lm,
                     # loss=sigmoid((los2+loss12)/los2+(loss11+loss12)/loss11)
 
                     # In validating
-                    loss=sigmoid((los2+loss12)/loss11+(loss11+loss12)/los2)
+                    # loss=sigmoid((los2+loss12)/loss11+(loss11+loss12)/los2)
+                    loss=2*sigmoid(args.lambda1*(los2+loss12)/loss11+(1-args.lambda1)*(loss11+loss12)/los2)
                 else:
                     loss=sigmoid(loss)
                     # loss=sigmoid(loss/loss12)

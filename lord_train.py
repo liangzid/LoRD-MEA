@@ -534,6 +534,8 @@ def setup_train_args():
                         default=0, type=int,
                         required=False)
 
+    parser.add_argument('--lambda1', default=0.5, type=float,
+                        required=False)
     parser.add_argument('--tau1', default=0.99, type=float,
                         required=False)
     parser.add_argument('--tau_delta', default=0.999, type=float,
