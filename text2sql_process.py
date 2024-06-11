@@ -68,6 +68,7 @@ def load_text2sql_datals(tokenizer,
                          model_name="gpt-3.5-turbo-1106",
                          topk=5,
                          max_length=512,
+                         is_test=0,
                          openai_tmp_save_pth="./STEALED_PKLS/wmt_data_saveto_"):
 
     lm_tokenizer = tokenizer
@@ -81,8 +82,12 @@ def load_text2sql_datals(tokenizer,
     dataset_name = task_name
     inp_ls = []
     if task_name == tasks_we_used[0]:
-        trainset_text = load_dataset(dataset_name,
-                                     split=f"train[:{train_num}]")
+        if is_test==1:
+            trainset_text = load_dataset(dataset_name,
+                                        split=f"test[:{train_num}]")
+        else:
+            trainset_text = load_dataset(dataset_name,
+                                        split=f"train[:{train_num}]")
 
         for item in trainset_text:
             question = item["question"]
@@ -91,9 +96,12 @@ def load_text2sql_datals(tokenizer,
             text = f"Qestion: {question}\n\n Table: {table}."
             inp_ls.append(text)
     elif task_name == tasks_we_used[1]:
-
-        trainset_text = load_dataset(dataset_name,
-                                     split=f"train[:{train_num}]")
+        if is_test==1:
+            trainset_text = load_dataset(dataset_name,
+                                        split=f"validation[:{train_num}]")
+        else:
+            trainset_text = load_dataset(dataset_name,
+                                        split=f"train[:{train_num}]")
 
         for item in trainset_text:
             query = item["query"]
@@ -110,7 +118,10 @@ def load_text2sql_datals(tokenizer,
     for p in prompts:
         p_idxls.append(lm_tokenizer(p, return_tensors="pt").input_ids[0])
 
-    openai_tmp_save_pth += f"T2SQLtask_{task_name}-trainNUM_{train_num}.pkl"
+    if is_test==1:
+        openai_tmp_save_pth += f"T2SQLtask_{task_name}-trainNUM_{train_num}.pkl.test"
+    else:
+        openai_tmp_save_pth += f"T2SQLtask_{task_name}-trainNUM_{train_num}.pkl"
 
     return commonly_used_openai_post_process(
         openai_tmp_save_pth,

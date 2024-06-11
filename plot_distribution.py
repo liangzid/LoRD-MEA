@@ -48,6 +48,7 @@ def get_dist_mat(ckpt_pth, task_name,
                  max_new_tokens=3,
                  only_original=False,
                  dataset_name="text2sql",
+                 using_test_set=0,
                  ):
 
     # model = InferObj(model_name=ckpt_pth,
@@ -105,7 +106,9 @@ def get_dist_mat(ckpt_pth, task_name,
             tokenizer,
             task_name=task_name,
             train_num=train_num,
-            max_length=max_length)
+            max_length=max_length,
+            is_test=using_test_set,
+            )
         p_ls, idx2ls, logits2ls, idx2_distls = raw_train_datals
 
     matrix_ls = []
@@ -163,6 +166,7 @@ def visualize_heat(
         train_num=16,
         task_name="spider",
         save_path="distribute_heat_res.pdf",
+        using_test_set=0,
         ):
 
     origin_mat, idx2distls = get_dist_mat(ckpt_pth=lord_ckpt,
@@ -171,6 +175,7 @@ def visualize_heat(
                               select_num=select_num,
                               train_num=train_num,
                               only_original=True,
+                              using_test_set=using_test_set,
                               )
     lord_mat,_ = get_dist_mat(ckpt_pth=lord_ckpt,
                             pretrained_model=pretrained_model_pth,
@@ -178,6 +183,7 @@ def visualize_heat(
                             select_num=select_num,
                             train_num=train_num,
                             only_original=False,
+                            using_test_set=using_test_set,
                             )
     ce_mat,_ = get_dist_mat(ckpt_pth=ce_ckpt,
                           pretrained_model=pretrained_model_pth,
@@ -185,6 +191,7 @@ def visualize_heat(
                           select_num=select_num,
                           train_num=train_num,
                           only_original=False,
+                          using_test_set=using_test_set,
                           )
     init_mat,_ = get_dist_mat(ckpt_pth=pretrained_model_pth,
                           pretrained_model=None,
@@ -192,6 +199,7 @@ def visualize_heat(
                           select_num=select_num,
                           train_num=train_num,
                           only_original=False,
+                          using_test_set=using_test_set,
                           )
     # kd_mat = get_dist_mat(ckpt_pth=kd_ckpt,
     #                       task_name="cola",
@@ -343,6 +351,16 @@ if __name__ == "__main__":
     #     task_name="spider",
     #     save_path="distribute_heat_res.pdf",)
 
+    # visualize_heat(
+    #     lord_ckpt="./text2sql_ckpts/text2sqlwikisql161vanilla___finally/",
+    #     ce_ckpt="./text2sql_ckpts/text2sqlwikisql161LoRD-VI___period256/",
+    #     kd_ckpt=None,
+    #     pretrained_model_pth="meta-llama/Meta-Llama-3-8B-Instruct",
+    #     select_num=8,
+    #     train_num=16,
+    #     task_name="wikisql",
+    #     save_path="distribute_heat_res.pdf",)
+
     visualize_heat(
         lord_ckpt="./text2sql_ckpts/text2sqlwikisql161vanilla___finally/",
         ce_ckpt="./text2sql_ckpts/text2sqlwikisql161LoRD-VI___period256/",
@@ -351,6 +369,8 @@ if __name__ == "__main__":
         select_num=8,
         train_num=16,
         task_name="wikisql",
-        save_path="distribute_heat_res.pdf",)
+        save_path="distribute_heat_res_test.pdf",
+        using_test_set=1,
+        )
 
     # visualize_3d()
