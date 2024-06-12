@@ -13,7 +13,7 @@ echo "HOME: ${HOME}"
 export python=${HOME}/anaconda3/envs/align/bin/python3
 # export CUDA_VISIBLE_DEVICES="5,6,7"
 # export CUDA_VISIBLE_DEVICES="0,1,2"
-export CUDA_VISIBLE_DEVICES="0"
+export CUDA_VISIBLE_DEVICES="1"
 export TORCH_USE_CUDA_DSA="1"
 export root_dir="${HOME}/alignmentExtraction/"
 export POD_save_dir="${root_dir}/wmt16_ckpts/"
@@ -27,8 +27,8 @@ export task_ls=("cs-en" "de-en" "fi-en")
 # export task_ls=("wmt_mix")
 # export task_ls=("cs-en")
 # export train_taskls=("LoRD-VI" "vanilla")
-export train_taskls=("LoRD-VI" "vanilla")
-# export train_taskls=("LoRD-VI")
+# export train_taskls=("LoRD-VI" "vanilla")
+export train_taskls=("kd")
 
 export is_black_box=1
 export use_lora=1

@@ -125,7 +125,7 @@ done
 
 # $python ${root_dir}data2text_process.py
 
-# $python ${root_dir}watermark/watermark_detect.py
+$python ${root_dir}watermark/watermark_detect.py
 
 
 # # # bash ${root_dir}general_train/1.1.train_lora_llama3-7b-claude3-short.sh
