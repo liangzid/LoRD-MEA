@@ -18,7 +18,9 @@ export python=${HOME}/anaconda3/envs/align/bin/python3
 export CUDA_VISIBLE_DEVICES="1"
 export root_dir="${HOME}/alignmentExtraction/"
 export POD_save_dir="${root_dir}/general_train/ckpts/boring_test/"
-export from_path="meta-llama/Meta-Llama-3-8B-Instruct"
+# export from_path="meta-llama/Meta-Llama-3-8B-Instruct"
+export from_path="meta-llama/Llama-2-13b-chat-hf"
+
 # export from_path="Vezora/Mistral-22B-v0.1"
 export pmp=$from_path
 # export TRAIN_NUMS=(3000)
@@ -28,11 +30,11 @@ export msl=256
 export task_ls=("liangzid/claude3_short256")
 # export task_ls=("liangzid/claude3_chat3.3k")
 # export msl=2048
-export train_taskls=("vanilla")
-export epoch=2
+# export train_taskls=("vanilla")
+# export epoch=2
 # export train_taskls=("LoRD-VII" "LoRD-VI")
-# export train_taskls=("LoRD-VIII")
-# export epoch=1
+export train_taskls=("LoRD-VIII")
+export epoch=1
 # export train_taskls=("LoRD-II")
 
 # ## ====================TO DEBUG====================
@@ -92,7 +94,7 @@ do
 		echo "====================================================="
 
 		# # export save_path="${POD_save_dir}NewTemperature${train_task}NewLoss"
-		export save_path="${POD_save_dir}NewTemperatureNewTau${train_task}NewLoss"
+		export save_path="${POD_save_dir}NewTemperatureNewTau13B${train_task}NewLoss"
 
 		$python ${root_dir}lord_train.py\
 		    --use_lora=$use_lora \
@@ -152,6 +154,11 @@ done
 echo "{{{{THEN WE TEST THE LONG TEXT TRAINING.}}}}"
 
 # bash ${root_dir}/general_train/1.2.train_longtext.sh
+
+bash ${root_dir}/general_train/2.2.huggingface_llm_eval.sh
+
+
+$python ${root_dir}/watermark/watermark_detect.py
 
 echo "RUNNING 1.1.train_lora_llama3-7b-claude3-short.sh DONE."
 # 1.1.train_lora_llama3-7b-claude3-short.sh ends here
