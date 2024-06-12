@@ -28,7 +28,8 @@ export task_ls=("cs-en" "de-en" "fi-en")
 # export task_ls=("cs-en")
 # export train_taskls=("LoRD-VI" "vanilla")
 # export train_taskls=("LoRD-VI" "vanilla")
-export train_taskls=("kd")
+# export train_taskls=("kd")
+export train_taskls=("LoRD-II")
 
 export is_black_box=1
 export use_lora=1

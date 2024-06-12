@@ -770,7 +770,8 @@ def eval_varying_train_num():
     mls = [
         # "vanilla",
         # "LoRD-VI",
-        "kd",
+        # "kd",
+        "LoRD-II",
         ]
     # mls = ["vanilla", "kd", "google/gemma-2b", "Complex-lord",]
     train_times = [
