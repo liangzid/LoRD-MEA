@@ -15,8 +15,8 @@ Detect whether a watermark is contained in a given text.
 
 import os
 if __name__ == "__main__":
-    # os.environ["CUDA_VISIBLE_DEVICES"] = "1"
-    # os.environ["TORCH_USE_CUDA_DSA"]="1"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+    os.environ["TORCH_USE_CUDA_DSA"]="1"
     pass
 from extended_watermark_processor import WatermarkDetector
 from transformers import AutoTokenizer
@@ -47,7 +47,7 @@ def wrmk_dtct(output_text,
     score_dict = watermark_detector.detect(output_text)
     # or any other text of interest to analyze
 
-    print(f"Score: {score_dict}")
+    # print(f"Score: {score_dict}")
     return score_dict
 
 def eval_varying_train_num():
@@ -161,7 +161,7 @@ def eval_varying_train_num():
                             if m=="vanilla":
                                 ckpt = (
                                     prefix
-                                    + f"{task}@wrmk{train_num}{itime}{m}___finally/"
+                                    + f"{task}@wrmk{train_num}{itime}{m}{lambda1}___finally/"
                                 )
                             elif m =="pretrained":
                                 ckpt = f"./text2sql_ckpts/d2t---{task}@wrmk{train_num}{itime}{m}_res.json"
@@ -169,7 +169,7 @@ def eval_varying_train_num():
                                 ckpt=m
                             else:
                                 ckpt = prefix + \
-                                    f"{task}@wrmk{train_num}{itime}{m}___period512/"
+                                    f"{task}@wrmk{train_num}{itime}{m}{lambda1}___period512/"
                             res_pth = ckpt+f"___{task}@wrmk_d2t_infer_res.json"
                             res_pth = res_pth.replace("/", "__").replace(".", "")
 
@@ -200,11 +200,31 @@ def eval_varying_train_num():
                         else:
                             print("NOT FOUNDDDDDDDDDDDDDDDDDDDDDDD.")
 
-                        another_dict=wrmk_dtct(
-                            res_ls,
-                            tokenizer,
-                            device="cuda:0",
-                            )
+                        another_dict={
+                            "num_tokens_scored":[],
+                            "num_green_tokens":[],
+                            "green_fraction":[],
+                            "z_score":[],
+                            "p_value":[],
+                            }
+                        for restext_list in res_ls:
+                            restext,label=restext_list
+                            # print(res_ls[:2])
+                            # print(restext)
+                            if len(restext.split(" "))<5:
+                                print(f"skip text: {restext}")
+                                continue
+                            temp_dict=wrmk_dtct(
+                                restext,
+                                tokenizer,
+                                device="cuda:0",
+                                )
+                            for kyyy in another_dict:
+                                another_dict[kyyy].append(temp_dict[kyyy])
+                        for kyy in another_dict:
+                            res=sum(another_dict[kyy])\
+                                /len(another_dict[kyy])
+                            another_dict[kyy]=res
                         print("=======================================")
                         print("Detect-related Metric:")
                         print(another_dict)

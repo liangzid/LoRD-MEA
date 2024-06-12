@@ -46,37 +46,55 @@ from peft import PeftModel
 def main1():
     x_ls=[0.0,0.2,0.4,0.6,0.8,1.0]
     pvaluels=OrderedDict({
+        "cs-en":{
+        "LoRD":[22.07,64.24,18.98,12.87,64.24,64.24,],
+        "MLE":[35.75 for x in x_ls],
+        "Watermarked Victim Model":[0. for x in x_ls],
+        },
+
         "CommonGen":{
-        "LoRD":[42.15 for x in x_ls],
+        "LoRD":[56.75,57.42,42.92,46.11,57.84,46.11,],
         "MLE":[3.73 for x in x_ls],
         "Watermarked Victim Model":[0. for x in x_ls],
         },
         "E2E NLG":{
-        "LoRD":[32.98 for x in x_ls],
+        "LoRD":[32.98,12.61,24.31,42.92,29.64,29.64,],
         "MLE":[21.40 for x in x_ls],
         "Watermarked Victim Model":[0. for x in x_ls],
         },
         })
     zscorels=OrderedDict({
+        "cs-en":{
+        "LoRD":[0.76,-0.36,0.87,1.13,-0.36,46.-0.36,],
+        "MLE":[0.36 for x in x_ls],
+        "Watermarked Victim Model":[0. for x in x_ls],
+        },
+
         "CommonGen":{
-        "LoRD":[0.19 for x in x_ls],
+        "LoRD":[-0.17,-0.18,0.17,0.09,-0.19,0.09],
         "MLE":[1.78 for x in x_ls],
         "Watermarked Victim Model":[0. for x in x_ls],
         },
         "E2E NLG":{
-        "LoRD":[0.44 for x in x_ls],
+        "LoRD":[0.44,1.14,0.69,0.17,0.53,0.53,],
         "MLE":[0.79 for x in x_ls],
         "Watermarked Victim Model":[0. for x in x_ls],
         },
         })
     greenwordfracls=OrderedDict({
+        "cs-en":{
+        "LoRD":[0.30,0.20,0.31,0.34,0.2,0.2,],
+        "MLE":[0.3 for x in x_ls],
+        "Watermarked Victim Model":[0. for x in x_ls],
+        },
+
         "CommonGen":{
-        "LoRD":[26.47 for x in x_ls],
+        "LoRD":[23.91,23.68,26.19,25.71,23.53,25.71],
         "MLE":[38.23 for x in x_ls],
         "Watermarked Victim Model":[0. for x in x_ls],
         },
         "E2E NLG":{
-        "LoRD":[27.90 for x in x_ls],
+        "LoRD":[27.91,32.55,29.54,26.19,28.57,28.57,],
         "MLE":[30.23 for x in x_ls],
         "Watermarked Victim Model":[0. for x in x_ls],
         },
@@ -88,7 +106,8 @@ def main1():
         "Watermark Frac.":greenwordfracls,
         }
 
-    row_ls=["CommonGen", "E2E NLG",]
+    # row_ls=["CommonGen", "E2E NLG",]
+    row_ls=["CommonGen", "cs-en",]
     column_ls=["P-value", "Z-score", "Watermark Frac.",]
 
     method_ls=[
