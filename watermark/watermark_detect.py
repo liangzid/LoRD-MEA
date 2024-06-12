@@ -31,6 +31,8 @@ import numpy as np
 from collections import OrderedDict
 from pprint import pprint
 
+from llama3_watermark_gen import wrmk_gen_list
+
 def wrmk_dtct(output_text,
               tokenizer,
               device):
@@ -58,9 +60,9 @@ def eval_varying_train_num():
         "de-en",
         ]
     mls = [
-        "vanilla",
-        "LoRD-VI",
-        # "pretrained",
+        # "vanilla",
+        # "LoRD-VI",
+        "pretrained",
         # "gpt-3.5-turbo-1106",
         # "kd",
         ]
@@ -122,6 +124,7 @@ def eval_varying_train_num():
                                 )
                             elif m =="pretrained":
                                 ckpt = f"./text2sql_ckpts/d2t---{task}@wrmk{train_num}{itime}{m}_res.json"
+
                             elif m=="gpt-3.5-turbo-1106":
                                 ckpt=m
                             else:
@@ -134,7 +137,7 @@ def eval_varying_train_num():
 
                             if not os.path.exists(dir_p+res_pth):
                                 if m=="pretrained":
-                                    res_ls = infer_d2t(None,
+                                    res_ls = wrmk_gen_list(None,
                                                     task,
                                                     dir_p+res_pth,
                                                     test_set_take_num=500,
@@ -175,7 +178,7 @@ def eval_varying_train_num():
 
                             if not os.path.exists(dir_p+res_pth):
                                 if m=="pretrained":
-                                    res_ls = infer_wmt(None,
+                                    res_ls = wrmk_gen_list(None,
                                                     task,
                                                     dir_p+res_pth,
                                                     test_set_take_num=500,

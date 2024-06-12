@@ -42,73 +42,168 @@ from collections import OrderedDict
 
 from peft import PeftModel
 
+def dictfindValue(data,key,dataset,method,lambda1):
+    is_find=0
+    for KEY in data.keys():
+        if dataset in KEY and method in KEY and lambda1 in KEY:
+            va=data[KEY][key]
+            if key=="bertscore":
+                va=va["f1"]
+            is_find=1
+            break
+    if is_find==0:
+        va=0.
+    return va
+
+def parse_json_file():
+    lambda1_ls=[
+        "00","02","04","06","08","10",
+        ]
+    dataset_ls=[
+        "e2e_nlg","allenai/common_gen",
+        "cs-en","de-en",
+        ]
+    d_label_ls={
+        dataset_ls[0]:"E2E NLG",
+        dataset_ls[1]:"CommonGen",
+        dataset_ls[2]:"WMT (cs-en)",
+        dataset_ls[3]:"WMT (de-en)",
+        }
+    method_ls=[
+        "vanilla","LoRD-VI","pretrained",
+        ]
+    method_label_ls={
+        "vanilla":"MLE",
+        "LoRD-VI":"LoRD",
+        "pretrained":"Watermarked Victim Model",
+        }
+    key_ls=[
+        "p_value","z_score","green_fraction","bertscore",
+        ]
+    key_label_ls={
+        key_ls[0]:"P-value",
+        key_ls[1]:"Z-score",
+        key_ls[2]:"Watermark Frac.",
+        key_ls[3]:"BERTScore",
+        }
+
+    # from collections import OrderedDict
+    with open("./watermark_res/Overall__d2t_varytrain_num_inference_scores.json",
+              'r',encoding='utf8') as f:
+        data=json.load(f,object_pairs_hook=OrderedDict)
+
+    results=OrderedDict({})
+    for key in key_ls:
+        results[key_label_ls[key]]={}
+        for dataset in dataset_ls:
+            results[key_label_ls[key]][d_label_ls[dataset]]={}
+            for method in method_ls:
+                results[key_label_ls[key]][d_label_ls[dataset]]\
+                    [method_label_ls[method]]=[]
+                for lambda1 in lambda1_ls:
+                    v=dictfindValue(data,key,dataset,method,lambda1)
+                    results[key_label_ls[key]]\
+                        [d_label_ls[dataset]]\
+                        [method_label_ls[method]].append(v)
+    with open("./watermark_res/curve_results.json",
+              'w',encoding='utf8') as f:
+        json.dump(results,
+                  f,ensure_ascii=False,indent=4)
+    print("SAVE DONE.")
+    return results
+
 
 def main1():
     x_ls=[0.0,0.2,0.4,0.6,0.8,1.0]
-    pvaluels=OrderedDict({
-        "cs-en":{
-        "LoRD":[22.07,64.24,18.98,12.87,64.24,64.24,],
-        "MLE":[35.75 for x in x_ls],
-        "Watermarked Victim Model":[0. for x in x_ls],
-        },
 
-        "CommonGen":{
-        "LoRD":[56.75,57.42,42.92,46.11,57.84,46.11,],
-        "MLE":[3.73 for x in x_ls],
-        "Watermarked Victim Model":[0. for x in x_ls],
-        },
-        "E2E NLG":{
-        "LoRD":[32.98,12.61,24.31,42.92,29.64,29.64,],
-        "MLE":[21.40 for x in x_ls],
-        "Watermarked Victim Model":[0. for x in x_ls],
-        },
-        })
-    zscorels=OrderedDict({
-        "cs-en":{
-        "LoRD":[0.76,-0.36,0.87,1.13,-0.36,46.-0.36,],
-        "MLE":[0.36 for x in x_ls],
-        "Watermarked Victim Model":[0. for x in x_ls],
-        },
+    # pvaluels=OrderedDict({
+    #     "cs-en":{
+    #     "LoRD":[45.36,46.58,47.64,46.63,45.60,45.09,],
+    #     "MLE":[45.28 for x in x_ls],
+    #     "Watermarked Victim Model":[0. for x in x_ls],
+    #     },
 
-        "CommonGen":{
-        "LoRD":[-0.17,-0.18,0.17,0.09,-0.19,0.09],
-        "MLE":[1.78 for x in x_ls],
-        "Watermarked Victim Model":[0. for x in x_ls],
-        },
-        "E2E NLG":{
-        "LoRD":[0.44,1.14,0.69,0.17,0.53,0.53,],
-        "MLE":[0.79 for x in x_ls],
-        "Watermarked Victim Model":[0. for x in x_ls],
-        },
-        })
-    greenwordfracls=OrderedDict({
-        "cs-en":{
-        "LoRD":[0.30,0.20,0.31,0.34,0.2,0.2,],
-        "MLE":[0.3 for x in x_ls],
-        "Watermarked Victim Model":[0. for x in x_ls],
-        },
+    #     "CommonGen":{
+    #     "LoRD":[47.15,45.34,46.69,47.95,45.51,44.66],
+    #     "MLE":[50.94 for x in x_ls],
+    #     "Watermarked Victim Model":[0. for x in x_ls],
+    #     },
 
-        "CommonGen":{
-        "LoRD":[23.91,23.68,26.19,25.71,23.53,25.71],
-        "MLE":[38.23 for x in x_ls],
-        "Watermarked Victim Model":[0. for x in x_ls],
-        },
-        "E2E NLG":{
-        "LoRD":[27.91,32.55,29.54,26.19,28.57,28.57,],
-        "MLE":[30.23 for x in x_ls],
-        "Watermarked Victim Model":[0. for x in x_ls],
-        },
-        })
+    #     "E2E NLG":{
+    #     "LoRD":[42.70,39.86,35.04,38.25,34.96,43.27,],
+    #     "MLE":[37.99 for x in x_ls],
+    #     "Watermarked Victim Model":[0. for x in x_ls],
+    #     },
+    #     })
+    # zscorels=OrderedDict({
+    #     "cs-en":{
+    #     "LoRD":[0.21,0.14,0.10,0.14,0.18,0.20,],
+    #     "MLE":[0.19 for x in x_ls],
+    #     "Watermarked Victim Model":[0. for x in x_ls],
+    #     },
 
-    overall_data={
-        "P-value":pvaluels,
-        "Z-score":zscorels,
-        "Watermark Frac.":greenwordfracls,
-        }
+    #     "CommonGen":{
+    #     "LoRD":[0.11,0.17,0.13,0.09,0.19,0.21,],
+    #     "MLE":[-0.02 for x in x_ls],
+    #     "Watermarked Victim Model":[0. for x in x_ls],
+    #     },
+    #     "E2E NLG":{
+    #     "LoRD":[0.28,0.39,0.52,0.43,0.55,0.25,],
+    #     "MLE":[0.42 for x in x_ls],
+    #     "Watermarked Victim Model":[0. for x in x_ls],
+    #     },
+    #     })
+    # greenwordfracls=OrderedDict({
+    #     "cs-en":{
+    #     "LoRD":[0.27,0.27,0.26,0.26,0.27,0.27,],
+    #     "MLE":[0.27 for x in x_ls],
+    #     "Watermarked Victim Model":[0. for x in x_ls],
+    #     },
 
-    # row_ls=["CommonGen", "E2E NLG",]
-    row_ls=["CommonGen", "cs-en",]
-    column_ls=["P-value", "Z-score", "Watermark Frac.",]
+    #     "CommonGen":{
+    #     "LoRD":[0.26,0.27,0.26,0.26,0.27,0.28,],
+    #     "MLE":[0.25 for x in x_ls],
+    #     "Watermarked Victim Model":[0. for x in x_ls],
+    #     },
+    #     "E2E NLG":{
+    #     "LoRD":[0.27,0.28,0.29,0.28,0.30,0.27],
+    #     "MLE":[0.28 for x in x_ls],
+    #     "Watermarked Victim Model":[0. for x in x_ls],
+    #     },
+    #     })
+
+    # bleu1ls=OrderedDict({
+    #     "E2E NLG":{
+    #     "LoRD":[49.27,50.01,44.98,48.30,48.66,48.42,],
+    #     "MLE":[0.28 for x in x_ls],
+    #     "Watermarked Victim Model":[0. for x in x_ls],
+    #     },
+
+    #     "CommonGen":{
+    #     "LoRD":[28.79,29.54,26.79,34.73,33.70,33.03,],
+    #     "MLE":[22.80 for x in x_ls],
+    #     "Watermarked Victim Model":[0. for x in x_ls],
+    #     },
+
+    #     "cs-en":{
+    #     "LoRD":[53.64,53.78,49.77,55.12,54.95,47.74,],
+    #     "MLE":[56.05 for x in x_ls],
+    #     "Watermarked Victim Model":[0. for x in x_ls],
+    #     },
+    #     })
+
+    # overall_data={
+    #     "P-value":pvaluels,
+    #     "Z-score":zscorels,
+    #     "Watermark Frac.":greenwordfracls,
+    #     "BLEU-1": bleu1ls,
+    #     }
+    
+    overall_data=parse_json_file()
+
+    row_ls=["CommonGen", "E2E NLG",]
+    # row_ls=["CommonGen", "cs-en",]
+    column_ls=["P-value", "Z-score", "Watermark Frac.","BERTScore",]
 
     method_ls=[
         "Watermarked Victim Model",
@@ -116,7 +211,7 @@ def main1():
         "LoRD",
         ]
 
-    fig, axs = plt.subplots(2, 3, figsize=(15, 7.0))
+    fig, axs = plt.subplots(2, 4, figsize=(20, 7.0))
 
     font_size = 21
     a=0.2
@@ -149,6 +244,7 @@ def main1():
         for i_col, col in enumerate(column_ls):
             data=overall_data[col][row]
             for method in method_ls:
+                # print("data[method]",data[method])
                 axs[i_row][i_col].plot(x_ls,
                                        data[method],
                                     label=method,

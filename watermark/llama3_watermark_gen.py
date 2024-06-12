@@ -30,6 +30,8 @@ import sys
 sys.path.append("/home/zi/alignmentExtraction/watermark")
 from extended_watermark_processor import WatermarkLogitsProcessor
 from transformers import LogitsProcessorList
+from transformers import AutoTokenizer,AutoModelForCausalLM
+from datasets import load_dataset
 
 
 def wrmk_gen(tokenizer, model, input_text,):
@@ -63,6 +65,108 @@ def wrmk_gen(tokenizer, model, input_text,):
     output_text = tokenizer.batch_decode(output_tokens,
                                          skip_special_tokens=True)[0]
     return output_text
+
+
+def wrmk_gen_list(modelname, task_name, res_pth,
+              test_set_take_num=100,
+              mnt=32,
+              base_model_name=None,):
+
+    save_pth = res_pth
+
+    tasks_we_used = [
+        "e2e_nlg",
+        "allenai/common_gen",
+        "cs-en",
+        "de-en",
+        "fi-en",
+        "ro-en",
+        "ru-en",
+        "tr-en",
+    ]
+
+    assert task_name in tasks_we_used
+
+    task_seqlen_map = {
+        "e2e_nlg": 512,
+        "allenai/common_gen": 256,
+    }
+
+    pls = {
+        "e2e_nlg": "Please translate the information to a sentence with natural language.",
+        "allenai/common_gen": "Please generate a sentence based on the words provided by User.",
+        "cs-en": "Translate the sentence from Czech to English Please.",
+        "de-en": "Translate the sentence from Dutch to English Please.",
+        "fi-en": "Translate the sentence from Finnish to English Please.",
+        "ro-en": "Translate the sentence from Romanian to English Please.",
+        "ru-en": "Translate the sentence from Russian to English Please.",
+        "tr-en": "Translate the sentence from Turkish to English Please.",
+    }
+    pp = pls[task_name]
+
+    inp_ls = []
+
+    if task_name == tasks_we_used[0]:
+        trainset_text = load_dataset(task_name,
+                                     split=f"test")\
+            .shuffle(20240307)\
+            .to_iterable_dataset()\
+            .take(test_set_take_num)
+
+        for item in trainset_text:
+            question = item["meaning_representation"]
+            label = item["human_reference"]
+            inp_ls.append((f"Information: {question}.", label))
+
+    elif task_name == tasks_we_used[1]:
+
+        trainset_text = load_dataset(task_name,
+                                     split=f"validation")\
+            .shuffle(20240307)\
+            .to_iterable_dataset()\
+            .take(test_set_take_num)
+
+        for item in trainset_text:
+            question = item["concepts"]
+            question = ", ".join(question)
+            label = item["target"]
+            inp_ls.append((f"Words: {question}.", label))
+    else:
+        dataset = load_dataset("wmt16",
+                            task_name,
+                            split=f"test").shuffle(20240307)\
+            .to_iterable_dataset()\
+            .take(test_set_take_num)
+        # print("DATASET 0: ",dataset[0])
+        # print("DATASET 1: ",dataset[1])
+        sets = dataset
+        from_lang, to_lang = task_name.split("-")
+
+        for item in trainset_text:
+            inp_ls.append((item[from_lang],
+                           item[to_lang]))
+
+    assert inp_ls != []
+    if True:
+        model = AutoModelForCausalLM.from_pretrained(
+            base_model_name,
+            device_map="auto",
+        )
+
+        tokenizer = AutoTokenizer\
+            .from_pretrained(base_model_name)
+        tokenizer.pad_token = tokenizer.eos_token
+        tokenizer.padding_side = "right"
+
+        res_ls = []
+        for d in tqdm(inp_ls):
+            inps, summary = d
+            final_inps = "Instruction: " + pp + " User: " + inps + " Assistant: "
+            output_text=wrmk_gen(tokenizer,model,
+                                 final_inps,)
+            res_ls.append((output_text, summary))
+    return res_ls
+    
 
 def wrmk_gen2(model, tokenizer, input_idx,):
     """
