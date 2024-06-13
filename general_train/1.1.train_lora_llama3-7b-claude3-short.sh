@@ -30,11 +30,11 @@ export msl=256
 export task_ls=("liangzid/claude3_short256")
 # export task_ls=("liangzid/claude3_chat3.3k")
 # export msl=2048
-# export train_taskls=("vanilla")
-# export epoch=2
+export train_taskls=("vanilla")
+export epoch=2
 # export train_taskls=("LoRD-VII" "LoRD-VI")
-export train_taskls=("LoRD-VIII")
-export epoch=1
+# export train_taskls=("LoRD-VII")
+# export epoch=1
 # export train_taskls=("LoRD-II")
 
 # ## ====================TO DEBUG====================
@@ -158,7 +158,7 @@ echo "{{{{THEN WE TEST THE LONG TEXT TRAINING.}}}}"
 bash ${root_dir}/general_train/2.2.huggingface_llm_eval.sh
 
 
-$python ${root_dir}/watermark/watermark_detect.py
+# $python ${root_dir}/watermark/watermark_detect.py
 
 echo "RUNNING 1.1.train_lora_llama3-7b-claude3-short.sh DONE."
 # 1.1.train_lora_llama3-7b-claude3-short.sh ends here
