@@ -69,6 +69,10 @@ def parse_json_file():
         dataset_ls[2]:"WMT (cs-en)",
         dataset_ls[3]:"WMT (de-en)",
         }
+    dataset_ls=[
+        # "e2e_nlg","allenai/common_gen",
+        "cs-en","de-en",
+        ]
     method_ls=[
         "vanilla","LoRD-VI","pretrained",
         ]
