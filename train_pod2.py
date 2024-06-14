@@ -296,6 +296,9 @@ def train_pod(lm,
                     use_cache=True,
                     )
 
+                print("*********************************************")
+                print(f"Shape of generated indexes: {gen_idx.shape}")
+
                 # gen_idx=lm.generate(
                 #     prompt,
                 #     do_sample=False,
