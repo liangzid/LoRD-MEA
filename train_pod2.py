@@ -477,7 +477,7 @@ def train_pod(lm,
         if vic_logits2ls[0] is not None:
             newvic_logits2ls = []
             for per_data in vic_logits2ls:
-                print(f"PER_DATA: {per_data}")
+                # print(f"PER_DATA: {per_data}")
                 sl = len(per_data)
                 v = len(per_data[0])
                 tmp_ts = torch.ones((sl, v), dtype=torch.float)
@@ -781,9 +781,10 @@ def one_period(args, lm,
             # mask11 = mask11 == 0
             # mask12 = mask12 == 0
 
-            print(f"idxs11 shape: {idxs11.shape}")
-            print(f"idxs12 shape: {idxs12.shape}")
-            print(f"idxs2 shape: {idxs2.shape}")
+            # print(f"idxs11 shape: {idxs11.shape}")
+            # print(f"idxs12 shape: {idxs12.shape}")
+            # print(f"idxs2 shape: {idxs2.shape}")
+
             # print(f"MASK11: {mask11}")
             # print(f"MASK12: {mask12}")
             # print(f"MASK2: {mask2}")
@@ -894,6 +895,13 @@ def one_period(args, lm,
 
                 # loss = -1*log_clip(torch.mean(logits2_cons-logits12))\
                 #     -1*log_clip(torch.mean(logits11-logits12))
+
+                print(f"logits2_cons: {logits2_cons}")
+                print(f"logits11: {logits11}")
+                print(f"logits12: {logits12}")
+                print(f"mask2: {mask2}")
+                print(f"mask11: {mask11}")
+                print(f"mask12: {mask12}")
 
                 los2=-1*(torch.sum(logits2_cons*mask2[:,:-1])/torch.sum(mask2[:,:-1]))
                 loss11=-1*(torch.sum(logits11*mask11[:,:-1])/torch.sum(mask11[:,:-1]))
