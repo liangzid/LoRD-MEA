@@ -778,9 +778,9 @@ def one_period(args, lm,
             # mask11 = mask11 == 0
             # mask12 = mask12 == 0
 
-            # print(f"idxs11: {idxs11}")
-            # print(f"idxs12: {idxs12}")
-            # print(f"idxs2: {idxs2}")
+            print(f"idxs11 shape: {idxs11.shape}")
+            print(f"idxs12 shape: {idxs12.shape}")
+            print(f"idxs2 shape: {idxs2.shape}")
             # print(f"MASK11: {mask11}")
             # print(f"MASK12: {mask12}")
             # print(f"MASK2: {mask2}")
