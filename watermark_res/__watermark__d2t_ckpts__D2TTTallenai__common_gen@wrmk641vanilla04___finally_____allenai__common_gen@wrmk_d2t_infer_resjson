@@ -1,0 +1,2002 @@
+[
+    [
+        " She carefully placed the pencil in the sharpener and began to sharpen it, her hand steady as she waited for the sharp point to emerge.<|eot_id|>",
+        "In his hand he holds a pencil and uses a sharpener to sharpen it"
+    ],
+    [
+        " The lively music played in the background as the player swung the bat to hit the ball, trying to reach the distant range.<|eot_id|>",
+        "The boy at the batting range hits the ball while music plays in the background."
+    ],
+    [
+        " She decided to use a brush to style her hair.<|eot_id|>",
+        "I use a brush to brush my hair."
+    ],
+    [
+        " The tailor carefully ironed the shirt on the ironing board.<|eot_id|>",
+        "A woman uses an iron and a board to iron a shirt."
+    ],
+    [
+        " The carpenter carefully selected a special tool to use in order to design a beautiful piece of furniture that would not burn easily, even when made from wood.<|eot_id|>",
+        "A man can use a tool to burn a design into a piece of wood."
+    ],
+    [
+        " The baby was trying to suck the yolk out of the egg from the bottle.<|eot_id|>",
+        "The athlete sucked the egg yolk out of the bottle."
+    ],
+    [
+        " She fell asleep in the back seat of the car.<|eot_id|>",
+        "The young girl slept in her seat as the car whizzed by the streetlights"
+    ],
+    [
+        " The happy kid eagerly waited to ride his bike down the street.<|eot_id|>",
+        "The kid rode the bike down the street."
+    ],
+    [
+        " The kids loved to ride their bikes along the riverbank.<|eot_id|>",
+        "ride a bike along river ."
+    ],
+    [
+        " The user must insert a coin into the machine and then press the button to start the process.<|eot_id|>",
+        "The woman inserted the coins into the vending machine and pressed the button."
+    ],
+    [
+        " The kids love to take turns playing their favorite game, but they always argue over which part of the board they get to control.<|eot_id|>",
+        "All of the boys took part in the game."
+    ],
+    [
+        " The enthusiastic fan sat down to watch the exciting game between her favorite team and their rival, cheering on her star player.<|eot_id|>",
+        "the player watch the time as he thought about how he would win the game for his team"
+    ],
+    [
+        " The carpenter struggled to hold the heavy piece of wood in place, worried that it would break under the weight of the hammer.<|eot_id|>",
+        "A karate person is show breaking apart three pieces of wood being held up."
+    ],
+    [
+        " The whole family gathered together to celebrate their special occasion and share their love, which was beautifully presented in an open and warm atmosphere.<|eot_id|>",
+        "The family opens a present from the neighbor."
+    ],
+    [
+        " The athlete prepared to throw the javelin on the field, then sprinted to run around the track.<|eot_id|>",
+        "Athletes compete on the field by running track and throwing a javelin."
+    ],
+    [
+        " The pedestrian carefully watched the oncoming traffic before deciding to cross the busy street.<|eot_id|>",
+        "A girl kept watch when she crossed the street."
+    ],
+    [
+        " The beautiful ballet dancer was instructed to pose in place, but she was eager to continue dancing and didn't want the performance to end, so she decided to hold off on striking the final pose.<|eot_id|>",
+        "The girl continues to hold her drink while she dances and she maintains a pose for a picture until the recording ends."
+    ],
+    [
+        " The construction team was ready to pour the concrete foundation for the new building, and the large truck was waiting to haul away the old structure.<|eot_id|>",
+        "Two men pouring concrete onto another truck."
+    ],
+    [
+        " The happy dog eagerly pulled on its leash as its owner prepared to sle across the snowy field with a team of enthusiastic skiers.<|eot_id|>",
+        "People ride sleds pulled by teams of sled dogs through the snow"
+    ],
+    [
+        " The couple sat down on the bench to tie the balloon to the railing.<|eot_id|>",
+        "A couple sit on a park bench with purple balloons tied to it."
+    ],
+    [
+        " The energetic band played lively music that made everyone want to dance.<|eot_id|>",
+        "The girl will dance when the band plays music."
+    ],
+    [
+        " The athlete stood in front of the mirror at the gym, carefully observing her form as she prepared to lift the heavy weight.<|eot_id|>",
+        "At a gym a man lift weights in front of a mirror."
+    ],
+    [
+        " The customer will look at the item before purchasing it at the store.<|eot_id|>",
+        "A woman looking at items in a store."
+    ],
+    [
+        " She carefully aimed her dart at the target on the board, ready to hit the bullseye.<|eot_id|>",
+        "He hit the dart board."
+    ],
+    [
+        " The child tightly held the toy in her hand.<|eot_id|>",
+        "The kid wants o hold the new toy in his hand."
+    ],
+    [
+        " The child carefully placed the ball in her hand and prepared to roll it with her arm.<|eot_id|>",
+        "A boy rolling a small ball in his arms and hands with music playing"
+    ],
+    [
+        " She decided to look for the item she needed at the nearby store.<|eot_id|>",
+        "He looks for a specific item at the store, but can not find it."
+    ],
+    [
+        " The singer carefully chose a shirt to wear while preparing to singe her voice on stage, but first she had to adjust the microphone.<|eot_id|>",
+        "The microphone clipped to his shirt burst into flames and singed a hole in his attire, he would need to wear something else this evening."
+    ],
+    [
+        " The old man carefully prepared his fishing line to catch a big fish from the hole in the lake.<|eot_id|>",
+        "The catch of he day was a big fish i caught at my favorite fishing hole."
+    ],
+    [
+        " The player will jump high to dunk the ball through the hoop after running down the court.<|eot_id|>",
+        "I saw a boy run with the ball and jump to dunk it into the hoop."
+    ],
+    [
+        " The vibrant graffiti on the wall was so striking that it would stand out even if it were to wear a coat of paint to cover it up.<|eot_id|>",
+        "The man stands by a wall, wearing a mask to cover his face while he tags graffiti"
+    ],
+    [
+        " The family decided to walk down the street instead of driving.<|eot_id|>",
+        "Driving on the street is faster than walking"
+    ],
+    [
+        " The pop star confidently grasped the microphone and began to sing her hit song to the cheering crowd on stage.<|eot_id|>",
+        "The child held the microphone and sang on stage."
+    ],
+    [
+        " The coach asked the players to stand in line and watch as he demonstrated how to properly hold the bat.<|eot_id|>",
+        "The boy holds a cup while he stands and watches the game."
+    ],
+    [
+        " She carefully shaved her leg while trying to watch the TV show.<|eot_id|>",
+        "A girl watches her mother shave her legs."
+    ],
+    [
+        " As she stood on the edge of the cliff, she carefully unfolded the map and used her hand to guide the loose earth, trying not to shake the fragile terrain, while below, the majestic silhouette of the mountain range stretched out across the world.<|eot_id|>",
+        "My hand shakes at the silhouette of the world on the map."
+    ],
+    [
+        " The happy kid ran into the yard to play with the ball.<|eot_id|>",
+        "The young kid hit the ball into the neighbor's yard"
+    ],
+    [
+        " The happy dog will jump up onto the counter to eat the food that is left there, but it's not allowed in this place.<|eot_id|>",
+        "The dog jumped upon the counter to eat the food which had been placed there."
+    ],
+    [
+        " She decided to fix the flat tire on her bike before heading out for a ride.<|eot_id|>",
+        "A man is fixing the back tire of his bike."
+    ],
+    [
+        " The elegant ballerina will perform a beautiful dance while wearing a stunning dress.<|eot_id|>",
+        "She has to pick out a dress before she performs her dance"
+    ],
+    [
+        " The star player will stand on the field and hold the stick to hold the jersey.<|eot_id|>",
+        "Three hockey players in red jerseys are standing together holding hockey sticks."
+    ],
+    [
+        " The group decided to head to the room to grab a cold beer and enjoy a drink together.<|eot_id|>",
+        "Three men drink beer in the living room."
+    ],
+    [
+        " The bridesmaid will help the bride wear her dress and receive compliments from the guests.<|eot_id|>",
+        "The woman receives a friend's help to wear the bridesmaid dress."
+    ],
+    [
+        " She carefully twirled the spaghetti around her fork with her hand and then sat down to eat.<|eot_id|>",
+        "The man eats the spaghetti with his hands while he sits."
+    ],
+    [
+        " The curious dog was eager to jump over the fence to catch the bird that was perched on the other side, but it had to be careful not to get its mouth dirty.<|eot_id|>",
+        "A big bird stood on the fence. This made the dog nextdoor jump up and down barking and snarling with his small mouth."
+    ],
+    [
+        " The skilled player was determined to catch the ball during the intense game.<|eot_id|>",
+        "One of the players caught the ball in order to win the game."
+    ],
+    [
+        " She carefully cut the vegetables in the kitchen with the sharp knife.<|eot_id|>",
+        "She used a kitchen knife to cut the food."
+    ],
+    [
+        " The athletes must prepare thoroughly if they want to have a good chance of winning the upcoming race.<|eot_id|>",
+        "The girl prepared to run the race."
+    ],
+    [
+        " The children sat in the backseat of the car.<|eot_id|>",
+        "The little kid sits in the backseat of the car."
+    ],
+    [
+        " She carefully poured the cream into the bowl, ready to eat her cereal with a spoon.<|eot_id|>",
+        "The girl eats ice cream with a spoon."
+    ],
+    [
+        " She decided to wear her new short shoe to the party.<|eot_id|>",
+        "The short man wears brown shoes."
+    ],
+    [
+        " The farmer will examine the soil in the field to determine where to hold the shovel for the worker to dig.<|eot_id|>",
+        "The man in the field examines the shovel as the worker holds it up."
+    ],
+    [
+        " The mom asked the kid to put the toys in the bag so they could leave to gather more supplies.<|eot_id|>",
+        "Hey Kid, gather those apples and put them in the bag and don't leave any behind."
+    ],
+    [
+        " She carefully placed the mirror in front of her, making sure her hair looked perfect before it would stand out in the upcoming photoshoot.<|eot_id|>",
+        "She fixed her hair by choosing to stand in front of the mirror."
+    ],
+    [
+        " The cowboy expertly lassoed the runaway cow and horse.<|eot_id|>",
+        "A man was on a horse trying to catch a cow with the lasso"
+    ],
+    [
+        " She decided to sit on the floor and take off her shirt to relax.<|eot_id|>",
+        "Her shirt fell to the floor, in the place that I usually sit."
+    ],
+    [
+        " She carefully wrote a word on a piece of paper, then added a dash of pepper to the sentence to give it a unique flavor.<|eot_id|>",
+        "The author sprinkles pepper on the eggs and writes some words on the piece of paper."
+    ],
+    [
+        " The barber carefully shaved the man's head.<|eot_id|>",
+        "The barber shaved the man's head."
+    ],
+    [
+        " The manager will stand in front of the screen to give his report to the investors.<|eot_id|>",
+        "A news reporter stands in front of a screen giving her report."
+    ],
+    [
+        " The goat will stand by the fence and wait for its kid to come and feed.<|eot_id|>",
+        "The kid was told to stand by the fence while he fed the goat."
+    ],
+    [
+        " The machine will fill the bottle with the liquid and then hold it in place until it is securely sealed.<|eot_id|>",
+        "The woman held a bottle and filled it with liquid dispensed by a machine."
+    ],
+    [
+        " The adventurous climber carefully wrapped the rope around the sturdy anchor on the side of the building, preparing to make her ascent.<|eot_id|>",
+        "The man tried to climb the outside of the building only using a rope"
+    ],
+    [
+        " The talented athlete prepared to leap over the hurdle on the track, ready to make a quick run.<|eot_id|>",
+        "The athlete runs through the track, leaping and hurdling over obstacles."
+    ],
+    [
+        " She likes to wear a helmet when she goes for a ride on her bike, especially when she's wearing a new shirt.<|eot_id|>",
+        "A girl ride a bike and wear a shirt and a helmet"
+    ],
+    [
+        " The celebrity will walk onto the stage to accept the prestigious award.<|eot_id|>",
+        "A boy walks on the stage to accept his award."
+    ],
+    [
+        " The duck's wing began to flap wildly as it prepared to dive into the water.<|eot_id|>",
+        "A duck flaps its wings near the water."
+    ],
+    [
+        " My friend is always trying to tell me a joke, but it's so bad that it makes me laugh.<|eot_id|>",
+        "The boy laughed too loud in class because his friend told him a joke."
+    ],
+    [
+        " The excited crowd gathered in their seats to watch the concert, waiting for the performers to take the stage.<|eot_id|>",
+        "The concert takes place on a stage while the crowd watches."
+    ],
+    [
+        " She decided to sit on the bench and wear her new hat.<|eot_id|>",
+        "Hat wearing man is sitting on the bench."
+    ],
+    [
+        " The boy carefully held the ball while wearing his favorite shirt.<|eot_id|>",
+        "Small boy with no shirt on holding up a soccer ball. "
+    ],
+    [
+        " She carefully blew a big bubble with her gum, but it popped quickly when she tried to chew it.<|eot_id|>",
+        "A woman chewing gum blows a bubble until it pops."
+    ],
+    [
+        " She hesitated to take his hand, but he encouraged her to shake it and then they could finally start to talk.<|eot_id|>",
+        "A boy could talk or shake their hand."
+    ],
+    [
+        " The carpenter carefully inserted the drill into the hole to secure the piece of wood.<|eot_id|>",
+        "The man will drill a hole in the piece of wood."
+    ],
+    [
+        " She carefully sat down on the stool to tune her guitar.<|eot_id|>",
+        "He sits on the stool to play the guitar."
+    ],
+    [
+        " The energetic crowd cheered loudly as the basketball players took to the court, their faces set in determined expressions.<|eot_id|>",
+        "We sat in the front of the crowd to watch basketball."
+    ],
+    [
+        " She carefully began to climb the steep cliff, her eyes fixed on the breathtaking view at the top.<|eot_id|>",
+        "The man feared what he would find when he climbed to the top of the mountain and looked over the cliff."
+    ],
+    [
+        " The family decided to have a picnic on the side of the park and enjoy their sandwiches while watching the kids play.<|eot_id|>",
+        "The man parks his car at the side of the street."
+    ],
+    [
+        " She carefully put her hand on her head to try and soothe the headache.<|eot_id|>",
+        "He puts a hand to his head."
+    ],
+    [
+        " The beautiful ballet will continue to dance until the music ends, at which point the performers will strike a final pose and hold it for a moment before taking a bow.<|eot_id|>",
+        "The performer continues to dance and ends by holding the pose."
+    ],
+    [
+        " The ironing board was covered in wrinkles as she ironed the shirt.<|eot_id|>",
+        "The lady is ironing the shirt with the iron on the ironing board."
+    ],
+    [
+        " The boy will ride the horse to hit the ball with a stick.<|eot_id|>",
+        "A horse that hits a ball and his owner rides with a stick."
+    ],
+    [
+        " She carefully sat down in the chair to wash her foot.<|eot_id|>",
+        "as I sit in the chair, I washed the dirt off my left foot"
+    ],
+    [
+        " The bird swooped down to try and catch a fish right out of the water, but it skillfully dodged and swam away, eventually landing safely back in the water.<|eot_id|>",
+        "The bird in flight is about to land on water to catch a fish.,"
+    ],
+    [
+        " She carefully poured the wine into the glasses and invited everyone to sit at the table to drink.<|eot_id|>",
+        "The family likes to sit at the table and drink wine."
+    ],
+    [
+        " She carefully sat down in the chair, making sure not to touch the cold floor.<|eot_id|>",
+        "A dog sits on the floor next to a chair."
+    ],
+    [
+        " The skilled player was determined to kick the ball into the goal.<|eot_id|>",
+        "A player is planning to kick the ball into the goal."
+    ],
+    [
+        " The kid will sit in her new class tomorrow.<|eot_id|>",
+        "A kid in the class sits in a chair."
+    ],
+    [
+        " She carefully poured the refreshing beverage into the glass.<|eot_id|>",
+        "The man poured the beverage into the glass."
+    ],
+    [
+        " The kids loved to ride their bikes along the track, feeling like they were racing each other, while their dad mowed the lawn with the mower.<|eot_id|>",
+        "Several men race around a track on riding lawn mowers."
+    ],
+    [
+        " The goalie made an incredible shot to block the opposing team's goal.<|eot_id|>",
+        "Goalie in a hockey game blocking a shot by another team."
+    ],
+    [
+        " She carefully chose the right tool to use in order to pick the lock and gain access to the room.<|eot_id|>",
+        "Pick and use lock tool"
+    ],
+    [
+        " She decided to sit down at the table in the kitchen to enjoy her morning coffee.<|eot_id|>",
+        "Mom asked us to go sit at the kitchen table so that we could eat breakfast."
+    ],
+    [
+        " The family carefully paddled their boat across the calm lake, finally reaching the peaceful shore.<|eot_id|>",
+        "a girl is paddling a wooden boat to get to shore"
+    ],
+    [
+        " He decided to wear his favorite shirt while cooking the juicy meat on the grill.<|eot_id|>",
+        "You should wear a shirt while cooking meat on the grill."
+    ],
+    [
+        " The elegant woman wore a stunning white suit to watch the sunset over the vast ocean.<|eot_id|>",
+        "The groom wears a suit to his ocean weeding."
+    ],
+    [
+        " She likes to sit at her desk and use her favorite pen to write, but when she's feeling creative, she loves to grab her drum and start beating out a rhythm.<|eot_id|>",
+        "The man beat the drum and use his pen to sit and write his music."
+    ],
+    [
+        " The excited fans were eager to engage with their favorite team during the intense game.<|eot_id|>",
+        "Two teams are engaged in a soccer game."
+    ],
+    [
+        " The chef carefully cut the tomato into a perfect piece on the wooden board.<|eot_id|>",
+        "The chef was cutting the tomatoes into small pieces on the board."
+    ],
+    [
+        " The talented musician carefully chose the perfect dress to wear as part of her elaborate costume, while the instrument she had carefully selected lay beside her.<|eot_id|>",
+        "his costume consisted of a dress and a box resembling an instrument."
+    ],
+    [
+        " The child carefully placed the puzzle piece on the paper on the floor and sat down to admire its new position.<|eot_id|>",
+        "The child sits on the floor and draws on a piece of paper."
+    ],
+    [
+        " She decided to sit on the bench and talk on her phone.<|eot_id|>",
+        "A man sitting on a bench talking on a phone."
+    ],
+    [
+        " The ball will hit the ground if you throw it against the wall and it falls.<|eot_id|>",
+        "A man throws an axe which hit a red wooden wall and falls to the ground."
+    ],
+    [
+        " The family decided to take their dog on a walk to enjoy the beautiful winter scenery and track the animal's paw prints in the fresh snow.<|eot_id|>",
+        "Large happy family walking down railroad tracks with two dogs in the winter."
+    ],
+    [
+        " The bird will eat its food from the cup that the farmer will hold.<|eot_id|>",
+        "The bird eats the food from the cup that is the owner is holding."
+    ],
+    [
+        " The gardener carefully dug a hole in the ground to plant a new tree.<|eot_id|>",
+        "The woman dug a hole into the ground so that she could plant a tree in it."
+    ],
+    [
+        " The dealer shuffled the deck of cards and dealt one to each player, who eagerly awaited the outcome of the game, as the chip stacks on the table grew.<|eot_id|>",
+        "The salesman at the car dealers charged the man at the table a credit card with a chip to make a deal"
+    ],
+    [
+        " The player carefully rolled the dice to determine which space to move her piece on the board.<|eot_id|>",
+        "After rolling the dice, the girl moves her piece across the board and wins the game."
+    ],
+    [
+        " The family gathered around the table to sit and watch as their father dealt out the cards.<|eot_id|>",
+        "The gambler sits at the blackjack table as his cards are dealt."
+    ],
+    [
+        " She carefully took the soap and began to rub it on her hand.<|eot_id|>",
+        "A man rubs his hands with soap after using the bathrooom."
+    ],
+    [
+        " The gymnast will begin her routine by jumping onto the beam to perform a series of impressive aerial stunts.<|eot_id|>",
+        "The athlete begins her routine and she performs by jumping on the beam."
+    ],
+    [
+        " The chef will demonstrate how to cook an egg in a pan by scrambling it.<|eot_id|>",
+        "The woman demonstrated how to cook scrambled eggs in a pan."
+    ],
+    [
+        " She carefully opened the box to use the key to attach the small lock to the door.<|eot_id|>",
+        "The key that is attached to the box can be used to open it."
+    ],
+    [
+        " The dirty dishes will stand in the sink until we wash them.<|eot_id|>",
+        "I stand and wash the dishes at the sink."
+    ],
+    [
+        " She carefully aimed to throw the ball to her teammate.<|eot_id|>",
+        "The teammates threw the ball to each other."
+    ],
+    [
+        " The carpenter carefully used the sharp knife to cut through the thick wood.<|eot_id|>",
+        "The knife cut into the wood chopping board"
+    ],
+    [
+        " The children eagerly grasped the handrails as they prepared for the thrilling ride through the windy air.<|eot_id|>",
+        "man riding bicycle with hands in the air"
+    ],
+    [
+        " The experienced hiker carefully selected the necessary equipment before attempting to climb the steep mountain.<|eot_id|>",
+        "use the equipment to climb the mountain"
+    ],
+    [
+        " The heavy door slowly slid open with a creak.<|eot_id|>",
+        "The new homeowner requested a patio door that slides open."
+    ],
+    [
+        " The elegant lady carefully painted a beautiful picture.<|eot_id|>",
+        "The artist paints a picture of a lady."
+    ],
+    [
+        " The group of friends decided to sit down at the bar and order a round of beers to drink.<|eot_id|>",
+        "I went to sit at a bar to get a beer to drink."
+    ],
+    [
+        " The kids loved to run and jump in the sandbox, creating a huge pile of sand that was easy to track.<|eot_id|>",
+        "The pile runs on the sand and the sand jumps on the track."
+    ],
+    [
+        " She decided to sit on the bench and talk on her phone.<|eot_id|>",
+        "Let's sit down on the bench and talk about our phones."
+    ],
+    [
+        " The kids eagerly waited at the edge of the pool, ready to cheer on their friends as they prepared to swim down the lane.<|eot_id|>",
+        "A woman cheered in the swim lane of the pool."
+    ],
+    [
+        " The kid loves to walk and talk at the same time.<|eot_id|>",
+        "When a kid is little, it is natural to learn how to talk and walk."
+    ],
+    [
+        " The family of ducks waddled down to the lake to swim and enjoy the warm summer day.<|eot_id|>",
+        "The duck swims on the lake."
+    ],
+    [
+        " The brave skier stood tall, ready to hold her ground as she prepared to shovel the heavy snow off her driveway.<|eot_id|>",
+        "The boy chose to stand in the snow while holding his shovel."
+    ],
+    [
+        " She will sit in the chair and give a presentation.<|eot_id|>",
+        "Give her a chair to sit on please."
+    ],
+    [
+        " The talented athlete sprinted down the track, preparing to clear the next hurdle in her race.<|eot_id|>",
+        "A athlete would run track in the hurdle."
+    ],
+    [
+        " The cat decided to sit in front of the window to cover its face from the bright sunlight.<|eot_id|>",
+        "A man with a covered face sits."
+    ],
+    [
+        " The talented ballerina was nervous but excited to perform her routine at the prestigious dance competition.<|eot_id|>",
+        "There is a dance competition where the little girl has to perform her routine"
+    ],
+    [
+        " The children eagerly waited to start shoveling the heavy snow off the ground.<|eot_id|>",
+        "The mab shovels the snow off the ground."
+    ],
+    [
+        " The children ran across the field to watch their kite soar high in the sky as it flew away.<|eot_id|>",
+        "The boy runs fast so that he can fly his kite in the field next to his house."
+    ],
+    [
+        " The adventurous child loved to jump up and down the stairs, pretending it was a thrilling flight.<|eot_id|>",
+        "A lady had to jump up the stairs so she wouldnt miss her flight."
+    ],
+    [
+        " The chef carefully cut the pineapple slices with a sharp knife, all while humming along to the upbeat music playing in the background.<|eot_id|>",
+        "A man cuts pineapple using a knife by playing music in the background"
+    ],
+    [
+        " The family decided to take their dog for a walk on a cold winter day to get some exercise and track their progress.<|eot_id|>",
+        "The family walks with the dog around the track during the winter."
+    ],
+    [
+        " She carefully attached the rope to the sturdy branch of the tree before climbing up to retrieve the lost kite.<|eot_id|>",
+        "The woman is attaching a rope to a tree in order to climb it."
+    ],
+    [
+        " The painter carefully applied the paint to the wall using a roller, but first put on a mask to protect herself from the fumes and wear old clothes to avoid getting stained.<|eot_id|>",
+        "A girl wears a mask while using a paint roller to paint a wall."
+    ],
+    [
+        " She carefully put the food in her mouth with her hand.<|eot_id|>",
+        "A group of teenagers eat some food that they picked by hand and then put into their mouth."
+    ],
+    [
+        " She carefully poured the soap into the sink and began to wash her hand under the running water.<|eot_id|>",
+        "I turned on the water and used soap to wash my hands in the sink."
+    ],
+    [
+        " The happy duck waddled down to the lake and eagerly began to swim.<|eot_id|>",
+        "The duck is swimming in a lake."
+    ],
+    [
+        " The athlete will run around the track to warm up before the competition, where her coach will watch her every move from the pit area.<|eot_id|>",
+        "Iam going to watch my son, run his car around the track and to stop at the pit"
+    ],
+    [
+        " The family decided to take a leisurely ride along the scenic road that wound through the picturesque area.<|eot_id|>",
+        "The ride on the area road was rough."
+    ],
+    [
+        " The brave soldier stood tall, ready to hold his ground, as he aimed his gun to shoot the enemy flag.<|eot_id|>",
+        "The man stands by a flag holds his gun and shoots."
+    ],
+    [
+        " She stood at the front of the stage, ready to wave to the crowd with her free hand.<|eot_id|>",
+        "The men in front waved hands."
+    ],
+    [
+        " The dog loves to sit by the bathtub while its owner gives it a bath.<|eot_id|>",
+        "The dog needed a bath so he decided to give him a bath in the bathtub."
+    ],
+    [
+        " She decided to take a break and fix the flat tire on her bike.<|eot_id|>",
+        "The woman was using a wrench to remove the tire and fix her bike."
+    ],
+    [
+        " The family will ride in their new vehicle to the amusement park and wear matching t-shirts.<|eot_id|>",
+        "Two people are riding in a vehicle while wearing helmets."
+    ],
+    [
+        " She carefully put her hand on her head to scratch an itch.<|eot_id|>",
+        "The men put hands on the heads of the boys."
+    ],
+    [
+        " She carefully shaved her face in front of the mirror, taking a moment to look at her reflection before finishing up.<|eot_id|>",
+        "the man shave while look at his face in the mirror"
+    ],
+    [
+        " The happy kid eagerly waited for his parents to take him to the park to play on the swing.<|eot_id|>",
+        "It is always fun to swing a kid in the park."
+    ],
+    [
+        " She decided to ride her bicycle down the street instead of walking.<|eot_id|>",
+        "A man will ride his bicycle down the street instead of walking."
+    ],
+    [
+        " The kids loved playing a game of catch in the school gym with a big, red ball.<|eot_id|>",
+        "We need a ball to play the soccer game in the gym."
+    ],
+    [
+        " The excited child couldn't help but vigorously shake her head as she eagerly watched the fireworks explode in the sky.<|eot_id|>",
+        "The boy watched the dog shake its head after the storm."
+    ],
+    [
+        " The happy dog loves to run around in the lush green grass and wear its favorite collar.<|eot_id|>",
+        "A dog wearing a red collar runs over the grass."
+    ],
+    [
+        " The sharp needle is designed to pierce the skin, allowing me to sit comfortably in the chair while getting my ear pierced.<|eot_id|>",
+        "The girl pierces the man's ear while he sits on the chair."
+    ],
+    [
+        " The kids loved to jump into the cool pool on a hot summer day, wearing their colorful swimsuits.<|eot_id|>",
+        "The boy in his swimsuit took a jump into the pool on a hot summer day."
+    ],
+    [
+        " The gymnastics team will perform their new routine at the upcoming competition.<|eot_id|>",
+        "The team was performing their routine training."
+    ],
+    [
+        " The experienced mechanic carefully weld a new piece of metal onto the worn gear, knowing it would withstand the heavy wear and tear.<|eot_id|>",
+        "A piece of the metal gear showed some wear around the welds."
+    ],
+    [
+        " She needs to apply the dye to her hair in the bathroom so she can stand in front of the mirror and watch it transform.<|eot_id|>",
+        "A girl stands in her bathroom and applies red dye to her hair."
+    ],
+    [
+        " The excited kid was eager to jump off the diving board into the cool pool on a hot summer day.<|eot_id|>",
+        "The kid will jump into the pool off the diving board."
+    ],
+    [
+        " She carefully selected the right tool to pick the lock and use it to gain access to the restricted area.<|eot_id|>",
+        "The policeman used a pick, a tool used to open a lock."
+    ],
+    [
+        " The happy dog eagerly waited for its owner to throw the ball so it could chase after it.<|eot_id|>",
+        "The girl watched the owner of the dog throw the ball for it to chase."
+    ],
+    [
+        " The soccer player had to prepare herself in her uniform before she could kick the ball.<|eot_id|>",
+        "The girl prepares to kick the ball while wearing her uniform."
+    ],
+    [
+        " The excited team will win the game and then celebrate with a big party.<|eot_id|>",
+        "The team celebrates after winning the game."
+    ],
+    [
+        " After the massage therapist finished, she asked the client to lie down on the table to work on his sore leg.<|eot_id|>",
+        "A person massages a leg of a person who is lying on a table"
+    ],
+    [
+        " The happy toddler sat contentedly on her mother's lap.<|eot_id|>",
+        "A toddler can sit on the lap of his mother."
+    ],
+    [
+        " The child carefully placed the toy in her hand and sat down to play with it on the chair.<|eot_id|>",
+        "Sit on the chair and hand the toy to me."
+    ],
+    [
+        " The star player will stand on the field to watch the team take the field.<|eot_id|>",
+        "Players of a baseball team and standing on a field with people watching."
+    ],
+    [
+        " The happy dog loves to walk on top of the hill.<|eot_id|>",
+        "The child will walk to the top of the hill with his dog."
+    ],
+    [
+        " She likes to sit on the couch and eat a chip.<|eot_id|>",
+        "The tired man sat on his couch eating chips as he watched football on T.V."
+    ],
+    [
+        " The talented singer will perform on stage wearing a stunning outfit.<|eot_id|>",
+        "The girl will wear this outfit to perform on stage."
+    ],
+    [
+        " The friends gathered in the living room to drink a cold beer.<|eot_id|>",
+        "A man drinks a can of beer in his room."
+    ],
+    [
+        " The teacher carefully followed the instruction to fold the paper into a precise triangle, then gave it to the student to complete their project.<|eot_id|>",
+        "A man gives instructions on folding a piece of paper."
+    ],
+    [
+        " The talented singer was set to perform on stage, wearing a stunning outfit that was sure to impress the audience.<|eot_id|>",
+        "7 dancers in white outfits performing on a black stage."
+    ],
+    [
+        " She carefully used her fork to twirl the spaghetti around her fork, then held it out to her husband to take a bite, but he politely declined, asking her to hold the fork for him instead.<|eot_id|>",
+        "Holding a fork in her hand, the girl began to eat the spaghetti."
+    ],
+    [
+        " The gymnast will perform her routine on the mat.<|eot_id|>",
+        "A routine is performed on a mat."
+    ],
+    [
+        " She needs to use a brush to style her hair, but first she must dry it after her shower so that it doesn't blow away in the wind.<|eot_id|>",
+        "She begins to blow dry her hair with a round brush."
+    ],
+    [
+        " The tennis player carefully held the racket, ready to hit the birdie back over the net.<|eot_id|>",
+        "People hit the birdie with a racket in a game badminton."
+    ],
+    [
+        " The family will sit on the couch to watch their favorite TV show on the television.<|eot_id|>",
+        "A boy spent the evening sitting on the couch and watching a documentary on television."
+    ],
+    [
+        " The ball is going to hit the ground if it doesn't stop in time and will surely fall.<|eot_id|>",
+        "Someone is hit and falls to the ground."
+    ],
+    [
+        " The acrobat will begin to perform her routine by jumping onto the beam.<|eot_id|>",
+        "A girl begins to perform her routine by jumping on the balance beam."
+    ],
+    [
+        " She decided to wear a superhero costume to walk around the city for Halloween.<|eot_id|>",
+        "Teenagers wear costumes and walk to the party."
+    ],
+    [
+        " She carefully put the contact lens in her eye.<|eot_id|>",
+        "The woman put the contact lens in her eye."
+    ],
+    [
+        " The kids couldn't wait to blow out the candle on their mom's birthday cake so they could start singing \"Happy Birthday\".<|eot_id|>",
+        "The family sings happy birthday as the boy blows out the candles on the cake."
+    ],
+    [
+        " The excited team will celebrate if they win the game.<|eot_id|>",
+        "The boys on the team will celebrate winning the game."
+    ],
+    [
+        " She carefully used a brush to scrub away the stubborn stain on her shoe.<|eot_id|>",
+        "I took my shoes off before using a brush to scrub the dirty soles of them."
+    ],
+    [
+        " The kids loved to sit on the couch and watch as their dad blew up the bright red balloon.<|eot_id|>",
+        "A little girl is sitting on a couch trying to blow up a balloon."
+    ],
+    [
+        " She will continue to hold the pose until the music tells her to dance.<|eot_id|>",
+        "The woman continued to dance while she was holding her posing toddler."
+    ],
+    [
+        " The player prepared to stand on the court and toss the ball against the wall.<|eot_id|>",
+        "A boy stands in the basketball court tossing a ball against the wall."
+    ],
+    [
+        " The dealer shuffled the deck and placed a card on the table.<|eot_id|>",
+        "The dealer lays the last cards onto the table."
+    ],
+    [
+        " The kids loved to play outside and watch the ball bounce in the grass, feeling the joy of having plenty of time to themselves.<|eot_id|>",
+        "She is to bounce the ball a hundred times I 2 minutes."
+    ],
+    [
+        " The happy dog loves to jump up on the counter to try to eat the food that's left there, but its owner always tries to place it in a different spot.<|eot_id|>",
+        "A guy places food on the counter and the dog jumps up and eats it."
+    ],
+    [
+        " The officer was forced to stand in the middle of the busy street to direct traffic.<|eot_id|>",
+        "In order to direct traffic, the cop must stand in the middle of the road."
+    ],
+    [
+        " The farmer will stand in the field to look for any signs of new growth.<|eot_id|>",
+        "The coach stands along the field, looking at the goalkeeper."
+    ],
+    [
+        " The experienced swimmer glided effortlessly through the water, effortlessly swimming down the lane.<|eot_id|>",
+        "The swimmer was told to swim in his lane of the pool."
+    ],
+    [
+        " She likes to wear her favorite hat on the front of her jacket when she's about to stand up in front of an audience.<|eot_id|>",
+        "The man wears a green hat and jacket while standing in front of a mountain."
+    ],
+    [
+        " The family decided to ride their horse across the river.<|eot_id|>",
+        "horse riding on the river"
+    ],
+    [
+        " The janitor will demonstrate how to effectively use a squeegee to clean the window.<|eot_id|>",
+        "A man used a squeegee to demonstrate how to clean a second story window."
+    ],
+    [
+        " The children will run across the field to watch their kite fly high in the sky.<|eot_id|>",
+        "Let's go to the field and run around and fly our kite."
+    ],
+    [
+        " The happy dog eagerly waited for its owner to bring it food to eat while sitting by the bowl.<|eot_id|>",
+        "The little dog eats the food from his favorite bowl."
+    ],
+    [
+        " The children will sit on the grass, but they will stand up when the teacher comes.<|eot_id|>",
+        "Cows are sitting and standing in the grass"
+    ],
+    [
+        " The strong gust of wind threatened to blow the freshly cut grass off the lawn, so we decided to leave it alone.<|eot_id|>",
+        "The leaves are blowing onto the lawn."
+    ],
+    [
+        " She couldn't help but laugh as she tried to rip the paper into a perfect piece.<|eot_id|>",
+        "The group will have to laugh as they rip each piece of paper."
+    ],
+    [
+        " The ball is going to hit the ground and then fall.<|eot_id|>",
+        "I am afraid to fall on the ground especially because I might hit my head on a rock."
+    ],
+    [
+        " The family will sit at the table in their cozy house.<|eot_id|>",
+        "I saw her sit on the table in the house."
+    ],
+    [
+        " The old man carefully placed the hook in the hole and waited patiently to catch a fish.<|eot_id|>",
+        "The older man put his fishing rod into the hole to catch some fish"
+    ],
+    [
+        " The team worked hard to reach their goal of scoring a touchdown on the opponent's field.<|eot_id|>",
+        "We were playing on the soccer field trying to score a goal."
+    ],
+    [
+        " She carefully attached the rope to the sturdy branch before attempting to climb the tall tree.<|eot_id|>",
+        "A man is slowing climbing up a tree attached to ropes"
+    ],
+    [
+        " The talented singer grasped the microphone and began to sing along to her favorite song.<|eot_id|>",
+        "singer sings the song with a microphone ."
+    ],
+    [
+        " The kids loved to ride the board down the big hill as the leaves began to fall.<|eot_id|>",
+        "A person riding a snow board trying not to fall."
+    ],
+    [
+        " She gently massaged his sore toe with her hand, carefully avoiding his sensitive foot.<|eot_id|>",
+        "The massage parlour only focused on toes and would not touch your hand or even the rest of your foot."
+    ],
+    [
+        " The archer must prepare carefully and take aim before shooting the arrow from the bow at the target.<|eot_id|>",
+        "Prepare to shoot the arrow out of the bow, aim at the target."
+    ],
+    [
+        " The talented ballerina was determined to perform her best routine at the prestigious dance competition.<|eot_id|>",
+        "The girl is practicing for the upcoming dance competition and I'm confident she will perform well."
+    ],
+    [
+        " She asked me to stop taking the picture.<|eot_id|>",
+        "A man stops and takes a picture of them."
+    ],
+    [
+        " She carefully sat down in the chair, ready to use the clippers to cut her hair.<|eot_id|>",
+        "A young man sits in a chair while his hair is cut with clippers"
+    ],
+    [
+        " She carefully shaved her face in front of the mirror, making sure to get every last hair, before taking a moment to look at her smooth reflection.<|eot_id|>",
+        "Looking in the mirror the man used a razor to shave his face, it was a daily task but he didn't like having a beard so he shaved before going to work everyday."
+    ],
+    [
+        " She carefully sat down on the stool to tune her guitar.<|eot_id|>",
+        "man sitting on stool playing a guitar"
+    ],
+    [
+        " The excited crowd is eagerly waiting to take their seats and watch the concert on stage.<|eot_id|>",
+        "A large crowd of people watch the stage as an outside concert takes place."
+    ],
+    [
+        " The bird watched as the fish struggled to catch its breath before being landed by the fishermen on the shore.<|eot_id|>",
+        "From land, I try to catch birds, and from the water I catch fish."
+    ],
+    [
+        " She carefully grasped the doorknob with her hand and slowly turned it to open the door.<|eot_id|>",
+        "The woman put out her hand to open the door."
+    ],
+    [
+        " The police officer had to push the car to the side of the street after it broke down on a dark night.<|eot_id|>",
+        "Push the car on the street at night."
+    ],
+    [
+        " She carefully painted the beautiful picture.<|eot_id|>",
+        "A small girl with face paint paints a picture outside."
+    ],
+    [
+        " She decided to sit on the bench and look at her own hair in the mirror.<|eot_id|>",
+        "The girl sits as she looks in the mirror while styling her hair."
+    ],
+    [
+        " The construction team carefully planned the process to pour the concrete into the frame of the truck.<|eot_id|>",
+        "The guy used concrete to pour on the road so he can drive his truck."
+    ],
+    [
+        " She carefully fed her baby with a spoon, making sure he ate his food.<|eot_id|>",
+        "The baby refused to eat any food when being fed with a spoon."
+    ],
+    [
+        " The cowboy carefully wrapped the lasso around the calf's legs.<|eot_id|>",
+        "The Cowboy used a lasso to capture the escaped calf."
+    ],
+    [
+        " The child was thrilled to ride on the back of the majestic horse to the top of the hill.<|eot_id|>",
+        "The girl rode on top of the horse."
+    ],
+    [
+        " The family decided to take a leisurely walk along the riverbank, where they stumbled upon a large rock that had been worn smooth by the gentle flow of the water.<|eot_id|>",
+        "A boy walks by a river and throws rocks."
+    ],
+    [
+        " She carefully placed the juicy slice of watermelon on the table and then stood up to eat it with her hand.<|eot_id|>",
+        "The teenage girl stood a the table eating watermelon with her hands."
+    ],
+    [
+        " She carefully made her way to the top of the cliff, preparing herself to take the leap and jump off into the unknown.<|eot_id|>",
+        "Th sad man got to the top of the cliff to jump off."
+    ],
+    [
+        " She decided to wear her warmest jacket to walk in the snow.<|eot_id|>",
+        "A man wears a jacket and walks in the snow."
+    ],
+    [
+        " The family parked their car on the side of the street to watch the kids play in the park.<|eot_id|>",
+        "cars parked both side od a street"
+    ],
+    [
+        " The kid eagerly waited for the game to begin, carefully holding his paper in one hand and the scissor in the other, while his opponent chose rock.<|eot_id|>",
+        "Two kids play a friendly game of rock,paper,scissors, shoot with one another."
+    ],
+    [
+        " The happy dog loves to run through the lush green grass, wearing a happy grin on its face.<|eot_id|>",
+        "The dog that ran across the grass did not wear a lead."
+    ],
+    [
+        " The happy dog loves to run and chase after the stick, but it's too heavy for it to carry.<|eot_id|>",
+        "A dog carrying a stick runs to it's owner."
+    ],
+    [
+        " She decided to sit down on the chair to wash her dirty foot.<|eot_id|>",
+        "a boy sitting in a chair while lady wash his feet."
+    ],
+    [
+        " The child was eager to sit down in the chair and watch the balloon pop.<|eot_id|>",
+        "Freddie decided to sit in his chair and pop a balloon."
+    ],
+    [
+        " The point guard made a perfect pass to the teammate, who then shot the ball into the hoop, winning the game.<|eot_id|>",
+        "A game of basketball being two teams as the ball is passed and tosses to and fro."
+    ],
+    [
+        " She decided to take a break and ride her bike while waiting for her phone to check the message.<|eot_id|>",
+        "The woman took a break from her ride in her car to stop at a rest stop to check her phone."
+    ],
+    [
+        " The experienced runner decided to jog along the winding road.<|eot_id|>",
+        "The runner jogs on the road."
+    ],
+    [
+        " The family decided to stand under the sturdy branch of the tall tree to take a family photo.<|eot_id|>",
+        "A bird standing on a branch of a tree."
+    ],
+    [
+        " It's her turn to hit the ball, but she's going to take a moment to adjust her swing before trying to score.<|eot_id|>",
+        "A group of guys take turns hitting a ball."
+    ],
+    [
+        " The talented player will stand on the field and watch the opposing team take the field.<|eot_id|>",
+        "An injured player stands at the edge of the field to watch the team play."
+    ],
+    [
+        " The dirty dishes will stand in the sink until they are washed.<|eot_id|>",
+        "It is best to stand in front of the sink when it is time to wash dishes by hand."
+    ],
+    [
+        " The sewing machine sat quietly in front of her, waiting for her to sit down and start sewing.<|eot_id|>",
+        "A woman sits in front of a machine, sewing diligently."
+    ],
+    [
+        " The brave firefighter had to climb up the side of the building using a sturdy rope to rescue the stranded family.<|eot_id|>",
+        "A superhero uses a rope to climb a building."
+    ],
+    [
+        " The dog will wear a special number on its collar to identify it as it runs along the track.<|eot_id|>",
+        "The dog wears a number bib as it runs down the track."
+    ],
+    [
+        " The kids loved to ride the wave at the beach on a sunny day.<|eot_id|>",
+        "The surfer rides waves every day."
+    ],
+    [
+        " The crowd will gather on the street to watch the wave of surfers ride the waves and wave their flags in celebration.<|eot_id|>",
+        "A crowd gathers on the street and waves the flag."
+    ],
+    [
+        " The experienced worker carefully cut the branch from the sturdy tree.<|eot_id|>",
+        "The worker cuts the branch from the tree."
+    ],
+    [
+        " The teacher asked her students to use the colorful marker to highlight the capital city on the map of their country.<|eot_id|>",
+        "Girl uses different colored-markers to color the different countries on a map."
+    ],
+    [
+        " The kids loved to ride their scooters down the steep hill.<|eot_id|>",
+        "The boy rides the scooter on a hill."
+    ],
+    [
+        " The player carefully aimed and then threw the dart at the wall, hoping to hit the target on the dartboard.<|eot_id|>",
+        "A man threw a dart at the board on the wall."
+    ],
+    [
+        " She decided to wear a superhero costume to walk down the street and surprise her friends.<|eot_id|>",
+        "holloween the kid wear costume and walk the street pick up candy"
+    ],
+    [
+        " She decided to wear a special shirt to help her climb up the wall.<|eot_id|>",
+        "The man wearing the red shirt climbed the wall."
+    ],
+    [
+        " The quarterback was ready to throw the ball, hoping to catch the attention of the receiver in the air.<|eot_id|>",
+        "I picked up and apple and threw it in the air so he could catch it"
+    ],
+    [
+        " She carefully sat down on the floor, resting her weary leg.<|eot_id|>",
+        "The person's leg touched the floor when he sat down."
+    ],
+    [
+        " The dog loves to sit in the bathtub with its owner, waiting to be given a bath.<|eot_id|>",
+        "The teenager made a big mess in the bathtub giving her dog a bath."
+    ],
+    [
+        " The kids loved to jump into the pool and then dive down to the bottom to swim.<|eot_id|>",
+        "The dive board was used to jump into the pool."
+    ],
+    [
+        " The children loved to ride their horse under the shade of the big oak tree.<|eot_id|>",
+        "the horse rode over the tree"
+    ],
+    [
+        " The lady carefully styled her hair using the dryer to remove the dryness.<|eot_id|>",
+        "The lady used a dryer to dry her hair."
+    ],
+    [
+        " The customer had to look carefully to find the item she wanted in the store.<|eot_id|>",
+        "I looked at the item at the grocery store."
+    ],
+    [
+        " She carefully picked up her pencil and began to write on the paper, trying to create a beautiful piece of art.<|eot_id|>",
+        "The boy will use a piece of paper and a pencil to write his assignment."
+    ],
+    [
+        " The midfielder prepared to kick the football across the field, hoping to score a goal.<|eot_id|>",
+        "The football player kicked a field goal on the field."
+    ],
+    [
+        " The couple decided to let their energetic kid play in the room while they enjoyed a romantic dinner.<|eot_id|>",
+        "A couple of kids enter a room."
+    ],
+    [
+        " She carefully grasped the orange with one hand and held the knife in the other, ready to begin peeling the fruit.<|eot_id|>",
+        "The cook's hand shook while holding the knife to peel the orange."
+    ],
+    [
+        " The happy dog loves to run along the beach and play in the water.<|eot_id|>",
+        "The dog on the beach ran near the water."
+    ],
+    [
+        " The family decided to ride their bike around the block to get a better view of the new building going up at the front of the neighborhood.<|eot_id|>",
+        "I ride my bike in front of the building."
+    ],
+    [
+        " The bartender carefully poured the cold beer into a frosty glass at the end of the bar.<|eot_id|>",
+        "The bar man pours some beer into the girl's glass."
+    ],
+    [
+        " The mother asked her child to sit down in the chair.<|eot_id|>",
+        "My mother will sit in her chair all day."
+    ],
+    [
+        " She decided to sit on the couch and eat a delicious chip.<|eot_id|>",
+        "Two men are sitting on the couch eating chips"
+    ],
+    [
+        " She carefully brushed her hair, then shaved her face, and finally washed her tooth before getting ready for bed.<|eot_id|>",
+        "A man is getting ready by shaving, brushing his teeth and washing his hair."
+    ],
+    [
+        " She decided to wear her favorite goggle to swim in the pool.<|eot_id|>",
+        "Don't forget to wear your goggles while swimming in the pool."
+    ],
+    [
+        " The mechanic carefully welded the metal piece onto the gear to ensure it would withstand the wear and tear.<|eot_id|>",
+        "A man wearing welding gear melts a piece of metal with a torch"
+    ],
+    [
+        " The skilled player carefully guided the horse across the field, using the mallet to gently urge it to ride.<|eot_id|>",
+        "A man rides a horse through a field with a mallet, he was a polo player"
+    ],
+    [
+        " The skater was eager to ride her skateboard and perform a tricky trick in front of the crowd.<|eot_id|>",
+        "A man riding a skateboard performs a trick."
+    ],
+    [
+        " She carefully held the small bird in her hand, making sure not to open her mouth too wide and close it gently around its tiny beak.<|eot_id|>",
+        "The woman was holding the apply close to her mouth."
+    ],
+    [
+        " The kids loved to throw the ball down the alley lane.<|eot_id|>",
+        "The ball dribbled through the lane between first and second, all the way to the alley in right field, leaving no time for a throw to home plate."
+    ],
+    [
+        " She carefully placed the delicate piece of paper in her hand, making sure not to tear it as she prepared to hold it up for everyone to see.<|eot_id|>",
+        "A man can hold a piece of paper in their hand."
+    ],
+    [
+        " The players will stand on opposite sides of the court, ready to toss the ball against the wall.<|eot_id|>",
+        "Stand on the court and I will toss the ball to over the wall."
+    ],
+    [
+        " The family gathered around the table to sit and enjoy their dinner by the soft glow of the candle.<|eot_id|>",
+        "A candle sits on a table."
+    ],
+    [
+        " She used her strong arm to help her friend raise the heavy box, and then they both jumped up in excitement.<|eot_id|>",
+        "The man raises his arms and jumps in a star motion."
+    ],
+    [
+        " The farmer attempted to throw the stick over the fence, but he ended up using a knife to cut it down instead.<|eot_id|>",
+        "A man against a fence attempts to fight using a stick against another man who threw a knife at him."
+    ],
+    [
+        " She carefully placed the pencil in the sharpener and began to sharpen it with her hand, making sure to hold it steady.<|eot_id|>",
+        "A woman sharpens a pencil with a small hand held sharpener."
+    ],
+    [
+        " She carefully placed the shirt on her head to wear.<|eot_id|>",
+        "The woman pulled the shirt she was going to wear over her head to get it on"
+    ],
+    [
+        " She decided to lie down on the bed to take a nap, but she had to look out the window to make sure no one was watching.<|eot_id|>",
+        "It was scary for the girl to lie on the bed without taking a look under it."
+    ],
+    [
+        " The family eagerly pushed off from the shore and began to paddle their raft down the serene river.<|eot_id|>",
+        "A girl paddles a raft down a river."
+    ],
+    [
+        " The dancer will continue to hold the pose until she's ready to dance again.<|eot_id|>",
+        "The dance instructor asked the class to continue to hold the pose for a picture."
+    ],
+    [
+        " It's essential to use a toilet brush to clean the toilet regularly.<|eot_id|>",
+        "A person can use a brush to clean a toilet."
+    ],
+    [
+        " The curious cat decided to sit on the soft floor.<|eot_id|>",
+        "A cat will like to sit on a warm floor."
+    ],
+    [
+        " The experienced surfer rode the waves of the vast ocean, determined to catch the perfect ride.<|eot_id|>",
+        "The surfer went to the ocean to catch a wave to surf."
+    ],
+    [
+        " The chef carefully stood in front of the hot pan, ready to flip the sizzling pancake in the kitchen.<|eot_id|>",
+        "The children stand around Grandpa in the kitchen as he would flip the pancake into the pan with ease."
+    ],
+    [
+        " The maintenance crew was called to suspend the scaffolding outside the building so they could clean the window.<|eot_id|>",
+        "People are suspended on top of a building to clean the windows."
+    ],
+    [
+        " The sailboat will stand tall on the shore before gliding smoothly across the water.<|eot_id|>",
+        "The people stood of the sea shore to dip their feet in the water."
+    ],
+    [
+        " She carefully selected a stylish outfit to wear, then carefully carried her bag as she walked down the street.<|eot_id|>",
+        "The woman carried a bag while walking down the street wearing a coat."
+    ],
+    [
+        " The lively music played in the background as the talented musician hit the ball with precision, showcasing his impressive range.<|eot_id|>",
+        "The teenager hit his ball in the range of 20 feet while music played in the background."
+    ],
+    [
+        " The talented musician was scheduled to perform on stage, but first, she had to watch a few minutes of music to get into the right mood.<|eot_id|>",
+        "Two men perform music while people watch."
+    ],
+    [
+        " She tried to sit down and read the paper, but it was so thin that it started to rip, making her laugh.<|eot_id|>",
+        "The student laughed when the piece of paper ripped when sitting down."
+    ],
+    [
+        " The musician decided to sit on the couch and watch his friend play the guitar.<|eot_id|>",
+        "Guitar sit in the corner while we watch the dancers"
+    ],
+    [
+        " She carefully picked up a small rock and gently threw it onto the calm pond, watching as it skipped across the water.<|eot_id|>",
+        "A man throws rocks in a pond."
+    ],
+    [
+        " The skilled juggler expertly juggled three flaming torches on a long stick, mesmerizing the crowd as they gathered to watch the daring display.<|eot_id|>",
+        "A man juggles three sticks on fire as a crowd watches."
+    ],
+    [
+        " She will give you the instruction on how to tie the tie.<|eot_id|>",
+        "A father gives his son instructions on how to tie a tie as the finishing touch to his suit."
+    ],
+    [
+        " The happy dog loved to run and catch the frisbee that its owner would throw through the air.<|eot_id|>",
+        "The boy threw the frisbee in the air for the dog to catch."
+    ],
+    [
+        " The crowd started to bang their heads to the music as the drummer began to beat out a lively rhythm.<|eot_id|>",
+        "Someone is listening and banging his head to the beat of the music."
+    ],
+    [
+        " She will sit down to talk with her friend and then try to smile.<|eot_id|>",
+        "While sitting and talking at dinner, she smiles at his joke."
+    ],
+    [
+        " She will stand on the rope to walk across the tightrope.<|eot_id|>",
+        "A guy stands on a tight rope but hesitates to walk across."
+    ],
+    [
+        " The child decided to skip rocks across the water, but had to stand carefully to avoid falling into the body of water.<|eot_id|>",
+        "A man stands next to a rock near the water where he found a body. He will skip breakfast."
+    ],
+    [
+        " The children loved to run along the winding path through the beautiful park.<|eot_id|>",
+        "The woman runs through the path in the park."
+    ],
+    [
+        " The snow fell heavily, covering the entire street.<|eot_id|>",
+        "In the winter the streets are often covered in snow."
+    ],
+    [
+        " The athlete decided to sit on the floor and exercise by swinging the rope while waiting for the ball to come back from the gym.<|eot_id|>",
+        "The girl sits on the ball and grabs the rope to exercise at the gym."
+    ],
+    [
+        " She carefully placed the delicious food on the plate and then sat down to sit and enjoy her meal.<|eot_id|>",
+        "The boy sat and picked at the food on his plate."
+    ],
+    [
+        " The strong athlete was ready to stand tall and smash the grape with his powerful foot.<|eot_id|>",
+        "A person standing in a tub smashes green grapes with their feet."
+    ],
+    [
+        " She decided to wear a short skirt to the party, hoping to make a statement in the crowded room.<|eot_id|>",
+        "The girl chose to wear a short skirt before she left the room."
+    ],
+    [
+        " The happy dog likes to eat in front of the house.<|eot_id|>",
+        "The dog eats food inside the house."
+    ],
+    [
+        " The rider carefully put on his helmet before taking off on his motorcycle down the winding road.<|eot_id|>",
+        "Adult  ride their motorcycle with their helmet on  their  head in the road"
+    ],
+    [
+        " She decided to wear her raincoat and hold an umbrella to protect herself from the rain on the busy street.<|eot_id|>",
+        "I wear a coat and hold an umbrella while walking down the street in the rain."
+    ],
+    [
+        " The surfer struggled to stay on the board as the wave began to fall apart beneath him.<|eot_id|>",
+        "The surfers falls off his board during a big wave"
+    ],
+    [
+        " She likes to sit and read a book while wearing her favorite shirt.<|eot_id|>",
+        "the woman wearing shirt and sits on bench for reading books"
+    ],
+    [
+        " She likes to wear a fancy dress to match her favorite pair of shoes.<|eot_id|>",
+        "A girl plans to wear a dress and nice shoes to the dance."
+    ],
+    [
+        " She carefully rubbed the soap onto her hand to clean it thoroughly.<|eot_id|>",
+        "I will now rub the soap on my dirty hand."
+    ],
+    [
+        " The star player will walk onto the field to join her team.<|eot_id|>",
+        "The team will walk to the field with the players."
+    ],
+    [
+        " The cowboy expertly roped the calf during the rodeo, preparing for the next horse to ride.<|eot_id|>",
+        "The calf was tied up with rope at the rodeo by a man riding a horse."
+    ],
+    [
+        " The family carefully navigated their boat onto the dock, ready to enjoy a day of swimming in the nearby water.<|eot_id|>",
+        "The boat was at a dock in the water."
+    ],
+    [
+        " The bartender carefully poured the cold beer from the tap into a glass for the thirsty customer sitting at the bar.<|eot_id|>",
+        "A man poured a beer into a glass from the tap in a bar"
+    ],
+    [
+        " The charismatic leader stood confidently in front of the audience, ready to deliver a powerful speech that would inspire and motivate the crowd.<|eot_id|>",
+        "The woman gave a speech to the audience."
+    ],
+    [
+        " The marching band proudly played their instruments down the busy street.<|eot_id|>",
+        "The band marched down the street with many instruments."
+    ],
+    [
+        " She decided to sit down and eat a refreshing piece of watermelon.<|eot_id|>",
+        "A little boy sat on the porch eating a piece of watermelon."
+    ],
+    [
+        " The old ladder leaned against the wall, waiting for the painter to use it to reach the high ceiling to apply the fresh coat of paint.<|eot_id|>",
+        "The boy will need to stand on the ladder to paint the top of the wall."
+    ],
+    [
+        " The family decided to take a leisurely ride through the woods along the winding trail.<|eot_id|>",
+        "the woman rides through the woods on a trail."
+    ],
+    [
+        " She decided to sit on the bench to talk on her phone.<|eot_id|>",
+        "The woman sits on the bench to talk on her daughter on the phone."
+    ],
+    [
+        " The little boy watched in delight as the ball bounced off his head.<|eot_id|>",
+        "The boy bounced the ball off his head."
+    ],
+    [
+        " She decided to use a tool to pick the lock and gain access to the room.<|eot_id|>",
+        "A man uses a metal tool to pick a door lock."
+    ],
+    [
+        " The player sprinted around the bases, finally reaching home plate after hitting a home run.<|eot_id|>",
+        "A young boy hits a baseball and runs to first base."
+    ],
+    [
+        " The happy dog loves to fetch the ball when its owner throws it.<|eot_id|>",
+        "I threw the ball for my dog to fetch."
+    ],
+    [
+        " The lady carefully lifted the heavy weight at the gym.<|eot_id|>",
+        "At the gym, the lady will lift the weight."
+    ],
+    [
+        " The baseball player swung his bat and hit the ball, which bounced loudly off the floor.<|eot_id|>",
+        "A boy hits ball on the floor."
+    ],
+    [
+        " She carefully placed the small gift in her pocket and made sure to stand still, so as not to accidentally drop it.<|eot_id|>",
+        "The boy has his hands in his pocket as he stands at he bus stop."
+    ],
+    [
+        " She likes to sit on the couch and stretch her arm after a long day.<|eot_id|>",
+        "She woke up sit and stretched her arms above her head."
+    ],
+    [
+        " The excited quarterback was ready to throw the football to his teammate during the big game.<|eot_id|>",
+        "The girl threw the football to score the touchdown that won the game."
+    ],
+    [
+        " The ball is going to come flying back after I hit it.<|eot_id|>",
+        "When the boy hits the ball against the wall it often comes back."
+    ],
+    [
+        " The skilled player carefully considered her next move in the intense chess game, trying to decide which piece to move next.<|eot_id|>",
+        "he loves to play the game of chess where the pieces move their own ways."
+    ],
+    [
+        " She decided to sit down and listen carefully to what her friend had to say, rather than trying to talk over her.<|eot_id|>",
+        "the woman friends sit and talk as she listens to them."
+    ],
+    [
+        " The powerful music motivated her to lift the heavy weight, and she could finally feel the weight lifting off her shoulders as she listened to the rhythmic beats.<|eot_id|>",
+        "Listen to music while weight lifts."
+    ],
+    [
+        " She carefully cut the ripe tomato with a sharp knife.<|eot_id|>",
+        "cut the tomato with knife"
+    ],
+    [
+        " The family decided to decorate the beautiful tree in their front yard and then talk about their holiday plans.<|eot_id|>",
+        "A man and his wife sat down to talk about how to decorate the x-mass tree for Christmas!"
+    ],
+    [
+        " She carefully held the bottle in one hand and her favorite shirt in the other.<|eot_id|>",
+        "A small boy uses his shirt to hold a large bottle."
+    ],
+    [
+        " After washing my face, I used a brush to shave my beard, then washed my hair and brushed my teeth.<|eot_id|>",
+        "The woman washed her hair, brushed her teeth, and shaved her legs."
+    ],
+    [
+        " The excited kid loved to build sandcastles on the beach, but he would rather talk about his adventures in the nearby castle.<|eot_id|>",
+        "A group of kids at the beach are building a sand castle while talking."
+    ],
+    [
+        " The tennis player had to carefully hold the racket in order to hit the ball into the next room.<|eot_id|>",
+        "The man holds a racket that he uses to hit the ball across the room."
+    ],
+    [
+        " The sleek black car drove down the street, coming to a stop right in front of the house.<|eot_id|>",
+        "front of car on street parked next"
+    ],
+    [
+        " The snow covered the entire street.<|eot_id|>",
+        "The street was covered in snow."
+    ],
+    [
+        " The happy dog loves to run and carry a stick in its mouth.<|eot_id|>",
+        "A dog is running carrying a stick."
+    ],
+    [
+        " The beautiful mural will stand proudly on the wall once it's fully painted.<|eot_id|>",
+        "painting a standing wall is hard"
+    ],
+    [
+        " The kids loved to jump high into the air on the trampoline.<|eot_id|>",
+        "Jump on the trampoline and fly in the air."
+    ],
+    [
+        " The lady will wear her favorite sunglass while sitting by the pool.<|eot_id|>",
+        "The ladies sitting are all wearing sunglasses."
+    ],
+    [
+        " The family stood by the river, waiting to catch a glimpse of the fish swimming in the water.<|eot_id|>",
+        "catching fish in the river"
+    ],
+    [
+        " The experienced hiker carefully packed her equipment before preparing to climb the steep mountain.<|eot_id|>",
+        "The man uses climbing equipment to scale the mountain."
+    ],
+    [
+        " The goalie's primary goal was to practice her moves to effectively protect the net.<|eot_id|>",
+        "At practice, the goalie attempted to protect the goal using a new move."
+    ],
+    [
+        " The loving couple decided to sit down on the bench together, where they carefully tied a string around the balloon they had just purchased.<|eot_id|>",
+        "The couple ties a balloon while sitting on the bench."
+    ],
+    [
+        " The player carefully positioned herself on the side of the field, preparing to throw the ball.<|eot_id|>",
+        "The man throws the ball to the side."
+    ],
+    [
+        " The kids loved to swim in the pool, but they had to wear goggles to protect their eyes from the water.<|eot_id|>",
+        "The man wanted to wear his goggles while swimming in the salt water pool."
+    ],
+    [
+        " The kids loved to ride their scooters down the steep hill.<|eot_id|>",
+        "A boy is riding a scooter up a hill."
+    ],
+    [
+        " The skier prepared to jump off the steep slope.<|eot_id|>",
+        "The skiing man jumped when he was going down a ski slope."
+    ],
+    [
+        " The player had to run to first base to hit the ball.<|eot_id|>",
+        "A baseball player hits a ball and runs to first base."
+    ],
+    [
+        " The batter swung the bat to hit the ball, but it stuck to the field.<|eot_id|>",
+        "Man on horse hits ball with stick in a field."
+    ],
+    [
+        " She needed to fix her hair before she could look in the mirror.<|eot_id|>",
+        "Two men are fixing their hair in a mirror"
+    ],
+    [
+        " After finishing their walk, the happy dog jumped up onto the table to play with the ball, while its owner settled in to watch the game by the warm glow of the fireplace.<|eot_id|>",
+        "A dog walks by a lit fireplace while two people play a game on a table."
+    ],
+    [
+        " The talented dancer took center stage, her elaborate costume shimmering under the bright lights.<|eot_id|>",
+        "Music plays while dancers in costume perform on stage."
+    ],
+    [
+        " The skier grasped the rope tightly, ready to pull herself across the icy lake to the waiting boat, where her friends would help her hold steady.<|eot_id|>",
+        "The mean holds the rope as the boat pulls him and he stands on a ski."
+    ],
+    [
+        " She carefully turned on the faucet to wash her hand.<|eot_id|>",
+        "The teenager turned the faucet on to wash their hands."
+    ],
+    [
+        " The kid loved to run around the yard and throw the balloon up in the air.<|eot_id|>",
+        "The neighbor gave the kid a balloon for running and throwing the dog toy back in the yard."
+    ],
+    [
+        " The curious toddler insisted on eating her snack while sitting in the chair.<|eot_id|>",
+        "The toddler ate food whilst in his chair."
+    ],
+    [
+        " The happy couple decided to take a romantic ride down the quiet street.<|eot_id|>",
+        "couple ride a motorbike on the streets"
+    ],
+    [
+        " The band began to play their instruments as they marched down the busy street.<|eot_id|>",
+        "People are playing instruments marching down a street."
+    ],
+    [
+        " The ball will hit the ground and then fall.<|eot_id|>",
+        "when he hit the ball from upstair  it fall on the ground ."
+    ],
+    [
+        " She will sit down to eat the spaghetti with her hand.<|eot_id|>",
+        "The special boy would sit in his highchair and eat spaghetti with his left hand, never using a fork."
+    ],
+    [
+        " The couple decided to take a leisurely stroll through the park to use up some time before meeting Cain at the café.<|eot_id|>",
+        "I am used to take a couple of strolls with my friend cain"
+    ],
+    [
+        " She carefully placed the cup on the table, trying not to spill the contents, as she was about to take a sip, but then she felt a sudden urge to vomit.<|eot_id|>",
+        "The man has been drinking too much, and when he takes another drink from the cup, he suddenly vomits."
+    ],
+    [
+        " She decided to drive to the store to pick up a new phone charger for her car.<|eot_id|>",
+        "using a phone while driving a car"
+    ],
+    [
+        " The family decided to take a leisurely ride through the scenic trail that wound its way through the dense wood.<|eot_id|>",
+        "The boy rides his bike down a trail filled with wood trees."
+    ],
+    [
+        " The energetic band took to the stage, ready to dance the night away to the pulsating music, with the enthusiastic audience eagerly waiting at the front.<|eot_id|>",
+        "The kids dance to music on stage in front of an audience."
+    ],
+    [
+        " The excited dog eagerly waited for its owner to throw the frisbee, ready to catch it and hold it tight.<|eot_id|>",
+        "The dog held the frisbee in its mouth."
+    ],
+    [
+        " The tennis player refused to stand down and insisted on holding her ground in the court despite the loud racket from the crowd.<|eot_id|>",
+        "a woman stands on the court holding a racket"
+    ],
+    [
+        " The pitcher wound up and threw the ball, trying to catch the batter off guard.<|eot_id|>",
+        "The pitcher had to catch the ball so he could tag the player out."
+    ],
+    [
+        " The children will stand on the grass while their parents hold hands.<|eot_id|>",
+        "a man stands on grass holding a kite "
+    ],
+    [
+        " The teacher will hold a special ceremony to sign a peace treaty and then teach the students to read the agreement.<|eot_id|>",
+        "I hold a book with the sign of peace on the cover and reading it which teaches me a lot."
+    ],
+    [
+        " He decided to use a razor to trim his beard to a neat and tidy length.<|eot_id|>",
+        "TODAY I USE MY RAZOR AND I TRIM MY BEARD"
+    ],
+    [
+        " The excited crowd gathered around the stage to watch the talented performers dance and sing.<|eot_id|>",
+        "A large crowd of people watching a young girl perform a dance."
+    ],
+    [
+        " The weary traveler floated on the raft, gazing longingly at the serene body of water stretching out before him.<|eot_id|>",
+        "We see his body on the raft as it drifts on the water."
+    ],
+    [
+        " She carefully placed the pin on the paper to mark the exact spot where she would cut off a piece of dough to roll into a perfect ball.<|eot_id|>",
+        "A man rolls out a piece of dough on wax paper with a rolling pin."
+    ],
+    [
+        " The pedestrian carefully crossed the road, watching as the car approached from the front.<|eot_id|>",
+        "The man drives the car past the pedestrian crossing in front of him on the road."
+    ],
+    [
+        " The happy kid eagerly climbed up the ladder to reach the swing hanging from the playground's sturdy oak tree.<|eot_id|>",
+        "A kid on a swing at the playground."
+    ],
+    [
+        " She carefully began to climb the steep cliff, determined to reach the top.<|eot_id|>",
+        "The woman climbed to the top of the cliff and took in the scenery."
+    ],
+    [
+        " She carefully picked the ripe apple from the tree and put it in her bag.<|eot_id|>",
+        "I picked an apple from the tree and put it in my bag."
+    ],
+    [
+        " The tennis player was ready to hit the ball and watch it bounce back onto the other side of the net.<|eot_id|>",
+        "The man then bounces and hits one more ball."
+    ],
+    [
+        " The horse eagerly awaited its rider's signal to gallop across the open area beyond the sturdy fence.<|eot_id|>",
+        "The area near the woods has a little fence with a horse in it. People love to ride this horse."
+    ],
+    [
+        " The family will sit on the side of the table.<|eot_id|>",
+        "side now sit fifth in the table"
+    ],
+    [
+        " The exhausted swimmer clung to the raft, grateful to be out of the water and away from the cold, dark body of the lake.<|eot_id|>",
+        "an elephant on a raft in a body of water"
+    ],
+    [
+        " The clown tried to make the children laugh by sticking a funny nose on his face, but they just looked confused and wouldn't say a word.<|eot_id|>",
+        "A little girl keeps sticking her feet into a mans face as he says oh and she laughs."
+    ],
+    [
+        " The skilled player expertly passed the puck to his teammate.<|eot_id|>",
+        "The player passes the puck in the hockey game."
+    ],
+    [
+        " She sat down at the table to play her guitar.<|eot_id|>",
+        "A man sits alone at a table, playing guitar."
+    ],
+    [
+        " The experienced hikers carefully selected the necessary equipment to ensure a safe climb up the steep mountain.<|eot_id|>",
+        "A man without equipment is climbing a mountain."
+    ],
+    [
+        " The family decided to sit down at the table to enjoy their meal together.<|eot_id|>",
+        "The family sits at the table enjoying their visit."
+    ],
+    [
+        " The talented player decided to walk off the field after her team lost the game.<|eot_id|>",
+        "The entire team ran out onto the field except one player, he decided to walk."
+    ],
+    [
+        " The car was forced to stop at the street crossing.<|eot_id|>",
+        "He stops his car at the cross walk to let the man cross the street."
+    ],
+    [
+        " She carefully stirred the food in the pan with a spatula to ensure it was evenly cooked before serving.<|eot_id|>",
+        "A person uses a wooden spatula to stir food in a frying pan."
+    ],
+    [
+        " The sewing machine sat patiently on the front porch, waiting for someone to sit down and sew.<|eot_id|>",
+        "The fabric on the front of the machine needed a sew, so she decided to sit down and get it over with."
+    ],
+    [
+        " The charismatic leader stood confidently in front of the audience, ready to deliver a powerful speech.<|eot_id|>",
+        "I gave a speech to an audience full of children"
+    ],
+    [
+        " She carefully mixed the ingredients together with a spoon in a large bowl.<|eot_id|>",
+        "The man mix hes bowl of cereal with a spoon."
+    ],
+    [
+        " The hikers had to wear their best gear to prepare for the challenging hike and walk to the summit.<|eot_id|>",
+        "A man wears a backpack with hiking gear as he walks to the trail."
+    ],
+    [
+        " The judge demanded that the defendant stand trial in court to answer for the racket he was accused of holding.<|eot_id|>",
+        "A man standing on a court holding a racket."
+    ],
+    [
+        " She likes to walk around the block to look at her new neighbor's house.<|eot_id|>",
+        "Walk by the house and look at the door."
+    ],
+    [
+        " She carefully wrapped the towel around her face to dry it after washing.<|eot_id|>",
+        "A girl washes her face, she uses a towel to dry."
+    ],
+    [
+        " She carefully sat down on the floor to clothe the baby, then gently folded the soft blanket around her.<|eot_id|>",
+        "A girl sitting on the floor is folding her clothes."
+    ],
+    [
+        " The barber carefully shaved the man's head on the side.<|eot_id|>",
+        "head shave is not in just the side"
+    ],
+    [
+        " She decided to use a brush to style her hair.<|eot_id|>",
+        "A woman uses a brush to brush her hair."
+    ],
+    [
+        " The rock climber had to adjust her gear before attempting to climb the steep wall.<|eot_id|>",
+        "The woman needed to wear climbing gear to climb the rock wall."
+    ],
+    [
+        " She carefully poured the refreshing beverage into the glass.<|eot_id|>",
+        "beverage poured in a glass"
+    ],
+    [
+        " The child carefully holds the ball and prepares to throw it to his friend, who is waiting with a bat.<|eot_id|>",
+        "The pitchers throws the ball at the man who holds the bat."
+    ],
+    [
+        " The excited crowd watched in awe as the acrobatic performer prepared to jump through a flaming hoop.<|eot_id|>",
+        "When the batsman hit the ball for a six, one person among the crowd watching the play jumped out to catch the ball."
+    ],
+    [
+        " The pedestrian carefully checked for oncoming traffic before crossing the road, while the driver prepared to drive their car from the front of the parking lot.<|eot_id|>",
+        "The pedestrian walking in front of the car doesn't seem to notice the driving car on the road."
+    ],
+    [
+        " She carefully applied the paint to the wall using a roller, making sure to wear a mask to protect herself from the fumes.<|eot_id|>",
+        "Man paints a wall white with a long roller wearing a mask."
+    ],
+    [
+        " The tourist carefully selected a marker to use on the map to highlight the beautiful country she was planning to visit.<|eot_id|>",
+        "The girl uses a marker to color her country on a map."
+    ],
+    [
+        " The snow fell heavily, covering the entire street.<|eot_id|>",
+        "snow covered street in front"
+    ],
+    [
+        " She decided to take a puff from the cigarette and then look around to make sure no one was watching.<|eot_id|>",
+        "look, take a puff of the cigarette."
+    ],
+    [
+        " The cowboy carefully lassoed the wild horse, trying to catch it so he could finally ride it.<|eot_id|>",
+        "I went to a farm with animals, and while i was there i saw a guy catch a horse with a lasso and then ride it."
+    ],
+    [
+        " The dog will wear its new collar while playing in the water.<|eot_id|>",
+        "The dog wears a collar as he jumps into the water."
+    ],
+    [
+        " The energetic female and male duo took to the stage to perform a lively dance routine.<|eot_id|>",
+        "The female and male dance the tango."
+    ],
+    [
+        " The excited dog eagerly held onto the rope as it waited to be let off its leash and run freely in the air.<|eot_id|>",
+        "A dog in the air with a rope is illegal but his tooth is on hold."
+    ],
+    [
+        " The little calf struggled to free itself from the rope that was tied to the horse, eager to go for a ride.<|eot_id|>",
+        "when the calf finally grows to be a horse I will ride it teach it to rope"
+    ],
+    [
+        " She carefully approached the edge of the pool, preparing to jump in and cool off on the hot summer day.<|eot_id|>",
+        "The children jumped off the edge of the pool."
+    ],
+    [
+        " The player will stand on the court and toss the ball against the wall.<|eot_id|>",
+        "Two men are standing on a court and tossing a soccer ball at a wall."
+    ],
+    [
+        " The elegant lady carefully selected the colors to paint a beautiful picture.<|eot_id|>",
+        "A man painted a picture of a beautiful lady"
+    ],
+    [
+        " The jockey will wear a helmet to ride the horse.<|eot_id|>",
+        "The girl wears a helmet when riding a horse."
+    ],
+    [
+        " The baseball player carefully positioned his mitt to catch the ball that was about to be thrown by his teammate.<|eot_id|>",
+        "The players like to catch and throw the baseball with a mitt."
+    ],
+    [
+        " She carefully attempted to fold the delicate piece of clothing on the floor.<|eot_id|>",
+        "The woman attempted to fold a piece of clothing that had been thrown onto the floor."
+    ],
+    [
+        " The children will dig a hole and then plant a new tree in it.<|eot_id|>",
+        "A man digs a hole to plant a tree."
+    ],
+    [
+        " She carefully polished the shoe to make it shine before sitting down in the comfortable chair.<|eot_id|>",
+        "A man might for a chair to sit upon so that he could shine his shoes in comfort."
+    ],
+    [
+        " The excited crowd cheered as the skilled player dominated the game.<|eot_id|>",
+        "football players in the crowd for the game"
+    ],
+    [
+        " She decided to sit on the bed and read a book.<|eot_id|>",
+        "An book is sitting open on a bed."
+    ],
+    [
+        " The bridesmaid will help her best friend wear the beautiful dress and receive many compliments on her stunning appearance.<|eot_id|>",
+        "Bride wearing her wedding dress receives help by her bridesmaids wearing red dresses."
+    ],
+    [
+        " The swimmer dove into the water from the front of the boat, her body gliding effortlessly through the waves.<|eot_id|>",
+        "The front of my body was cold when it was facing the fountain because the water was cold."
+    ],
+    [
+        " The curious cat tried to hold onto the clip that was dangling from its owner's hand.<|eot_id|>",
+        "A man holds the cats paw and starts clipping its nails."
+    ],
+    [
+        " The curious cat loved to lay on its owner's bed and be petted.<|eot_id|>",
+        "A man lays on his bed petting his black cat."
+    ],
+    [
+        " The skilled carpenter carefully used a hammer and chisel to carve a intricate piece of wood.<|eot_id|>",
+        "I used a chisel and hammer to carve a piece of wood."
+    ],
+    [
+        " The lady asked the stylist to fix her hair.<|eot_id|>",
+        "The lady is fixing her hair with a comb."
+    ],
+    [
+        " The chef carefully poured the yolk into a separate bowl from the white, then added it to the bottle to make the special sauce.<|eot_id|>",
+        "I used a bottle to separate the egg whites from the eggs yolk."
+    ],
+    [
+        " The rock climber carefully attached the harness to the wall before preparing to wear it.<|eot_id|>",
+        "The man wears a harness as he climbs the rock wall."
+    ],
+    [
+        " She decided to take a puff from her cigarette before looking around to see if anyone was watching.<|eot_id|>",
+        "A man takes a puff of a cigarette and then looks at it."
+    ],
+    [
+        " The little girl loved to sit on the back of the horse and feel like she was on top of the world.<|eot_id|>",
+        "The girl sits on top of the horse."
+    ],
+    [
+        " She decided to sit down at the desk and use the keyboard to type up her report in the quiet room.<|eot_id|>",
+        "He would sit alone in his room with his keyboard."
+    ],
+    [
+        " The vase will stand on the floor in the living room.<|eot_id|>",
+        "The tile floor in the room was broken, so the students could no longer stand on it."
+    ],
+    [
+        " She decided to walk away, trying to shake off the feeling that someone was watching her from behind.<|eot_id|>",
+        "The man shook his head as he took a walk."
+    ],
+    [
+        " The vendor was busy selling a variety of fresh vegetables and fruits at the bustling market.<|eot_id|>",
+        "The vendor is selling fruits and vegetables at the market."
+    ],
+    [
+        " Please follow the instruction and fold the paper according to the diagram, then give it to me.<|eot_id|>",
+        "The student is to fold the instruction paper and give it to the teacher."
+    ],
+    [
+        " The happy dog will stand and look out the window at the snow.<|eot_id|>",
+        "A dog standing near snow looking at water."
+    ],
+    [
+        " They decided to sit at the table, grab a cold beer, and talk for hours.<|eot_id|>",
+        "The two friends sit at the table and talk while they drink their beer."
+    ],
+    [
+        " The player likes to wear a special shirt while kicking the ball.<|eot_id|>",
+        "The man wearing the shirt kicked the ball."
+    ],
+    [
+        " The homeowner decided to use the blower to blow leaves out of the yard.<|eot_id|>",
+        "A blower is used to blow leaves from a yard"
+    ],
+    [
+        " The happy dog loves to run around the field and catch the frisbee.<|eot_id|>",
+        "The dog ran across the field to catch the frisbee his owner threw him."
+    ],
+    [
+        " The vendor eagerly displayed her fresh produce, including juicy fruits and crisp vegetables, at the bustling market, hoping to sell them to hungry customers.<|eot_id|>",
+        "The vendor sells the fruits and vegetables in the market."
+    ],
+    [
+        " She loved to blow bubbles with her favorite gum, but hated when they would inevitably pop.<|eot_id|>",
+        "A boy blows and pops bubbles while chewing gum"
+    ],
+    [
+        " The athlete will sit on the floor and exercise by swinging the rope at the gym while holding a ball.<|eot_id|>",
+        "A man in a gym, sitting on a ball, exercising with a rope."
+    ],
+    [
+        " She carefully tried to fix her tangled hair in front of the mirror.<|eot_id|>",
+        "A girl wanted to fix her hair using a mirror."
+    ],
+    [
+        " The businessman carefully tied his tie and adjusted his suit before sitting down for the meeting.<|eot_id|>",
+        "A man dressed with a suit and a tie sits in front of me in the metro."
+    ],
+    [
+        " The actress carefully styled her hair to match the character's face, and then she was ready to move onto the next scene.<|eot_id|>",
+        "face hair like to move across his face"
+    ],
+    [
+        " The needle is designed to pierce the skin, but it's too sharp to sit on the chair, so we'll have to be careful not to touch it with our ear.<|eot_id|>",
+        "A girl sits in a chair as she gets her ears pierced."
+    ],
+    [
+        " The family gathered in front of the table to eat their delicious food.<|eot_id|>",
+        "In the front yard we eat food at our bbq."
+    ],
+    [
+        " She carefully turned the page to begin reading the book, but struggled to hold her attention.<|eot_id|>",
+        "To read a book you need to hold the book and turn a page as you read."
+    ],
+    [
+        " The excited dog eagerly watched as the kite soared high in the sky, ready to take off and fly away.<|eot_id|>",
+        "The dog likes to watch the kite fly in the air."
+    ],
+    [
+        " The driver lit a cigarette and rolled down the window to smoke while waiting in his car.<|eot_id|>",
+        "The woman smoked a cigarette inside the car"
+    ],
+    [
+        " The musician decided to sit on the couch and watch the guitarist play.<|eot_id|>",
+        "A man sits watching a lady play guitar."
+    ],
+    [
+        " The lady carefully styled her hair using the dryer to prevent it from becoming dry.<|eot_id|>",
+        "The lady tried to dry her hair with the hair dryer but it was broken and wouldn't turn on."
+    ],
+    [
+        " The friends decided to sit in a circle and talk about their plans for the weekend.<|eot_id|>",
+        "The students sit in a circle as the teacher talks."
+    ],
+    [
+        " The drummer decided to sit down and use his pen to write out the rhythm he wanted to beat on the drum.<|eot_id|>",
+        "A boy sat at the table and used a pen to beat on it like a drum."
+    ],
+    [
+        " She carefully pressed the button with her hand, making sure to hold it firmly to maintain control.<|eot_id|>",
+        "Two hands hold a small remote control and press a button on it."
+    ],
+    [
+        " The happy kid loves to walk along the beach and play in the cool water.<|eot_id|>",
+        "the kids walk on water"
+    ],
+    [
+        " She decided to cut her hair to match the trendy new style.<|eot_id|>",
+        "The barber cuts hair and has a keen sense of style."
+    ],
+    [
+        " The excited crowd erupted in cheers as the team scored the winning goal.<|eot_id|>",
+        "the crowd cheers as the teams fight over the goal."
+    ],
+    [
+        " The lazy cat likes to pet its owner and then lay down on the soft bed.<|eot_id|>",
+        "The man lays down on the bed to pet his cat."
+    ],
+    [
+        " As she unfolded the map, the silhouette of a distant mountain range began to take shape, and she couldn't help but shake her head in wonder at the vast world that lay before her, her hand instinctively reaching out to touch the parchment.<|eot_id|>",
+        "Two silhouettes of people shake hands in front of a map of the world"
+    ],
+    [
+        " The player will continue to watch the ball as she prepares to hit it to the side.<|eot_id|>",
+        "The boy can continue to watch them hit the ball from the side line."
+    ],
+    [
+        " The farmer asked the worker to examine the soil in the field before he could begin to dig with the shovel, and to hold the reins of the horse while he worked.<|eot_id|>",
+        "Three male construction workers hold shovels as they examine something in a field."
+    ],
+    [
+        " The sleek black car pulled up to the curb in front of the old house on the street.<|eot_id|>",
+        "The girl parked her car on the side of the street in front of the house."
+    ],
+    [
+        " The talented performer will wear a stunning costume to impress the audience from the front row.<|eot_id|>",
+        "The women wearing beautiful dresses are performing in front of an audience."
+    ],
+    [
+        " She will sit in the chair to eat the food from the bowl.<|eot_id|>",
+        "The boy sits on the chair to eat food in a bowl"
+    ],
+    [
+        " The hunter carefully aimed his gun at the target, making sure to point it directly at the center of the bull's head.<|eot_id|>",
+        "A man pointed his own gun at his head."
+    ],
+    [
+        " She carefully pulled the sander across the floor, but first she had to sit down in the chair to adjust the settings.<|eot_id|>",
+        "The man sits on the chair and pulls the sander back and forth on the floor."
+    ],
+    [
+        " The happy kid ran into the yard to play with the ball.<|eot_id|>",
+        "The kid kicked the ball around the yard."
+    ],
+    [
+        " The kids eagerly waited for the perfect moment to bounce the ball at the right time.<|eot_id|>",
+        "The ball bounces multiple times."
+    ],
+    [
+        " The couple decided to wait in line for a few minutes before ordering their food.<|eot_id|>",
+        "The couple will wait in line."
+    ],
+    [
+        " The family will stand on the side of the lake to watch their son and daughter sail away on their new boat.<|eot_id|>",
+        "He could see as the man stood on the boat from the shore side."
+    ],
+    [
+        " The carpenter carefully selected the right tool to use when designing a beautiful piece of furniture, making sure to avoid burning the wood during the process.<|eot_id|>",
+        "He watched the design on the wood burn, picked up a piece of it, and put it in his tool bag."
+    ],
+    [
+        " The excited crowd gathered on the beach to watch the intense volleyball match.<|eot_id|>",
+        "I like to be in the crowd to watch volleyball at the beach"
+    ],
+    [
+        " The dog will stand on the ground, but it will not sit.<|eot_id|>",
+        "A group of people standing and sitting on the ground."
+    ],
+    [
+        " The homeowner decided to use the leaf blower to blow the leaves off the yard.<|eot_id|>",
+        "The man uses his leaf blower to blow the leaves from the yard."
+    ],
+    [
+        " The homeowner decided to climb the ladder to clean the gutter of their house.<|eot_id|>",
+        "The man climbs a ladder to clean the gutter of the house."
+    ],
+    [
+        " The skilled player prepared to kick the ball towards the goal.<|eot_id|>",
+        "The player will kick a goal with the soccer ball."
+    ],
+    [
+        " The mechanic will use a gauge to check the pressure of the tire before he starts to demonstrate how to properly inflate it.<|eot_id|>",
+        "A man demonstrates how to use a tire gauge to check the pressure in a tire."
+    ],
+    [
+        " The homeowner carefully trimmed the hedge to create a neat and tidy border, while also making sure the ladder was securely positioned to reach the top of the hedge.<|eot_id|>",
+        "She climbed up the ladder to trim the hedge."
+    ]
+]

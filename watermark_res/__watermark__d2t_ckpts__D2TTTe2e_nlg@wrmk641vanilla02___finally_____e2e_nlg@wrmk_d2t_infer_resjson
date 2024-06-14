@@ -1,0 +1,2002 @@
+[
+    [
+        " Here's a natural language sentence:\n\nThe Cricketers is a family-friendly restaurant with average customer ratings, located near Café Sicilia.<|eot_id|>",
+        "The Cricketers is a children friendly restaurant near Café Sicilia. It has good customer ratings and a friendly atmosphere."
+    ],
+    [
+        " The Cricketers is a high-end Chinese restaurant located in the city centre, near All Bar One, that's family-friendly and has a poor customer rating of just 1 out of 5, but offers a wide range of options to suit all tastes.<|eot_id|>",
+        "As a restaurant also offering up Chinese Food, The Cricketers is a wonderful play to visit. Priced in the higher range, customers have given this restaurant a 1 out of 5 rating.  Located near the  center. of the city, children are welcome here and The Cricketers offers a menu  that they would also enjoy. Located  near All Bar One, The Cricketers should be on everyone's list as a place to try."
+    ],
+    [
+        " The Cricketers is a highly-rated restaurant, with a perfect 5 out of 5 customer rating, that's family-friendly and conveniently located near the Crowne Plaza Hotel.<|eot_id|>",
+        "For a restaurant near Crowne Plaza Hotel that is children friendly and has a customer rating of 5 out of 5, try The Cricketers."
+    ],
+    [
+        " Wildwood is a pub serving Italian food, located in the riverside area, not family-friendly, and situated near Raja Indian Cuisine.<|eot_id|>",
+        "There is a low price range pub Wildwood located close to the Raja Indian Cuisine. It has a superb view across the river."
+    ],
+    [
+        " The Blue Spice restaurant, which serves traditional English cuisine, is located in the riverside area and is family-friendly, situated conveniently near the Rainbow Vegetarian Café.<|eot_id|>",
+        "There is a restaurant that provides food and is children friendly, near Rainbow Vegetarian Café and the riverside and is called Blue Spice."
+    ],
+    [
+        " \"The Vaults is a high-end Indian restaurant located in the city centre, near Raja Indian Cuisine, but it's not a family-friendly spot.\"<|eot_id|>",
+        "This non kid friendly restaurant called The Vaults, can be found near Raja Indian Cuisine in the city centre which offers Indian food at a high price range."
+    ],
+    [
+        " Here's a sentence with natural language:\n\nThe Phoenix is a pub serving fast food at moderate prices, located in the riverside area, and is a family-friendly spot, conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "The Phoenix is a child friendly pub located near to Raja Indian Cuisine."
+    ],
+    [
+        " The Vaults is a Japanese pub located in the riverside area, near Raja Indian Cuisine, offering meals under £20, but with a low customer rating and not being family-friendly.<|eot_id|>",
+        "The Vaults is a Japanese pub near Raja Indian Cuisine in the riverside area. It has a price range of less than 20 pounds and a low customer rating, but it is family-friendly."
+    ],
+    [
+        " Here's a natural language sentence:\n\nThe Cricketers, a highly-rated 5-star Chinese restaurant located in the picturesque riverside area, offers delicious food at an affordable price, making it a great spot for families to enjoy a meal, and is conveniently situated near All Bar One.<|eot_id|>",
+        "The Cricketers is a Chinese restaurant with a 5 out of 5 rating. it is located in Riverside and is family friendly it is by All Bar One."
+    ],
+    [
+        " Here's a natural language sentence:\n\nThe Mill is a family-friendly restaurant serving English food, located in the riverside area, near Raja Indian Cuisine, and offers meals for under £20.<|eot_id|>",
+        "There is an inexpensive and family friendly restaurant serving English fare near Raja Indian Cuisine in riverside called The Mill."
+    ],
+    [
+        " The Green Man is a family-friendly pub serving Japanese food located in the riverside area, near the Express by Holiday Inn.<|eot_id|>",
+        "A pub with Japanese food is Green Man and is next to Express by Holiday Inn."
+    ],
+    [
+        " The Wrestlers is a family-friendly pub serving Japanese food in the riverside area, near Raja Indian Cuisine, with prices over £30.<|eot_id|>",
+        "Named The Wrestlers, this children friendly pub serves Japanese food  for a price range of more than  £30. It's locates near Raja Indian Cuisine on the riverside."
+    ],
+    [
+        " The Phoenix is a high-end fast food restaurant located in the riverside area, perfect for families, and conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "There is a family friendly restaurant called The Phoenix that is located near Raja Indian Cuisine with high price takeaway menu items."
+    ],
+    [
+        " The Waterman is an Italian restaurant located in the riverside area, offering high-end dining and is family-friendly, situated near Raja Indian Cuisine.<|eot_id|>",
+        "Conveniently located on the riverside, close to Raja Indian Cuisine, The Waterman is an elite, but family friendly established restaurant."
+    ],
+    [
+        " \"The Punter is a highly-rated Italian restaurant located in the riverside area, offering meals in the £20-25 price range, but it's not suitable for families and is conveniently situated near the Express by Holiday Inn.\"<|eot_id|>",
+        "The Punter is a restaurant near Express by Holiday Inn at riverside. It also provides Italian food at a price range of £20-25. It's not suitable for kids, however it is highly rated by customers."
+    ],
+    [
+        " Here's a sentence with natural language:\n\nThe Cricketers is a family-friendly restaurant with an average customer rating, conveniently located near Café Sicilia.<|eot_id|>",
+        "The Cricketers is a children friendly restaurant near Café Sicilia"
+    ],
+    [
+        " The Cricketers is a highly-rated, affordable English restaurant located in the city centre, near Café Rouge, but it's not suitable for families.<|eot_id|>",
+        "The Cricketers is a cheap, non-family-friendly restaurant with a 5 out of 5 customer rating. This restaurant, which features English food is located in the centre of the city near a Café Rouge."
+    ],
+    [
+        " The Mill is a pub serving fast food in the city centre, with a moderate price range, but unfortunately, it has a low customer rating of only 1 out of 5. It's not a family-friendly option, and you can find it near Café Sicilia.<|eot_id|>",
+        "City centre, fast food pub, The Mill is near Café Sicilia. It is not child friendly and has a customer rating of 1 out of 5."
+    ],
+    [
+        " The Cricketers is a moderate-priced Chinese restaurant located in the city centre, near All Bar One, with a customer rating of 3 out of 5, but it's not particularly family-friendly.<|eot_id|>",
+        "There is a restaurant near the All Bar One in the city centre called The Cricketers. It has a 3 out of 5 customer rating, no kids allowed and they serve Chinese."
+    ],
+    [
+        " The Phoenix is a cheap French pub located in the riverside area, family-friendly and near Raja Indian Cuisine.<|eot_id|>",
+        "Looking for French food at a low prices in a family friendly environment, check out The Phoenix pub in the riverside area by Raja Indian Cuisine"
+    ],
+    [
+        " The Vaults is a Japanese pub located in the riverside area, with prices under £20, but it has a low customer rating and isn't family-friendly, situated near Raja Indian Cuisine.<|eot_id|>",
+        "There is a Japanese pub called The Vaults located near Raja Indian Cuisine in the riverside area. It has a price range of less than 20 pounds and a low customer rating. It is also family-friendly."
+    ],
+    [
+        " The Clowns coffee shop, located near the Crowne Plaza Hotel, has an impressive 5 out of 5 customer rating.<|eot_id|>",
+        "Crowne Plaza Hotel is a coffee shop in Clowns with a rating 5 out of 5."
+    ],
+    [
+        " Wildwood is a family-friendly pub serving Indian food in the riverside area, conveniently located near Raja Indian Cuisine.<|eot_id|>",
+        "Wildwood is a pub that is children friendly that serves Indian food and is near Raja Indian Cuisine."
+    ],
+    [
+        " Here's a natural language sentence:\n\nThe Giraffe pub, located by the riverside, serves fast food and is a family-friendly spot, conveniently situated near the Rainbow Vegetarian Café.<|eot_id|>",
+        "If your kids want fast food, try Giraffe pub near the Rainbow Vegetarian Café in riverside."
+    ],
+    [
+        " Here's a sentence with natural language: \"The Giraffe restaurant in the city centre is a family-friendly fast food spot located near the Rainbow Vegetarian Café.\"<|eot_id|>",
+        "Giraffe, located in the city centre, is a restaurant that offers fast food.  This family-friendly restaurant can be found near the Rainbow Vegetarian Café."
+    ],
+    [
+        " The Vaults is a moderate-priced Italian pub located in the city centre, near Rainbow Vegetarian Café, but unfortunately, it has a poor customer rating of just 1 out of 5.<|eot_id|>",
+        "A pub named The Vaults with moderate prices selling Italian food, not for kids, with a rating of 1 out of 5. It is near Rainbow Vegetarian Café in the center of the city."
+    ],
+    [
+        " The Vaults is a French pub located in the riverside area, offering meals for under £20, but it's not a family-friendly spot and is situated near Raja Indian Cuisine.<|eot_id|>",
+        "The Vaults pub serves French for less than £20. Near Raja Indian Cuisine in riverside. No families."
+    ],
+    [
+        " The Punter is a family-friendly pub in the city centre that serves delicious Chinese food at an affordable price of under £20, conveniently located near Raja Indian Cuisine.<|eot_id|>",
+        "The Punter is a pub which serves Chinese food with a price range of less than £20.  It is located in the center of the city near the Raja Indian Cuisine and is family friendly."
+    ],
+    [
+        " The Vaults is a moderate-priced Italian pub located in the riverside area, near Rainbow Vegetarian Café, and is family-friendly, but only receives a rating of 1 out of 5 from customers.<|eot_id|>",
+        "Next to the river and Rainbow Vegetarian Café is a pub called The Vaults. It is suitable for families and offers medium prices for a one star venue."
+    ],
+    [
+        " \"The Mill is a pub serving English food for under £20, located in the city centre, not family-friendly, and conveniently situated near Raja Indian Cuisine.\"<|eot_id|>",
+        "If you want some traditional English food and are in the city center near Raja Indian Cuisine, check out The Mill pub for cheap eats - just don't bring your kids."
+    ],
+    [
+        " The Mill is a highly-rated pub serving fast food in the riverside area, with prices ranging from £20-25, and is family-friendly, located conveniently near Café Sicilia.<|eot_id|>",
+        "Located next to Café Sicilia on the river in City centre is a five star rated, family friendly pub that serves moderately priced burger and fries called The Mill."
+    ],
+    [
+        " The Cricketers is a highly-rated, English food restaurant in the city centre, offering affordable meals with a perfect 5 out of 5 customer rating, conveniently located near Café Rouge.<|eot_id|>",
+        "The Cricketers is a cheap restaurant located in the city centre. With a rating of 5 out of 5, and no kids allowed, this place will amaze you with it's English food. Located close to Café Rouge."
+    ],
+    [
+        " Here's a natural language sentence:\n\nThe Phoenix is a pub serving fast food with moderate prices, located in the city centre, near Raja Indian Cuisine, but it's not a family-friendly spot.<|eot_id|>",
+        "Located in the centre of the city near Raja Indian Cuisine, moderately priced The Phoenix offers an adult, non kid friendly fast food experience."
+    ],
+    [
+        " The Mill is a family-friendly pub located in the riverside area, serving fast food at a price range of £20-25, and conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "Near Raja Indian Cuisine at riverside there is a pub called The Mill which provides fast food. It has a price range of £20-25 and is kids friendly."
+    ],
+    [
+        " Blue Spice is a coffee shop located in the city centre.<|eot_id|>",
+        "Blue Spice is a coffee shop in city centre."
+    ],
+    [
+        " The Punter is a riverside Indian restaurant with prices under £20, but it has a low customer rating and isn't family-friendly, located near the Express by Holiday Inn.<|eot_id|>",
+        "In the riverside area, near Express by Holiday Inn, is a restaurant named The Punter. The Punter has Indian food, low ratings, not family friendly, and a price range of less than £20."
+    ],
+    [
+        " The Plough is a high-end pub serving Chinese food, located in the riverside area, not suitable for families, and conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "The Plough is a pub offering Chinese food. They are located riverside and are not children friendly. They can be found riverside near Raja Indian Cuisine."
+    ],
+    [
+        " The Wrestlers is a family-friendly pub serving Japanese food at moderate prices, located in the riverside area, conveniently near Raja Indian Cuisine.<|eot_id|>",
+        "The Wrestlers is a decently priced pub and Japanese food establishment you can take your kids to in riverside. It is close to Raja Indian Cuisine."
+    ],
+    [
+        " The Wrestlers is a Japanese pub located in the riverside area, serving food that costs over £30, but it's not a family-friendly spot and is situated near Raja Indian Cuisine.<|eot_id|>",
+        "The Wrestlers is an adult Japanese pub in riverside near Raja Indian Cuisine  with price range more than  £30"
+    ],
+    [
+        " The Cricketers is a family-friendly restaurant located near Avalon, but it only has a disappointing 1 out of 5 customer rating.<|eot_id|>",
+        "The Cricketers is a kids friendly restaurant located near Avalon and has a customer rating of 1 out of 5."
+    ],
+    [
+        " The Blue Spice restaurant, located in the riverside area, serves traditional English food and is a family-friendly spot, conveniently situated near the Rainbow Vegetarian Café.<|eot_id|>",
+        "Blue Spice is a child friendly restaurant specializing in English cuisine in the riverside area near Rainbow Vegetarian Café."
+    ],
+    [
+        " The Mill is a family-friendly pub located in the riverside area, serving fast food at a price range of under £20, although it has a low customer rating, and is conveniently situated near Café Sicilia.<|eot_id|>",
+        "The Mill is a 1-star pub providing fast food in the low price range. It is suitable for families and located beside Café Sicilia at the north of city centre."
+    ],
+    [
+        " The Vaults is a high-end Italian pub located in the city centre, near Rainbow Vegetarian Café, with average customer reviews and not family-friendly.<|eot_id|>",
+        "The Vaults is an Italian pub located in the city centre, near Rainbow Vegetarian Café. this pub is not a child friendly zone and it has a high price range."
+    ],
+    [
+        " The Phoenix is a family-friendly French restaurant located in the riverside area, near Raja Indian Cuisine, and offers meals in the £20-25 price range.<|eot_id|>",
+        "The Phoenix is a kid-friendly restaurant located near Raja Indian Cuisine in the riverside area. They serve French food in the £20-25 range."
+    ],
+    [
+        " The Wrestlers is a Japanese pub located in the city centre, offering a family-friendly dining experience at a price range of over £30, conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "The Wrestlers is a children friendly pub with a price range of more than £30. It also serves Japanese food and is located in  the city centre near Raja Indian Cuisine."
+    ],
+    [
+        " The Phoenix is a moderate-priced, family-friendly restaurant serving fast food, located in the riverside area and conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "The Phoenix is a good restaurant near to Raja Indian Cuisine. its kids friendly"
+    ],
+    [
+        " The Plough is a high-end Chinese restaurant located in the city centre, family-friendly and situated near Raja Indian Cuisine.<|eot_id|>",
+        "Located in the city centre,  neighboring Raja Indian Cuisine, is a restaurant styled joint called The Plough. This establishment is known for its family friendly atmosphere and highly priced Chinese food."
+    ],
+    [
+        " \"The Waterman is a moderate-priced Indian restaurant located in the city centre, near Raja Indian Cuisine, but it's not family-friendly.\"<|eot_id|>",
+        "Located near the town centre and Raja Indian Cuisine, The Waterman restaurant served moderately priced Indian dishes in a child-free environment."
+    ],
+    [
+        " Here's a sentence with natural language:\n\nThe Punter is an Indian restaurant located in the riverside area, near the Express by Holiday Inn, which is family-friendly and has a high price range, but unfortunately, it only has a rating of 1 out of 5 from customers.<|eot_id|>",
+        "The Punter is a high-priced restaurant that offers Indian food. It is child friendly and has a customer rating of 1 out of 5. It is located near Express by Holiday Inn in riverside."
+    ],
+    [
+        " \"The Punter is a moderate-priced pub serving Chinese food, located in the riverside area, near Raja Indian Cuisine, but it's not a family-friendly spot.\"<|eot_id|>",
+        "There is a pub, The Punter, serving Chinese food along the riverside near Raja Indian Cuisine. It is not kids friendly and is moderately priced."
+    ],
+    [
+        " Here's a natural language sentence:  \"The Giraffe pub is a family-friendly spot that serves fast food and is located in the riverside area, conveniently near the Rainbow Vegetarian Café.\"<|eot_id|>",
+        "Giraffe is a children friendly pub on the riverside, near the Rainbow Vegetarian Café, that offers fast food."
+    ],
+    [
+        " Here's a sentence with natural language: \"Giraffe is a family-friendly pub serving French food in the city centre, conveniently located near Raja Indian Cuisine.\"<|eot_id|>",
+        "Giraffe is a pub located in the city centre near the Raja Indian Cuisine. It offers French cuisine with a family-friendly atmosphere."
+    ],
+    [
+        " The Cricketers is a highly-rated Chinese restaurant located in the city centre, offering family-friendly dining experiences and priced over £30, situated conveniently near All Bar One.<|eot_id|>",
+        "The Cricketers is a restaurant and Chinese food is also available. We have a high customer rating and food is high price range more than £30 . Located city center. Children friendly and near All Bar One"
+    ],
+    [
+        " The Punter is a family-friendly pub serving Chinese food in the riverside area, with prices over £30, conveniently located near Raja Indian Cuisine.<|eot_id|>",
+        "The is a pub that had a price for over 30 euros per meal. It's called The Punter and it's children friendly. Its located in Riverside near the Raja Indian Cuisine."
+    ],
+    [
+        " The Punter is a highly-rated Indian restaurant in the city centre, priced over £30, located near the Express by Holiday Inn, and not suitable for families.<|eot_id|>",
+        "The Punter, situated near Express by Holiday Inn in the city centre, is an Indian food selling restaurant, with a high customer rating due to the price range of more than £30, not child friendly."
+    ],
+    [
+        " The Cricketers is a highly-rated Chinese restaurant in the city centre, priced between £20-25, located near All Bar One, but it's not suitable for families.<|eot_id|>",
+        "The Cricketers is a Café that has received high reviews for its Chinese food.  Leave the kids at home to enjoy a meal for £20-25. Located in the centre of the city near All Bar One."
+    ],
+    [
+        " The Punter is a high-end Indian restaurant located in the city centre, near the Express by Holiday Inn, with average customer ratings, but it's not family-friendly.<|eot_id|>",
+        "The Punter is a restaurant that serves Indian food for a high price range. It has an average customer rating and is located near Express by Holiday Inn in the city centre, It is not children friendly."
+    ],
+    [
+        " The Vaults is a highly-rated Japanese pub located in the riverside area, offering meals in the £20-25 price range, but it's not family-friendly and is situated near Raja Indian Cuisine.<|eot_id|>",
+        "The Vaults, located riverside near Raja Indian Cuisine, offers Japanese food with a price range of £20-25. It is a pub with a high customer rating, not children friendly."
+    ],
+    [
+        " Here's a natural language sentence:\n\n\"Blue Spice is a family-friendly English restaurant located in the riverside area, conveniently situated near Rainbow Vegetarian Café.\"<|eot_id|>",
+        "Blue Spice is located near Rainbow Vegetarian Café in the riverside area and is a kid friendly restaurant that serves English food."
+    ],
+    [
+        " The Waterman is an Indian restaurant in the city centre, offering meals for under £20, and is conveniently located near Raja Indian Cuisine, although it's not a family-friendly spot.<|eot_id|>",
+        "The Waterman is a restaurant that serves Indian food for less than £20. It is located near Raja Indian Cuisine, in the city centre. Not family friendly."
+    ],
+    [
+        " \"The Cricketers is a cheap Chinese restaurant in the city centre, rated average by customers, that's family-friendly and conveniently located near All Bar One.\"<|eot_id|>",
+        "The Cricketers is a cheap restaurant serving Chinese food with okay reviews. It is located in the city centre near All Bar One and is family friendly."
+    ],
+    [
+        " The Cricketers is a family-friendly restaurant with an average customer rating, conveniently located near Café Sicilia.<|eot_id|>",
+        "The Cricketers has an average customer rating, it is a family friendly restaurant near Café Sicilia."
+    ],
+    [
+        " The Phoenix is a French pub located in the riverside area, near the Crowne Plaza Hotel, and offers family-friendly dining at a price range of £20-25, although it has received only a mediocre customer rating of 3 out of 5.<|eot_id|>",
+        "The three star pub, The Phoenix, gives families an mid-priced dining experience featuring a variety of wines and cheeses.  Find The Phoenix near Crowne Plaza Hotel."
+    ],
+    [
+        " Here's a natural language sentence: \"The Wrestlers is a family-friendly Italian restaurant located in the riverside area, offering meals for under £20, and is conveniently situated near Raja Indian Cuisine.\"<|eot_id|>",
+        "The Wrestlers restaurant. It is located in riverside area near Raja Indian Cuisine. Start from low price and friend-family too."
+    ],
+    [
+        " Here's a natural language sentence:\n\n\"The Mill is a highly-rated pub located in the riverside area, serving fast food at a price range of £20-25, and is family-friendly, conveniently situated near Café Rouge.\"<|eot_id|>",
+        "Located near Café Rouge by the riverside is a fast food and pub, The Mill, with high customer ratings."
+    ],
+    [
+        " Here's a natural language sentence:\n\n\"The Phoenix is a pub serving French food at affordable prices under £20, located in the city centre, near the Crowne Plaza Hotel, but has a low customer rating and is not family-friendly.\"<|eot_id|>",
+        "No, The Phoenix is French restaurant with pub on side Crowne Plaza Hotel in the city centre with low rank and price less £20"
+    ],
+    [
+        " The Cricketers is a family-friendly restaurant located near Avalon, with a customer rating of 3 out of 5.<|eot_id|>",
+        "Near to the Avalon is a restaurant called The Cricketers which is child friendly and has a customer rating of 3 out of 5."
+    ],
+    [
+        " The Vaults is a family-friendly pub serving French food at moderate prices, located in the riverside area, conveniently near Raja Indian Cuisine.<|eot_id|>",
+        "The Vaults is a family friendly pub that deals in modern delicacies. They cater to those with checkbooks of moderate size, and can be found in the Park on the River, just east of Raja Indian Cuisine."
+    ],
+    [
+        " Wildwood is an Italian restaurant located in the riverside area, near Raja Indian Cuisine, but it's not a family-friendly spot.<|eot_id|>",
+        "Wildwood is a restaurant in the low price range. It is located close to the Raja Indian Cuisine and has a superb view across the river."
+    ],
+    [
+        " The Wildwood pub, located in a scenic riverside area, serves delicious French cuisine and is family-friendly, making it a great spot to dine with kids, and is conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "Wildwood is a pub in Riverside, near Raja Indian Cuisine.  It serves French food and is family-friendly."
+    ],
+    [
+        " The Punter is an Italian restaurant located in the riverside area, offering affordable prices, but with an average customer rating and not being family-friendly. It's situated near the Rainbow Vegetarian Café.<|eot_id|>",
+        "hello and welcome to The Punter, we serve the finest Italian food around  and have an average customer rating this is very good for a restaurant we are near Rainbow Vegetarian Café and our area is the riverside our price range is very cheap for such good food at the moment we are not family-friendly."
+    ],
+    [
+        " The Waterman is a pub serving Indian food for under £20, located in the riverside area, near Raja Indian Cuisine, but it's not family-friendly.<|eot_id|>",
+        "Non family friendly pub serving Indian food for less than £20. On the riverside near Raja Indian Cuisine. It is The Waterman."
+    ],
+    [
+        " The Phoenix is a French pub located in the city centre, near the Crowne Plaza Hotel, which offers a family-friendly atmosphere and a wide range of dishes for over £30, but has a low customer rating.<|eot_id|>",
+        "The Phoenix is a family-friendly pub near the Crowne Plaza Hotel in the city center.  It has a low customer rating and a price range of more than £30."
+    ],
+    [
+        " The Cricketers is a family-friendly coffee shop that received only 1 out of 5 customer ratings, and it's conveniently located near Avalon.<|eot_id|>",
+        "Customers give The Cricketers a rating of 1 out of 5. The Cricketers is a kid friendly coffee shop by the Avalon."
+    ],
+    [
+        " The Cricketers is a cheap Chinese restaurant located in the riverside area, near All Bar One, with average customer ratings, but it's not suitable for families.<|eot_id|>",
+        "The Cricketers is a Chinese restaurant in the riverside area near All Bar One. I is not child friendly. It is cheap and has a high customer rating."
+    ],
+    [
+        " Strada is a coffee shop with a poor customer rating of just 1 out of 5, located near All Bar One.<|eot_id|>",
+        "Near All Bar One is the Strada coffee shop with a customer rating of 1 out of 5."
+    ],
+    [
+        " The Vaults is a family-friendly pub serving French food at a price of under £20, located in the riverside area and conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "The Vaults pub is a family oriented pub that features some of the best wine in the area.  Also close to Raja Indian Cuisine"
+    ],
+    [
+        " The Mill is a moderate-priced restaurant serving English food, located in the riverside area, near Café Rouge, with a customer rating of 3 out of 5 stars, but it's not family-friendly.<|eot_id|>",
+        "The Mill is an English restaurant near Café Rouge in riverside with has a moderate price range, is not kids friendly, and has a 3 out of 5 customer rating."
+    ],
+    [
+        " Here's a sentence with natural language:\n\nThe Phoenix is a pub serving French food in the city centre, near the Crowne Plaza Hotel, and is family-friendly, although it has a low customer rating and is quite pricey, with meals costing over £30.<|eot_id|>",
+        "The Phoenix is a pub  providing French food and is children friendly for  more than  £30 price range. It is located in the city centre near Crowne Plaza Hotel."
+    ],
+    [
+        " The Phoenix is a family-friendly restaurant located in the riverside area, serving fast food with prices over £30, and conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "For a Fast food restaurant with a price range more than £30 there is The Phoenix in the riverside area near Raja Indian Cuisine. it is also children friendly."
+    ],
+    [
+        " The Vaults is an Indian restaurant located in the riverside area, offering meals in the £20-25 price range and is family-friendly, conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "The Vaults is an average-priced restaurant near Raja Indian Cuisine, by the river. Kids welcome."
+    ],
+    [
+        " The Punter is a moderately priced Indian restaurant located in the city centre, near the Express by Holiday Inn, with a family-friendly atmosphere and a customer rating of 3 out of 5.<|eot_id|>",
+        "The Punter is a restaurant. It  is moderately priced. It is near Express by Holiday Inn. It has a customer rating of 3 out of 5. It is in city centre. It is kid friendly."
+    ],
+    [
+        " The Waterman is a high-end Italian restaurant located in the city centre, which is family-friendly and conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "The Waterman Italian restaurant is near Raja Indian Cuisine in the city centre area, it is child friendly however the is high price range."
+    ],
+    [
+        " The Plough is a pub in the city centre that serves Chinese food for under £20, and is conveniently located near Raja Indian Cuisine.<|eot_id|>",
+        "The Plough is a unique pub in the city centre, near the Raja Indian Cuisine pub. They are not family friendly and serve amazing Chinese food that is priced less than £20."
+    ],
+    [
+        " The Punter is a high-end Italian restaurant in the city centre, rated poorly by customers with only 1 out of 5 stars, but it's family-friendly and conveniently located near the Rainbow Vegetarian Café.<|eot_id|>",
+        "A restaurant serving Italian food that is child friendly is The Punter.  Located near Rainbow Vegetarian Café in the city centre , customers have rated it 1 out of 5 and the price range is high."
+    ],
+    [
+        " The Punter is a cheap Italian restaurant located in the riverside area, near the Rainbow Vegetarian Café, which is family-friendly and has an average customer rating.<|eot_id|>",
+        "The Punter is located close to Rainbow Vegetarian Café there is a average cheap family friendly Italian restaurant."
+    ],
+    [
+        " The Phoenix, a highly-rated pub serving delicious French food at an affordable price, is located in the picturesque riverside area, near the Crowne Plaza Hotel, and is a family-friendly spot with a perfect 5 out of 5 customer rating.<|eot_id|>",
+        "The Phoenix is a cheap pub situated at the riverside near Crowne Plaza Hotel."
+    ],
+    [
+        " The Phoenix is a highly-rated French pub in the city centre, offering meals in the £20-25 price range, and is family-friendly, conveniently located near the Crowne Plaza Hotel.<|eot_id|>",
+        "In the city center near Crowne Plaza Hotel, there is a French pub called 'The Phoenix'. It has a child-friendly environment with reasonable prices and excellent customer reviews."
+    ],
+    [
+        " Here's a natural language sentence:  \"The Green Man pub, located in the riverside area, offers delicious Italian food and is a family-friendly spot, conveniently situated near the Express by Holiday Inn.\"<|eot_id|>",
+        "Near Express by Holiday Inn, there is an Italian pub called Green Man. It is child friendly in the riverside area."
+    ],
+    [
+        " Here's a natural language sentence: \"The Wrestlers is a Japanese restaurant located in the riverside area, offering meals for under £20, and is conveniently situated near Raja Indian Cuisine, but it's not a family-friendly spot.\"<|eot_id|>",
+        "The Wrestlers near the Raja Indian Cuisine on the riverside is a Japanese restaurant. No families. Its prices are within the less than £20 range."
+    ],
+    [
+        " The Vaults is a moderate-priced Italian pub located in the city centre, near the Rainbow Vegetarian Café, and is family-friendly, although it only has a 3 out of 5 customer rating.<|eot_id|>",
+        "The Vaults, in the city centre near Rainbow Vegetarian Café, is a pub serving Italian food  It  is kid friendly with moderate prices and customer rating of 3 out of 5."
+    ],
+    [
+        " The Punter is a highly-rated Italian restaurant in the city centre, serving food in the £20-25 price range, and is conveniently located near the Express by Holiday Inn.<|eot_id|>",
+        "Located near Express by Holiday Inn in the city centre is a highly rated restaurant called The Punter.  The Punter is not conducive for kids.  They serve Italian food with a price range of £20-25."
+    ],
+    [
+        " Here's a natural language sentence:  \"The Mill is a high-end pub serving fast food in the city centre, with average customer ratings, that's family-friendly and conveniently located near Café Sicilia.\"<|eot_id|>",
+        "The Mill is a pub with a service of fast food, in city centre near of Café Sicilia"
+    ],
+    [
+        " The Cricketers is a highly-rated coffee shop that's family-friendly and conveniently located near Café Sicilia.<|eot_id|>",
+        "The highly rated coffee shop The Cricketers, is a children friendly coffee shop near Café Sicilia."
+    ],
+    [
+        " Here's a natural language sentence based on the information:\n\nThe Cricketers is a cheap English restaurant located in the riverside area, near Café Rouge, with average customer ratings and not particularly family-friendly.<|eot_id|>",
+        "The Cricketers restaurant near Café Rouge in the area of the riverside serves English food although quite cheap it does not cater for children and has an average customer review."
+    ],
+    [
+        " The Vaults is a French pub located in the city centre, offering family-friendly dining experiences for over £30, and is conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "Children friendly French pub The Vaults is located near Raja Indian Cuisine in city centre. It is a high priced pub more than £30."
+    ],
+    [
+        " The Phoenix is a highly-rated pub located in the riverside area, serving fast food at a price range of over £30, and is family-friendly, conveniently situated near Café Sicilia.<|eot_id|>",
+        "The Phoenix Shop and Café Sicilia is a fast food restaurant are located north of the City center."
+    ],
+    [
+        " The Phoenix is a high-end pub in the city centre that serves fast food, but it's not a family-friendly spot and is conveniently located near Raja Indian Cuisine.<|eot_id|>",
+        "A  high priced pub that serves fast food is The Phoenix , but has a non-children friendly atmosphere. It is located in the city centre near Raja Indian Cuisine"
+    ],
+    [
+        " The Cricketers is a family-friendly restaurant located near the Crowne Plaza Hotel, with a customer rating of 3 out of 5.<|eot_id|>",
+        "The Cricketers is a children Friendly restaurant, with 3 out of 5 customer rating it's near Crowne Plaza Hotel."
+    ],
+    [
+        " The Giraffe pub in the city centre serves fast food and is family-friendly, located conveniently near the Rainbow Vegetarian Café.<|eot_id|>",
+        "In city centre near Rainbow Vegetarian Café there is a Fast food pub named Giraffe, which is family-friendly."
+    ],
+    [
+        " The Blue Spice restaurant, which serves English food, is located in the riverside area, not far from the Rainbow Vegetarian Café.<|eot_id|>",
+        "Blue Spice has a no children policy, it is a restaurant sat next to the river that provides English breakfast not far from Rainbow Vegetarian Café."
+    ],
+    [
+        " \"The Mill is a highly-rated pub in the city centre that serves fast food and is family-friendly, with prices ranging from £20-25, conveniently located near Café Rouge.\"<|eot_id|>",
+        "There is a great pub named The Mill located in the centre of the city near Café Rouge. They offer fast food, and are reasonably priced with meals costing around E20-E25. They have a high customer rating and are very kid friendly."
+    ],
+    [
+        " The Wrestlers is an Italian restaurant located in the riverside area, offering family-friendly dining options at a price range of over £30, conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "A restaurant that is kid friendly near Raja Indian Cuisine named The Wrestlers in the riverside area has a price range of more than £30 that serves Italian food."
+    ],
+    [
+        " Here's a sentence with natural language: \"The Mill is a cheap and family-friendly pub located in the riverside area, serving fast food and conveniently situated near Raja Indian Cuisine.\"<|eot_id|>",
+        "Family friendly pub The Mill Situated riverside near the Raja Indian Cuisine.  Offering great food at cheap prices."
+    ],
+    [
+        " Here's a sentence with natural language:\n\nThe Blue Spice pub, located in the riverside area, serves traditional English food and is family-friendly, and is conveniently situated near the Rainbow Vegetarian Café.<|eot_id|>",
+        "Blue Spice near Rainbow Vegetarian Café in Riverside is a pub serving English meals and child friendly"
+    ],
+    [
+        " The Vaults is a family-friendly pub serving Japanese food at a price of under £20, located in the riverside area, near Raja Indian Cuisine, but with a low customer rating.<|eot_id|>",
+        "Near Raja Indian Cuisine, The Vaults pub offers low quality at low prices for your family"
+    ],
+    [
+        " The Phoenix is a pub serving fast food with moderate prices, located in the riverside area, near Raja Indian Cuisine, but it's not a family-friendly spot.<|eot_id|>",
+        "The Phoenix serves fast food. It is also a pub. The price range is moderate. It is kids friendly. It is in the riverside area near Raja Indian Cuisine."
+    ],
+    [
+        " The Punter is an Indian restaurant located by the riverside, near the Express by Holiday Inn, offering meals for under £20, but has a low customer rating and is not family-friendly.<|eot_id|>",
+        "Near Express by Holiday Inn, in the riverside area, is the restaurant The Punter. It is not family Friendly, has a low customer Rating and is in the price Range of less than £20."
+    ],
+    [
+        " The Vaults is a Japanese pub located in the riverside area, offering meals in the price range of £20-25, but with a mediocre customer rating of 3 out of 5, and it's not suitable for families. Additionally, it's conveniently located near the Rainbow Vegetarian Café.<|eot_id|>",
+        "The Vaults offers Japanese food and pub with cheap price near Rainbow Vegetarian Café in riverside."
+    ],
+    [
+        " The Phoenix is a French pub located in the riverside area, near the Crowne Plaza Hotel, offering meals for under £20, but with average customer ratings and not particularly family-friendly.<|eot_id|>",
+        "There is a cheaply-priced pub named The Phoenix near Crowne Plaza Hotel in riverside. Children are not allowed."
+    ],
+    [
+        " The Punter is a high-end English restaurant located in the riverside area, not suitable for families, and is conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "Catering a traditional English menu, The Punter restaurant sits on the riverside, and offers a highly priced alternative to the nearby Raja Indian Cuisine. The Punter is not considered child friendly."
+    ],
+    [
+        " Here's a natural language sentence:\n\n\"The Punter is a highly-rated Italian restaurant in the city centre, offering meals in the £20-25 price range, and is suitable for families, conveniently located near the Express by Holiday Inn.\"<|eot_id|>",
+        "The Punter is a children friendly venue serving Italian food between £20 -£25.  It is a restaurant with a high customer rating.  It is based in the city centre near Express by Holiday Inn."
+    ],
+    [
+        " The Punter is a moderate-priced pub serving Chinese food in the riverside area, which is family-friendly and conveniently located near Raja Indian Cuisine.<|eot_id|>",
+        "The Punter is a pub providing Chinese food in the moderate price range. It is located in the riverside. It is near Raja Indian Cuisine."
+    ],
+    [
+        " The Punter is an Italian restaurant located in the riverside area, with high prices, a poor customer rating of just 1 out of 5, and is not family-friendly, but conveniently situated near the Rainbow Vegetarian Café.<|eot_id|>",
+        "There is a high price range restaurant The Punter in riverside near Rainbow Vegetarian Café. It is not kids friendly and it has low customer ratings but they serve Italian food."
+    ],
+    [
+        " The Plough is a high-end Chinese restaurant located in the city centre, near Raja Indian Cuisine, but it's not a family-friendly spot.<|eot_id|>",
+        "Near Raja Indian Cuisine in the city centre there is a restaurant called The Plough. It  serves Chines food at a high price range and is not children friendly."
+    ],
+    [
+        " The Mill is a pub serving fast food with moderate prices, located in the riverside area, which has a family-friendly atmosphere and is near Café Sicilia, but has a low customer rating of only 1 out of 5.<|eot_id|>",
+        "the pub The Mill moderate Fast food kid friendly 1 out of 5 Café Sicilia riverside"
+    ],
+    [
+        " The Punter is a high-end English restaurant located in the city centre, near Raja Indian Cuisine, and is not suitable for families.<|eot_id|>",
+        "The Punter is an English restaurant that is located in the city centre. It is near Raja Indian Cuisine. It has a high price range, and it is not family-friendly."
+    ],
+    [
+        " \"The Mill is a moderate-priced restaurant serving English food, located in the riverside area and welcoming families, conveniently situated near Raja Indian Cuisine.\"<|eot_id|>",
+        "The Mill is a kid friendly restaurant that serves English food with a moderate price range. They are located near the restaurant Raja Indian Cuisine in riverside."
+    ],
+    [
+        " Wildwood is a pub serving Indian food, located in the city centre, near Raja Indian Cuisine, but it's not a family-friendly establishment.<|eot_id|>",
+        "The pub, Wildwood in the city centre near Raja Indian Cuisine serves some Indian dishes. It's adults only but."
+    ],
+    [
+        " Here's a natural language sentence:\n\n\"The Vaults is an Indian restaurant located in the riverside area, offering meals for £20-25 and is family-friendly, conveniently situated near Raja Indian Cuisine.\"<|eot_id|>",
+        "Near Raja Indian Cuisine, by the riverside, The Vaults is a restaurant offering Indian food at a price range of £20-25. It is ideal for kids."
+    ],
+    [
+        " The Punter is a moderate-priced Chinese restaurant located in the riverside area, near Raja Indian Cuisine, but it's not suitable for families.<|eot_id|>",
+        "There is a restaurant, The Punter, serving Chinese food along the riverside near Raja Indian Cuisine. It is not kids friendly and is moderately priced."
+    ],
+    [
+        " The Wrestlers is a Japanese pub located in the riverside area, offering moderate-priced meals and is not suitable for families, but is conveniently located near Raja Indian Cuisine.<|eot_id|>",
+        "The Wrestlers is a Japanese pub in City centre near Raja Indian Cuisine."
+    ],
+    [
+        " Here's a natural language sentence: \"Wildwood is a family-friendly pub serving French cuisine located in a beautiful riverside area, conveniently situated near Raja Indian Cuisine.\"<|eot_id|>",
+        "Wildwood is a pub located near Raja Indian Cuisine where you can eat French food and your children will be welcome."
+    ],
+    [
+        " The Wrestlers is a Japanese pub located in the riverside area, offering moderate-priced food, but unfortunately, it only has a 1 out of 5 customer rating.  Despite this, it's a family-friendly spot and conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "The Wrestlers is a Japanese kid-friendly pub located by the riverside. It is near Raja Indian Cuisine, has moderate price ranges and a customer rating of 1 out of 5."
+    ],
+    [
+        " The Phoenix is a French restaurant located in the riverside area, offering meals in the £20-25 price range and welcoming families with children, conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "The Phoenix is a restaurant located near Raja Indian Cuisine. They are kids friendly and cost between £20-£25. They serve French food."
+    ],
+    [
+        " Here's a natural language sentence:\n\nThe Cricketers is a Chinese restaurant located in the riverside area, near All Bar One, with prices under £20, although it has a low customer rating and is not suitable for families.<|eot_id|>",
+        "There is a riverside restaurant near All Bar One that serves Chinese food for less than £20, called The Cricketers.  This venue has been given low ratings and does not accommodate families."
+    ],
+    [
+        " The Punter is an Indian restaurant in the city centre that's moderately priced, but only gets a poor 1 out of 5 customer rating. It's not family-friendly and is conveniently located near the Express by Holiday Inn.<|eot_id|>",
+        "The Punter is a restaurant providing Indian food in the moderate price range. It is located in the city centre. It is near Express by Holiday Inn. Its customer rating is 1 out of 5."
+    ],
+    [
+        " The Mill is a moderate-priced English restaurant located in the riverside area, near Café Rouge, but unfortunately it only has a 1 out of 5 customer rating and is not family-friendly.<|eot_id|>",
+        "The Mill restaurant is moderate price range, is not kid friendly serves English food, has a 1 out 5 customer rating. It's near Café Rouge in the riverside area."
+    ],
+    [
+        " The Punter is a moderate-priced Indian restaurant in the city centre, near the Express by Holiday Inn, with a family-friendly atmosphere and a low customer rating of just 1 out of 5.<|eot_id|>",
+        "The Punter is a restaurant providing Indian food in the moderate price range. It is located in the city centre. It is near Express by Holiday Inn. Its customer rating is 1 out of 5."
+    ],
+    [
+        " The Phoenix is a cheap fast food restaurant located in the riverside area, near Raja Indian Cuisine, that's family-friendly and a great spot for families to dine together.<|eot_id|>",
+        "Cheap food and a family friendly atmosphere at The Phoenix restaurant.   Situated riverside near the Raja Indian Cuisine."
+    ],
+    [
+        " The Mill is a highly-rated restaurant serving English cuisine in the picturesque riverside area, with prices over £30, making it a great option for a special occasion, although it's not suitable for families and is conveniently located near Café Rouge.<|eot_id|>",
+        "The Mill is a children friendly restaurant in riverside near Café Rouge. It has a high customer rating with the prince range for their English food is more than £30."
+    ],
+    [
+        " The Cricketers is a family-friendly restaurant with a low customer rating, located near Ranch.<|eot_id|>",
+        "The Cricketers is a child-friendly restaurant located near Ranch with a low customer rating."
+    ],
+    [
+        " The Mill is a pub serving fast food in the city centre, but with a disappointing customer rating of just 1 out of 5, and it's not family-friendly. <|eot_id|>",
+        "The Mill is a moderately priced pub that serves Fast food. It is located in the city centre near Café Sicilia and is not kid friendly with a customer rating of 1 out of 5."
+    ],
+    [
+        " The Vaults is a highly-rated Japanese pub located in the riverside area, offering meals in the £20-25 price range, but it's not suitable for families and is conveniently situated near the Rainbow Vegetarian Café.<|eot_id|>",
+        "There's a pub that serves Japanese food at Riverside called The Vaults. It's near Rainbow Vegetarian Café. The price range is about £20-25 and it's not kids-friendly, but the customer Rating is high."
+    ],
+    [
+        " Blue Spice is a pub serving English food located in the riverside area, but it's not family-friendly and is close to Rainbow Vegetarian Café.<|eot_id|>",
+        "Blue Spice is a pub located near the Rainbow Vegetarian Café. It is not family friendly."
+    ],
+    [
+        " The Punter is a highly-rated, family-friendly Italian restaurant located in the riverside area, offering delicious meals at an affordable price, and conveniently situated near the popular Rainbow Vegetarian Café.<|eot_id|>",
+        "Located by the river, near Rainbow Vegetarian Café is a family friendly, affordable restaurant serving Italian food. The Punter is rated 5 out of 5 by its customers."
+    ],
+    [
+        " The Waterman is a high-end Indian pub located in the riverside area, which is family-friendly and conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "The Waterman is a Indian pub in the high price range in the riverside area of Raja Indian Cuisine and is children friendly."
+    ],
+    [
+        " Here's a sentence with natural language:  \"The Mill is a high-end pub in the city centre that serves fast food, but it's not particularly family-friendly and is located near Café Sicilia, with an average customer rating.\"<|eot_id|>",
+        "The Mill is a pub near the Café Sicilia in the city centre. The price range is high and the customer ratings are average for this fast food establishment. Bringing children is not recommended."
+    ],
+    [
+        " Here's a natural language sentence:\n\nThe Giraffe pub, located in the city centre, is a family-friendly fast food restaurant near the Rainbow Vegetarian Café.<|eot_id|>",
+        "Giraffe is a pub that offers family-friendly fast food.  It is located in the city centre, near the Rainbow Vegetarian Café."
+    ],
+    [
+        " The Wrestlers is a Japanese restaurant located in the riverside area, offering meals in the £20-25 price range and welcoming families with children. It's conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "The Wrestlers is a Japanese food restaurant, located in the Riverside area nearby Raja Indian Cuisine. It is relatively inexpensive and also kids friendly."
+    ],
+    [
+        " Here's a natural language sentence:\n\nThe Blue Spice pub in the city centre serves traditional English food, but it's not a family-friendly spot, and is conveniently located near the Rainbow Vegetarian Café.<|eot_id|>",
+        "Blue Spice is a pub located near Rainbow Vegetarian Café located in city centre. It sells English food and is not a family-friendly shop."
+    ],
+    [
+        " The Vaults is a French restaurant located in the riverside area, offering meals for over £30, but it's not suitable for families and is conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "there is high price restaurant named The Vaults serving French food Located in riverside near Raja Indian Cuisine but not children-friendly"
+    ],
+    [
+        " Wildwood is a family-friendly pub serving delicious Indian food, located in a scenic riverside area, and conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "Wildwood is a pub that serves Indian food in the riverside area. It is family friendly and is located near the Raja Indian Cuisine."
+    ],
+    [
+        " The Punter is an Indian restaurant located in the riverside area, near the Express by Holiday Inn, with a moderate price range, but unfortunately, it only has a rating of 1 out of 5 from customers and is not family-friendly.<|eot_id|>",
+        "A moderate price range Indian restaurant called The Punter is near Express by Holiday Inn in riverside. It has a poor customer rating and is not kid friendly."
+    ],
+    [
+        " The Cocum pub has a high customer rating and is conveniently located near Café Sicilia.<|eot_id|>",
+        "Near Café Sicilia is a high rated pub called Cocum"
+    ],
+    [
+        " Here's a sentence with natural language:\n\n\"Wildwood is a pub serving Italian food located in the riverside area, near Raja Indian Cuisine, but it's not suitable for families.\"<|eot_id|>",
+        "Wildwood is based in the riverside area near Raja Indian Cuisine.  It is a pub serving Italian food. It is not family friendly."
+    ],
+    [
+        " Here's a natural language sentence based on the information:\n\nThe Wrestlers is a Japanese pub located in the riverside area, with prices over £30, but it has a low customer rating and is not family-friendly, situated near Raja Indian Cuisine.<|eot_id|>",
+        "The Wrestlers near Raja Indian Cuisine is a Japanese  pub in riverside. It has a low rating and is more than £30. It is not child friendly."
+    ],
+    [
+        " The Phoenix is a family-friendly pub serving French cuisine in the riverside area, with prices ranging from £20-25, and is conveniently located near Raja Indian Cuisine.<|eot_id|>",
+        "The Phoenix is a kid friendly pub with French food. Located in the riverside area near Raja Indian Cuisine. The price range is £20-25."
+    ],
+    [
+        " The Phoenix is a moderate-priced French pub in the city centre, near the Crowne Plaza Hotel, with a family-friendly atmosphere and a disappointing 1 out of 5 customer rating.<|eot_id|>",
+        "The Phoenix is a pub. It has a moderate price range and it sells French food. It is kids friendly and has a 1 out of 5 rating. It is in the city centre near Crowne Plaza Hotel."
+    ],
+    [
+        " The Punter is a highly-rated Italian restaurant located in the riverside area, offering meals in the £20-25 price range and catering to families, with the Express by Holiday Inn conveniently nearby.<|eot_id|>",
+        "Next to Express by Holiday Inn there is a restaurant called The Punter that sells Italian food, it is five star rated, medium priced and family friendly."
+    ],
+    [
+        " The Mill is a highly-rated pub serving fast food at affordable prices, located in the city centre and family-friendly, with a 5-star rating and conveniently situated near Café Sicilia.<|eot_id|>",
+        "In the city centre near Café Sicilia there's a cheap fast food pub named The Mill.  It is family-friendly with a customer rating of 5 out of 5."
+    ],
+    [
+        " The Mill is a family-friendly restaurant serving English food in the city centre, with moderate prices, located conveniently near Raja Indian Cuisine.<|eot_id|>",
+        "Welcome to The Mill. We are a restaurant, our price range is moderate, our food is English we're kid friendly located in the city centre by the Raja Indian Cuisine. We have a disclaimer by the door, we wrestle and any blood stains we do not cover."
+    ],
+    [
+        " \"The Punter is a cheap pub serving English food, located in the riverside area, which is family-friendly and conveniently situated near Raja Indian Cuisine.\"<|eot_id|>",
+        "There is a cheap  family friendly pub on riverside called The Punter, They serve English food, and are located near Raja Indian Cuisine."
+    ],
+    [
+        " Here's a natural language sentence:\n\n\"The Punter is a highly-rated Indian restaurant located in the riverside area, serving food for over £30, and conveniently situated near the Express by Holiday Inn, although it's not a family-friendly option.\"<|eot_id|>",
+        "The Punter is a restaurant providing Indian food in the more than £30 price range. It is located in the riverside. It is near Express by Holiday Inn. Its customer rating is high."
+    ],
+    [
+        " The Wrestlers is a moderate-priced Japanese pub located in the riverside area, near Raja Indian Cuisine, and is family-friendly, but unfortunately has a low customer rating of only 1 out of 5.<|eot_id|>",
+        "The Wrestlers is a 1 star, medium priced restaurant located near Raja Indian Cuisine and north of city centre."
+    ],
+    [
+        " The Vaults is a moderately priced Japanese pub located in the city centre, near Raja Indian Cuisine, but unfortunately, it has a terrible customer rating of just 1 out of 5 stars.<|eot_id|>",
+        "The Vaults is a pub that has a moderate price range and Japanese food with low ratings near Raja Indian Cuisine in city centre with a moderate price range."
+    ],
+    [
+        " The Vaults is a family-friendly pub serving moderate-priced French food, located in the riverside area, conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "The Vaults is a nicely made French pub that is kids friendly and located near Raja Indian Cuisine in the riverside area. The price range is moderate."
+    ],
+    [
+        " The Wrestlers is a moderate-priced Japanese pub located in the riverside area, which is family-friendly and conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "Close to Raja Indian Cuisine in riverside, you will find The Wrestlers. A decently priced, child friendly coffee chop and Japanese food establishment."
+    ],
+    [
+        " \"The Waterman is a family-friendly pub serving delicious Italian food at affordable prices under £20, located in the city centre, conveniently situated near Raja Indian Cuisine.\"<|eot_id|>",
+        "The Waterman is a family-friendly pub offering Italian food at reasonable prices, it is located near the Raja Indian Cuisine, Luton."
+    ],
+    [
+        " The Punter is a highly-rated Indian restaurant located in the city centre, near the Express by Holiday Inn, offering a family-friendly dining experience for over £30.<|eot_id|>",
+        "The Punter is a restaurant providing Indian food in the more than £30 price range. It is located in the city centre. It is near Express by Holiday Inn. Its customer rating is high."
+    ],
+    [
+        " The Wrestlers is a moderate-priced Italian pub located in the riverside area, family-friendly and near Raja Indian Cuisine.<|eot_id|>",
+        "An Italian pub called The Wrestlers is located along a riverside. Its near Raja Indian Cuisine, price range is moderate, and kid friendly."
+    ],
+    [
+        " Here's a sentence with natural language:\n\nThe Cricketers is a high-end Chinese restaurant located in the riverside area, near All Bar One, that's family-friendly and has an average customer rating, making it a great option for a meal out.<|eot_id|>",
+        "The Cricketers is a Chinese restaurant near All Bar One in Riverside.  It is high priced with an average rating."
+    ],
+    [
+        " The Cricketers is a coffee shop with a low customer rating, but it's family-friendly and conveniently located near Ranch.<|eot_id|>",
+        "The Cricketers is a low rated, children friendly coffee shop near Ranch"
+    ],
+    [
+        " The Blue Spice is a family-friendly Chinese restaurant located in the riverside area, near the Rainbow Vegetarian Café.<|eot_id|>",
+        "Blue Spice Chinese restaurant in riverside, near Rainbow Vegetarian Café, is kid friendly."
+    ],
+    [
+        " The Phoenix is a family-friendly restaurant located in the riverside area, offering fast food at a price range of over £30, and conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "At the riverside, nearby Raja Indian Cuisine, there is a child friendly restaurant called The Phoenix which serves fast food, for which you can expect to pay more than £30."
+    ],
+    [
+        " The Phoenix is a highly-rated Indian restaurant located in the riverside area, near the Crowne Plaza Hotel, offering affordable prices and a 5-star customer rating, but unfortunately not suitable for families.<|eot_id|>",
+        "Located riverside near Crowne Plaza Hotel, and offering outstanding, cheap Indian food, The Phoenix is an adult friendly restaurant."
+    ],
+    [
+        " The Cricketers is a family-friendly restaurant with an average customer rating, conveniently located near Café Sicilia.<|eot_id|>",
+        "As a children friendly restaurant, The Cricketers has a friendly atmosphere and great service. It's got good customer ratings and is located near Café Sicilia."
+    ],
+    [
+        " The Punter is a high-end Indian restaurant located in the city centre, near the Express by Holiday Inn, with average customer ratings, but it's not suitable for families.<|eot_id|>",
+        "In the city centre. the restaurant The Punter has an average customer rating for its Indian food and it is not children friendly. It is located near to Express by Holiday Inn."
+    ],
+    [
+        " The Wrestlers is a moderate-priced Japanese restaurant located in the riverside area, which is family-friendly and conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "Close to Raja Indian Cuisine in riverside, you will find The Wrestlers. A decently priced, child friendly coffee chop and Japanese food establishment."
+    ],
+    [
+        " Wildwood is a pub that serves Indian food, located in a riverside area, near Raja Indian Cuisine, but it's not family-friendly.<|eot_id|>",
+        "Located in the riverside area near the Raja Indian Cuisine, Wildwood offers Indian food and a pub. It is not family friendly."
+    ],
+    [
+        " The Cricketers is a highly-rated coffee shop that's family-friendly and conveniently located near the Express by Holiday Inn.<|eot_id|>",
+        "A kid friendly coffee shop is located near Express by Holiday Inn. It's called The Cricketers and is highly rated."
+    ],
+    [
+        " The Mill is a moderate-priced pub serving English food, located in the riverside area and family-friendly, with Raja Indian Cuisine nearby.<|eot_id|>",
+        "The Mill, near Raja Indian Cuisine in riverside, serves English food.  It is moderately priced and kid friendly."
+    ],
+    [
+        " The Mill is a high-end pub serving traditional English cuisine, located in the picturesque riverside area, which is family-friendly and conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "The Mill its a pub for all family with good food located near Raja Indian Cuisine"
+    ],
+    [
+        " Here's a natural language sentence:\n\nYou can find Zizzi, a lovely coffee shop, located in the picturesque riverside area.<|eot_id|>",
+        "Zizzi is a riverside coffee shop."
+    ],
+    [
+        " The Wrestlers is a family-friendly pub in the city centre that serves delicious Japanese food at an affordable price of under £20, and is conveniently located near Raja Indian Cuisine.<|eot_id|>",
+        "The Wrestlers go to a pub that's family-friendly, price range less than  £20, serves Japanese food, and is found near Raja Indian Cuisine in the city centre area."
+    ],
+    [
+        " Wildwood is a family-friendly Italian restaurant located in the city centre, conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "Wildwood is a family-friendly Italian restaurant in the city centre near Raja Indian Cuisine."
+    ],
+    [
+        " The Phoenix is a family-friendly pub serving French food at affordable prices under £20, located in the riverside area, near the Crowne Plaza Hotel, with an average customer rating.<|eot_id|>",
+        "in the riverside is a  family friendly French pub named The Phoenix with a  price range of less than £20 near Crowne Plaza Hotel has an average customer rating."
+    ],
+    [
+        " \"The Mill is a family-friendly restaurant serving English food in the moderate price range, located in the riverside area and conveniently situated near Raja Indian Cuisine.\"<|eot_id|>",
+        "You can enjoy British cuisine at The Mill, a family restaurant in the mid-price range by a river and near Raja Indian Cuisine."
+    ],
+    [
+        " The Mill is a moderate-priced restaurant serving English food, located in the city centre, which has a family-friendly atmosphere and is situated near Café Rouge.<|eot_id|>",
+        "The Mill is a low-rated restaurant near Café Rouge in the city center. It serves moderately priced English food."
+    ],
+    [
+        " The Plough is a cheap Chinese restaurant located in the riverside area, which is family-friendly and conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "If you are looking for a family friendly restaurant with cheap pricing, you may wish to try The Plough.  It offers a restaurant and Chinese food, and  is near the Raja Indian Cuisine in the riverside area."
+    ],
+    [
+        " \"Giraffe is a family-friendly pub serving French food, located in the city centre, and is conveniently situated near Raja Indian Cuisine.\"<|eot_id|>",
+        "A family-friendly serving French food in the city centre, near the Raja Indian Cuisine, is The Giraffe,  a pub."
+    ],
+    [
+        " The Vaults is a highly-rated, affordable Japanese pub in the city centre, near Raja Indian Cuisine, but not suitable for families.<|eot_id|>",
+        "In the city center, near Raja Indian Cuisine there is a cheap high rated Japanese pub named The Vaults. Not family-friendly."
+    ],
+    [
+        " The Vaults is a highly-rated, family-friendly pub serving delicious Japanese food at affordable prices, located in the riverside area, just near Raja Indian Cuisine.<|eot_id|>",
+        "There is a highly rated pub selling cheaply priced Japanese food. It is called The Vaults and is located near to Raja Indian Cuisine. It is family friendly."
+    ],
+    [
+        " The Phoenix is a high-end fast food restaurant located in the riverside area, near Raja Indian Cuisine, and is a great spot for families to dine.<|eot_id|>",
+        "There's a restaurant named The Phoenix by Raja Indian Cuisine. It's a dine in at a high price."
+    ],
+    [
+        " The Mill is a family-friendly restaurant serving English food for under £20, located in the riverside area and conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "The Mill is a low-priced family restaurant located near Raja Indian Cuisine in City Centre"
+    ],
+    [
+        " The Vaults is a French pub located in the riverside area, offering moderate prices and welcoming families, and is conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "The Vaults is a reasonably priced, family friendly pub located near Raja Indian Cuisine by the river."
+    ],
+    [
+        " The Vaults is a family-friendly French restaurant located in the riverside area, offering meals for under £20 and conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "The Vaults, is a restaurant that is  family friendly  with prices less than L20  It serves French food and is near Raja Indian Cuisine in the riverside area."
+    ],
+    [
+        " The Mill is a moderate-priced restaurant serving English food, located in the riverside area, which is family-friendly and near Café Rouge.<|eot_id|>",
+        "In the riverside area is a restaurant name The Mill. It is near the Café Rouge. The customer rating is a 1 out of 5 and is in the moderate price range. It is kid friendly."
+    ],
+    [
+        " The Phoenix is a French pub located in the city centre, near the Crowne Plaza Hotel, with prices over £30, but it has a low customer rating and is not family-friendly.<|eot_id|>",
+        "There is a pub called The Phoenix near the Crowne Plaza Hotel in city centre.  They serve French food in a non-child friendly environment at prices more than  £30 and have earned a low customer rating."
+    ],
+    [
+        " The Cricketers is a family-friendly restaurant with a low customer rating, located near Ranch.<|eot_id|>",
+        "The Cricketers is a family friendly restaurant. Low rating near the Ranch."
+    ],
+    [
+        " The Wrestlers is a Japanese restaurant located in the city centre, serving meals for over £30, and is not family-friendly, but conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "Near Raja Indian Cuisine in the city centre is a Japanese restaurant called The Wrestlers. It has a price range of more than £30 and is not kid-friendly."
+    ],
+    [
+        " The Punter is a pub serving Chinese food for under £20, located in the riverside area, near Raja Indian Cuisine, and is not suitable for families.<|eot_id|>",
+        "The Punter is a pub providing Chinese food in the less than £20 price range. It is located in the riverside. It is near Raja Indian Cuisine."
+    ],
+    [
+        " Wildwood is a family-friendly pub serving Indian food located in the riverside area, conveniently near Raja Indian Cuisine.<|eot_id|>",
+        "At Riverside near Raja Indian Cuisine, Wildwood is a kid friendly Indian pub."
+    ],
+    [
+        " The Cricketers is a family-friendly restaurant with a customer rating of 3 out of 5, located near Avalon.<|eot_id|>",
+        "The Cricketers is a restaurant located near Avalon. It is children friendly and has a 3 out of 5 customer rating."
+    ],
+    [
+        " \"The Mill is a family-friendly restaurant serving English food for under £20, located in the riverside area, conveniently near Raja Indian Cuisine.\"<|eot_id|>",
+        "Come to the riverside area near Raja Indian Cuisine and enjoy our restaurant here at The Mill. We are family friendly, feature English food and have a price range of less than £20."
+    ],
+    [
+        " The Wildwood pub in the city centre serves Indian food and is family-friendly, located near Raja Indian Cuisine.<|eot_id|>",
+        "Wildwood is a pub that serves Indian food in the city centre. It is family Friendly and is near the Raja Indian Cuisine."
+    ],
+    [
+        " Here's a natural language sentence:\n\nThe Punter is an Indian restaurant located in the riverside area, near the Express by Holiday Inn, with a high price range and average customer rating, but it's not particularly family-friendly.<|eot_id|>",
+        "The Punter is a restaurant serving Indian food at a high price. They are located near Express by Holiday Inn in riverside. with an average rating and are not child friendly."
+    ],
+    [
+        " The Punter is a moderate-priced Chinese restaurant located in the riverside area, near Raja Indian Cuisine, but it's not family-friendly.<|eot_id|>",
+        "The Punter is a Chinese restaurant that has a moderate price range, located near the riverside near the Raja Indian Cuisine, my advice no children."
+    ],
+    [
+        " The Giraffe restaurant is a family-friendly eatery serving fast food located in a scenic riverside area, conveniently situated near the Rainbow Vegetarian Café.<|eot_id|>",
+        "Giraffe is a fast food, kid friendly restaurant by the riverside area, near Rainbow Vegetarian Café."
+    ],
+    [
+        " The Phoenix is a high-end pub in the city centre that serves fast food and is family-friendly, conveniently located near Raja Indian Cuisine.<|eot_id|>",
+        "The child friendly Fast food pub named The Phoenix pub is near the Raja Indian Cuisine and the city center in the high price range."
+    ],
+    [
+        " The Phoenix is a moderate-priced French pub located in the riverside area, near the Crowne Plaza Hotel, and is family-friendly, but unfortunately, it only has a rating of 1 out of 5 from customers.<|eot_id|>",
+        "The Phoenix is a family friendly pub located next to Crowne Plaza Hotel on the river."
+    ],
+    [
+        " The Cricketers is a high-end English restaurant located in the riverside area, with a family-friendly atmosphere and a poor customer rating of just 1 out of 5, conveniently situated near Café Rouge.<|eot_id|>",
+        "Beside the Café Rouge at the end of the city is a high priced restaurant called The Cricketers."
+    ],
+    [
+        " Here's a sentence with natural language:\n\n\"The Vaults is a Japanese pub located by the riverside, near Raja Indian Cuisine, and offers meals for under £20, although it has a low customer rating and isn't particularly family-friendly.\"<|eot_id|>",
+        "The Vaults is a pub in City centre, near Raja Indian Cuisine. It is inexpensive and lowly rated. It is not a good place to take children."
+    ],
+    [
+        " The Wrestlers is a Japanese restaurant located in the riverside area, offering meals for over £30 and is suitable for families. It's conveniently located near Raja Indian Cuisine.<|eot_id|>",
+        "The Wrestlers is a Japanese  restaurant near Raja Indian Cuisine in riverside. It is children friendly and the price range is more than £30."
+    ],
+    [
+        " The Wrestlers is a high-end Japanese restaurant located in the riverside area, perfect for families, and conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "Near the Raja Indian Cuisine is children-friendly in the riverside area. It is a restaurant with Japanese food with a high price range named The Wrestlers."
+    ],
+    [
+        " The Blue Spice restaurant is a family-friendly Chinese eatery located in the city centre, conveniently situated near the Rainbow Vegetarian Café.<|eot_id|>",
+        "Blue Spice is a restaurant providing Chinese food It is located in the city centre. It is near Rainbow Vegetarian Café."
+    ],
+    [
+        " The Waterman is a cheap Italian restaurant located in the riverside area, near Raja Indian Cuisine, and is family-friendly.<|eot_id|>",
+        "The Waterman is an establishment selling Italian food and also has a restaurant on site. It is located by the riverside near Raja Indian Cuisine. It is a cheap place to eat and yes it is family friendly"
+    ],
+    [
+        " Here's a sentence with natural language:\n\nThe Phoenix is a French restaurant located in the riverside area, offering affordable prices and welcoming families, and it's conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "Looking for French food at a low prices in a family friendly environment, check out The Phoenix restaurant in the riverside area by Raja Indian Cuisine"
+    ],
+    [
+        " Wildwood is a family-friendly pub serving French food located in a scenic riverside area, and it's conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "The Wildwood is a kid-friendly pub near the Raja Indian Cuisine in the riverside area. It serves French food."
+    ],
+    [
+        " The Waterman is a high-end Indian pub located in the riverside area, which is family-friendly and conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "The pub called The Waterman serves Indian food and is near to Raja Indian Cuisine. The Waterman is child-friendly and is in riverside. It has a high price range however"
+    ],
+    [
+        " The Phoenix is a family-friendly pub serving French cuisine in the riverside area, with prices ranging from £20-25, and has an average customer rating of 3 out of 5, conveniently located near Café Sicilia.<|eot_id|>",
+        "A French pub near Café Sicilia and riverside is The Phoenix.  It has a customer rating of 3 out of 5, an average price range and is kid friendly."
+    ],
+    [
+        " Here's a sentence with natural language:\n\nThe Giraffe pub, which serves French food, is located in the riverside area and is not family-friendly, but it's conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "Even if it's not family-friendly, if you are searching for a pub near the riverside and Raja Indian Cuisine, Giraffe is a great place to go to."
+    ],
+    [
+        " Here's a natural language sentence:\n\n\"Wildwood is a family-friendly Indian restaurant located in the riverside area, conveniently situated near Raja Indian Cuisine.\"<|eot_id|>",
+        "Wildwood is a restaurant that serves Indian food in the riverside. It is a kid friendly place near the Raja Indian Cuisine."
+    ],
+    [
+        " The Cricketers is a family-friendly coffee shop with an average customer rating, conveniently located near Café Sicilia.<|eot_id|>",
+        "For a family friendly coffee shop located near Café Sicilia, The Cricketers is a wonderful choice with an average customer rating."
+    ],
+    [
+        " Here's a natural language sentence: \"The Punter is a family-friendly restaurant serving English food at an affordable price, located in the riverside area, conveniently near Raja Indian Cuisine.\"<|eot_id|>",
+        "The Punter is a cheap restaurant located in riverside near Raja Indian Cuisine, they serve English food and our family friendly."
+    ],
+    [
+        " The Cricketers is a family-friendly coffee shop with average customer ratings, conveniently located near Café Sicilia.<|eot_id|>",
+        "The Cricketers is a family friendly coffee shop near Café Sicilia with an average customer rating."
+    ],
+    [
+        " The Mill is a moderate-priced English restaurant located in the riverside area, with a customer rating of 3 out of 5, and is not family-friendly, but is conveniently situated near Café Rouge.<|eot_id|>",
+        "The Mill restaurant is located near Café Rouge in riverside area. It providing English food, 3 out of 5 costumer rating and moderate price range"
+    ],
+    [
+        " The Blue Spice restaurant, serving English cuisine, is located in the city centre and is not family-friendly, but is conveniently situated near the Rainbow Vegetarian Café.<|eot_id|>",
+        "Blue Spice is a restaurant that serves English food.  It is located near Rainbow Vegetarian Café is the city centre area.  It is also a restaurant.  It is not family-friendly."
+    ],
+    [
+        " The Cricketers is a highly-rated restaurant, with a perfect 5 out of 5 customer rating, that's family-friendly and conveniently located near the Crowne Plaza Hotel.<|eot_id|>",
+        "The Cricketers is a family-Friendly 5 out 5 rating store near the Crowne Plaza Hotel"
+    ],
+    [
+        " The Wrestlers is a family-friendly Japanese restaurant located in the riverside area, offering meals in the price range of £20-25, and is conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "The Wrestlers is a restaurant serving Japanese food near Raja Indian Cuisine in the riverside area. It is kids friendly and in the £20-25 price range."
+    ],
+    [
+        " Here's a natural language sentence:\n\nThe Vaults is a highly-rated Japanese pub in the city centre that's family-friendly and offers meals for £20-25, conveniently located near Rainbow Vegetarian Café.<|eot_id|>",
+        "The Vaults is a kid-friendly, average priced pub with a high customer rating in the City Centre near Rainbow Vegetarian Café."
+    ],
+    [
+        " The Vaults is a Japanese pub located by the riverside, serving meals for under £20, but with a low customer rating, it's not a great option for families, and it's close to Raja Indian Cuisine.<|eot_id|>",
+        "The Vaults pub is a cheap 1 star sushi restaurant. It's located in city centre, east of Raja Indian Cuisine.  Not family friendly.  It offers deliveries, take-out and eat-in."
+    ],
+    [
+        " The Cricketers is a highly-rated restaurant that's family-friendly and conveniently located near Café Sicilia.<|eot_id|>",
+        "The Cricketers is a restaurant, located near Café Sicilia, that is highly rated by its customers and is child friendly."
+    ],
+    [
+        " The Green Man is a family-friendly pub serving Japanese food, located in the riverside area and conveniently situated near the Express by Holiday Inn.<|eot_id|>",
+        "Green Man is a children friendly pub that offers Japanese food. It is near Express by Holiday Inn in the area of riverside."
+    ],
+    [
+        " The Cricketers is a family-friendly restaurant with a 3 out of 5 customer rating, conveniently located near the Crowne Plaza Hotel.<|eot_id|>",
+        "The Cricketers is a kid friendly restaurant near the Crowne Plaza Hotel and holds a rating of 3 out of 5."
+    ],
+    [
+        " The Vaults is a French restaurant located in the riverside area, with moderate prices, and is situated near Raja Indian Cuisine, but it's not a family-friendly spot.<|eot_id|>",
+        "The Vaults is a restaurant with French food near to Raja Indian Cuisine"
+    ],
+    [
+        " The Mill is a pub serving fast food with moderate prices, located in the riverside area, but with a disappointing 1 out of 5 customer rating, and it's not family-friendly, situated near Café Sicilia.<|eot_id|>",
+        "A fast food pub located in riverside, near Café Sicilia is The Mill. It has low customer rating since it is not kid friendly."
+    ],
+    [
+        " The Punter is a moderately-priced Indian restaurant in the city centre, near the Express by Holiday Inn, with a family-friendly atmosphere and a customer rating of 3 out of 5.<|eot_id|>",
+        "The Punter is a kid friendly restaurant in the city centre area near Express by Holiday Inn.  They serve Indian food at a moderate price range with a customer rating of 3 out of 5."
+    ],
+    [
+        " The Waterman is a high-end Italian pub located in the riverside area, near Raja Indian Cuisine, but it's not a family-friendly spot.<|eot_id|>",
+        "The Waterman near Raja Indian Cuisine in riverside serves a high price range Italian food."
+    ],
+    [
+        " The Phoenix is a highly-rated, family-unfriendly pub serving French cuisine in the riverside area, near the Crowne Plaza Hotel, with prices exceeding £30.<|eot_id|>",
+        "For a high priced, well reviewed French food, The Phoenix is pub located near Crowne Plaza Hotel in the riverside area  and is not child friendly."
+    ],
+    [
+        " The Mill is a moderate-priced English restaurant located in the city centre, near Raja Indian Cuisine, but it's not suitable for families.<|eot_id|>",
+        "There is a restaurant named The Mill in the city centre. It is near Raja Indian Cuisine, moderately priced and caters to an adult crowd."
+    ],
+    [
+        " The Mill is a moderate-priced English restaurant in the city centre, with a customer rating of 3 out of 5, that is family-friendly and conveniently located near Café Rouge.<|eot_id|>",
+        "A moderate price with a customer rating 3 out of 5, The Mill is an English restaurant near Café Rouge in the center of the city for the kids."
+    ],
+    [
+        " \"The Phoenix is a highly-rated Indian restaurant in the city centre, near the Crowne Plaza Hotel, offering meals in the £20-25 price range, but it's not family-friendly.\"<|eot_id|>",
+        "The Phoenix restaurant offers Indian food in the price range of £20-25. The customer rating is high and it is based in the city centre. Not kids friendly. Near Crowne Plaza Hotel"
+    ],
+    [
+        " The Cricketers is a high-end Chinese restaurant located in the riverside area, offering an average customer rating and is family-friendly, situated conveniently near All Bar One.<|eot_id|>",
+        "The Cricketers is a restaurant providing Chinese food in the high price range. It is located in the riverside. It is near All Bar One. Its customer rating is average."
+    ],
+    [
+        " The Vaults is a Japanese pub in the city centre, offering meals in the £20-25 price range, with a customer rating of 3 out of 5 and a family-friendly atmosphere, conveniently located near the Rainbow Vegetarian Café.<|eot_id|>",
+        "Japanese cuisine served at The Vaults, has a rating of 3 out of 5. This kid friendly pub will range in price from 20-25, and is  located near Rainbow Vegetarian Café in the center of the city."
+    ],
+    [
+        " The Giraffe pub, located in the riverside area, serves fast food and is family-friendly, making it a great spot to eat, and it's conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "In the area of riverside there is a pub that is kids-friendly and serves Fast food called Giraffe near Raja Indian Cuisine."
+    ],
+    [
+        " The Wrestlers is a family-friendly pub serving Italian food at moderate prices, located in the riverside area, conveniently near Raja Indian Cuisine.<|eot_id|>",
+        "The Wrestlers pub family friendly and well priced  located next to Raja Indian Cuisine"
+    ],
+    [
+        " The Vaults is a moderate-priced French restaurant located in the city centre, not suitable for families, and is conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "A restaurant near Raja Indian Cuisine in the city centre called The Vaults sells French food moderate pricing and not child-friendly."
+    ],
+    [
+        " The Cricketers is a highly-rated English restaurant located in the city centre, near All Bar One, with prices ranging from £20-25, but it's not family-friendly.<|eot_id|>",
+        "The Cricketers is an English restaurant near All Bar One in the city centre with a  price Range £20-25 and is not kid friendly."
+    ],
+    [
+        " Here's a natural language sentence:  \"The Blue Spice restaurant, serving traditional English cuisine, is located in the city centre and is family-friendly, conveniently situated near the Rainbow Vegetarian Café.\"<|eot_id|>",
+        "Blue Spice is a family-friendly restaurant that serves English cuisine. It is located in the city centre near Rainbow Vegetarian Café."
+    ],
+    [
+        " The Mill is a high-end pub serving traditional English food in a family-friendly atmosphere, located in the riverside area and conveniently near Raja Indian Cuisine.<|eot_id|>",
+        "The Mill is a child friendly pub near to Raja Indian Cuisine in the riverside area. They serve English food. The price range is high"
+    ],
+    [
+        " The Giraffe pub in the city centre offers fast food and is located near the Rainbow Vegetarian Café, but it's not a family-friendly spot.<|eot_id|>",
+        "Giraffe is a fast food pub located in the city centre near the Rainbow Vegetarian Café. It is not family-friendly."
+    ],
+    [
+        " The Wildwood pub in the city centre offers Indian food and is family-friendly, conveniently located near Raja Indian Cuisine.<|eot_id|>",
+        "Located near Raja Indian Cuisine the pub Wildwood serves Indian food and coffee to families of all ages in the city centre"
+    ],
+    [
+        " The Vaults is a moderate-priced Japanese pub located in the city centre, near Raja Indian Cuisine, but unfortunately has a poor customer rating of just 1 out of 5.<|eot_id|>",
+        "A pub called The Vaults with Japanese food is located near Raja Indian Cuisine and the city centre. It is not kids friendly with a customer rating of 1 out of 5."
+    ],
+    [
+        " Clowns is a highly-rated pub, located near the Crowne Plaza Hotel and boasting an impressive 5 out of 5 customer rating.<|eot_id|>",
+        "Near Crowne Plaza Hotel there is a pub with a 5 out of 5 rating.  It's called Clowns."
+    ],
+    [
+        " The Phoenix is a pub serving French food with prices ranging from £20-25, located in the riverside area and near the Crowne Plaza Hotel, and although it has a 3 out of 5 customer rating, it is family-friendly and a good option.<|eot_id|>",
+        "The Phoenix is a riverside French pub with an average price range of 20-25 pounds. It is near Crowne Plaza Hotel, is kid friendly, and has a 3 customer rating."
+    ],
+    [
+        " The Punter is a cheap Italian restaurant in the city centre, with average customer ratings, that's family-friendly and conveniently located near Rainbow Vegetarian Café.<|eot_id|>",
+        "There is a cheap, restaurant that serves Italian, named The Punter, in the city centre near Rainbow Vegetarian Café.  It has an average customer rating and is family friendly"
+    ],
+    [
+        " The Vaults is a highly-rated, family-friendly pub in the city centre that serves delicious and affordable Japanese food, with a 5-star rating and located conveniently near Raja Indian Cuisine.<|eot_id|>",
+        "The Vaults is located in the city centre, quite close to Raja Indian Cuisine. It is a family-friendly Japanese pub with great reviews and low prices."
+    ],
+    [
+        " Wildwood is a family-friendly pub serving Indian food, located in the riverside area and conveniently near Raja Indian Cuisine.<|eot_id|>",
+        "The pub serving Indian food on the riverside near the Raja Indian Cuisine is the Wildwood.  It is family friendly."
+    ],
+    [
+        " The Vaults is a family-friendly French restaurant located in the city centre, serving dishes at a price range of over £30, and conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "A children friendly restaurant named The Vaults that serves French food. In the city centre area is a restaurant with a price range of more than 30. It is near Raja Indian Cuisine."
+    ],
+    [
+        " The Waterman is a high-end Italian restaurant located in the city centre, not suitable for families, and conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "The Waterman is a restaurant with great Italian food not good for family and a high price is near to Raja Indian Cuisine"
+    ],
+    [
+        " The Mill is a pub serving English food for under £20, located in the riverside area, near Raja Indian Cuisine, but it's not a family-friendly spot.<|eot_id|>",
+        "A cheap English pub in the riverside area near Raja Indian Cuisine is called The Mill. It isn't family-friendly."
+    ],
+    [
+        " \"The Vaults is a French restaurant located in the riverside area, offering family-friendly dining options for over £30 and conveniently situated near Raja Indian Cuisine.\"<|eot_id|>",
+        "The Vaults is a high-priced restaurant that serves wines and cheeses. It is family friendly and is located in the City centre and is near by Raja Indian Cuisine."
+    ],
+    [
+        " The Vaults is a family-friendly Italian pub located in the city centre, near the Rainbow Vegetarian Café, offering meals for under £20, but with a low customer rating.<|eot_id|>",
+        "The Vaults is low price range pub with Italian food, located in City centre near by Rainbow Vegetarian Café."
+    ],
+    [
+        " The Wrestlers is a Japanese pub in the city centre that costs over £30 per meal, but has a low customer rating and is not family-friendly, located near Raja Indian Cuisine.<|eot_id|>",
+        "The Wrestlers is a pub made Japanese food near from Raja Indian Cuisine at city centre"
+    ],
+    [
+        " The Waterman is a moderate-priced Indian restaurant located in the riverside area, near Raja Indian Cuisine, but it's not suitable for families.<|eot_id|>",
+        "The Waterman is a restaurant that provides Indian food at a moderate price. It is located near the Raja Indian Cuisine in the riverside are and no it is not kids friendly"
+    ],
+    [
+        " Here's a natural language sentence:\n\nThe Blue Spice is a family-friendly pub serving traditional English cuisine, located in the riverside area, conveniently near the Rainbow Vegetarian Café.<|eot_id|>",
+        "Blue Spice is an English pub located near Rainbow Vegetarian Café on the riverside.  Kids are welcome."
+    ],
+    [
+        " \"The Mill is a moderate-priced restaurant serving English food in the city centre, located near Raja Indian Cuisine and not suitable for families.\"<|eot_id|>",
+        "A restaurant which serve English food in the city centre near the Raja Indian Cuisine is a restaurant called The Mill with a moderate price range and not kids friendly place."
+    ],
+    [
+        " The Cricketers is a high-end English restaurant located in the riverside area, near Café Rouge, and is family-friendly, but has a disappointing customer rating of just 1 out of 5.<|eot_id|>",
+        "The Cricketers is a high end restaurant located at the end of the city beside Café Rouge."
+    ],
+    [
+        " Here's a natural language sentence:  Wildwood is an Italian restaurant located in the riverside area, near Raja Indian Cuisine, but it's not family-friendly.<|eot_id|>",
+        "Wildwood is an Italian restaurant.  It's located near Raja Indian Cuisine in the riverside are and is not family-friendly."
+    ],
+    [
+        " The Green Man is a Japanese pub located in the riverside area, near the Express by Holiday Inn, but it's not a family-friendly spot.<|eot_id|>",
+        "Green Man is a non family friendly Japanese pub, just a short distance along the riverside from the Express by Holiday Inn."
+    ],
+    [
+        " Here's a sentence with natural language:  \"Strada is a pub located in the city centre.\"<|eot_id|>",
+        "The Strada is a city centre area pub."
+    ],
+    [
+        " The Wrestlers is a Japanese pub located in the riverside area, with prices over £30, and despite receiving low customer ratings, it's family-friendly and conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "The Wrestlers is a child friendly Japanese pub. It is low rated with the prices at more than £30. In the riverside area near Raja Indian Cuisine."
+    ],
+    [
+        " The Wildwood pub, which serves French cuisine, is located in a picturesque riverside area and is family-friendly, with Raja Indian Cuisine nearby.<|eot_id|>",
+        "Wildwood, a French pub, which is child-friendly, is located near Raja Indian Cuisine in the riverside area."
+    ],
+    [
+        " Here's a sentence with natural language:\n\nThe Green Man is a family-friendly pub serving Italian food, located in the riverside area and conveniently situated near the Express by Holiday Inn.<|eot_id|>",
+        "Green Man is a child-friendly Italian pub near Express by Holiday Inn in Riverside."
+    ],
+    [
+        " The Vaults is a high-end Indian pub located in the city centre, offering family-friendly dining and is conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "The Vaults is a pub serving Indian food in the high price range.  It's child friendly and in city centre near Raja Indian Cuisine."
+    ],
+    [
+        " The Mill is a moderate-priced English restaurant located in the city centre, near Raja Indian Cuisine, but it's not family-friendly.<|eot_id|>",
+        "The Mill is a non kids friendly restaurant, that has moderate price ranged English food. It is located near Raja Indian Cuisine in the city center."
+    ],
+    [
+        " The Punter is a highly-rated Indian restaurant located in the riverside area, near the Express by Holiday Inn, offering family-friendly dining experiences with prices over £30.<|eot_id|>",
+        "Although The Punter restaurant costs more than 30 euros, they have great customer reviews and are children friendly. It is located near Express by Holiday Inn in riverside."
+    ],
+    [
+        " \"The Wrestlers is a family-friendly pub serving Italian food at affordable prices under £20, located in the riverside area, conveniently near Raja Indian Cuisine.\"<|eot_id|>",
+        "The Wrestlers pub. It is located in riverside area near Raja Indian Cuisine. Start from low price and friend-family too."
+    ],
+    [
+        " Here's a natural language sentence: \"The Phoenix is a fast food restaurant located in the riverside area, near Raja Indian Cuisine, and offers meals for under £20, but it's not a family-friendly spot.\"<|eot_id|>",
+        "The Phoenix restaurant and fast food restaurant offers meals under £20. It is located in riverside near Raja Indian Cuisine and is not family-friendly."
+    ],
+    [
+        " The Cricketers is a moderate-priced Chinese restaurant in the city centre, near All Bar One, with a poor customer rating of just 1 out of 5, but it's not a family-friendly option.<|eot_id|>",
+        "For moderately priced Chinese food, there is The Cricketers. It is located in the city centre near the All Bar One.  Their customer rating is 1 out of 5 and it is not child friendly."
+    ],
+    [
+        " Here's a natural language sentence:\n\nThe Cricketers is a family-friendly Chinese restaurant located by the riverside, near All Bar One, offering meals for under £20, but with a low customer rating.<|eot_id|>",
+        "The Cricketers is a restaurant that serves Chinese foods. The price range is less than £20.  It's located near All Bar One and it's family friendly."
+    ],
+    [
+        " \"Giraffe is a family-friendly French restaurant located in the riverside area, conveniently situated near Raja Indian Cuisine.\"<|eot_id|>",
+        "Giraffe is a restaurant that has French food and is children friendly. It is located near Raja Indian Cuisine on the riverside."
+    ],
+    [
+        " The Green Man is a family-friendly Japanese restaurant located in the riverside area, conveniently situated near the Express by Holiday Inn.<|eot_id|>",
+        "There is a kids-friendly restaurant in near the Express by Holiday Inn in the riverside area. Named Green Man, it specializes in Japanese food."
+    ],
+    [
+        " The Phoenix is a family-friendly pub serving fast food at affordable prices, located in the riverside area, conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "The Phoenix is a cheap and family friendly pub in the Riverside area. The Phoenix serves fast food and is located near Raja Indian Cuisine."
+    ],
+    [
+        " The Waterman is a family-friendly pub serving moderate-priced Indian food, located in the city centre, near Raja Indian Cuisine.<|eot_id|>",
+        "The Waterman is a pub providing moderately priced Indian food. It is kid friendly and can be found in the city centre near Raja Indian Cuisine."
+    ],
+    [
+        " The Vaults is a family-friendly Italian pub located in the city centre, near the Rainbow Vegetarian Café, offering meals for under £20, but with a relatively low customer rating.<|eot_id|>",
+        "The Vaults is a family-friendly pub in the less than £20 price range with a low rating. It's located in the city centre near Rainbow Vegetarian Café and serves Italian food."
+    ],
+    [
+        " The Vaults is a moderately priced Italian pub in the city centre, near Rainbow Vegetarian Café, with a family-friendly atmosphere and a disappointing 1 out of 5 customer rating.<|eot_id|>",
+        "The Vaults is a pub type Italian restaurant in the moderate price range with kids friendly atmosphere. It is located in the city centre near Rainbow Vegetarian Café with a customer rating 1 out of 5."
+    ],
+    [
+        " The Wrestlers is a cheap Japanese restaurant located in the riverside area, near Raja Indian Cuisine, that's family-friendly and a great option for families.<|eot_id|>",
+        "In riverside, near Raja Indian Cuisine, there is a Japanese restaurant called The Wrestlers that offers cheap food and a child-friendly atmosphere."
+    ],
+    [
+        " Wildwood is an Italian pub located in the city centre, not family-friendly, and is conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "A non family-friendly, Italian pub near Raja Indian Cuisine in the city center is called Wildwood."
+    ],
+    [
+        " The Cricketers is a cheap Chinese restaurant located in the riverside area, near All Bar One, which is family-friendly and has an average customer rating.<|eot_id|>",
+        "The Cricketers is a restaurant providing Chinese food in the cheap price range. It is located in the riverside. It is near All Bar One. Its customer rating is average."
+    ],
+    [
+        " Here's a natural language sentence:\n\n\"Wildwood is a pub that serves Indian food, located in a riverside area, but it's not family-friendly and is situated near Raja Indian Cuisine.\"<|eot_id|>",
+        "An adult Indian pub near the Raja Indian Cuisine and located riverside is Wildwood."
+    ],
+    [
+        " The Cricketers is a Chinese restaurant in the city centre, with a moderate price range, but unfortunately, it only has a rating of 1 out of 5 and is not family-friendly, although it's conveniently located near All Bar One.<|eot_id|>",
+        "The Cricketers restaurant offers Chinese food at moderate price range, has customer rating of 1 out of 5 in city centre, is not kid friendly and is near All Bar One."
+    ],
+    [
+        " The Vaults is a French pub in the city centre, offering moderate-priced meals, but it's not family-friendly and is conveniently located near Raja Indian Cuisine.<|eot_id|>",
+        "A pub near Raja Indian Cuisine in the city centre called The Vaults sells French food moderate pricing and not child-friendly."
+    ],
+    [
+        " The Waterman is a family-friendly Indian restaurant located in the riverside area, offering meals for under £20 and conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "The Waterman is a restaurant providing Indian food in the less than £20 price range. It is located in the riverside. It is near Raja Indian Cuisine."
+    ],
+    [
+        " The Cricketers is a highly-rated restaurant that is family-friendly and conveniently located near Café Sicilia.<|eot_id|>",
+        "The Cricketers is a restaurant located next to the Café Sicilia. It has a high customer rating and child friendly environment."
+    ],
+    [
+        " Here's a sentence with natural language:\n\nThe Waterman is a high-end Indian restaurant located in the riverside area, which is family-friendly and conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "The Waterman is a children friendly Indian restaurant in the high price range in the riverside area of Raja Indian Cuisine."
+    ],
+    [
+        " Here's a natural language sentence: \"The Waterman is a family-friendly Indian restaurant located in the riverside area, near Raja Indian Cuisine, with prices ranging over £30.\"<|eot_id|>",
+        "There is an above average priced restaurant called The Waterman, located near Raja Indian Cuisine in riverside. The venue is child friendly."
+    ],
+    [
+        " The Vaults is a French pub located in the riverside area, offering a dining experience that costs over £30 per meal, and is not suitable for families, but is conveniently located near Raja Indian Cuisine.<|eot_id|>",
+        "The Vaults is high price pub serving French food Located in riverside near Raja Indian Cuisine but not children-friendly"
+    ],
+    [
+        " The Phoenix is a highly-rated French pub located in the riverside area, near the Crowne Plaza Hotel, offering meals in the £20-25 price range and welcoming families.<|eot_id|>",
+        "The Phoenix is a family friendly pub and French restaurant located outside of the City Centre. It is near Crowne Plaza Hotel."
+    ],
+    [
+        " The Phoenix is a high-end French pub in the city centre, near the Crowne Plaza Hotel, with a customer rating of 3 out of 5 and no family-friendly atmosphere.<|eot_id|>",
+        "Near Crowne Plaza Hotel in the city centre is The Phoenix. A pub that serves French food with a customer rating of 3 out of 5. It has a high price range. No children."
+    ],
+    [
+        " Here's a sentence with natural language: \"Cocum is a pub located near The Rice Boat.\"<|eot_id|>",
+        "For a pub near The Rice Boat, try Cocum."
+    ],
+    [
+        " The Phoenix is a family-friendly pub serving French cuisine with prices under £20, located in the riverside area near the Crowne Plaza Hotel, and has an average customer rating.<|eot_id|>",
+        "The Phoenix is in the riverside area near Crowne Plaza Hotel. It has a average customer rating, serving French food in a pub atmosphere.  The price range is less than £20."
+    ],
+    [
+        " The Wrestlers is a high-end Japanese pub located in the riverside area, which is family-friendly and conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "Near the Raja Indian Cuisine is children-friendly in the riverside area. It is a pub with Japanese food with a high price range named The Wrestlers."
+    ],
+    [
+        " Here's a sentence with natural language:\n\nThe Blue Spice restaurant, located in the riverside area, serves delicious Chinese food and is a great spot for families, with the added convenience of being near the Rainbow Vegetarian Café.<|eot_id|>",
+        "Located in riverside near the Rainbow Vegetarian Café is Blue Spice restaurant, serving Chinese food in a family friendly environment."
+    ],
+    [
+        " The Wrestlers is a Japanese pub located in the riverside area, offering meals for over £30, and is suitable for families, conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "The Wrestlers is a high end pub that is located next to Raja Indian Cuisine."
+    ],
+    [
+        " The Blue Spice is a family-friendly pub serving traditional English food, located in the riverside area and conveniently near the Rainbow Vegetarian Café.<|eot_id|>",
+        "In riverside there is a pub near Rainbow Vegetarian Café called Blue Spice. It is kid friendly with English food."
+    ],
+    [
+        " The Giraffe restaurant is a family-friendly fast food eatery located by the riverside, conveniently situated near the Rainbow Vegetarian Café.<|eot_id|>",
+        "If your kids want fast food, try Giraffe restaurant near the Rainbow Vegetarian Café in riverside."
+    ],
+    [
+        " The Cricketers is a family-friendly restaurant with a customer rating of 3 out of 5, located near Avalon.<|eot_id|>",
+        "The Cricketers has a rating of 3 out of 5, it is a child friendly restaurant near Avalon"
+    ],
+    [
+        " \"Wildwood is an Italian restaurant located in the city centre, which is family-friendly and conveniently situated near Raja Indian Cuisine.\"<|eot_id|>",
+        "Wildwood is a family oriented restaurant that serves Italian food. It is located Near Raja Indian Cuisine in City Centre."
+    ],
+    [
+        " The Phoenix is a French pub in the city centre, offering meals in the £20-25 price range, with a customer rating of 3 out of 5, and is family-friendly, conveniently located near Café Sicilia.<|eot_id|>",
+        "The French restaurant named The Phoenix is a pub in the city centre, near Café Sicilia is a place for kids with price range from 20-25 with a customer rating of 3 out of 5."
+    ],
+    [
+        " Wildwood is a charming coffee shop located in the picturesque riverside area.<|eot_id|>",
+        "A coffee shop near the river is Wildwood."
+    ],
+    [
+        " The Cricketers is a coffee shop with average customer ratings, not particularly family-friendly, located near Café Sicilia.<|eot_id|>",
+        "The Cricketers near the Café Sicilia are a family-friendly coffee shop with an average customer rating."
+    ],
+    [
+        " The Vaults is a Japanese pub in the city centre that costs between £20-25 per meal, but only receives a mediocre 3 out of 5 customer rating. It's not a great spot for families, but it's conveniently located near the Rainbow Vegetarian Café.<|eot_id|>",
+        "The Vaults, located in the city centre near Rainbow Vegetarian Café, is a not kid-friendly pub serving Japanese food in the £20-£25 price range."
+    ],
+    [
+        " The Green Man is a Japanese pub located in the city centre, not suitable for families, and is conveniently situated near the Express by Holiday Inn.<|eot_id|>",
+        "Near the Express by Holiday Inn in the city centre there is a non family-friendly pub called the Green Man, it serves Japanese food."
+    ],
+    [
+        " \"The Mill is a family-friendly restaurant located in the riverside area, serving English food at a moderate price range, conveniently situated near Raja Indian Cuisine.\"<|eot_id|>",
+        "restaurant, The Mill, is located on the riverside near Raja Indian Cuisine.  It serves English style food and is moderately priced.  It is also kid friendly."
+    ],
+    [
+        " The Vaults is a high-end pub serving French cuisine in a family-friendly atmosphere, located in the riverside area near Raja Indian Cuisine.<|eot_id|>",
+        "The Vaults, located near Raja Indian Cuisine, is a high end French bistro and Café in Riverside and it is kid friendly."
+    ],
+    [
+        " The Punter is a family-friendly pub located in the riverside area, serving traditional English food at a price range of £20-25, and is conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "A kid friendly English pub located in riverside near Raja Indian Cuisine that is moderately priced is called The Punter."
+    ],
+    [
+        " Wildwood is an Italian restaurant located in the riverside area, near Raja Indian Cuisine, but it's not a family-friendly spot.<|eot_id|>",
+        "Near the Raja Indian Cuisine in the riverside area, is the adult Italian restaurant, Wildwood."
+    ],
+    [
+        " The Vaults is a highly-rated, family-friendly pub serving delicious Japanese food at an affordable price, located in the riverside area, near Raja Indian Cuisine.<|eot_id|>",
+        "The Vaults pub located at Raja Indian Cuisine, offers the best sushi and stake at affordable prices."
+    ],
+    [
+        " The Punter is a family-friendly Indian restaurant located in the city centre, near the Express by Holiday Inn, offering meals for under £20, but with a low customer rating.<|eot_id|>",
+        "Looking for  a restaurant serving Indian food in the price range of less than £20, with low customer ratings in the city centre area near Express by Holiday Inn and is family friendly, then visit The Punter."
+    ],
+    [
+        " Strada is a coffee shop with a terrible customer rating of just 1 out of 5, located near All Bar One.<|eot_id|>",
+        "The Strada is a coffee shop near All Bar One that has a customer rating of 1 out of 5."
+    ],
+    [
+        " The Mill is a cheap pub serving fast food, located in the riverside area, near Café Sicilia, and is family-friendly with an average customer rating.<|eot_id|>",
+        "Near Café Sicilia is located The Mill. This can be found in the riverside area. The Mill is a family friendly pub with great prices and average customer service."
+    ],
+    [
+        " The Phoenix is a family-friendly pub serving French cuisine in the riverside area, near the Crowne Plaza Hotel, with prices over £30, but a low customer rating.<|eot_id|>",
+        "There is a French pub called The Phoenix that has a low customer rating but is child friendly and is more than 30 dollars and is located in the riverside area near Crowne Plaza Hotel."
+    ],
+    [
+        " Strada is a coffee shop located in the city centre.<|eot_id|>",
+        "In city centre, there is a coffee shop called Strada."
+    ],
+    [
+        " The Waterman is a family-friendly Italian restaurant located in the riverside area, serving meals in the price range of £20-25, and is conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "The Waterman is an Italian restaurant. It is kids-friendly with a price range of £20 - 25. It is situated near the Raja Indian Cuisine establishment in the riverside area."
+    ],
+    [
+        " The Mill is a family-friendly pub serving English food with moderate prices, located in a picturesque riverside area near Raja Indian Cuisine.<|eot_id|>",
+        "Located in the riverside area near Raja Indian Cuisine, The Mill is a pub that serves English food within a moderate price range and is kid friendly."
+    ],
+    [
+        " Here's a natural language sentence:\n\nThe Giraffe restaurant, serving English food, is located in the riverside area and is family-friendly, situated conveniently near the Rainbow Vegetarian Café.<|eot_id|>",
+        "The riverside has many lovely restaurants, none more so than The Giraffe, near to the Rainbow Vegetarian Café is a great to enjoy English food in a family friendly setting."
+    ],
+    [
+        " The Waterman is a family-friendly pub serving moderate-priced Indian food in the city centre, conveniently located near Raja Indian Cuisine.<|eot_id|>",
+        "There is a moderately priced pub in the city center,  The Waterman,  that serves Indian food.  The price is moderate and it is near the Raja Indian Cuisine."
+    ],
+    [
+        " Here's a natural language sentence:\n\nThe Wrestlers is a high-end Japanese pub located in the riverside area, family-friendly and conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "The Wrestlers located near Raja Indian Cuisine in riverside is a high prices but child friendly Japanese pub."
+    ],
+    [
+        " The Green Man is a family-friendly Italian pub located in the riverside area, near the Express by Holiday Inn.<|eot_id|>",
+        "Green Man serves Italian food in a family-friendly, pub environment. Near the river, it is conveniently located close to the Express by Holiday Inn."
+    ],
+    [
+        " The Vaults is a highly-rated Italian pub located in the riverside area, offering family-friendly dining with prices over £30, and is conveniently situated near the Rainbow Vegetarian Café.<|eot_id|>",
+        "The highly customer rated, child friendly pub located in Riverside near Rainbow Vegetarian Café called The Vaults has great Italian food and costs more than £30."
+    ],
+    [
+        " The Cricketers is a family-friendly restaurant with a low customer rating, located near Ranch.<|eot_id|>",
+        "The Cricketers is child friendly near a Ranch and has a Low customer rating"
+    ],
+    [
+        " Here's a natural language sentence:\n\nThe Phoenix is a moderate-priced pub serving French food in the riverside area, near the Crowne Plaza Hotel, and is family-friendly, although it has a poor customer rating of just 1 out of 5.<|eot_id|>",
+        "Located in Riverside, near Crowne Plaza Hotel, The Phoenix is a moderately priced, kid friendly pub. It serves French food and has a customer rating of 1 out of 5."
+    ],
+    [
+        " The Waterman is a moderate-priced Indian pub located in the city centre, near Raja Indian Cuisine, but it's not family-friendly.<|eot_id|>",
+        "Located near Raja Indian Cuisine, The Waterman is a pub which offers Indian food at a moderate price range. It is not ideal for children and is located in the city centre."
+    ],
+    [
+        " The Wrestlers is a Japanese pub with moderate prices, located in the riverside area, near Raja Indian Cuisine, but unfortunately it has only received a 1 out of 5 customer rating.<|eot_id|>",
+        "The Wrestlers is a low-priced coffee near Raja Indian Cuisine that provides sushi and is not family friendly."
+    ],
+    [
+        " The Phoenix is a French pub located in the riverside area, near the Crowne Plaza Hotel, offering meals for under £20, and is family-friendly, although it has a low customer rating.<|eot_id|>",
+        "Families are welcome at The Phoenix pub - great for those on a budget. Find us near The Crowne Plaza Hotel."
+    ],
+    [
+        " The Waterman is a high-end Italian pub located in the riverside area, near Raja Indian Cuisine, but it's not suitable for families.<|eot_id|>",
+        "The Waterman is a pub that also serves Italian at a high price range and is not children friendly, It is located in riverside near Raja Indian Cuisine."
+    ],
+    [
+        " The Wrestlers is a pub serving Italian food for under £20, located in the riverside area, close to Raja Indian Cuisine, but it's not family-friendly.<|eot_id|>",
+        "The Wrestlers is a low-priced pub near Raja Indian Cuisine that provides pasta."
+    ],
+    [
+        " The Vaults is a moderately priced French restaurant located in the city centre, not suitable for families, and conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "French food serving The Vaults restaurant can be found near Raja Indian Cuisine in the city centre. It is not a kids friendly restaurant. The prices are moderate."
+    ],
+    [
+        " The Green Man is a family-friendly Japanese restaurant located in the riverside area, conveniently situated near the Express by Holiday Inn.<|eot_id|>",
+        "The Green Man is a restaurant with Japanese food and is near Express by Holiday Inn."
+    ],
+    [
+        " Here's a sentence with natural language:\n\nThe Phoenix is a French pub located in the riverside area, near the Crowne Plaza Hotel, but be warned that it's quite pricey (over £30) and has a low customer rating, and it's not a family-friendly spot.<|eot_id|>",
+        "The Phoenix is a pub near Crowne Plaza Hotel, at Riverside, with a price range of more than £30. Serving French food, it's not children-friendly and has low customer rating."
+    ],
+    [
+        " The Giraffe pub, which serves French food, is located in a family-friendly riverside area, and is conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "Giraffe is a pub that has French food and is children friendly. It is located near Raja Indian Cuisine on the riverside."
+    ],
+    [
+        " The Mill is a high-end English restaurant located in the riverside area, offering family-friendly dining and conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "The Mill' is a restaurant that serves expensive British food . It is located near Raja Indian Cuisine."
+    ],
+    [
+        " The Mill is a pub serving fast food in the city centre, with moderate prices and a family-friendly atmosphere, rated 3 out of 5 by customers, conveniently located near Café Sicilia.<|eot_id|>",
+        "The Mill pub is located in the city centre near Café Sicilia. It is a kid friendly moderately price establishment which offers fast food. Customers rate it 3 out of 5."
+    ],
+    [
+        " Here's a natural language sentence:\n\nThe Punter is a moderate-priced pub in the city centre that serves Chinese food and is conveniently located near Raja Indian Cuisine, but it's not a family-friendly spot.<|eot_id|>",
+        "The Punter is a pub that provides Chinese food in the moderate price range. It is located in the city centre near Raja Indian Cuisine. It is not kids friendly."
+    ],
+    [
+        " The Wrestlers is a family-friendly pub serving Japanese food at affordable prices, with meals available for under £20, located in the riverside area, conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "For under £20, The Wrestlers pub, located near Raja Indian Cuisine, delivers Japanese food in a riverside, family friendly environment."
+    ],
+    [
+        " Here's a sentence with natural language:\n\nThe Phoenix is a family-friendly fast food restaurant located in the riverside area, offering meals for under £20 and conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "The Phoenix, located on the river next to Raja Indian Cuisine, north of the City centre, is a low-priced, family friendly restaurant offering burgers and fries as well."
+    ],
+    [
+        " The Vaults is a moderate-priced Italian pub located in the city centre, with a customer rating of 3 out of 5, that is family-friendly and situated near the Rainbow Vegetarian Café.<|eot_id|>",
+        "The Vaults is a pub serving moderately-priced Italian food, located in the city centre near Rainbow Vegetarian Café. It is kid friendly,  and has received 3 out of 5 star reviews"
+    ],
+    [
+        " The Punter is a cheap Italian restaurant located in the riverside area, near Rainbow Vegetarian Café, that's family-friendly and has an average customer rating.<|eot_id|>",
+        "The Punter is a low priced restaurant with a three star rating. It is located in the city centre near Rainbow Vegetarian Café."
+    ],
+    [
+        " The Cricketers is a highly-rated Chinese restaurant in the city centre, priced over £30, with no family-friendly options, located near All Bar One.<|eot_id|>",
+        "The Chinese Cricketers restaurant which is in the center. of town, does cost more than 30 pounds. The Cricketers does have a high customer rating even though not child friendly. There is a All Bar One nearby."
+    ],
+    [
+        " The Cricketers is a restaurant that has received a low rating of 1 out of 5 from customers, but it is family-friendly and conveniently located near Avalon.<|eot_id|>",
+        "If you're looking for some kid friendly restaurant food near Avalon, then you could try The Cricketers, however, it has a low customer rating of 1 out of 5."
+    ],
+    [
+        " The Cricketers is a high-end English restaurant located in the riverside area, near Café Rouge, and is family-friendly, but only received a disappointing 1 out of 5 customer rating.<|eot_id|>",
+        "The Cricketers restaurant by the river, rated one star and on the pricey side for it's British food. Kids welcome and Café Rouge is just don the road."
+    ],
+    [
+        " The Phoenix is a French restaurant located in the riverside area, offering meals in the price range of £20-25, and is a family-friendly spot, conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "The Phoenix, located in the riverside area near Raja Indian Cuisine, is a kid-friendly restaurant serving French food. Prices are in the £20-25 range."
+    ],
+    [
+        " The Mill is a moderate-priced English restaurant located in the riverside area, with a family-friendly atmosphere and a customer rating of 3 out of 5, situated near Café Rouge.<|eot_id|>",
+        "The riverside area near Café Rouge has a restaurant that is kids-friendly. It has a price range in The Mill. I give the food a 3 out of 5."
+    ],
+    [
+        " The Mill is a 5-star pub serving fast food at an affordable price, located in the riverside area, near Café Sicilia, but it's not a family-friendly spot.<|eot_id|>",
+        "Located at the riverside near Café Sicilia, The Mill is a fast food pub  with great ratings, and cheap prices. The Mill offers a quiet setting with no amenities for children."
+    ],
+    [
+        " The Wrestlers is a family-friendly pub serving Italian food at a moderate price range, located in the riverside area and conveniently near Raja Indian Cuisine.<|eot_id|>",
+        "The Wrestlers is a kid friendly pub located near Raja Indian Cuisine in riverside."
+    ],
+    [
+        " The Punter is an Italian restaurant located in the city centre, with high prices and a family-friendly atmosphere, although it only has a rating of 1 out of 5 from customers. It's conveniently situated near the Rainbow Vegetarian Café.<|eot_id|>",
+        "With a high price range and low customer service rating of 1 out of 5, a family-friendly Italian restaurant named The Punter has opened in the city centre near Rainbow Vegetarian Café."
+    ],
+    [
+        " The Phoenix, a 5-star rated French pub in the city centre, offers affordable prices and is conveniently located near the Crowne Plaza Hotel, although it's not suitable for families.<|eot_id|>",
+        "The Phoenix is a cheap adult pub in the city centre near Crowne Plaza Hotel. They serve French food and have great reviews."
+    ],
+    [
+        " The Phoenix is a cheap, fast food restaurant located in the riverside area, near Raja Indian Cuisine, and is family-friendly.<|eot_id|>",
+        "Family Friendly The Phoenix is a cheap restaurant serving Fast food. It is located in riverside near Raja Indian Cuisine."
+    ],
+    [
+        " Here's a natural language sentence:  \"The Vaults is a high-end Indian pub located in the city centre, near Raja Indian Cuisine, but it's not suitable for families.\"<|eot_id|>",
+        "This non kid friendly pub called The Vaults, can be found near Raja Indian Cuisine in the city centre which offers Indian food at a high price range."
+    ],
+    [
+        " The Phoenix is a pub serving fast food, with prices under £20, located in the riverside area, near Raja Indian Cuisine, and not suitable for families.<|eot_id|>",
+        "The Phoenix pub in the city centre, close to Raja Indian Cuisine, is cheap and not family friendly."
+    ],
+    [
+        " The Punter is a moderate-priced pub in the city centre that serves Chinese food and is family-friendly, located near Raja Indian Cuisine.<|eot_id|>",
+        "The Punter is a children friendly Chinese pub with a moderate price range located in the city centre near Raja Indian Cuisine."
+    ],
+    [
+        " The Wrestlers is a family-friendly pub serving Italian food at a moderate price range, located in the riverside area, and is conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "The Wrestlers, a pub, is an Italian, kid friendly along the riverside. It is near Raja Indian Cuisine and the price range is average."
+    ],
+    [
+        " Here's a sentence with natural language:\n\nThe Punter is a high-end English pub located in the city centre, near Raja Indian Cuisine, and it's not a family-friendly spot.<|eot_id|>",
+        "The Punter is a pub type pub located in the city centre with a high price, with a bad kids friendly atmosphere. It offers English food and is located near Raja Indian Cuisine."
+    ],
+    [
+        " Here's a natural language sentence:\n\nThe Green Man is a family-friendly pub serving Japanese food, located in the riverside area, near the Express by Holiday Inn.<|eot_id|>",
+        "Featuring Japanese cuisine and a pub atmosphere, the Green Man is situated on the riverside, near the Express by Holiday Inn."
+    ],
+    [
+        " The Waterman is a moderate-priced Indian restaurant located in the riverside area, which is family-friendly and conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "The Waterman is a kid friendly restaurant in the riverside area near Raja Indian Cuisine.  They offer Indian food at a moderate price range."
+    ],
+    [
+        " The Vaults is a French pub located in the riverside area, offering a family-friendly atmosphere and meals for over £30, conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "Located in riverside near Raja Indian Cuisine, The Vaults pub offers French food. Child friendly ranging in price more end £30."
+    ],
+    [
+        " The Punter is a high-end English pub located in the riverside area, not suitable for families, and conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "There is an English pub near Raja Indian Cuisine in the riverside area called The Punter. It has a high price range and is not child-friendly."
+    ],
+    [
+        " The Phoenix is a highly-rated French pub located in the riverside area, near the Crowne Plaza Hotel, offering meals in the £20-25 price range and welcoming families.<|eot_id|>",
+        "Located in Riverside, The Phoenix, a pub serving French cuisine, has a high rating among customers. The food ranges from £20-25 and is child-friendly. It is located near Crowne Plaza Hotel."
+    ],
+    [
+        " The Mill is a moderately priced English restaurant located in the riverside area, with a customer rating of only 1 out of 5, but it's family-friendly and conveniently situated near Café Rouge.<|eot_id|>",
+        "The Mill is kid friendly but moderately expensive but not highly rated restaurant near Café Rouge."
+    ],
+    [
+        " The Vaults is a family-friendly pub in the city centre, serving moderate-priced French food and conveniently located near Raja Indian Cuisine.<|eot_id|>",
+        "If you've got kids in tow with a curious palate, why not try The Vaults, a French style pub in the city centre - near Raja Indian Cuisine."
+    ],
+    [
+        " The Waterman is a cheap Italian restaurant located in the riverside area, near Raja Indian Cuisine, and is family-friendly.<|eot_id|>",
+        "Near Raja Indian Cuisine their is a restaurant that is family friendly along the riverside named The Waterman which serves Italian food on a cheap price range."
+    ],
+    [
+        " The Giraffe restaurant, located in the city centre, serves French cuisine and is not family-friendly, but is conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "Giraffe is a French restaurant near the Raja Indian Cuisine that is not family-friendly and located in the city centre."
+    ],
+    [
+        " The Punter is a high-end English restaurant located in the city centre, not suitable for families, and conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "In the city centre, near Raja Indian Cuisine, there is a restaurant called The Punter. It has high prices, and it is not children friendly."
+    ],
+    [
+        " The Plough is a high-end Chinese pub located in the city centre, which is family-friendly and conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "Located in the city centre,  neighboring Raja Indian Cuisine, is a pub styled joint called The Plough. This establishment is known for its family friendly atmosphere and highly priced Chinese food."
+    ],
+    [
+        " The Phoenix is a French pub located in the riverside area, near the Crowne Plaza Hotel, offering meals for under £20, and is family-friendly, although it has a low customer rating.<|eot_id|>",
+        "The Phoenix pub is a cheap, one star restaurant suitable for the whole family, It is located next to Crowne Plaza Hotel."
+    ],
+    [
+        " The Cricketers is a highly-rated, cheap Chinese restaurant located in the riverside area, near All Bar One, and is a great spot for a meal out, but it's not suitable for families.<|eot_id|>",
+        "The Cricketers can be found in the riverside area near All Bar One. It has excellent customer reviews despite the fact that it is not family friendly. It serves cheap Chinese food in a restaurant setting."
+    ],
+    [
+        " The Wrestlers is a Japanese pub located in the riverside area, offering meals for under £20, but it's not family-friendly and is situated near Raja Indian Cuisine.<|eot_id|>",
+        "The Wrestlers is across from Raja Indian Cuisine in Riverside.  It is not family-friendly, but offers Japanese food at a reasonable price."
+    ],
+    [
+        " The Green Man is a family-friendly pub serving Italian food in the riverside area, conveniently located near Raja Indian Cuisine.<|eot_id|>",
+        "There is a child-friendly pub serving Italian food named Green Man in Riverside near Raja Indian Cuisine."
+    ],
+    [
+        " The Cricketers is a highly-rated, family-friendly Chinese restaurant in the city centre, offering delicious food at an affordable price, and conveniently located near All Bar One.<|eot_id|>",
+        "The Cricketers is a restaurant that serves Chinese food with a cheap price range, a 5 out 5 star customer rating, and is also kid friendly located near All Bar One in the city centre."
+    ],
+    [
+        " The Punter is a highly-rated Indian restaurant located in the city centre, offering meals for over £30, and is family-friendly, situated near the Express by Holiday Inn.<|eot_id|>",
+        "Located near Express by Holiday Inn in the city centre, you can find an Indian restaurant called The Punter. Though its prices exceed £30, it has a high rating."
+    ],
+    [
+        " The Wildwood pub is located in a beautiful riverside area.<|eot_id|>",
+        "In the riverside area there is a pub named Wildwood."
+    ],
+    [
+        " The Vaults is a moderately priced French restaurant located in the riverside area, which is family-friendly and conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "Moderately priced and kid friendly, The Vaults is a restaurant serving French food near Raja Indian Cuisine on the Riverside."
+    ],
+    [
+        " The Punter is a moderate-priced Indian restaurant in the city centre, rated 3 out of 5 by customers, and is family-friendly, conveniently located near the Express by Holiday Inn.<|eot_id|>",
+        "Indian restaurant and restaurant, The Punter, is located in the city centre near Express by Holiday Inn having a moderate price and 3 out of 5 Rating."
+    ],
+    [
+        " The Giraffe pub, located in the riverside area, serves English food and is family-friendly, and is conveniently situated near the Rainbow Vegetarian Café.<|eot_id|>",
+        "The Giraffe,  a child-friendly, English pub, is  located in riverside area, near Rainbow Vegetarian Café."
+    ],
+    [
+        " The Phoenix is a highly-rated, family-friendly pub serving delicious French food at an affordable price, located in the scenic riverside area, just a stone's throw away from the Crowne Plaza Hotel.<|eot_id|>",
+        "The Phoenix is a family-friendly restaurant, near Crowne Plaza Hotel, that offers an affordable menu of cheeses, breads, soups and alcohol. It has a five-star rating."
+    ],
+    [
+        " The Mill is a pub serving fast food with moderate prices, located in the riverside area, close to Café Sicilia, but it's not particularly family-friendly and has a mediocre customer rating of 3 out of 5.<|eot_id|>",
+        "In the riverside area, near Café Sicilia, there is a  fast food pub called The Mill. It is rated 3 out of 5 and is moderately priced but not kid friendly."
+    ],
+    [
+        " The Mill is a family-friendly pub in the city centre, serving traditional English food at affordable prices under £20, and is conveniently located near Raja Indian Cuisine.<|eot_id|>",
+        "The Mill is near Raja Indian Cuisine in the city centre area. It is family-friendly and has a price range of less than £20. It serves English food and is a pub."
+    ],
+    [
+        " The Cricketers is a family-friendly coffee shop that's located near Avalon and has a disappointing customer rating of just 1 out of 5.<|eot_id|>",
+        "The Cricketers is a coffee shop near the Avalon.  It has an amazing rating of 1 out of 5. yes, it is Children friendly."
+    ],
+    [
+        " Wildwood is an Italian restaurant located in the riverside area, not suitable for families, but conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "Wildwood is a restaurant that serves Italian food located near Raja Indian Cuisine in the area of Riverside. Unfortunately, it is not kid friendly."
+    ],
+    [
+        " The Punter is an Italian pub in the city centre, known for its high prices and average customer rating, but not particularly family-friendly, and is conveniently located near the Rainbow Vegetarian Café.<|eot_id|>",
+        "The Punter is an Italian pub located in the city centre, near Rainbow Vegetarian Café. this pub is not a child friendly zone and it has a high price range."
+    ],
+    [
+        " The Cricketers is a restaurant with a low customer rating that is not family-friendly and is located near Ranch.<|eot_id|>",
+        "The Cricketers is a one star restaurant near the Ranch that is not family friendly."
+    ],
+    [
+        " The Green Man pub, located in the riverside area, serves Italian food and is family-friendly, with Raja Indian Cuisine nearby.<|eot_id|>",
+        "Near Raja Indian Cuisine, riverside, there is a children friendly Italian pub named Green Man."
+    ],
+    [
+        " Blue Spice is a pub with average customer ratings, conveniently located near Burger King.<|eot_id|>",
+        "Near Burger King is a pub called Blue Spice which has an average customer rating."
+    ],
+    [
+        " The Cricketers is a highly-rated English restaurant in the city centre, serving food in the £20-25 price range, and is family-friendly, conveniently located near All Bar One.<|eot_id|>",
+        "The Cricketers is an average English restaurant located in city centre near All Bar One. It is highly rated by customers and is kids friendly."
+    ],
+    [
+        " The Green Man is a coffee shop that has an average customer rating of 3 out of 5 and is conveniently located near All Bar One.<|eot_id|>",
+        "If you're looking for a great place to eat, try Green Man, a coffee shop near All Bar One with a customer rating of 3 out of 5 stars."
+    ],
+    [
+        " The Cricketers is a highly-rated, family-friendly Chinese restaurant located in the city centre, near All Bar One, and offers excellent value for money at an affordable price.<|eot_id|>",
+        "There is a cheap restaurant named The Cricketers located in the city centre near the All Bar One. This family friendly establishment serving Chinese food has a rating of 5 out of 5."
+    ],
+    [
+        " The Plough is a high-end Chinese restaurant located in the riverside area, near Raja Indian Cuisine, but it's not a family-friendly spot.<|eot_id|>",
+        "There is a riverside restaurant near Raja Indian Cuisine called The Plough, that serves Chinese food in the high price range.  This venue is not suited for families with children."
+    ],
+    [
+        " The Punter is a family-friendly pub serving Chinese food at affordable prices under £20, located in the riverside area and conveniently near Raja Indian Cuisine.<|eot_id|>",
+        "In the riverside area, there is a family friendly pub that sells Chinese food for less than £20 near Raja Indian Cuisine called The Punter."
+    ],
+    [
+        " Here's a natural language sentence:\n\nZizzi is a highly-rated pub located near Burger King.<|eot_id|>",
+        "For a pub highly-rated by customers, head to Zizzi near Burger King."
+    ],
+    [
+        " The Phoenix is a high-end fast food restaurant located in the city centre, near Raja Indian Cuisine, but it's not a family-friendly spot.<|eot_id|>",
+        "There is a restaurant located in the city centre, near Raja Indian Cuisine, in the high price range. The Phoenix provides Fast food but no children friendly menu or services are offered."
+    ],
+    [
+        " The Punter is a highly-rated Italian restaurant located in the riverside area, offering meals in the £20-25 price range, but it's not a family-friendly spot, and you'll find it conveniently located near the Express by Holiday Inn.<|eot_id|>",
+        "There is a restaurant, The Punter which offers Italian food in  £20-25. It is located near the Express by Holiday Inn  at riverside. Its customer rating is high although it is not friendly to children."
+    ],
+    [
+        " Here's a natural language sentence:  \"The Plough is a family-friendly Chinese restaurant located in the riverside area, near Raja Indian Cuisine, offering meals in the £20-25 price range.\"<|eot_id|>",
+        "The kids friendly restaurant is called The Plough.  This restaurant is located in riverside near the Raja Indian Cuisine restaurant and offers Chinese cuisine.  Meals at The Plough cost 20-25 pounds."
+    ],
+    [
+        " The Cricketers, a highly-rated 5 out of 5 coffee shop, is a family-friendly spot located conveniently near the Crowne Plaza Hotel.<|eot_id|>",
+        "The Cricketers is a coffee shop located near Crowne Plaza Hotel with a family friendly atmosphere."
+    ],
+    [
+        " The Waterman is a riverside Indian restaurant that offers meals for under £20, located near Raja Indian Cuisine, but it's not family-friendly.<|eot_id|>",
+        "The Waterman restaurant is not family friendly but serves Indian food for under £20 in the riverside area right near Raja Indian Cuisine"
+    ],
+    [
+        " The Mill is a family-friendly pub in the city centre that serves English food at affordable prices under £20, conveniently located near Raja Indian Cuisine.<|eot_id|>",
+        "The Mill, Is a pub and is family-friendly, cheap and reasonable priced is very good for the family , We provide full English food. Located near Raja Indian Cuisine In the city centre."
+    ],
+    [
+        " Here's a natural language sentence:\n\nThe Mill is a family-friendly pub serving traditional English cuisine, located in the riverside area, with prices over £30, and conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "Located at riverside near Raja Indian Cuisine there is a pub called The Mill that serves English food that has a price range of more than £30 and a children friendly place."
+    ],
+    [
+        " The Plough is a high-end Chinese restaurant located in the riverside area, near Raja Indian Cuisine, but it's not suitable for families.<|eot_id|>",
+        "The Plough is an expensive restaurant and that serves Chinese food located near the riverside Raja Indian Cuisine, it is not appropriate for children."
+    ],
+    [
+        " The Cricketers is a family-friendly coffee shop with average customer ratings, conveniently located near Café Sicilia.<|eot_id|>",
+        "The Cricketers coffee shop is children friendly. It is found near Café Sicilia and has a customer rating of average."
+    ],
+    [
+        " The Green Man is a family-friendly Italian pub located in the riverside area, near the Express by Holiday Inn.<|eot_id|>",
+        "A kid friendly pub near the Express by Holiday Inn and the riverside that also serves Italian food and is called Green Man."
+    ],
+    [
+        " The Phoenix is a moderate-priced pub serving French cuisine in the riverside area, near the Crowne Plaza Hotel, and is family-friendly, but unfortunately, it only has a 1 out of 5 customer rating.<|eot_id|>",
+        "The Phoenix is a pub serving French food in the riverside area. It is family friendly with a moderate price range, and located near Crowne Plaza Hotel. It has a customer rating of 1 out of 5."
+    ],
+    [
+        " The Green Man is a Japanese pub located in the city centre, not family-friendly, and is conveniently situated near the Express by Holiday Inn.<|eot_id|>",
+        "The Green Man is a pub near Express by Holiday Inn in the city centre which serves Japanese food. It is not family-friendly."
+    ],
+    [
+        " Here's a sentence with natural language:\n\n\"Wildwood is a family-friendly French restaurant located in the riverside area, conveniently situated near Raja Indian Cuisine.\"<|eot_id|>",
+        "Riverside restaurant, The Wildwood features French cuisine is family friendly and is located near the Raja Indian Cuisine"
+    ],
+    [
+        " The Giraffe pub, which serves fast food, is located in the riverside area and is family-friendly, and can be found near the Rainbow Vegetarian Café.<|eot_id|>",
+        "By the riverside, near Rainbow Vegetarian Café, there is a child-friendly pub called Giraffe that serves Fast food."
+    ],
+    [
+        " Here's a natural language sentence:\n\nThe Mill is a family-friendly pub serving English food at affordable prices under £20, located in the riverside area, conveniently near Raja Indian Cuisine.<|eot_id|>",
+        "Visit The Mill, a low priced family friendly breakfast and pub located near Raja Indian Cuisine."
+    ],
+    [
+        " Here's a natural language sentence:\n\nWildwood is a pub serving Indian food in the riverside area, near Raja Indian Cuisine, but it's not family-friendly.<|eot_id|>",
+        "Wildwood is a pub providing Indian food It is located in the riverside. It is near Raja Indian Cuisine."
+    ],
+    [
+        " The Blue Spice is a family-friendly pub serving traditional English food, located in the city centre and conveniently situated near the Rainbow Vegetarian Café.<|eot_id|>",
+        "There is a pub called Blue Spice near the Rainbow Vegetarian Café in the city centre. It serves English cuisine and is family-friendly."
+    ],
+    [
+        " The Wrestlers is a family-friendly Italian restaurant located in the riverside area, offering meals for under £20 and conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "The Wrestlers is a family-friendly restaurant with a  low price range in the northern City Centre next to Raja Indian Cuisine."
+    ],
+    [
+        " The Phoenix is a high-end pub serving fast food near Raja Indian Cuisine, located in the riverside area, but it's not suitable for families.<|eot_id|>",
+        "In the area of riverside near Raja Indian Cuisine is The Phoenix, it is a pub. It is not kid friendly and the Fast food is highly expensive."
+    ],
+    [
+        " The Cricketers is a family-friendly restaurant with average customer ratings, conveniently located near Café Sicilia.<|eot_id|>",
+        "For restaurant style eating that is kid friendly, look for The Cricketers, located near Café Sicilia. It has an average customer rating."
+    ],
+    [
+        " The Green Man is a family-friendly Italian restaurant located in the riverside area, near the Express by Holiday Inn.<|eot_id|>",
+        "Green Man is a restaurant located riverside near Express by Holiday Inn. It serves Italian food and is kid-friendly."
+    ],
+    [
+        " Wildwood is a family-friendly Italian pub located in the city centre, near Raja Indian Cuisine.<|eot_id|>",
+        "Wildwood is a family-friendly Italian pub. It is located in the city centre near Raja Indian Cuisine."
+    ],
+    [
+        " The Vaults is a family-friendly French restaurant in the city centre, offering meals for under £20 and conveniently located near Raja Indian Cuisine.<|eot_id|>",
+        "The Vaults restaurant is family-friendly French food in city centre near Raja Indian Cuisine with a price range less than £20."
+    ],
+    [
+        " The Mill is a high-priced pub serving fast food, located in the riverside area, with a family-friendly atmosphere and a 1 out of 5 customer rating, conveniently situated near Café Sicilia.<|eot_id|>",
+        "The Mill is a family friendly pub near Café Sicilia by a riverside in the City centre, with a high price range and low customer rating."
+    ],
+    [
+        " The Vaults is a French pub located in the city centre, offering meals for under £20, but it's not family-friendly and is situated near Raja Indian Cuisine.<|eot_id|>",
+        "The Vaults is a pub located in the city centre near Raja Indian Cuisine. It is not  family-friendly and serves French food. It  has a price range of less than £20."
+    ],
+    [
+        " Here's a sentence with natural language: \"The Plough is a pub serving Chinese food for under £20, located in the city centre, not family-friendly, and conveniently situated near Raja Indian Cuisine.\"<|eot_id|>",
+        "The Plough is a pub serving Chinese food in the mid-price range. It is family-friendly and near Raja Indian Cuisine in the city center."
+    ],
+    [
+        " The Wrestlers is an Italian restaurant located in the riverside area, offering moderate-priced meals, but it's not suitable for families and is conveniently located near Raja Indian Cuisine.<|eot_id|>",
+        "The Wrestlers is a nice priced Italian restaurant that is kids friendly."
+    ],
+    [
+        " The Phoenix is a fast food restaurant located in the riverside area, near Raja Indian Cuisine, and offers meals for under £20, although it's not a family-friendly option.<|eot_id|>",
+        "The Phoenix is a non family-friendly restaurant in the riverside. It is located near to Raja Indian Cuisine and serves fast food for less than £20."
+    ],
+    [
+        " \"The Phoenix is a highly-rated Indian restaurant located in the riverside area, near the Crowne Plaza Hotel, with prices ranging from £20-25, but it's not particularly family-friendly.\"<|eot_id|>",
+        "The Phoenix is an amazing Indian restaurant near the riverside. You can expect to spend 20 pounds or so, and there really isn't much for the kiddos. If you have trouble finding it, it's near Crowne Plaza Hotel."
+    ],
+    [
+        " The Mill is a highly-rated pub in the city centre, serving fast food at affordable prices, and is conveniently located near Café Sicilia, but it's not suitable for families.<|eot_id|>",
+        "The Mill located near Café Sicilia serves cheap pub fast food.  It has a 5 out of 5 rating but not family-friendly."
+    ],
+    [
+        " The Vaults is a high-end Italian pub located in the riverside area, near the Rainbow Vegetarian Café, but it's not a family-friendly spot and has an average customer rating.<|eot_id|>",
+        "The Vaults is a high priced Italian pub near Rainbow Vegetarian Café in riverside. It is not children friendly and has an average customer rating."
+    ],
+    [
+        " The Phoenix is a high-rated pub serving fast food with prices over £30, located in the riverside area, not family-friendly and conveniently situated near Café Sicilia.<|eot_id|>",
+        "Near Café Sicilia in riverside is a pub that serves fast food called The Phoenix. The price range is more than £30, they have a high customer rating and are not kid friendly."
+    ],
+    [
+        " The Mill is a moderate-priced restaurant serving English food, located in the riverside area, which is family-friendly and near Café Rouge, but unfortunately has a poor customer rating of just 1 out of 5.<|eot_id|>",
+        "The Mill is a one-star restaurant that offers English breakfast. It is family-friendly, moderately priced and is located near the Café Rouge by the river."
+    ],
+    [
+        " The Clowns coffee shop is located near The Sorrento.<|eot_id|>",
+        "Close to The Sorrento you can find Clowns coffee shop."
+    ],
+    [
+        " Here's a sentence with natural language:  \"The Green Man is a Japanese restaurant located in the riverside area, not suitable for families, and conveniently situated near the Express by Holiday Inn.\"<|eot_id|>",
+        "The Green Man is a restaurant located next to Express by Holiday Inn. The Green Man is  a non family friendly restaurant."
+    ],
+    [
+        " The Punter is a cheap Italian restaurant in the city centre, near Rainbow Vegetarian Café, with average customer ratings, but it's not family-friendly.<|eot_id|>",
+        "The Punter is a restaurant located in the city center,  near the Rainbow Vegetarian Café."
+    ],
+    [
+        " The Vaults is a high-end Japanese pub located in the city centre, near Raja Indian Cuisine, with a mediocre 3 out of 5 customer rating, and unfortunately, not family-friendly.<|eot_id|>",
+        "The Vaults is an adults-only pub serving Japanese food. It has good reviews however it is quite expensive. It is located near Raja Indian Cuisine in the city centre."
+    ],
+    [
+        " The Punter is a cheap Indian restaurant located in the riverside area, near the Express by Holiday Inn, which is family-friendly and has an average customer rating.<|eot_id|>",
+        "In riverside near the Express by Holiday Inn is an average family friendly Indian restaurant called The Punter, that is not only cheap but family friendly."
+    ],
+    [
+        " The Blue Spice is a family-friendly English restaurant located in the riverside area, conveniently situated near the Rainbow Vegetarian Café.<|eot_id|>",
+        "The Blue Spice is a child-friendly, English restaurant located in riverside area, near Rainbow Vegetarian Café."
+    ],
+    [
+        " The Green Man is a family-friendly pub serving Italian food located in the riverside area, near the Express by Holiday Inn.<|eot_id|>",
+        "Green Man near Express by Holiday Inn in the riverside area is an Italian pub and child friendly"
+    ],
+    [
+        " The Phoenix is a French pub located in the city centre, near the Crowne Plaza Hotel, offering meals for under £20, with an average customer rating, and unfortunately not family-friendly.<|eot_id|>",
+        "The Phoenix is pub that serves average French food in city centre near Crowne Plaza Hotel. It is not family-friendly place with  price less than £20."
+    ],
+    [
+        " The Waterman is a restaurant serving Indian food for under £20, located in the riverside area, near Raja Indian Cuisine, but it's not family-friendly.<|eot_id|>",
+        "The Waterman restaurant serves Indian food for less than £20 on the riverside near Raja Indian Cuisine. It is not family friendly."
+    ],
+    [
+        " Here's a natural language sentence:\n\nThe Giraffe restaurant, located in the riverside area, is a family-friendly fast food spot that's conveniently situated near the Rainbow Vegetarian Café.<|eot_id|>",
+        "By the riverside near Rainbow Vegetarian Café there is a family friendly restaurant that has fast food called Giraffe."
+    ],
+    [
+        " The Vaults is an Italian pub in the city centre that's priced under £20, but has a low customer rating, and isn't family-friendly, located near the Rainbow Vegetarian Café.<|eot_id|>",
+        "The Vaults is a pub that is not family-friendly. It has a less than £20 and serves Italian food. It's near Rainbow Vegetarian Café in the city centre, with a low customer service rating."
+    ],
+    [
+        " Here's a sentence with natural language: \"Wildwood is a family-friendly pub serving delicious Indian food, located in a picturesque riverside area, conveniently near Raja Indian Cuisine.\"<|eot_id|>",
+        "Wildwood is a kid friendly Indian pub near Raja Indian Cuisine at Riverside."
+    ],
+    [
+        " Here's a natural language sentence:\n\nThe Giraffe pub is a family-friendly fast food restaurant located in the riverside area, near the Rainbow Vegetarian Café.<|eot_id|>",
+        "A family friendly Fast food, pub located riverside near the Rainbow Vegetarian Café called Giraffe."
+    ],
+    [
+        " The Mill is a highly-rated pub in the city centre that serves fast food and is family-friendly, with prices ranging from £20-25, conveniently located near Café Rouge.<|eot_id|>",
+        "The Mill is a fast food restaurant located near Café Rouge in city centre. It is a high rated, kid friendly pub with a price range £20-25."
+    ],
+    [
+        " The Vaults is a moderate-priced Italian pub located in the riverside area, near the Rainbow Vegetarian Café, and is family-friendly, with a customer rating of 3 out of 5.<|eot_id|>",
+        "A family safe, mid priced pub located next to Rainbow Vegetarian Café is The Vaults."
+    ],
+    [
+        " Here's a sentence with natural language:\n\nThe Plough is a high-end Chinese pub located in the city centre, near Raja Indian Cuisine, but it's not suitable for families.<|eot_id|>",
+        "In the city centre, The Plough pub s is expensive. It offers Chinese food and is not children friendly. It is located near to the Raja Indian Cuisine."
+    ],
+    [
+        " The Plough is a high-end Chinese restaurant located in the riverside area, perfect for families, and conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "The Plough, near Raja Indian Cuisine in riverside, is a children Friendly restaurant that sells Chinese food. IT is a high price range."
+    ],
+    [
+        " \"The Wrestlers is a family-friendly Italian pub located in the riverside area, offering meals for under £20, and is conveniently situated near Raja Indian Cuisine.\"<|eot_id|>",
+        "The Wrestlers is a pub located near Raja Indian Cuisine that serves pasta in the low price range. Public restrooms available."
+    ],
+    [
+        " The Mill is a popular pub located by the riverside, serving fast food at a reasonable price range of £20-25, with a high customer rating, but it's not a family-friendly spot and is conveniently situated near Café Rouge.<|eot_id|>",
+        "The Mill is a highly-rated fast food and pub located in riverside near the Café Rouge.  Average pricing, but not child friendly."
+    ],
+    [
+        " The Cricketers is a highly-rated coffee shop that's family-friendly and conveniently located near the Express by Holiday Inn.<|eot_id|>",
+        "The children friendly coffee shop named The Cricketers, near Express by Holiday Inn, has a high customer rating."
+    ],
+    [
+        " Wildwood is a family-friendly pub serving Indian food located in the riverside area, conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "The site Wildwood is a pub type, it offers Indian food, is located in Riverside, is ideal for children and friends, and is near Raja Indian Cuisine"
+    ],
+    [
+        " The Waterman is a high-end Italian pub located in the riverside area, which is family-friendly and conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "For a high priced pub serving Italian food with a children friendly environment, try The Waterman near Raja Indian Cuisine in the Riverside area."
+    ],
+    [
+        " The Plough is a high-end Chinese restaurant located in the riverside area, near Raja Indian Cuisine, and it's not suitable for families.<|eot_id|>",
+        "The Plough is a restaurant that has expensive Chinese food, not child friendly, and is located riverside near Raja Indian Cuisine."
+    ],
+    [
+        " The Mill is a highly-rated pub located in the riverside area, serving fast food at affordable prices, and is family-friendly, making it a great spot to visit with kids, and it's conveniently located near Café Sicilia.<|eot_id|>",
+        "Located near Café Sicilia in Riverside, The Mill is a pub that is highly rated by customers. Welcoming customers of all ages and keeping prices low, this fast food restaurant is worth the visit."
+    ],
+    [
+        " Here's a natural language sentence:  \"The Blue Spice pub in the city centre serves Chinese food, but it's not family-friendly and is located near the Rainbow Vegetarian Café.\"<|eot_id|>",
+        "Blue Spice is a pub located in the city centre. It has Chinese food and is not family friendly and is located near Rainbow Vegetarian Café."
+    ],
+    [
+        " The Vaults is a Japanese pub located in the riverside area, offering meals in the £20-25 price range and catering to families. It has a customer rating of 3 out of 5 and is conveniently situated near the Rainbow Vegetarian Café.<|eot_id|>",
+        "The Vaults a restaurant that is Japanese, kid friendly has a pub ,with a customer rating of 3 out of 5, price range of 20 to 25 pounds in Riverside near Rainbow Vegetarian Café."
+    ],
+    [
+        " \"The Vaults is a highly-rated, family-friendly pub serving delicious Japanese food at an affordable price, located in the riverside area, conveniently near Raja Indian Cuisine.\"<|eot_id|>",
+        "There is a cheaply priced, family friendly pub where you can get Japanese food. It is called The Vaults and is near to Raja Indian Cuisine. Customers have rated it as 5 out of 5."
+    ],
+    [
+        " The Green Man pub has a customer rating of 3 out of 5 and is conveniently located near All Bar One.<|eot_id|>",
+        "If you're looking for a great place to eat, try Green Man, a pub near All Bar One with a customer rating of 3 out of 5 stars."
+    ],
+    [
+        " Here's a natural language sentence:\n\n\"The Mill is a family-friendly pub serving English food for under £20, located in the riverside area, conveniently near Raja Indian Cuisine.\"<|eot_id|>",
+        "There is a family friendly pub located near Raja Indian Cuisine in the city centre called The Mill which offers cheap food."
+    ],
+    [
+        " Here's a natural language sentence:\n\nThe Mill is a moderate-priced pub serving English food, located in a riverside area, near Raja Indian Cuisine, but it's not suitable for families.<|eot_id|>",
+        "The Mill is a pub providing English Food. It is located in riverside near Raja Indian Cuisine. Moderate price range."
+    ],
+    [
+        " The Mill is a family-friendly restaurant serving English food at a price of under £20, located in the riverside area, near Café Rouge, but has a low customer rating.<|eot_id|>",
+        "The Mill is a family-friendly restaurant that sells inexpensive breakfast. The shop is located just outside of City centre,  near the river not far from Café Rouge."
+    ],
+    [
+        " The Mill is a family-friendly restaurant serving English food in the city centre, with moderate prices, conveniently located near Raja Indian Cuisine.<|eot_id|>",
+        "Welcome to The Mill. We are a restaurant, our price range is moderate, our food is English we're kid friendly located in the city centre by the Raja Indian Cuisine. We have a disclaimer by the door, we wrestle and any blood stains we do not cover."
+    ],
+    [
+        " Wildwood is a restaurant that serves Indian food, located in the riverside area, near Raja Indian Cuisine, but it's not a family-friendly spot.<|eot_id|>",
+        "Wildwood is a restaurant providing Indian food It is located in the riverside. It is near Raja Indian Cuisine."
+    ],
+    [
+        " The Vaults is a moderate-priced pub serving French cuisine, located in the riverside area, near Raja Indian Cuisine, but it's not a family-friendly spot.<|eot_id|>",
+        "The Vaults is a pub with French food near to Raja Indian Cuisine"
+    ],
+    [
+        " The Mill is a highly-rated restaurant in the city centre, serving English food and offering a family-friendly atmosphere, with prices over £30, located conveniently near Café Rouge.<|eot_id|>",
+        "restaurant The Mill is child friendly with a price range of more than 30. Serving English food, it is located near Café Rouge in city centre and has a high customer rating."
+    ],
+    [
+        " The Vaults is a family-friendly French restaurant located in the riverside area, offering moderate-priced meals and conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "The Vaults is a nicely made French restaurant that is kids friendly and located near Raja Indian Cuisine in the riverside area. The price range is moderate."
+    ],
+    [
+        " The Phoenix is a moderately-priced pub serving French food in the city centre, near the Crowne Plaza Hotel, and although it has a customer rating of just 1 out of 5, it's a family-friendly spot.<|eot_id|>",
+        "There is French pub called The Phoenix which has a moderate price range and is kids friendly, but, it has a customer rating of 1 out of 5. It is located in the city centre near Crowne Plaza Hotel."
+    ],
+    [
+        " The Giraffe pub, located in the riverside area, serves delicious French cuisine and is family-friendly, and is conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "Giraffe is a family friendly pub. It serves French food in riverside setting, near the Raja Indian Cuisine."
+    ],
+    [
+        " The Giraffe pub, located in the riverside area, offers fast food and is family-friendly, conveniently situated near the Rainbow Vegetarian Café.<|eot_id|>",
+        "There is a pub called Giraffe near the Rainbow Vegetarian Café in Riverside. Kids are welcome."
+    ],
+    [
+        " The Punter is a highly-rated Italian restaurant located in the city centre, offering delicious food at a reasonable price of £20-25, and is family-friendly, conveniently situated near the Express by Holiday Inn.<|eot_id|>",
+        "Mid-priced but highly rated, The Punter restaurant is a great place to eat Italian food with your kids. It is located near the Express by Holiday Inn in the city centre."
+    ],
+    [
+        " \"The Vaults is a French pub in the city centre, offering meals for under £20, but it's not a family-friendly spot and is conveniently located near Raja Indian Cuisine.\"<|eot_id|>",
+        "Low priced French pub The Vaults can be found in the city centre close to Raja Indian Cuisine. Not recommended for families."
+    ],
+    [
+        " The Cricketers is a restaurant with a low customer rating, not suitable for families, and located near Ranch.<|eot_id|>",
+        "The Cricketers is a restaurant with a low customer rating, located near Ranch. It is not family-friendly."
+    ],
+    [
+        " The Cricketers, a highly-rated 5-star restaurant, is a family-friendly spot located conveniently near the Crowne Plaza Hotel.<|eot_id|>",
+        "The Cricketers is a family friendly restaurant that has a customer rating of 5 out of 5 near Crowne Plaza Hotel"
+    ],
+    [
+        " The Phoenix is a highly-rated pub serving fast food with prices over £30, located in the riverside area, which is family-friendly and conveniently situated near Café Sicilia.<|eot_id|>",
+        "The Phoenix, located in Riverside, near the Café Sicilia, has a high customer satisfaction rating, and is ideal for Fast food. It is a children-friendly location, and offers food in the more than £30 price range."
+    ],
+    [
+        " Here's a sentence with natural language:\n\nThe Punter is a moderate-priced Indian restaurant located in the riverside area, near the Express by Holiday Inn, with an average customer rating of 3 out of 5, but it's not family-friendly.<|eot_id|>",
+        "The Punter Indian restaurant, is moderate in price with a 3 out of 5 customer Rating, not kid friendly on the riverside near Express by Holiday Inn."
+    ],
+    [
+        " The Mill is a pub serving fast food in the city centre, with a moderate price range, but unfortunately only receives a rating of 1 out of 5 from customers and is not family-friendly, located near Café Sicilia.<|eot_id|>",
+        "In the city centre you will find a moderately priced Fast food pub called The Mill. It is located near Café Sicilia, is not kid friendly and has a customer rating of 1 out of 5."
+    ],
+    [
+        " The Wrestlers is a Japanese restaurant located in the city centre, offering moderate-priced meals and not suitable for families, conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "There is a moderately priced restaurant called The Wrestlers  in the centre of the city near Raja Indian Cuisine.  It serves Japanese food and kids are not welcomed."
+    ],
+    [
+        " The Cricketers is a moderately priced Chinese restaurant located in the riverside area, near All Bar One, but unfortunately it has a very low customer rating of just 1 out of 5.<|eot_id|>",
+        "The Cricketers is a moderately-priced Chinese coffee-shop style restaurant.  It is located near the All Bar One in the riverside area.  It is not kid-friendly and receives low ratings."
+    ],
+    [
+        " The Wrestlers is a family-friendly Japanese pub located in the city centre, offering meals for under £20, and is conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "If looking for a family-friendly pub, The Wrestlers is located in the city centre near Raja Indian Cuisine. The price range is less than £20 for Japanese food."
+    ],
+    [
+        " Here's a natural language sentence:\n\nThe Waterman is a high-end Italian pub located in the city centre, near Raja Indian Cuisine, and it's not suitable for families.<|eot_id|>",
+        "The Waterman is an expensive Italian pub in city centre near Raja Indian Cuisine. They are not child friendly."
+    ],
+    [
+        " The Mill is a highly-rated, cheap pub in the city centre that serves fast food, but it's not family-friendly and is conveniently located near Café Sicilia.<|eot_id|>",
+        "The Mill is a cheap pub that also serves Fast food. It is located in the city centre near a Café Sicilia. Customers rate it a 5 out of 5. It is not family-friendly."
+    ],
+    [
+        " The Phoenix is a highly-rated French pub located in the riverside area, near the Crowne Plaza Hotel, offering meals in the £20-25 price range, but unfortunately, it's not suitable for families.<|eot_id|>",
+        "A pub that is not kid friendly is located in the riverside area near Crowne Plaza Hotel. It is named The Phoenix,has French food and price range of£20-£30 and a high customer rating."
+    ],
+    [
+        " The highly-rated pub, Cocum, is conveniently located near Café Sicilia.<|eot_id|>",
+        "There is a high rated pub named Cocum near Café Sicilia."
+    ],
+    [
+        " Here's a natural language sentence:\n\n\"The Mill is a high-end pub serving fast food in the city centre, with average customer ratings, but it's not family-friendly and is conveniently located near Café Sicilia.\"<|eot_id|>",
+        "The Mill near Café Sicilia in city centre serves coffee and fast food with a high price range and is aimed towards adults."
+    ],
+    [
+        " The Wrestlers is a Japanese pub located in the riverside area, offering family-friendly dining options at a price range of over £30, and is conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "The Wrestlers is a high-priced and family friendly pub that is located next to Raja Indian Cuisine."
+    ],
+    [
+        " The Wrestlers is an Italian restaurant located in the city centre, offering moderate-priced meals, but it's not a family-friendly spot, and is conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "The Wrestlers is a moderately-priced Italian restaurant near Raja Indian Cuisine in the city centre which is not kid friendly."
+    ],
+    [
+        " Here's a natural language sentence:\n\nThe Giraffe restaurant, located in the city centre, is a family-friendly fast food spot that's conveniently situated near the Rainbow Vegetarian Café.<|eot_id|>",
+        "Located in city centre near Rainbow Vegetarian Café, Giraffe is a family-friendly restaurant serving fast food."
+    ],
+    [
+        " The Cricketers is a highly-rated Chinese restaurant in the city centre, offering meals in the £20-25 price range, and is family-friendly, located near All Bar One.<|eot_id|>",
+        "The Cricketers is a restaurant that offers Chinese food the price range is average with high customer rating. Located in the city centre and it is kid friendly since it is near a All Bar One."
+    ],
+    [
+        " The Phoenix is a highly-rated Indian restaurant located in the riverside area, near the Crowne Plaza Hotel, offering meals in the £20-25 price range, but unfortunately not suitable for families.<|eot_id|>",
+        "Near Crowne Plaza Hotel in Riverside there is an Indian restaurant called The Phoenix. It has a price range of 20-25, is not kid friendly, and has a high customer rating."
+    ],
+    [
+        " The Cricketers is a highly-rated Chinese restaurant located in the riverside area, offering meals in the £20-25 price range and welcoming families, with All Bar One just nearby.<|eot_id|>",
+        "The Cricketers is a child friendly restaurant on the riverside. If you are hungry you can eat their Chinese food for £20-£25. It gets a high customer rating and is suitable for kids. Find it located near All Bar One."
+    ],
+    [
+        " Strada, a coffee shop, received a dismal customer rating of just 1 out of 5, and is conveniently located near the popular Rainbow Vegetarian Café.<|eot_id|>",
+        "A coffee shop named Strada has a customer rating of 1 out of 5 and is near Rainbow Vegetarian Café."
+    ],
+    [
+        " The Vaults is a Japanese pub in the city centre that's affordable, with prices under £20, and has an average customer rating, but it's not family-friendly and is conveniently located near Raja Indian Cuisine.<|eot_id|>",
+        "The Vaults is Japanese with pub on side Raja Indian Cuisine in the city centre with average no less than £20"
+    ],
+    [
+        " The Cricketers is a family-friendly coffee shop with a poor customer rating of just 1 out of 5, but it's conveniently located near Avalon.<|eot_id|>",
+        "The Cricketers is a kids-friendly coffee shop close to the Avalon with a customer rating 1 out of 5"
+    ],
+    [
+        " The Cricketers is a coffee shop with a low customer rating, not suitable for families, and conveniently located near the Express by Holiday Inn.<|eot_id|>",
+        "The Cricketers is a coffee shop, located across from Express by Holiday Inn."
+    ],
+    [
+        " The Phoenix, a moderate-priced pub serving French cuisine, is located in the riverside area, near the Crowne Plaza Hotel, and is family-friendly, although it only has a 1 out of 5 customer rating.<|eot_id|>",
+        "A family friendly pub, The Phoenix,  has a moderately expensive menu that is located next to Crowne Plaza Hotel on the river."
+    ],
+    [
+        " The Cricketers is a highly-rated restaurant that is family-friendly and located near the Express by Holiday Inn.<|eot_id|>",
+        "The Cricketers, near Express by Holiday Inn, is a children friendly restaurant with a high customer rating."
+    ],
+    [
+        " The Phoenix is a family-friendly fast food restaurant located in the riverside area, near Raja Indian Cuisine, offering meals for under £20.<|eot_id|>",
+        "The Phoenix is located near Raja Indian Cuisine and is a low cost family friendly restaurant."
+    ],
+    [
+        " The Cricketers is a high-end Chinese restaurant located in the riverside area, near All Bar One, that's family-friendly and has an average customer rating.<|eot_id|>",
+        "There is a restaurant named The Cricketers that serves Chinese food. It is expensive with average customer ratings and is child friendly. It is located near All Bar One in riverside."
+    ],
+    [
+        " The Giraffe pub, located in the riverside area, serves English food and is family-friendly, and is conveniently situated near the Rainbow Vegetarian Café.<|eot_id|>",
+        "There is an English based pub called Giraffe. It is located in the riverside area near the Rainbow Vegetarian Café and, yes, it is kid friendly."
+    ],
+    [
+        " The Mill is a family-friendly restaurant serving English food with prices under £20, located in the riverside area and conveniently situated near Raja Indian Cuisine.<|eot_id|>",
+        "The Mill is a family friendly restaurant located near Raja Indian Cuisine in the city centre which offers cheap food."
+    ],
+    [
+        " The Green Man is a family-friendly Japanese restaurant located in the riverside area, conveniently situated near the Express by Holiday Inn.<|eot_id|>",
+        "The Green Man, located near the Express by Holiday Inn in Riverside, is a kid friendly restaurant."
+    ],
+    [
+        " The Cricketers is a highly-rated English restaurant located in the riverside area, near All Bar One, offering meals in the £20-25 price range, but it's not suitable for families.<|eot_id|>",
+        "The Cricketers is a restaurant located in the riverside area near All Bar One that features highly rated English food for 20-25 pounds and is not kid friendly."
+    ],
+    [
+        " The Blue Spice coffee shop, located near the Crowne Plaza Hotel, has an impressive 5 out of 5 customer rating, making it a must-visit spot.<|eot_id|>",
+        "The coffee shop Blue Spice is based near Crowne Plaza Hotel and has a high customer rating of 5 out of 5."
+    ],
+    [
+        " The Phoenix is a moderate-priced pub serving fast food in the riverside area, with a customer rating of 3 out of 5, and is family-friendly, located near Café Sicilia.<|eot_id|>",
+        "The Phoenix pub, near Café Sicilia, is a family friendly, average priced restaurant with a three star rating."
+    ],
+    [
+        " The Punter is a high-end Indian restaurant located in the riverside area, near the Express by Holiday Inn, with average customer ratings and not particularly family-friendly.<|eot_id|>",
+        "The Punter, next to the river near Express by Holiday Inn, is an expensive Indian restaurant with average ratings and a reputation for not being child-friendly."
+    ],
+    [
+        " The Cricketers is a high-end English restaurant in the city centre, with average customer ratings and a family-friendly atmosphere, conveniently located near Café Rouge.<|eot_id|>",
+        "The Cricketers, serving English food, has opened near Café Rouge in the city centre. They are a coffee type eatery, kid friendly with an average customer rating and a high price range."
+    ]
+]
