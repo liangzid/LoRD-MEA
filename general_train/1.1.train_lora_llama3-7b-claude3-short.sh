@@ -30,11 +30,11 @@ export msl=256
 export task_ls=("liangzid/claude3_short256")
 # export task_ls=("liangzid/claude3_chat3.3k")
 # export msl=2048
-export train_taskls=("vanilla")
-export epoch=2
+# export train_taskls=("vanilla")
+# export epoch=2
 # export train_taskls=("LoRD-VII" "LoRD-VI")
-# export train_taskls=("LoRD-VII")
-# export epoch=1
+export train_taskls=("LoRD-VII")
+export epoch=1
 # export train_taskls=("LoRD-II")
 
 # ## ====================TO DEBUG====================

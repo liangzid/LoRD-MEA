@@ -15,7 +15,7 @@
 
 echo "HOME: ${HOME}"
 export python=${HOME}/anaconda3/envs/align/bin/python3
-export CUDA_VISIBLE_DEVICES="0"
+export CUDA_VISIBLE_DEVICES="1"
 export TORCH_USE_CUDA_DSA="1"
 export root_dir="${HOME}/alignmentExtraction/"
 export POD_save_dir="${root_dir}/watermark/d2t_ckpts/"
@@ -28,11 +28,13 @@ export msl=256
 # export task_ls=("e2e_nlg@wrmk" "allenai/common_gen@wrmk")
 # export task_ls=("allenai/common_gen@wrmk")
 export task_ls=("cs-en@wrmk" "de-en@wrmk")
+# export task_ls=("cs-en@wrmk")
 # export task_ls=("e2e_nlg@wrmk")
 # export train_taskls=("LoRD-VI" "vanilla")
 # export train_taskls=("LoRD-VII")
 # export train_taskls=("LoRD-VI")
-export train_taskls=("vanilla")
+# export train_taskls=("vanilla")
+export train_taskls=("LoRD-VIII")
 
 export is_black_box=1
 export use_lora=1

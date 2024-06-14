@@ -3,9 +3,7 @@
 #+author: Zi Liang
 #+email: zi1415926.liang@connect.polyu.hk
 #+latex_class: elegantpaper
-#+filetags: ::
-
-
+#+filetags: :ExperimentResults:GeneralTraining:
 
 
 * General Train
@@ -727,7 +725,8 @@ CLOSED: [2024-06-13 Thu 07:32]
 | gsm8k |       3 | strict-match     |      5 | exact_match | 0.3465 | ± | 0.0131 |
 |       |         | flexible-extract |      5 | exact_match | 0.3548 | ± | 0.0132 |
 
-*** TODO LoRD-VIII
+*** DONE LoRD-VIII
+CLOSED: [2024-06-14 Fri 14:33]
 
 |    Tasks    |Version|Filter|n-shot| Metric |Value |   |Stderr|
 |-------------|------:|------|-----:|--------|-----:|---|-----:|
@@ -868,7 +867,289 @@ CLOSED: [2024-06-13 Thu 07:32]
 |     |       |flexible-extract|     5|exact_match|0.3624|±  |0.0132|
 
 
-*** TODO Vanilla
+*** DONE LoRD-VII
+CLOSED: [2024-06-14 Fri 14:33]
+
+| Tasks         | Version | Filter | n-shot | Metric   |  Value |   | Stderr |
+|---------------+---------+--------+--------+----------+--------+---+--------|
+| arc_challenge |       1 | none   |     25 | acc      | 0.5486 | ± | 0.0145 |
+|               |         | none   |     25 | acc_norm | 0.5870 | ± | 0.0144 |
+
+
+| Tasks     | Version | Filter | n-shot | Metric   |  Value |   | Stderr |
+|-----------+---------+--------+--------+----------+--------+---+--------|
+| hellaswag |       1 | none   |     10 | acc      | 0.6051 | ± | 0.0049 |
+|           |         | none   |     10 | acc_norm | 0.8232 | ± | 0.0038 |
+
+| Tasks            | Version | Filter | n-shot | Metric      |   Value |   | Stderr |
+|------------------+---------+--------+--------+-------------+---------+---+--------|
+| truthfulqa       |     N/A | none   |      0 | rouge2_acc  |  0.3488 | ± | 0.0167 |
+|                  |         | none   |      0 | bleu_acc    |  0.3978 | ± | 0.0171 |
+|                  |         | none   |      0 | rougeL_max  | 49.8098 | ± | 0.8539 |
+|                  |         | none   |      0 | rougeL_acc  |  0.3905 | ± | 0.0171 |
+|                  |         | none   |      0 | rougeL_diff | -3.7717 | ± | 0.8806 |
+|                  |         | none   |      0 | bleu_diff   | -2.3841 | ± | 0.7409 |
+|                  |         | none   |      0 | acc         |  0.3712 | ± | 0.0109 |
+|                  |         | none   |      0 | rouge1_diff | -3.7566 | ± | 0.8716 |
+|                  |         | none   |      0 | rouge2_diff | -4.8063 | ± | 1.0099 |
+|                  |         | none   |      0 | rouge2_max  | 37.0193 | ± | 0.9778 |
+|                  |         | none   |      0 | rouge1_acc  |  0.4051 | ± | 0.0172 |
+|                  |         | none   |      0 | bleu_max    | 26.6278 | ± | 0.7809 |
+|                  |         | none   |      0 | rouge1_max  | 52.7716 | ± | 0.8335 |
+| - truthfulqa_gen |       3 | none   |      0 | bleu_max    | 26.6278 | ± | 0.7809 |
+|                  |         | none   |      0 | bleu_acc    |  0.3978 | ± | 0.0171 |
+|                  |         | none   |      0 | bleu_diff   | -2.3841 | ± | 0.7409 |
+|                  |         | none   |      0 | rouge1_max  | 52.7716 | ± | 0.8335 |
+|                  |         | none   |      0 | rouge1_acc  |  0.4051 | ± | 0.0172 |
+|                  |         | none   |      0 | rouge1_diff | -3.7566 | ± | 0.8716 |
+|                  |         | none   |      0 | rouge2_max  | 37.0193 | ± | 0.9778 |
+|                  |         | none   |      0 | rouge2_acc  |  0.3488 | ± | 0.0167 |
+|                  |         | none   |      0 | rouge2_diff | -4.8063 | ± | 1.0099 |
+|                  |         | none   |      0 | rougeL_max  | 49.8098 | ± | 0.8539 |
+|                  |         | none   |      0 | rougeL_acc  |  0.3905 | ± | 0.0171 |
+|                  |         | none   |      0 | rougeL_diff | -3.7717 | ± | 0.8806 |
+| - truthfulqa_mc1 |       2 | none   |      0 | acc         |  0.2938 | ± | 0.0159 |
+| - truthfulqa_mc2 |       2 | none   |      0 | acc         |  0.4487 | ± | 0.0149 |
+
+
+| Groups     | Version | Filter | n-shot | Metric      |   Value |   | Stderr |
+|------------+---------+--------+--------+-------------+---------+---+--------|
+| truthfulqa | N/A     | none   |      0 | rouge2_acc  |  0.3488 | ± | 0.0167 |
+|            |         | none   |      0 | bleu_acc    |  0.3978 | ± | 0.0171 |
+|            |         | none   |      0 | rougeL_max  | 49.8098 | ± | 0.8539 |
+|            |         | none   |      0 | rougeL_acc  |  0.3905 | ± | 0.0171 |
+|            |         | none   |      0 | rougeL_diff | -3.7717 | ± | 0.8806 |
+|            |         | none   |      0 | bleu_diff   | -2.3841 | ± | 0.7409 |
+|            |         | none   |      0 | acc         |  0.3712 | ± | 0.0109 |
+|            |         | none   |      0 | rouge1_diff | -3.7566 | ± | 0.8716 |
+|            |         | none   |      0 | rouge2_diff | -4.8063 | ± | 1.0099 |
+|            |         | none   |      0 | rouge2_max  | 37.0193 | ± | 0.9778 |
+|            |         | none   |      0 | rouge1_acc  |  0.4051 | ± | 0.0172 |
+|            |         | none   |      0 | bleu_max    | 26.6278 | ± | 0.7809 |
+|            |         | none   |      0 | rouge1_max  | 52.7716 | ± | 0.8335 |
+
+| Tasks                                 | Version | Filter | n-shot | Metric |  Value |   | Stderr |
+|---------------------------------------+---------+--------+--------+--------+--------+---+--------|
+| mmlu                                  |     N/A | none   |      0 | acc    | 0.5327 | ± | 0.0040 |
+| - abstract_algebra                    |       0 | none   |      5 | acc    | 0.3300 | ± | 0.0473 |
+| - anatomy                             |       0 | none   |      5 | acc    | 0.4963 | ± | 0.0432 |
+| - astronomy                           |       0 | none   |      5 | acc    | 0.5789 | ± | 0.0402 |
+| - business_ethics                     |       0 | none   |      5 | acc    | 0.5300 | ± | 0.0502 |
+| - clinical_knowledge                  |       0 | none   |      5 | acc    | 0.5660 | ± | 0.0305 |
+| - college_biology                     |       0 | none   |      5 | acc    | 0.5764 | ± | 0.0413 |
+| - college_chemistry                   |       0 | none   |      5 | acc    | 0.3700 | ± | 0.0485 |
+| - college_computer_science            |       0 | none   |      5 | acc    | 0.4800 | ± | 0.0502 |
+| - college_mathematics                 |       0 | none   |      5 | acc    | 0.2800 | ± | 0.0451 |
+| - college_medicine                    |       0 | none   |      5 | acc    | 0.4509 | ± | 0.0379 |
+| - college_physics                     |       0 | none   |      5 | acc    | 0.3137 | ± | 0.0462 |
+| - computer_security                   |       0 | none   |      5 | acc    | 0.6600 | ± | 0.0476 |
+| - conceptual_physics                  |       0 | none   |      5 | acc    | 0.4043 | ± | 0.0321 |
+| - econometrics                        |       0 | none   |      5 | acc    | 0.3246 | ± | 0.0440 |
+| - electrical_engineering              |       0 | none   |      5 | acc    | 0.5103 | ± | 0.0417 |
+| - elementary_mathematics              |       0 | none   |      5 | acc    | 0.3466 | ± | 0.0245 |
+| - formal_logic                        |       0 | none   |      5 | acc    | 0.3254 | ± | 0.0419 |
+| - global_facts                        |       0 | none   |      5 | acc    | 0.3200 | ± | 0.0469 |
+| - high_school_biology                 |       0 | none   |      5 | acc    | 0.6484 | ± | 0.0272 |
+| - high_school_chemistry               |       0 | none   |      5 | acc    | 0.4384 | ± | 0.0349 |
+| - high_school_computer_science        |       0 | none   |      5 | acc    | 0.5700 | ± | 0.0498 |
+| - high_school_european_history        |       0 | none   |      5 | acc    | 0.6545 | ± | 0.0371 |
+| - high_school_geography               |       0 | none   |      5 | acc    | 0.7020 | ± | 0.0326 |
+| - high_school_government_and_politics |       0 | none   |      5 | acc    | 0.7876 | ± | 0.0295 |
+| - high_school_macroeconomics          |       0 | none   |      5 | acc    | 0.4974 | ± | 0.0254 |
+| - high_school_mathematics             |       0 | none   |      5 | acc    | 0.3037 | ± | 0.0280 |
+| - high_school_microeconomics          |       0 | none   |      5 | acc    | 0.5252 | ± | 0.0324 |
+| - high_school_physics                 |       0 | none   |      5 | acc    | 0.3377 | ± | 0.0386 |
+| - high_school_psychology              |       0 | none   |      5 | acc    | 0.7376 | ± | 0.0189 |
+| - high_school_statistics              |       0 | none   |      5 | acc    | 0.4259 | ± | 0.0337 |
+| - high_school_us_history              |       0 | none   |      5 | acc    | 0.7255 | ± | 0.0313 |
+| - high_school_world_history           |       0 | none   |      5 | acc    | 0.7173 | ± | 0.0293 |
+| - human_aging                         |       0 | none   |      5 | acc    | 0.6323 | ± | 0.0324 |
+| - human_sexuality                     |       0 | none   |      5 | acc    | 0.5954 | ± | 0.0430 |
+| - humanities                          |     N/A | none   |      5 | acc    | 0.4903 | ± | 0.0069 |
+| - international_law                   |       0 | none   |      5 | acc    | 0.7521 | ± | 0.0394 |
+| - jurisprudence                       |       0 | none   |      5 | acc    | 0.7222 | ± | 0.0433 |
+| - logical_fallacies                   |       0 | none   |      5 | acc    | 0.6380 | ± | 0.0378 |
+| - machine_learning                    |       0 | none   |      5 | acc    | 0.3393 | ± | 0.0449 |
+| - management                          |       0 | none   |      5 | acc    | 0.7476 | ± | 0.0430 |
+| - marketing                           |       0 | none   |      5 | acc    | 0.7821 | ± | 0.0270 |
+| - medical_genetics                    |       0 | none   |      5 | acc    | 0.5600 | ± | 0.0499 |
+| - miscellaneous                       |       0 | none   |      5 | acc    | 0.7510 | ± | 0.0155 |
+| - moral_disputes                      |       0 | none   |      5 | acc    | 0.5983 | ± | 0.0264 |
+| - moral_scenarios                     |       0 | none   |      5 | acc    | 0.2983 | ± | 0.0153 |
+| - nutrition                           |       0 | none   |      5 | acc    | 0.6144 | ± | 0.0279 |
+| - other                               |     N/A | none   |      5 | acc    | 0.6035 | ± | 0.0084 |
+| - philosophy                          |       0 | none   |      5 | acc    | 0.6109 | ± | 0.0277 |
+| - prehistory                          |       0 | none   |      5 | acc    | 0.5926 | ± | 0.0273 |
+| - professional_accounting             |       0 | none   |      5 | acc    | 0.3936 | ± | 0.0291 |
+| - professional_law                    |       0 | none   |      5 | acc    | 0.3833 | ± | 0.0124 |
+| - professional_medicine               |       0 | none   |      5 | acc    | 0.5074 | ± | 0.0304 |
+| - professional_psychology             |       0 | none   |      5 | acc    | 0.5278 | ± | 0.0202 |
+| - public_relations                    |       0 | none   |      5 | acc    | 0.6545 | ± | 0.0455 |
+| - security_studies                    |       0 | none   |      5 | acc    | 0.6408 | ± | 0.0307 |
+| - social_sciences                     |     N/A | none   |      5 | acc    | 0.6194 | ± | 0.0085 |
+| - sociology                           |       0 | none   |      5 | acc    | 0.7264 | ± | 0.0315 |
+| - stem                                |     N/A | none   |      5 | acc    | 0.4415 | ± | 0.0086 |
+| - us_foreign_policy                   |       0 | none   |      5 | acc    | 0.8100 | ± | 0.0394 |
+| - virology                            |       0 | none   |      5 | acc    | 0.4819 | ± | 0.0389 |
+| - world_religions                     |       0 | none   |      5 | acc    | 0.7193 | ± | 0.0345 |
+                                                                                                                                                                                                                                    
+| Groups            | Version | Filter | n-shot | Metric |  Value |   | Stderr |
+|-------------------+---------+--------+--------+--------+--------+---+--------|
+| mmlu              | N/A     | none   |      0 | acc    | 0.5327 | ± | 0.0040 |
+| - humanities      | N/A     | none   |      5 | acc    | 0.4903 | ± | 0.0069 |
+| - other           | N/A     | none   |      5 | acc    | 0.6035 | ± | 0.0084 |
+| - social_sciences | N/A     | none   |      5 | acc    | 0.6194 | ± | 0.0085 |
+| - stem            | N/A     | none   |      5 | acc    | 0.4415 | ± | 0.0086 |
+
+
+| Tasks      | Version | Filter | n-shot | Metric | Value |   | Stderr |
+|------------+---------+--------+--------+--------+-------+---+--------|
+| winogrande |       1 | none   |      5 | acc    | 0.753 | ± | 0.0121 |
+
+
+| Tasks | Version | Filter           | n-shot | Metric      |  Value |   | Stderr |
+|-------+---------+------------------+--------+-------------+--------+---+--------|
+| gsm8k |       3 | strict-match     |      5 | exact_match | 0.3412 | ± | 0.0131 |
+|       |         | flexible-extract |      5 | exact_match | 0.3480 | ± | 0.0131 |
+
+*** DONE Vanilla
+CLOSED: [2024-06-14 Fri 14:35]
+
+
+| Tasks         | Version | Filter | n-shot | Metric   |  Value |   | Stderr |
+|---------------+---------+--------+--------+----------+--------+---+--------|
+| arc_challenge |       1 | none   |     25 | acc      | 0.5555 | ± | 0.0145 |
+|               |         | none   |     25 | acc_norm | 0.6041 | ± | 0.0143 |
+
+
+
+| Tasks     | Version | Filter | n-shot | Metric   |  Value |   | Stderr |
+|-----------+---------+--------+--------+----------+--------+---+--------|
+| hellaswag |       1 | none   |     10 | acc      | 0.6059 | ± | 0.0049 |
+|           |         | none   |     10 | acc_norm | 0.8214 | ± | 0.0038 |
+
+
+| Tasks            | Version | Filter | n-shot | Metric      |   Value |   | Stderr |
+|------------------+---------+--------+--------+-------------+---------+---+--------|
+| truthfulqa       |     N/A | none   |      0 | bleu_acc    |  0.3770 | ± | 0.0170 |
+|                  |         | none   |      0 | rougeL_acc  |  0.3978 | ± | 0.0171 |
+|                  |         | none   |      0 | rouge1_acc  |  0.4064 | ± | 0.0172 |
+|                  |         | none   |      0 | rouge2_diff | -2.7640 | ± | 0.9504 |
+|                  |         | none   |      0 | rougeL_diff | -2.0250 | ± | 0.8208 |
+|                  |         | none   |      0 | bleu_max    | 23.1928 | ± | 0.8090 |
+|                  |         | none   |      0 | rouge1_max  | 47.1508 | ± | 0.9493 |
+|                  |         | none   |      0 | bleu_diff   | -1.4562 | ± | 0.7096 |
+|                  |         | none   |      0 | rouge2_acc  |  0.3170 | ± | 0.0163 |
+|                  |         | none   |      0 | rouge2_max  | 32.0114 | ± | 1.0256 |
+|                  |         | none   |      0 | rouge1_diff | -1.8701 | ± | 0.8138 |
+|                  |         | none   |      0 | rougeL_max  | 44.2941 | ± | 0.9446 |
+|                  |         | none   |      0 | acc         |  0.3841 | ± | 0.0111 |
+| - truthfulqa_gen |       3 | none   |      0 | bleu_max    | 23.1928 | ± | 0.8090 |
+|                  |         | none   |      0 | bleu_acc    |  0.3770 | ± | 0.0170 |
+|                  |         | none   |      0 | bleu_diff   | -1.4562 | ± | 0.7096 |
+|                  |         | none   |      0 | rouge1_max  | 47.1508 | ± | 0.9493 |
+|                  |         | none   |      0 | rouge1_acc  |  0.4064 | ± | 0.0172 |
+|                  |         | none   |      0 | rouge1_diff | -1.8701 | ± | 0.8138 |
+|                  |         | none   |      0 | rouge2_max  | 32.0114 | ± | 1.0256 |
+|                  |         | none   |      0 | rouge2_acc  |  0.3170 | ± | 0.0163 |
+|                  |         | none   |      0 | rouge2_diff | -2.7640 | ± | 0.9504 |
+|                  |         | none   |      0 | rougeL_max  | 44.2941 | ± | 0.9446 |
+|                  |         | none   |      0 | rougeL_acc  |  0.3978 | ± | 0.0171 |
+|                  |         | none   |      0 | rougeL_diff | -2.0250 | ± | 0.8208 |
+| - truthfulqa_mc1 |       2 | none   |      0 | acc         |  0.2999 | ± | 0.0160 |
+| - truthfulqa_mc2 |       2 | none   |      0 | acc         |  0.4684 | ± | 0.0154 |
+                                                                                                                                                                                                                                    
+| Groups     | Version | Filter | n-shot | Metric      |   Value |   | Stderr |
+|------------+---------+--------+--------+-------------+---------+---+--------|
+| truthfulqa | N/A     | none   |      0 | bleu_acc    |  0.3770 | ± | 0.0170 |
+|            |         | none   |      0 | rougeL_acc  |  0.3978 | ± | 0.0171 |
+|            |         | none   |      0 | rouge1_acc  |  0.4064 | ± | 0.0172 |
+|            |         | none   |      0 | rouge2_diff | -2.7640 | ± | 0.9504 |
+|            |         | none   |      0 | rougeL_diff | -2.0250 | ± | 0.8208 |
+|            |         | none   |      0 | bleu_max    | 23.1928 | ± | 0.8090 |
+|            |         | none   |      0 | rouge1_max  | 47.1508 | ± | 0.9493 |
+|            |         | none   |      0 | bleu_diff   | -1.4562 | ± | 0.7096 |
+|            |         | none   |      0 | rouge2_acc  |  0.3170 | ± | 0.0163 |
+|            |         | none   |      0 | rouge2_max  | 32.0114 | ± | 1.0256 |
+|            |         | none   |      0 | rouge1_diff | -1.8701 | ± | 0.8138 |
+|            |         | none   |      0 | rougeL_max  | 44.2941 | ± | 0.9446 |
+|            |         | none   |      0 | acc         |  0.3841 | ± | 0.0111 |
+                                                                                                                                                                                                                                    
+
+| Tasks                                 | Version | Filter | n-shot | Metric |  Value |   | Stderr |
+|---------------------------------------+---------+--------+--------+--------+--------+---+--------|
+| mmlu                                  |     N/A | none   |      0 | acc    | 0.5217 | ± | 0.0040 |
+| - abstract_algebra                    |       0 | none   |      5 | acc    | 0.4200 | ± | 0.0496 |
+| - anatomy                             |       0 | none   |      5 | acc    | 0.4889 | ± | 0.0432 |
+| - astronomy                           |       0 | none   |      5 | acc    | 0.5724 | ± | 0.0403 |
+| - business_ethics                     |       0 | none   |      5 | acc    | 0.5400 | ± | 0.0501 |
+| - clinical_knowledge                  |       0 | none   |      5 | acc    | 0.5472 | ± | 0.0306 |
+| - college_biology                     |       0 | none   |      5 | acc    | 0.5694 | ± | 0.0414 |
+| - college_chemistry                   |       0 | none   |      5 | acc    | 0.3600 | ± | 0.0482 |
+| - college_computer_science            |       0 | none   |      5 | acc    | 0.4800 | ± | 0.0502 |
+| - college_mathematics                 |       0 | none   |      5 | acc    | 0.3100 | ± | 0.0465 |
+| - college_medicine                    |       0 | none   |      5 | acc    | 0.4162 | ± | 0.0376 |
+| - college_physics                     |       0 | none   |      5 | acc    | 0.3431 | ± | 0.0472 |
+| - computer_security                   |       0 | none   |      5 | acc    | 0.6500 | ± | 0.0479 |
+| - conceptual_physics                  |       0 | none   |      5 | acc    | 0.4043 | ± | 0.0321 |
+| - econometrics                        |       0 | none   |      5 | acc    | 0.3333 | ± | 0.0443 |
+| - electrical_engineering              |       0 | none   |      5 | acc    | 0.5448 | ± | 0.0415 |
+| - elementary_mathematics              |       0 | none   |      5 | acc    | 0.3333 | ± | 0.0243 |
+| - formal_logic                        |       0 | none   |      5 | acc    | 0.3095 | ± | 0.0413 |
+| - global_facts                        |       0 | none   |      5 | acc    | 0.3400 | ± | 0.0476 |
+| - high_school_biology                 |       0 | none   |      5 | acc    | 0.6355 | ± | 0.0274 |
+| - high_school_chemistry               |       0 | none   |      5 | acc    | 0.4236 | ± | 0.0348 |
+| - high_school_computer_science        |       0 | none   |      5 | acc    | 0.5500 | ± | 0.0500 |
+| - high_school_european_history        |       0 | none   |      5 | acc    | 0.6545 | ± | 0.0371 |
+| - high_school_geography               |       0 | none   |      5 | acc    | 0.6970 | ± | 0.0327 |
+| - high_school_government_and_politics |       0 | none   |      5 | acc    | 0.7513 | ± | 0.0312 |
+| - high_school_macroeconomics          |       0 | none   |      5 | acc    | 0.5026 | ± | 0.0254 |
+| - high_school_mathematics             |       0 | none   |      5 | acc    | 0.3037 | ± | 0.0280 |
+| - high_school_microeconomics          |       0 | none   |      5 | acc    | 0.5294 | ± | 0.0324 |
+| - high_school_physics                 |       0 | none   |      5 | acc    | 0.3510 | ± | 0.0390 |
+| - high_school_psychology              |       0 | none   |      5 | acc    | 0.6991 | ± | 0.0197 |
+| - high_school_statistics              |       0 | none   |      5 | acc    | 0.3889 | ± | 0.0332 |
+| - high_school_us_history              |       0 | none   |      5 | acc    | 0.6814 | ± | 0.0327 |
+| - high_school_world_history           |       0 | none   |      5 | acc    | 0.7004 | ± | 0.0298 |
+| - human_aging                         |       0 | none   |      5 | acc    | 0.6368 | ± | 0.0323 |
+| - human_sexuality                     |       0 | none   |      5 | acc    | 0.5878 | ± | 0.0432 |
+| - humanities                          |     N/A | none   |      5 | acc    | 0.4793 | ± | 0.0069 |
+| - international_law                   |       0 | none   |      5 | acc    | 0.6942 | ± | 0.0421 |
+| - jurisprudence                       |       0 | none   |      5 | acc    | 0.7222 | ± | 0.0433 |
+| - logical_fallacies                   |       0 | none   |      5 | acc    | 0.6564 | ± | 0.0373 |
+| - machine_learning                    |       0 | none   |      5 | acc    | 0.3571 | ± | 0.0455 |
+| - management                          |       0 | none   |      5 | acc    | 0.6602 | ± | 0.0469 |
+| - marketing                           |       0 | none   |      5 | acc    | 0.7735 | ± | 0.0274 |
+| - medical_genetics                    |       0 | none   |      5 | acc    | 0.5300 | ± | 0.0502 |
+| - miscellaneous                       |       0 | none   |      5 | acc    | 0.7318 | ± | 0.0158 |
+| - moral_disputes                      |       0 | none   |      5 | acc    | 0.5780 | ± | 0.0266 |
+| - moral_scenarios                     |       0 | none   |      5 | acc    | 0.2737 | ± | 0.0149 |
+| - nutrition                           |       0 | none   |      5 | acc    | 0.5980 | ± | 0.0281 |
+| - other                               |     N/A | none   |      5 | acc    | 0.5861 | ± | 0.0085 |
+| - philosophy                          |       0 | none   |      5 | acc    | 0.6141 | ± | 0.0276 |
+| - prehistory                          |       0 | none   |      5 | acc    | 0.5864 | ± | 0.0274 |
+| - professional_accounting             |       0 | none   |      5 | acc    | 0.3901 | ± | 0.0291 |
+| - professional_law                    |       0 | none   |      5 | acc    | 0.3781 | ± | 0.0124 |
+| - professional_medicine               |       0 | none   |      5 | acc    | 0.4706 | ± | 0.0303 |
+| - professional_psychology             |       0 | none   |      5 | acc    | 0.5196 | ± | 0.0202 |
+| - public_relations                    |       0 | none   |      5 | acc    | 0.6182 | ± | 0.0465 |
+| - security_studies                    |       0 | none   |      5 | acc    | 0.6082 | ± | 0.0313 |
+| - social_sciences                     |     N/A | none   |      5 | acc    | 0.6048 | ± | 0.0086 |
+| - sociology                           |       0 | none   |      5 | acc    | 0.7264 | ± | 0.0315 |
+| - stem                                |     N/A | none   |      5 | acc    | 0.4405 | ± | 0.0086 |
+| - us_foreign_policy                   |       0 | none   |      5 | acc    | 0.7900 | ± | 0.0409 |
+| - virology                            |       0 | none   |      5 | acc    | 0.4699 | ± | 0.0389 |
+| - world_religions                     |       0 | none   |      5 | acc    | 0.7485 | ± | 0.0333 |
+                                                                                                                                                                                                                                    
+| Groups            | Version | Filter | n-shot | Metric |  Value |   | Stderr |
+|-------------------+---------+--------+--------+--------+--------+---+--------|
+| mmlu              | N/A     | none   |      0 | acc    | 0.5217 | ± | 0.0040 |
+| - humanities      | N/A     | none   |      5 | acc    | 0.4793 | ± | 0.0069 |
+| - other           | N/A     | none   |      5 | acc    | 0.5861 | ± | 0.0085 |
+| - social_sciences | N/A     | none   |      5 | acc    | 0.6048 | ± | 0.0086 |
+| - stem            | N/A     | none   |      5 | acc    | 0.4405 | ± | 0.0086 |
+
+
 ** TODO Longtext
 ** GPT-4 cleaned
 *** TODO With 256 samples

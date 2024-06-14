@@ -105,6 +105,16 @@ def parse_json_file():
                     results[key_label_ls[key]]\
                         [d_label_ls[dataset]]\
                         [method_label_ls[method]].append(v)
+                if method=="vanilla" or method=="pretrained":
+                    als=results[key_label_ls[key]]\
+                        [d_label_ls[dataset]]\
+                        [method_label_ls[method]]
+                    vle=sum(als)/len(als)
+
+                    results[key_label_ls[key]]\
+                        [d_label_ls[dataset]]\
+                        [method_label_ls[method]]=[vle for x in als]
+
     with open("./watermark_res/curve_results.json",
               'w',encoding='utf8') as f:
         json.dump(results,
@@ -201,8 +211,9 @@ def main1():
     
     overall_data=parse_json_file()
 
-    row_ls=["CommonGen", "E2E NLG",]
+    # row_ls=["CommonGen", "E2E NLG",]
     # row_ls=["CommonGen", "cs-en",]
+    row_ls=["WMT (cs-en)", "WMT (de-en)",]
     column_ls=["P-value", "Z-score", "Watermark Frac.","BERTScore",]
 
     method_ls=[
@@ -239,6 +250,12 @@ def main1():
         method_ls[1]: "-.",
         method_ls[2]: "dotted",
     }
+
+    method_ls=[
+        # "Watermarked Victim Model",
+        "MLE",
+        "LoRD",
+        ]
 
     for i_row, row in enumerate(row_ls):
         for i_col, col in enumerate(column_ls):

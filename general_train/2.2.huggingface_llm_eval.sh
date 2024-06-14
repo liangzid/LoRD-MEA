@@ -28,85 +28,24 @@ export train_task="LoRD-VIII"
 export save_path="${POD_save_dir}NewTemperatureNewTau${train_task}NewLoss"
 
 
-# export ckpt_ls=("${POD_save_dir}NewTemperatureNewTauLoRD-VIIINewLoss___period500" "${POD_save_dir}NewTemperatureNewLoss___period500" "${POD_save_dir}NewTemperatureNewLoss___finally")
-# export ckpt_ls=("${POD_save_dir}NewTemperatureNewTau13BLoRD-VIIINewLoss___period500")
-export ckpt_ls=("${POD_save_dir}NewTemperatureNewTau13BvanillaNewLoss___finally")
+# # export ckpt_ls=("${POD_save_dir}NewTemperatureNewTauLoRD-VIIINewLoss___period500" "${POD_save_dir}NewTemperatureNewLoss___period500" "${POD_save_dir}NewTemperatureNewLoss___finally")
+# # export ckpt_ls=("${POD_save_dir}NewTemperatureNewTau13BLoRD-VIIINewLoss___period500")
+# # export ckpt_ls=("${POD_save_dir}NewTemperatureNewTau13BvanillaNewLoss___finally")
+# export ckpt_ls=("${POD_save_dir}NewTemperatureNewTau13BLoRD-VIINewLoss___period500" "${POD_save_dir}NewTemperatureNewTau13BvanillaNewLoss___finally")
 
-for fmp in ${ckpt_ls[*]}
-do
+# for fmp in ${ckpt_ls[*]}
+# do
 
-
-echo "================================================================"
-echo "EVALUATION MODEL: pretrained: ${pmp} lora: ${fmp}"
-echo "EVALUATION TASKS: ${qas}"
-echo "================================================================"
-
-export evaltasks=arc_challenge
-export fewshot_number=25
-$eval --model hf \
-    --model_args pretrained=${pmp},parallelize=True,peft=${fmp}\
-    --tasks ${evaltasks}\
-    --num_fewshot=${fewshot_number}\
-    --device cuda\
-    --batch_size auto
-
-export evaltasks=hellaswag
-export fewshot_number=10
-$eval --model hf \
-    --model_args pretrained=${pmp},parallelize=True,peft=${fmp}\
-    --tasks ${evaltasks}\
-    --num_fewshot=${fewshot_number}\
-    --device cuda\
-    --batch_size auto
-
-export evaltasks=truthfulqa
-$eval --model hf \
-    --model_args pretrained=${pmp},parallelize=True,peft=${fmp}\
-    --tasks ${evaltasks}\
-    --device cuda\
-    --batch_size auto
-
-export evaltasks=mmlu
-export fewshot_number=5
-$eval --model hf \
-    --model_args pretrained=${pmp},parallelize=True,peft=${fmp}\
-    --tasks ${evaltasks}\
-    --num_fewshot=${fewshot_number}\
-    --device cuda\
-    --batch_size auto
-
-export evaltasks=winogrande
-export fewshot_number=5
-$eval --model hf \
-    --model_args pretrained=${pmp},parallelize=True,peft=${fmp}\
-    --tasks ${evaltasks}\
-    --num_fewshot=${fewshot_number}\
-    --device cuda\
-    --batch_size auto
-
-export evaltasks=gsm8k
-export fewshot_number=5
-$eval --model hf \
-    --model_args pretrained=${pmp},parallelize=True,peft=${fmp}\
-    --tasks ${evaltasks}\
-    --num_fewshot=${fewshot_number}\
-    --device cuda\
-    --batch_size auto
-done
-
-
-# # export pmp="meta-llama/Meta-Llama-3-8B-Instruct"
-# export pmp="meta-llama/Llama-2-13b-chat-hf"
 
 # echo "================================================================"
-# echo "EVALUATION MODEL: pretrained: ${pmp}
+# echo "EVALUATION MODEL: pretrained: ${pmp} lora: ${fmp}"
 # echo "EVALUATION TASKS: ${qas}"
 # echo "================================================================"
 
 # export evaltasks=arc_challenge
 # export fewshot_number=25
 # $eval --model hf \
-#     --model_args pretrained=${pmp},parallelize=True\
+#     --model_args pretrained=${pmp},parallelize=True,peft=${fmp}\
 #     --tasks ${evaltasks}\
 #     --num_fewshot=${fewshot_number}\
 #     --device cuda\
@@ -115,7 +54,7 @@ done
 # export evaltasks=hellaswag
 # export fewshot_number=10
 # $eval --model hf \
-#     --model_args pretrained=${pmp},parallelize=True\
+#     --model_args pretrained=${pmp},parallelize=True,peft=${fmp}\
 #     --tasks ${evaltasks}\
 #     --num_fewshot=${fewshot_number}\
 #     --device cuda\
@@ -123,7 +62,7 @@ done
 
 # export evaltasks=truthfulqa
 # $eval --model hf \
-#     --model_args pretrained=${pmp},parallelize=True\
+#     --model_args pretrained=${pmp},parallelize=True,peft=${fmp}\
 #     --tasks ${evaltasks}\
 #     --device cuda\
 #     --batch_size auto
@@ -131,7 +70,7 @@ done
 # export evaltasks=mmlu
 # export fewshot_number=5
 # $eval --model hf \
-#     --model_args pretrained=${pmp},parallelize=True\
+#     --model_args pretrained=${pmp},parallelize=True,peft=${fmp}\
 #     --tasks ${evaltasks}\
 #     --num_fewshot=${fewshot_number}\
 #     --device cuda\
@@ -140,7 +79,7 @@ done
 # export evaltasks=winogrande
 # export fewshot_number=5
 # $eval --model hf \
-#     --model_args pretrained=${pmp},parallelize=True\
+#     --model_args pretrained=${pmp},parallelize=True,peft=${fmp}\
 #     --tasks ${evaltasks}\
 #     --num_fewshot=${fewshot_number}\
 #     --device cuda\
@@ -149,11 +88,73 @@ done
 # export evaltasks=gsm8k
 # export fewshot_number=5
 # $eval --model hf \
-#     --model_args pretrained=${pmp},parallelize=True\
+#     --model_args pretrained=${pmp},parallelize=True,peft=${fmp}\
 #     --tasks ${evaltasks}\
 #     --num_fewshot=${fewshot_number}\
 #     --device cuda\
 #     --batch_size auto
+# done
+
+
+# export pmp="meta-llama/Meta-Llama-3-8B-Instruct"
+export pmp="meta-llama/Llama-2-13b-chat-hf"
+
+echo "================================================================"
+echo "EVALUATION MODEL: pretrained: ${pmp}"
+echo "EVALUATION TASKS: ${qas}"
+echo "================================================================"
+
+export evaltasks=arc_challenge
+export fewshot_number=25
+$eval --model hf \
+    --model_args pretrained=${pmp},parallelize=True\
+    --tasks ${evaltasks}\
+    --num_fewshot=${fewshot_number}\
+    --device cuda\
+    --batch_size auto
+
+export evaltasks=hellaswag
+export fewshot_number=10
+$eval --model hf \
+    --model_args pretrained=${pmp},parallelize=True\
+    --tasks ${evaltasks}\
+    --num_fewshot=${fewshot_number}\
+    --device cuda\
+    --batch_size auto
+
+export evaltasks=truthfulqa
+$eval --model hf \
+    --model_args pretrained=${pmp},parallelize=True\
+    --tasks ${evaltasks}\
+    --device cuda\
+    --batch_size auto
+
+export evaltasks=mmlu
+export fewshot_number=5
+$eval --model hf \
+    --model_args pretrained=${pmp},parallelize=True\
+    --tasks ${evaltasks}\
+    --num_fewshot=${fewshot_number}\
+    --device cuda\
+    --batch_size auto
+
+export evaltasks=winogrande
+export fewshot_number=5
+$eval --model hf \
+    --model_args pretrained=${pmp},parallelize=True\
+    --tasks ${evaltasks}\
+    --num_fewshot=${fewshot_number}\
+    --device cuda\
+    --batch_size auto
+
+export evaltasks=gsm8k
+export fewshot_number=5
+$eval --model hf \
+    --model_args pretrained=${pmp},parallelize=True\
+    --tasks ${evaltasks}\
+    --num_fewshot=${fewshot_number}\
+    --device cuda\
+    --batch_size auto
 
 
 echo "RUNNING 2.2.huggingface_llm_eval.sh DONE."

@@ -62,7 +62,8 @@ def eval_varying_train_num():
     mls = [
         # "vanilla",
         # "LoRD-VI",
-        "pretrained",
+        # "LoRD-VIII",
+        # "pretrained",
         # "gpt-3.5-turbo-1106",
         # "kd",
         ]

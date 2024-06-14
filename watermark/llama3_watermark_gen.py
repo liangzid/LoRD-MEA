@@ -46,13 +46,14 @@ def wrmk_gen(tokenizer, model, input_text,):
     # to `minhash`.
     tokenized_input = tokenizer(input_text,
                                 return_tensors='pt').to(model.device)
+    idxx=tokenized_input.input_ids
 
     # note that if the model is on cuda, then the input is on cuda
     # and thus the watermarking rng is cuda-based.
     # This is a different generator than the cpu-based rng in pytorch!
 
     output_tokens = model.generate(
-        **tokenized_input,
+        idxx,
         logits_processor=LogitsProcessorList(
             [watermark_processor]))
 
