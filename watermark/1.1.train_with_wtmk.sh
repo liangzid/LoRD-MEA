@@ -15,7 +15,6 @@
 
 echo "HOME: ${HOME}"
 export python=${HOME}/anaconda3/envs/align/bin/python3
-export CUDA_VISIBLE_DEVICES="1"
 export TORCH_USE_CUDA_DSA="1"
 export root_dir="${HOME}/alignmentExtraction/"
 export POD_save_dir="${root_dir}/watermark/d2t_ckpts/"
@@ -24,11 +23,11 @@ export from_path="meta-llama/Meta-Llama-3-8B-Instruct"
 export TRAIN_NUMS=(64)
 # export train_times=(1 2 3 4 5)
 export train_times=(1)
-export msl=256
+export msl=140
 # export task_ls=("e2e_nlg@wrmk" "allenai/common_gen@wrmk")
 # export task_ls=("allenai/common_gen@wrmk")
-export task_ls=("cs-en@wrmk" "de-en@wrmk")
-# export task_ls=("cs-en@wrmk")
+# export task_ls=("cs-en@wrmk" "de-en@wrmk")
+export task_ls=("de-en@wrmk")
 # export task_ls=("e2e_nlg@wrmk")
 # export train_taskls=("LoRD-VI" "vanilla")
 # export train_taskls=("LoRD-VII")
@@ -46,7 +45,8 @@ export sub_set_num=1
 export sub_stage_num=512
 # export sub_stage_num=2000
 export save_step=64
-export max_new_tokens=64
+# export max_new_tokens=64
+export max_new_tokens=32
 export infer_batch_size=1
 export batch_size=1
 
@@ -64,9 +64,17 @@ export tau2=0.85
 export tau_delta=-0.1
 
 export lambda1ls=(0.0 0.2 0.4 0.6 0.8 1.0)
+export cudals=(0 1 2 3 4 5)
 
-for lambda1 in ${lambda1ls[*]}
-do
+length=${#lambda1ls[@]}
+
+for (( i=0; i<$length; i++ )); do
+# for lambda1 in ${lambda1ls[*]}
+# do
+
+echo "lambda1: ${lambda1ls[$i]}, cuda: ${cuda1ls[$i]}"
+export lambda1="${lambda1ls[$i]}"
+export CUDA_VISIBLE_DEVICES="${cudals[$i]}"
 
 for train_num in ${TRAIN_NUMS[*]}
 do
@@ -114,7 +122,7 @@ do
 		    --use_kld=$use_kld\
 		    --max_length=$msl \
 		    --dataset_task=$task \
-		    --save_path=$save_path
+		    --save_path=$save_path > watermark_csresults_${i}.log&
 		echo "DONE FOR ONE TRAIN NUMBERS...."
 	    done
 	done
@@ -127,7 +135,7 @@ done
 
 # $python ${root_dir}data2text_process.py
 
-$python ${root_dir}watermark/watermark_detect.py
+# $python ${root_dir}watermark/watermark_detect.py
 
 
 # # # bash ${root_dir}general_train/1.1.train_lora_llama3-7b-claude3-short.sh
