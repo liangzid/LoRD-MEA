@@ -12,7 +12,7 @@ Evaluate the code of varying train nums.
 
 import os
 if __name__ == "__main__":
-    os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "1"
     os.environ["TORCH_USE_CUDA_DSA"]="1"
 
 # ------------------------ Code --------------------------------------
@@ -395,7 +395,7 @@ def wmt_curve_trainNums():
                             ]:
                                 pth += "finally/"
                             elif tn=="256" or tn=="512":
-                                pth += "period1024/"
+                                pth += "period2048/"
                             else:
                                 pth += "period512/"
 

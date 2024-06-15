@@ -33,12 +33,23 @@ export cudals=(0 1 2 3 4 5 6)
 
 
 
-nohup bash ${root_dir}/scripts/7.2.varytrainnum__wmt.sh 256 0 > "0615--trainvaryingtrainnum${trainnum}${cudanum}.log" &
+bash ${root_dir}/scripts/7.2.varytrainnum__wmt.sh 256 5 > "0615--trainvaryingtrainnum${trainnum}${cudanum}.log"
 
-nohup bash ${root_dir}/scripts/7.2.varytrainnum__wmt.sh 512 1 > "0615--trainvaryingtrainnum${trainnum}${cudanum}.log" &
+bash ${root_dir}/scripts/7.2.varytrainnum__wmt.sh 512 5 > "0615--trainvaryingtrainnum${trainnum}${cudanum}.log"
+
+rm "${root_dir}wmt_0613_dataset_res/__NEW_VARYING_QUERYTIME_CKPTS__text2sqlcs-en2561LoRD-VIII___period2048_____cs-en_wmt_infer_resjson"
+rm "${root_dir}wmt_0613_dataset_res/__NEW_VARYING_QUERYTIME_CKPTS__text2sqlcs-en5121LoRD-VIII___period2048_____cs-en_wmt_infer_resjson"
+rm "${root_dir}wmt_0613_dataset_res/__NEW_VARYING_QUERYTIME_CKPTS__text2sqlde-en2561LoRD-VIII___period2048_____de-en_wmt_infer_resjson"
+rm "${root_dir}wmt_0613_dataset_res/__NEW_VARYING_QUERYTIME_CKPTS__text2sqlde-en5121LoRD-VIII___period2048_____de-en_wmt_infer_resjson"
+
+rm "${root_dir}wmt_0613_dataset_res/__NEW_VARYING_QUERYTIME_CKPTS__text2sqlde-en321vanilla___finally_____de-en_wmt_infer_resjson"
 
 
-# $python ${root_dir}wmt_process.py
+$python "${root_dir}wmt_process.py"
+
+rm "${root_dir}vary_query_num_overall_res_wmt16.json"
+
+$python "${root_dir}eval_vary_trainNum.py"
 
 # $python ${root_dir}watermark/watermark_detect.py
 

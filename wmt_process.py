@@ -813,7 +813,7 @@ def eval_varying_train_num():
                         )
                     elif train_num=="256" or train_num=="512":
                         ckpt = prefix + \
-                            f"{task}{train_num}{itime}{m}___period1024/"
+                            f"{task}{train_num}{itime}{m}___period2048/"
                     else:
                         ckpt = prefix + \
                             f"{task}{train_num}{itime}{m}___period512/"
