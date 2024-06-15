@@ -15,7 +15,7 @@ Detect whether a watermark is contained in a given text.
 
 import os
 if __name__ == "__main__":
-    os.environ["CUDA_VISIBLE_DEVICES"] = "6"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "4"
     os.environ["TORCH_USE_CUDA_DSA"]="1"
     pass
 from extended_watermark_processor import WatermarkDetector
