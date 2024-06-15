@@ -765,7 +765,7 @@ def eval_varying_train_num():
     taskls = [
         "cs-en",
         "de-en",
-        "fi-en",
+        # "fi-en",
         ]
     mls = [
         "vanilla",
@@ -811,6 +811,9 @@ def eval_varying_train_num():
                             prefix
                             + f"{task}{train_num}{itime}{m}___finally/"
                         )
+                    elif train_num=="256" or train_num=="512":
+                        ckpt = prefix + \
+                            f"{task}{train_num}{itime}{m}___period1024/"
                     else:
                         ckpt = prefix + \
                             f"{task}{train_num}{itime}{m}___period512/"

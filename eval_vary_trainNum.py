@@ -10,6 +10,10 @@ Evaluate the code of varying train nums.
 ======================================================================
 """
 
+import os
+if __name__ == "__main__":
+    os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+    os.environ["TORCH_USE_CUDA_DSA"]="1"
 
 # ------------------------ Code --------------------------------------
 import os
@@ -287,29 +291,30 @@ def qa_curve_trainNums():
 def wmt_curve_trainNums():
     method_ls = [
         "vanilla",
-        "kd",
-        "google/gemma-2b",
+        "LoRD-VIII",
+        # "kd",
+        # "google/gemma-2b",
         # "lord",
-        "Complex-lord",
+        # "Complex-lord",
     ]
     marker = {
         "vanilla": "s",
-        "kd": "D",
-        "google/gemma-2b": "*",
-        "Complex-lord": "o",
+        # "kd": "D",
+        # "google/gemma-2b": "*",
+        "LoRD-VIII": "o",
     }
     model_color_dict = {
         "vanilla": "#4a148c",
-        "kd": "#469de9",
-        "Complex-lord": "#eb3b5a",
-        "google/gemma-2b": "#3867d6",
+        # "kd": "#469de9",
+        "LoRD-VIII": "#eb3b5a",
+        # "google/gemma-2b": "#3867d6",
     }
 
     model_color_dict2 = {
         "vanilla": "#9c27b0",
-        "kd": "#98c8f3",
-        "Complex-lord": "#f78fb3",
-        "google/gemma-2b": "#778beb",
+        # "kd": "#98c8f3",
+        "LoRD-VIII": "#f78fb3",
+        # "google/gemma-2b": "#778beb",
     }
 
     taskls = [
@@ -318,17 +323,17 @@ def wmt_curve_trainNums():
     ]
     train_times = [
         "1",
-        "2",
-        "3",
+        # "2",
+        # "3",
     ]
-    train_nums = ["4", "8", "16", "32", "64", "100", "256", "512"]
+    train_nums = ["8", "16", "32", "64", "128", "256", "512"]
 
     a = 0.4
     lw = 1.7
     model_line_style = {
         "vanilla": "-.",
         "kd": "-.",
-        "Complex-lord": "-",
+        "LoRD-VIII": "-",
         "google/gemma-2b": "-",
     }
     font_size = 21
@@ -341,11 +346,13 @@ def wmt_curve_trainNums():
     bl_1_dict = {}
 
     infer_save_pth = "./vary_query_num_overall_res_wmt16.json"
+    # infer_save_pth = "./wmt_0613_dataset_res/Overall__wmt_varytrain_num_inference_scores.json"
 
     if not os.path.exists(infer_save_pth):
-        dir_p = "./vary_train_num_WMT16_infers/"
+        # dir_p = "./vary_train_num_WMT16_infers/"
+        dir_p = "./wmt_0613_dataset_res/"
         # using existing results of the paths.
-        prefix = "./vArY_TrAiN_nUm_ckpts/varyTrainNum___"
+        prefix = "./NEW_VARYING_QUERYTIME_CKPTS/text2sql"
         for task in taskls:
             results_dict[task] = {}
             bs_p_dict[task] = {}
@@ -380,15 +387,17 @@ def wmt_curve_trainNums():
                             pth = m
                         else:
                             pth = prefix + \
-                                f"{tn}{train_time}{task}{m}332164256___"
+                                f"{task}{tn}{train_time}{m}___"
 
                             if m in [
                                 "vanilla",
                                 "kd",
                             ]:
-                                pth += "finally"
+                                pth += "finally/"
+                            elif tn=="256" or tn=="512":
+                                pth += "period1024/"
                             else:
-                                pth += "period2"
+                                pth += "period512/"
 
                         if m == "google/gemma-2b":
                             res_pth = pth + \
@@ -399,16 +408,19 @@ def wmt_curve_trainNums():
 
                         print(f"Targeted found pth: {dir_p+res_pth}.")
                         if not os.path.exists(dir_p + res_pth):
-                            res_ls = infer_wmt(
-                                pth,
-                                task,
-                                dir_p + res_pth,
-                                test_set_take_num=100,
-                                mnt=64,
-                            )
+                            print("ERORR..")
+                            return -10000
+                            # res_ls = infer_wmt(
+                            #     pth,
+                            #     task,
+                            #     dir_p + res_pth,
+                            #     test_set_take_num=100,
+                            #     mnt=64,
+                            # )
                         else:
                             # from collections import OrderedDict
-                            with open(dir_p + res_pth, "r", encoding="utf8") as f:
+                            with open(dir_p + res_pth, "r",
+                                      encoding="utf8") as f:
                                 res_ls = json.load(
                                     f, object_pairs_hook=OrderedDict)
 
@@ -482,14 +494,14 @@ def wmt_curve_trainNums():
                     color=model_color_dict[method],
                 )
 
-                axs[i][j].fill_between(
-                    xls,
-                    ymeanls - ystdls,
-                    ymeanls + ystdls,
-                    alpha=a,
-                    linewidth=0.0,
-                    color=model_color_dict2[method],
-                )
+                # axs[i][j].fill_between(
+                #     xls,
+                #     ymeanls - ystdls,
+                #     ymeanls + ystdls,
+                #     alpha=a,
+                #     linewidth=0.0,
+                #     color=model_color_dict2[method],
+                # )
 
                 axs[i][j].set_xlabel("# Training Samples", fontsize=font_size)
                 axs[i][j].set_ylabel(metricName, fontsize=font_size - 5)
@@ -691,6 +703,6 @@ def glue_curve_trainNums():
 # running entry
 if __name__ == "__main__":
     # glue()
-    # wmt_curve_trainNums()
-    qa_curve_trainNums()
+    wmt_curve_trainNums()
+    # qa_curve_trainNums()
     print("EVERYTHING DONE.")

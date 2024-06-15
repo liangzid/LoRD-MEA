@@ -24,14 +24,18 @@ export from_path="meta-llama/Meta-Llama-3-8B-Instruct"
 export TRAIN_NUMS=($1)
 export cudals=($2)
 
+# export TRAIN_NUMS=(256 512)
+# export cudals=(0 1)
 
 # export train_times=(2 3 4 5)
 export train_times=(1)
 export msl=140
-export task_ls=("cs-en" "de-en" "fi-en" "ro-en")
+# export task_ls=("cs-en" "de-en" "fi-en" "ro-en")
+export task_ls=("cs-en" "de-en")
 # export task_ls=("cs-en")
 # export train_taskls=("vanilla" "LoRD-VI")
-export train_taskls=("LoRD-VIII" "vanilla")
+# export train_taskls=("LoRD-VIII" "vanilla")
+export train_taskls=("LoRD-VIII")
 
 export is_black_box=1
 export use_lora=1
@@ -43,7 +47,8 @@ export epoch=1
 export period=1
 
 export sub_set_num=1
-export sub_stage_num=512
+# export sub_stage_num=512
+export sub_stage_num=1024
 # export max_new_tokens=64
 export max_new_tokens=32
 export infer_batch_size=1
@@ -126,16 +131,6 @@ for (( i=0; i<$length; i++ )); do
 	done
     done
 done
-
-
-
-
-
-
-
-
-
-
 
 
 echo "RUNNING 7.2.varytrainnum__wmt.sh DONE."
