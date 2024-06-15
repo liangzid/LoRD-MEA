@@ -57,7 +57,7 @@ def eval_varying_train_num():
         # "e2e_nlg",
         # "allenai/common_gen",
         "cs-en",
-        # "de-en",
+        "de-en",
         ]
     mls = [
         "vanilla",
@@ -84,12 +84,12 @@ def eval_varying_train_num():
         # "512",
         ]
     lambda1ls=[
-        # "0.0",
+        "0.0",
         "0.2",
         "0.4",
-        # "0.6",
-        # "0.8",
-        # "1.0",
+        "0.6",
+        "0.8",
+        "1.0",
         ]
 
     base_model_name1="meta-llama/Meta-Llama-3-8B-Instruct"

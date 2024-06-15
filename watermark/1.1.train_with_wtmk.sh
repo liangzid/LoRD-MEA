@@ -27,7 +27,7 @@ export msl=140
 # export task_ls=("e2e_nlg@wrmk" "allenai/common_gen@wrmk")
 # export task_ls=("allenai/common_gen@wrmk")
 # export task_ls=("cs-en@wrmk" "de-en@wrmk")
-export task_ls=("cs-en@wrmk")
+export task_ls=("de-en@wrmk")
 # export task_ls=("e2e_nlg@wrmk")
 # export train_taskls=("LoRD-VI" "vanilla")
 # export train_taskls=("LoRD-VII")
@@ -64,9 +64,9 @@ export tau2=0.85
 export tau_delta=-0.1
 
 # export lambda1ls=(0.0 0.2 0.4 0.6 0.8 1.0)
-export lambda1ls=(0.2 0.4)
+export lambda1ls=(0.0)
 # export cudals=(0 1 2 3 4 5)
-export cudals=(0 1)
+export cudals=(1)
 
 length=${#lambda1ls[@]}
 
