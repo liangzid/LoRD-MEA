@@ -239,14 +239,14 @@ def main1():
     model_color_dict = {
         method_ls[0]: "#eb3b5a",
         method_ls[1]: "#3867d6",
-        method_ls[2]: "#3867d6",
+        method_ls[2]: "#eb3b5a",
 
     }
     # model_color_dict2=model_color_dict
     model_color_dict2 = {
         method_ls[0] : "#f78fb3",
         method_ls[1] : "#778beb",
-        method_ls[2] : "#778beb",
+        method_ls[2] : "#f78fb3",
     }
 
     model_line_style = {

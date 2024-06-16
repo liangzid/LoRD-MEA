@@ -21,11 +21,11 @@ export from_path="meta-llama/Meta-Llama-3-8B-Instruct"
 # export cudals=(0 1 2 3 4 5)
 
 
-# export TRAIN_NUMS=($1)
-# export cudals=($2)
+export TRAIN_NUMS=($1)
+export cudals=($2)
 
-export TRAIN_NUMS=(32)
-export cudals=(0)
+# export TRAIN_NUMS=(32)
+# export cudals=(0)
 
 # export train_times=(2 3 4 5)
 export train_times=(1)
