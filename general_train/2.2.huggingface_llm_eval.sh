@@ -16,22 +16,20 @@ export TORCH_USE_CUDA_DSA="1"
 export root_dir="${HOME}/alignmentExtraction/"
 export POD_save_dir="${root_dir}/general_train/ckpts/boring_test/"
 # export from_path="meta-llama/Meta-Llama-3-8B-Instruct"
-export from_path="meta-llama/Llama-2-13b-chat-hf"
+# export from_path="meta-llama/Llama-2-13b-chat-hf"
+export from_path="Vezora/Mistral-22B-v0.1"
 # export from_path="Vezora/Mistral-22B-v0.1"
 export pmp=$from_path
 export eval=${HOME}/anaconda3/envs/align/bin/lm_eval
 
-
 # export train_taskls=("LoRD-VIII")
 export train_task="LoRD-VI"
 # # export save_path="${POD_save_dir}NewTemperature${train_task}NewLoss"
-export save_path="${POD_save_dir}NewTemperatureNewTau${train_task}NewLoss"
+# export save_path="${POD_save_dir}NewTemperatureNewTau22B${train_task}NewLoss"
 
-
-# export ckpt_ls=("${POD_save_dir}NewTemperatureNewTauLoRD-VIIINewLoss___period500" "${POD_save_dir}NewTemperatureNewLoss___period500" "${POD_save_dir}NewTemperatureNewLoss___finally")
-export ckpt_ls=("${POD_save_dir}NewTemperatureNewTau13BLoRD-VINewLoss___period500")
 # export ckpt_ls=("${POD_save_dir}NewTemperatureNewTau13BvanillaNewLoss___finally")
 # export ckpt_ls=("${POD_save_dir}NewTemperatureNewTau13BLoRD-VIINewLoss___period500" "${POD_save_dir}NewTemperatureNewTau13BvanillaNewLoss___finally")
+export ckpt_ls=("${POD_save_dir}NewTemperatureNewTau22BLoRD-VIIINewLoss___period500")
 
 for fmp in ${ckpt_ls[*]}
 do
@@ -97,7 +95,8 @@ done
 
 
 # # export pmp="meta-llama/Meta-Llama-3-8B-Instruct"
-# export pmp="meta-llama/Llama-2-13b-chat-hf"
+# # export pmp="meta-llama/Llama-2-13b-chat-hf"
+# export pmp="Vezora/Mistral-22B-v0.1"
 
 # echo "================================================================"
 # echo "EVALUATION MODEL: pretrained: ${pmp}"
