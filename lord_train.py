@@ -722,7 +722,9 @@ def main():
                 tokenizer,
                 task_name=args.dataset_task,
                 train_num=args.train_num,
-                max_length=args.max_length
+                max_length=args.max_length,
+                tokenizer_name=args.from_path,
+
             )
 
             if args.extra_nonlabel_data == 1:
