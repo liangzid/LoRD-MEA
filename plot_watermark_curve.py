@@ -303,7 +303,7 @@ def main1():
         'size': font_size-1,
     }
 
-    plt.legend(loc=(-2.71, 2.60),
+    plt.legend(loc=(-1.81, 2.60),
                prop=font1, ncol=6, frameon=False,
                handletextpad=0., handlelength=1.2)  # 设置信息框
     fig.subplots_adjust(wspace=0.26, hspace=0.6)
