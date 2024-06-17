@@ -1,10 +1,10 @@
 #!/bin/bash
 ######################################################################
-#7.1.VARY_TRAINNUM_TEXT2SQL --- 
+#7.2.VARYTRAINNUM__WMT --- 
 
 # Author: Zi Liang <zi1415926.liang@connect.polyu.hk>
 # Copyright © 2024, ZiLiang, all rights reserved.
-# Created:  2 June 2024
+# Created: 14 June 2024
 ######################################################################
 
 ######################### Commentary ##################################
@@ -13,24 +13,30 @@
 
 echo "HOME: ${HOME}"
 export python=${HOME}/anaconda3/envs/align/bin/python3
-# export CUDA_VISIBLE_DEVICES="5,6,7"
-# export CUDA_VISIBLE_DEVICES="0,1,2"
-# export CUDA_VISIBLE_DEVICES="1"
 export root_dir="${HOME}/alignmentExtraction/"
 export POD_save_dir="${root_dir}/NEW_VARYING_QUERYTIME_CKPTS/"
 export from_path="meta-llama/Meta-Llama-3-8B-Instruct"
 # export TRAIN_NUMS=(64)
-export TRAIN_NUMS=(8 16 32 64 128 256)
-export cudals=(5 1 2 3 4 5)
-export TRAIN_NUMS=(8)
+# export TRAIN_NUMS=(8 16 32 64 128 256)
+# export cudals=(0 1 2 3 4 5)
+
+
+export TRAIN_NUMS=($1)
+export cudals=($2)
+
+# export TRAIN_NUMS=(32)
+# export cudals=(0)
+
 # export train_times=(2 3 4 5)
 export train_times=(1)
-export msl=1024
-# export task_ls=("wikisql" "spider")
-export task_ls=("wikisql")
-# export task_ls=("wikisql")
+export msl=140
+# export task_ls=("cs-en" "de-en" "fi-en" "ro-en")
+export task_ls=("cs-en" "de-en")
+# export task_ls=("de-en")
 # export train_taskls=("vanilla" "LoRD-VI")
+# export train_taskls=("LoRD-VIII" "vanilla")
 export train_taskls=("LoRD-VIII")
+# export train_taskls=("vanilla")
 
 export is_black_box=1
 export use_lora=1
@@ -42,7 +48,8 @@ export epoch=1
 export period=1
 
 export sub_set_num=1
-export sub_stage_num=512
+# export sub_stage_num=512
+export sub_stage_num=2048
 # export max_new_tokens=64
 export max_new_tokens=32
 export infer_batch_size=1
@@ -117,7 +124,7 @@ for (( i=0; i<$length; i++ )); do
 		    --use_kld=$use_kld\
 		    --max_length=$msl \
 		    --dataset_task=$task \
-		    --save_path=$save_path > varing_sequencelength$i.log &
+		    --save_path=$save_path
 
 		echo "DONE FOR ONE TRAIN NUMBERS...."
 
@@ -127,7 +134,5 @@ for (( i=0; i<$length; i++ )); do
 done
 
 
-# $python ${root_dir}text2sql_process.py
-
-echo "RUNNING 7.1.vary_trainnum_text2sql.sh DONE."
-# 7.1.vary_trainnum_text2sql.sh ends here
+echo "RUNNING 7.2.varytrainnum__wmt.sh DONE."
+# 7.2.varytrainnum__wmt.sh ends here

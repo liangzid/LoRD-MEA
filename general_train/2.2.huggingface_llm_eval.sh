@@ -23,12 +23,10 @@ export pmp=$from_path
 export eval=${HOME}/anaconda3/envs/align/bin/lm_eval
 
 # export train_taskls=("LoRD-VIII")
-export train_task="LoRD-VIII"
+export train_task="LoRD-VI"
 # # export save_path="${POD_save_dir}NewTemperature${train_task}NewLoss"
 # export save_path="${POD_save_dir}NewTemperatureNewTau22B${train_task}NewLoss"
 
-# export ckpt_ls=("${POD_save_dir}NewTemperatureNewTauLoRD-VIIINewLoss___period500" "${POD_save_dir}NewTemperatureNewLoss___period500" "${POD_save_dir}NewTemperatureNewLoss___finally")
-# export ckpt_ls=("${POD_save_dir}NewTemperatureNewTau13BLoRD-VIIINewLoss___period500")
 # export ckpt_ls=("${POD_save_dir}NewTemperatureNewTau13BvanillaNewLoss___finally")
 # export ckpt_ls=("${POD_save_dir}NewTemperatureNewTau13BLoRD-VIINewLoss___period500" "${POD_save_dir}NewTemperatureNewTau13BvanillaNewLoss___finally")
 export ckpt_ls=("${POD_save_dir}NewTemperatureNewTau22BLoRD-VIIINewLoss___period500")

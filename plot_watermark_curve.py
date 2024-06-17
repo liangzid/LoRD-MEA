@@ -69,6 +69,10 @@ def parse_json_file():
         dataset_ls[2]:"WMT (cs-en)",
         dataset_ls[3]:"WMT (de-en)",
         }
+    dataset_ls=[
+        # "e2e_nlg","allenai/common_gen",
+        "cs-en","de-en",
+        ]
     method_ls=[
         "vanilla","LoRD-VI","pretrained",
         ]
@@ -235,14 +239,14 @@ def main1():
     model_color_dict = {
         method_ls[0]: "#eb3b5a",
         method_ls[1]: "#3867d6",
-        method_ls[2]: "#3867d6",
+        method_ls[2]: "#eb3b5a",
 
     }
     # model_color_dict2=model_color_dict
     model_color_dict2 = {
         method_ls[0] : "#f78fb3",
         method_ls[1] : "#778beb",
-        method_ls[2] : "#778beb",
+        method_ls[2] : "#f78fb3",
     }
 
     model_line_style = {

@@ -63,8 +63,10 @@ export tau1=0.80
 export tau2=0.85
 export tau_delta=-0.1
 
-export lambda1ls=(0.0 0.2 0.4 0.6 0.8 1.0)
-export cudals=(0 1 2 3 4 5)
+# export lambda1ls=(0.0 0.2 0.4 0.6 0.8 1.0)
+export lambda1ls=(0.0)
+# export cudals=(0 1 2 3 4 5)
+export cudals=(0)
 
 length=${#lambda1ls[@]}
 
@@ -122,21 +124,26 @@ do
 		    --use_kld=$use_kld\
 		    --max_length=$msl \
 		    --dataset_task=$task \
-		    --save_path=$save_path > watermark_csresults_${i}.log&
+		    --save_path=$save_path
 		echo "DONE FOR ONE TRAIN NUMBERS...."
 	    done
 	done
     done
 done
-
-
-
 done
+
+
+
 
 # $python ${root_dir}data2text_process.py
 
-# $python ${root_dir}watermark/watermark_detect.py
+rm "${root_dir}watermark_res/__watermark__d2t_ckpts__D2TTTde-en@wrmk641LoRD-VIII00___period512_____de-en@wrmk_d2t_infer_resjson"
 
+$python ${root_dir}watermark/watermark_detect.py
+
+$python ${root_dir}plot_watermark_curve.py
+
+echo "Draw Done~~~~"
 
 # # # bash ${root_dir}general_train/1.1.train_lora_llama3-7b-claude3-short.sh
 # bash ${root_dir}general_train/2.2.huggingface_llm_eval.sh

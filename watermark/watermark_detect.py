@@ -15,7 +15,7 @@ Detect whether a watermark is contained in a given text.
 
 import os
 if __name__ == "__main__":
-    os.environ["CUDA_VISIBLE_DEVICES"] = "5"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "4"
     os.environ["TORCH_USE_CUDA_DSA"]="1"
     pass
 from extended_watermark_processor import WatermarkDetector
@@ -57,10 +57,10 @@ def eval_varying_train_num():
         # "e2e_nlg",
         # "allenai/common_gen",
         "cs-en",
-        # "de-en",
+        "de-en",
         ]
     mls = [
-        # "vanilla",
+        "vanilla",
         # "LoRD-VI",
         "LoRD-VIII",
         # "pretrained",
@@ -84,11 +84,11 @@ def eval_varying_train_num():
         # "512",
         ]
     lambda1ls=[
-        # "0.0",
-        # "0.2",
-        # "0.4",
-        # "0.6",
-        # "0.8",
+        "0.0",
+        "0.2",
+        "0.4",
+        "0.6",
+        "0.8",
         "1.0",
         ]
 

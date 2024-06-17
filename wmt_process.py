@@ -12,7 +12,7 @@ WMT dataset process scripts.
 
 import os
 if __name__ == "__main__":
-    os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "5"
     os.environ["TORCH_USE_CUDA_DSA"]="1"
 
 from gen_pipeline_open import InferObj
@@ -765,32 +765,34 @@ def eval_varying_train_num():
     taskls = [
         "cs-en",
         "de-en",
-        "fi-en",
+        # "fi-en",
         ]
     mls = [
-        # "vanilla",
-        # "LoRD-VI",
+        "vanilla",
+        "LoRD-VIII",
         # "kd",
-        "LoRD-II",
+        # "LoRD-II",
         ]
     # mls = ["vanilla", "kd", "google/gemma-2b", "Complex-lord",]
     train_times = [
         "1",
-        "2",
-        "3",
-        "4",
-        "5",
+        # "2",
+        # "3",
+        # "4",
+        # "5",
         ]
     train_nums = [
+        "8",
         "16",
-        # "64",
-        # "128",
-        # "256",
-        # "512",
+        "32",
+        "64",
+        "128",
+        "256",
+        "512",
         ]
     base_model_name1="meta-llama/Meta-Llama-3-8B-Instruct"
 
-    dir_p = "./wmt_0519_dataset_res/"
+    dir_p = "./wmt_0613_dataset_res/"
     res_dict = {}
     if not os.path.exists(dir_p):
         os.makedirs(dir_p)
@@ -802,15 +804,19 @@ def eval_varying_train_num():
             for m in mls:
                 temp_scorels=[]
                 for itime in train_times:
-                    prefix = "./wmt16_ckpts/WMTTT0519"
+                    # prefix = "./wmt16_ckpts/WMTTT0519"
+                    prefix = "./NEW_VARYING_QUERYTIME_CKPTS/text2sql"
                     if m=="vanilla" or m =="kd":
                         ckpt = (
                             prefix
                             + f"{task}{train_num}{itime}{m}___finally/"
                         )
+                    elif train_num=="256" or train_num=="512":
+                        ckpt = prefix + \
+                            f"{task}{train_num}{itime}{m}___period2048/"
                     else:
                         ckpt = prefix + \
-                            f"{task}{train_num}{itime}{m}___period256/"
+                            f"{task}{train_num}{itime}{m}___period512/"
                     res_pth = ckpt+f"___{task}_wmt_infer_res.json"
                     res_pth = res_pth.replace("/", "__").replace(".", "")
 
@@ -819,7 +825,7 @@ def eval_varying_train_num():
                                            task,
                                            dir_p+res_pth,
                                            test_set_take_num=500,
-                                           mnt=64,
+                                           mnt=32,
                                            base_model_name=base_model_name1,
                                            )
                     else:
