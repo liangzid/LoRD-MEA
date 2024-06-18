@@ -16,7 +16,7 @@
 echo "HOME: ${HOME}"
 export python=${HOME}/anaconda3/envs/align/bin/python3
 export root_dir="${HOME}/alignmentExtraction/"
-export POD_save_dir="${root_dir}/SCALE_VARYING_CKPTS"
+export POD_save_dir="${root_dir}/SCALE_VARYING_CKPTS/"
 export TRAIN_NUMS=(64)
 # export from_path_ls=("meta-llama/Meta-Llama-3-8B-Instruct")
 export from_path=$1
@@ -43,8 +43,8 @@ export epoch=1
 export period=1
 
 export sub_set_num=1
-# export sub_stage_num=512
-export sub_stage_num=2048
+export sub_stage_num=512
+# export sub_stage_num=2048
 # export max_new_tokens=64
 export max_new_tokens=32
 export infer_batch_size=1
@@ -127,14 +127,6 @@ for (( i=0; i<$length; i++ )); do
 	done
     done
 done
-
-
-
-
-
-
-
-
 
 
 
