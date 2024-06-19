@@ -26,12 +26,12 @@ export cudals=($2)
 # export train_times=(2 3 4 5)
 export train_times=(1)
 export msl=140
-export task_ls=("cs-en")
-# export task_ls=("de-en")
+# export task_ls=("cs-en")
+export task_ls=("de-en")
 # export train_taskls=("vanilla" "LoRD-VI")
 # export train_taskls=("LoRD-VIII" "vanilla")
-export train_taskls=("LoRD-VIII")
-# export train_taskls=("vanilla")
+# export train_taskls=("LoRD-VIII")
+export train_taskls=("vanilla")
 
 export is_black_box=1
 export use_lora=1
@@ -39,7 +39,7 @@ export use_lora=1
 # export epoch=3
 # export period=3
 
-export epoch=1
+export epoch=2
 export period=1
 
 export sub_set_num=1

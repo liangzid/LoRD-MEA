@@ -1574,14 +1574,70 @@ CLOSED: [2024-06-18 Tue 09:09]
 |     |       |flexible-extract|     5|exact_match|0.0053|±  | 0.002|
 
 *** vanilla
+|    Tasks    |Version|Filter|n-shot| Metric |Value |   |Stderr|
+|-------------|------:|------|-----:|--------|-----:|---|-----:|
+|arc_challenge|      1|none  |    25|acc     |0.2201|±  |0.0121|
+|             |       |none  |    25|acc_norm|0.2483|±  |0.0126|
 
+|  Tasks  |Version|Filter|n-shot| Metric |Value |   |Stderr|
+|---------|------:|------|-----:|--------|-----:|---|-----:|
+|hellaswag|      1|none  |    10|acc     |0.2654|±  |0.0044|
+|         |       |none  |    10|acc_norm|0.2811|±  |0.0045|
 
+|      Tasks      |Version|Filter|n-shot|  Metric   | Value |   |Stderr|
+|-----------------|-------|------|-----:|-----------|------:|---|-----:|
+|truthfulqa       |N/A    |none  |     0|rouge2_max | 0.3086|±  |0.0345|
+|                 |       |none  |     0|acc        | 0.3870|±  |0.0113|
+|                 |       |none  |     0|rougeL_max | 1.3179|±  |0.0547|
+|                 |       |none  |     0|rougeL_acc | 0.2436|±  |0.0150|
+|                 |       |none  |     0|rouge1_diff|-0.0230|±  |0.0510|
+|                 |       |none  |     0|rouge2_acc | 0.0747|±  |0.0092|
+|                 |       |none  |     0|bleu_diff  | 0.0149|±  |0.0100|
+|                 |       |none  |     0|bleu_acc   | 0.1603|±  |0.0128|
+|                 |       |none  |     0|bleu_max   | 0.1622|±  |0.0118|
+|                 |       |none  |     0|rougeL_diff|-0.0001|±  |0.0475|
+|                 |       |none  |     0|rouge2_diff| 0.0645|±  |0.0320|
+|                 |       |none  |     0|rouge1_acc | 0.2558|±  |0.0153|
+|                 |       |none  |     0|rouge1_max | 1.4619|±  |0.0608|
+| - truthfulqa_gen|      3|none  |     0|bleu_max   | 0.1622|±  |0.0118|
+|                 |       |none  |     0|bleu_acc   | 0.1603|±  |0.0128|
+|                 |       |none  |     0|bleu_diff  | 0.0149|±  |0.0100|
+|                 |       |none  |     0|rouge1_max | 1.4619|±  |0.0608|
+|                 |       |none  |     0|rouge1_acc | 0.2558|±  |0.0153|
+|                 |       |none  |     0|rouge1_diff|-0.0230|±  |0.0510|
+|                 |       |none  |     0|rouge2_max | 0.3086|±  |0.0345|
+|                 |       |none  |     0|rouge2_acc | 0.0747|±  |0.0092|
+|                 |       |none  |     0|rouge2_diff| 0.0645|±  |0.0320|
+|                 |       |none  |     0|rougeL_max | 1.3179|±  |0.0547|
+|                 |       |none  |     0|rougeL_acc | 0.2436|±  |0.0150|
+|                 |       |none  |     0|rougeL_diff|-0.0001|±  |0.0475|
+| - truthfulqa_mc1|      2|none  |     0|acc        | 0.2791|±  |0.0157|
+| - truthfulqa_mc2|      2|none  |     0|acc        | 0.4948|±  |0.0164|
 
+|  Groups  |Version|Filter|n-shot|  Metric   | Value |   |Stderr|
+|----------|-------|------|-----:|-----------|------:|---|-----:|
+|truthfulqa|N/A    |none  |     0|rouge2_max | 0.3086|±  |0.0345|
+|          |       |none  |     0|acc        | 0.3870|±  |0.0113|
+|          |       |none  |     0|rougeL_max | 1.3179|±  |0.0547|
+|          |       |none  |     0|rougeL_acc | 0.2436|±  |0.0150|
+|          |       |none  |     0|rouge1_diff|-0.0230|±  |0.0510|
+|          |       |none  |     0|rouge2_acc | 0.0747|±  |0.0092|
+|          |       |none  |     0|bleu_diff  | 0.0149|±  |0.0100|
+|          |       |none  |     0|bleu_acc   | 0.1603|±  |0.0128|
+|          |       |none  |     0|bleu_max   | 0.1622|±  |0.0118|
+|          |       |none  |     0|rougeL_diff|-0.0001|±  |0.0475|
+|          |       |none  |     0|rouge2_diff| 0.0645|±  |0.0320|
+|          |       |none  |     0|rouge1_acc | 0.2558|±  |0.0153|
+|          |       |none  |     0|rouge1_max | 1.4619|±  |0.0608|
 
+|  Tasks   |Version|Filter|n-shot|Metric|Value|   |Stderr|
+|----------|------:|------|-----:|------|----:|---|-----:|
+|winogrande|      1|none  |     5|acc   |0.498|±  |0.0141|
 
-
-
-
+|Tasks|Version|     Filter     |n-shot|  Metric   |Value |   |Stderr|
+|-----|------:|----------------|-----:|-----------|-----:|---|-----:|
+|gsm8k|      3|strict-match    |     5|exact_match|0.0000|±  |0.0000|
+|     |       |flexible-extract|     5|exact_match|0.0091|±  |0.0026|
 
 ** TODO Longtext
 ** GPT-4 cleaned
