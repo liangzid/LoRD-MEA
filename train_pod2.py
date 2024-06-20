@@ -594,6 +594,7 @@ def train_pod(lm,
                 print(f"New Confidence, 1: {p11}, 2: {p12}")
                 print(f"Delta, 1: {delta11}, 2: {delta12}")
                 if p12 > p11:
+                # if delta11<delta12:
                     print("SWAP.")
                     p_i_11_ls[i] = pidx12.squeeze(0).to("cpu")
                     p_i_12_ls[i] = pidx11.squeeze(0).to("cpu")
@@ -920,6 +921,8 @@ def one_period(args, lm,
 
                     # In validating
                     # loss=sigmoid((los2+loss12)/loss11+(loss11+loss12)/los2)
+                    loss=2*sigmoid(args.lambda1*(los2+loss12)/loss11+(1-args.lambda1)*(loss11+loss12)/los2)
+                elif method=="LoRD-IX":
                     loss=2*sigmoid(args.lambda1*(los2+loss12)/loss11+(1-args.lambda1)*(loss11+loss12)/los2)
                 else:
                     loss=sigmoid(loss)
