@@ -104,6 +104,7 @@ def load_wmt_datals(tokenizer,
                     max_length=1024,
                     openai_tmp_save_pth="./STEALED_PKLS/wmt_data_saveto_",
                     use_local_model_with_wrmk=None,
+                    tokenizer_name=None,
                     ):
 
     lm_tokenizer = tokenizer
@@ -156,7 +157,13 @@ def load_wmt_datals(tokenizer,
         p_idxls.append(lm_tokenizer(p, return_tensors="pt").input_ids[0])
 
     if use_local_model_with_wrmk is None:
-        openai_tmp_save_pth += f"WMTtask_{task_name}-trainNUM_{train_num}.pkl"
+        if tokenizer_name is None:
+            openai_tmp_save_pth += f"WMTtask_{task_name}-trainNUM_{train_num}.pkl"
+        elif "opt" in tokenizer_name:
+            openai_tmp_save_pth += f"WMTtask_{task_name}-trainNUM_{train_num}_opt.pkl"
+        elif "pythia" in tokenizer_name:
+            openai_tmp_save_pth += f"WMTtask_{task_name}-trainNUM_{train_num}_pythia.pkl"
+            
         return commonly_used_openai_post_process(
             openai_tmp_save_pth,
             inp_ls,
@@ -877,6 +884,135 @@ def eval_varying_train_num():
     pprint(res_dict_averaged)
     return res_dict
 
+def eval_varying_modelsize():
+    taskls = [
+        "cs-en",
+        # "de-en",
+        # "fi-en",
+        ]
+    mls = [
+        "vanilla",
+        "LoRD-VIII",
+        # "kd",
+        # "LoRD-II",
+        ]
+    # mls = ["vanilla", "kd", "google/gemma-2b", "Complex-lord",]
+    train_times = [
+        "1",
+        # "2",
+        # "3",
+        # "4",
+        # "5",
+        ]
+    train_nums = [
+        # "8",
+        # "16",
+        # "32",
+        "64",
+        # "128",
+        # "256",
+        # "512",
+        ]
+    base_model_list=[
+        "EleutherAI/pythia-410m",
+        "EleutherAI/pythia-1.4b",
+        "EleutherAI/pythia-2.8b",
+        "EleutherAI/pythia-6.9b",
+
+        "facebook/opt-350m",
+        "facebook/opt-1.3b",
+        "facebook/opt-2.7b",
+        "facebook/opt-6.7b",
+        "facebook/opt-13b",
+        ]
+    # base_model_name1="meta-llama/Meta-Llama-3-8B-Instruct"
+
+    dir_p = "./wmt_0617_varymodelsize_dataset_res/"
+    res_dict = {}
+    if not os.path.exists(dir_p):
+        os.makedirs(dir_p)
+
+    res_dict_averaged={}
+
+    for task in taskls:
+        for train_num in train_nums:
+            for base_model_name1 in base_model_list:
+                for m in mls:
+                    temp_scorels=[]
+                    for itime in train_times:
+                        # prefix = "./wmt16_ckpts/WMTTT0519"
+                        prefix = "./SCALE_VARYING_CKPTS/text2sql"
+                        if m=="vanilla" or m =="kd":
+                            ckpt = (
+                                prefix
+                                + f"{base_model_name1}{task}{train_num}{itime}{m}___finally/"
+                            )
+                        elif train_num=="256" or train_num=="512":
+                            ckpt = prefix + \
+                                f"{base_model_name1}{task}{train_num}{itime}{m}___period2048/"
+                        else:
+                            ckpt = prefix + \
+                                f"{base_model_name1}{task}{train_num}{itime}{m}___period512/"
+                        res_pth = ckpt+f"___{task}_wmt_infer_res.json"
+                        res_pth = res_pth.replace("/", "__").replace(".", "")
+
+                        if not os.path.exists(dir_p+res_pth):
+                            res_ls = infer_wmt(ckpt,
+                                            task,
+                                            dir_p+res_pth,
+                                            test_set_take_num=500,
+                                            mnt=32,
+                                            base_model_name=base_model_name1,
+                                            )
+                        else:
+                            # from collections import OrderedDict
+                            with open(dir_p+res_pth, 'r', encoding='utf8') as f:
+                                res_ls = json.load(
+                                    f, object_pairs_hook=OrderedDict)
+
+                        scores = eval_wmt(res_ls)
+                        print(task, ckpt)
+                        print(scores)
+                        res_dict[task+"-----"+res_pth] = scores
+                        score_ls=[
+                            scores["bleu"]["1"],
+                            scores["bleu"]["2"],
+                            scores["bleu"]["3"],
+                            scores["bleu"]["4"],
+                            scores["bertscore"]["p"],
+                            scores["bertscore"]["r"],
+                            scores["bertscore"]["f1"],
+                            scores["rouge-l"]["p"],
+                            scores["rouge-l"]["r"],
+                            scores["rouge-l"]["f1"],
+                            ]
+                        temp_scorels.append(score_ls)
+
+                    # obtain the mean value
+                    # obtain the std value
+                    temp_scorels=np.array(temp_scorels)
+                    meanvaluels=np.mean(temp_scorels,axis=0).tolist()
+                    stdvaluels=np.std(temp_scorels,axis=0,ddof=1).tolist()
+                    res_dict_averaged[task+"--"+res_pth]=\
+                        {"mean": meanvaluels,
+                        "std": stdvaluels}
+
+    with open(dir_p+"Overall__wmt_vary_modelsize_inference_scores.json",
+              'w', encoding='utf8') as f:
+        json.dump(res_dict, f, ensure_ascii=False, indent=4)
+
+    with open(
+        dir_p + "OverallScoresAveraged.json",
+            "w", encoding="utf8"
+    ) as f:
+        json.dump(res_dict_averaged, f, ensure_ascii=False, indent=4)
+
+    print("OVERALL Save DONE.")
+    pprint(res_dict)
+    print("------------------------------------------")
+    pprint(res_dict_averaged)
+    return res_dict
+
 def eval_tau1_res():
     taskls = [
         "cs-en",
@@ -1007,6 +1143,7 @@ if __name__ == "__main__":
     # main()
     # evaluation_datas()
     # eval_all()
-    eval_varying_train_num()
+    # eval_varying_train_num()
+    eval_varying_modelsize()
     # eval_tau1_res()
     print("EVERYTHING DONE.")

@@ -244,7 +244,8 @@ def train_pod(lm,
             for i in range(len(idx2ls)):
                 idxs2 = torch.tensor(idx2ls[i])\
                     .unsqueeze(0)
-                idxs2=idxs2.to("cuda:0")
+                idxs2=idxs2.to("cuda")
+                # idxs2=idxs2.to("cpu")
                 old_logits2 = lm(idxs2).logits
                 old_logits2 = old_logits2[:,:-1]
                 old_logits2 = F.log_softmax(old_logits2, dim=-1)
