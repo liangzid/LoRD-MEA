@@ -39,7 +39,8 @@ from qa_process import infer_qa, eval_qaacc
 def wmt_curve_trainNums():
     method_ls = [
         "vanilla",
-        "LoRD-VIII",
+        # "LoRD-VIII",
+        "LoRD-VI",
         # "kd",
         # "google/gemma-2b",
         # "lord",
@@ -50,22 +51,25 @@ def wmt_curve_trainNums():
         # "kd": "D",
         # "google/gemma-2b": "*",
         "LoRD-VIII": "o",
+        "LoRD-VI": "o",
     }
     model_color_dict = {
         "vanilla": "#4a148c",
         # "kd": "#469de9",
         "LoRD-VIII": "#eb3b5a",
+        "LoRD-VI": "#eb3b5a",
         # "google/gemma-2b": "#3867d6",
     }
     model_color_dict2 = {
         "vanilla": "#9c27b0",
         # "kd": "#98c8f3",
         "LoRD-VIII": "#f78fb3",
+        "LoRD-VI": "#f78fb3",
         # "google/gemma-2b": "#778beb",
     }
     taskls = [
         "cs-en",
-        # "de-en",
+        "de-en",
     ]
     train_times = [
         "1",
@@ -79,7 +83,9 @@ def wmt_curve_trainNums():
         "EleutherAI/pythia-1.4b",
         "EleutherAI/pythia-2.8b",
         "EleutherAI/pythia-6.9b",
+        
         ]
+
     base2_pth_ls=[
         "facebook/opt-350m",
         "facebook/opt-1.3b",
@@ -100,6 +106,7 @@ def wmt_curve_trainNums():
         "vanilla": "-.",
         "kd": "-.",
         "LoRD-VIII": "-",
+        "LoRD-VI": "-",
         "google/gemma-2b": "-",
     }
     font_size = 21

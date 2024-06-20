@@ -776,7 +776,8 @@ def eval_varying_train_num():
         ]
     mls = [
         "vanilla",
-        "LoRD-VIII",
+        # "LoRD-VIII",
+        "LoRD-VI",
         # "kd",
         # "LoRD-II",
         ]
@@ -887,11 +888,12 @@ def eval_varying_train_num():
 def eval_varying_modelsize():
     taskls = [
         "cs-en",
-        # "de-en",
+        "de-en",
         # "fi-en",
         ]
     mls = [
         "vanilla",
+        # "LoRD-VIII",
         "LoRD-VIII",
         # "kd",
         # "LoRD-II",
