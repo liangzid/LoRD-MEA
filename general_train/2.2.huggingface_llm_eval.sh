@@ -30,6 +30,7 @@ export train_task="LoRD-VI"
 # export ckpt_ls=("${POD_save_dir}NewTemperatureNewTau13BvanillaNewLoss___finally")
 # export ckpt_ls=("${POD_save_dir}NewTemperatureNewTau13BLoRD-VIINewLoss___period500" "${POD_save_dir}NewTemperatureNewTau13BvanillaNewLoss___finally")
 export ckpt_ls=("${POD_save_dir}NewTemperatureNewTau22BLoRD-VIIINewLoss___period500")
+# export ckpt_ls=("${POD_save_dir}NewTemperatureNewTau22BvanillaNewLoss___finally" "${POD_save_dir}NewTemperatureNewTau22BLoRD-VIIINewLoss___period500")
 
 for fmp in ${ckpt_ls[*]}
 do
@@ -40,7 +41,7 @@ echo "EVALUATION MODEL: pretrained: ${pmp} lora: ${fmp}"
 echo "EVALUATION TASKS: ${qas}"
 echo "================================================================"
 
-export evaltasks=arc_challenge
+evaltasks=arc_challenge
 export fewshot_number=25
 $eval --model hf \
     --model_args pretrained=${pmp},parallelize=True,peft=${fmp}\
@@ -65,6 +66,8 @@ $eval --model hf \
     --device cuda\
     --batch_size auto
 
+sleep 120
+
 export evaltasks=mmlu
 export fewshot_number=5
 $eval --model hf \
@@ -72,7 +75,7 @@ $eval --model hf \
     --tasks ${evaltasks}\
     --num_fewshot=${fewshot_number}\
     --device cuda\
-    --batch_size auto
+    --batch_size auto:5
 
 export evaltasks=winogrande
 export fewshot_number=5
@@ -91,6 +94,7 @@ $eval --model hf \
     --num_fewshot=${fewshot_number}\
     --device cuda\
     --batch_size auto
+
 done
 
 
@@ -127,6 +131,8 @@ done
 #     --tasks ${evaltasks}\
 #     --device cuda\
 #     --batch_size auto
+
+# sleep 120
 
 # export evaltasks=mmlu
 # export fewshot_number=5

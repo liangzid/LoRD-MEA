@@ -34,7 +34,9 @@ export task_ls=("liangzid/claude3_short256")
 # export epoch=2
 # export train_taskls=("LoRD-VII" "LoRD-VI")
 export train_taskls=("LoRD-VIII")
-export epoch=1
+# export train_taskls=("vanilla")
+
+export epoch=2
 # export train_taskls=("LoRD-II")
 
 # ## ====================TO DEBUG====================
@@ -75,6 +77,7 @@ export tau2=0.9
 export tau_delta=-0.1
 export save_step=250
 export temperature=1.0
+export lambda1=0.2
 
 # export train_num=100
 
@@ -106,6 +109,7 @@ do
 		    --T=$temperature\
 		    --tau1=$tau1 \
 		    --tau2=$tau2 \
+		    --lambda1=$lambda1\
 		    --task=$train_task \
 		    --device="cuda" \
 		    --epoch=$epoch \
