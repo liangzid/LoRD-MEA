@@ -882,8 +882,7 @@ def one_period(args, lm,
             #     print(f"TERM1: {term1}\nTERM2: {term2}\nTERM3: {term3}\n")
             #     print(f"LOSS: {loss}\n\n")
 
-            elif method == "LoRD-VII" or method=="LoRD-VI"\
-                 or method =="LoRD-VIII":
+            elif method in ["LoRD-VI", "LoRD-VII", "LoRD-VIII", "LoRD-IX"]:
                 if args.is_black_box == 0:
                     term3 = \
                         (vic_logits2[:, :, 0]-logits2_cons)
@@ -923,7 +922,7 @@ def one_period(args, lm,
                     # loss=sigmoid((los2+loss12)/loss11+(loss11+loss12)/los2)
                     loss=2*sigmoid(args.lambda1*(los2+loss12)/loss11+(1-args.lambda1)*(loss11+loss12)/los2)
                 elif method=="LoRD-IX":
-                    loss=2*sigmoid(args.lambda1*(los2+loss12)/loss11+(1-args.lambda1)*(loss11+loss12)/los2)
+                    loss=2*sigmoid(args.lambda1*(los2+loss12)/(loss11.item())+(1-args.lambda1)*(loss11+loss12)/(los2.item()))
                 else:
                     loss=sigmoid(loss)
                     # loss=sigmoid(loss/loss12)

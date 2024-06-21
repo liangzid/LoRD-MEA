@@ -997,7 +997,7 @@ def main():
                 raw_train_datals,
                 max_new_tokens=args.max_new_tokens,
             )
-        elif args.task=="LoRD-VIII":
+        elif args.task in ["LoRD-VIII", "LoRD-IX"]:
             print("TRAIN WITH LORD-VIII!!!")
             from train_pod2 import train
             train(

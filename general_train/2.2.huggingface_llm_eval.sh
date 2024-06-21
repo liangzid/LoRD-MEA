@@ -29,7 +29,8 @@ export train_task="LoRD-VI"
 
 # export ckpt_ls=("${POD_save_dir}NewTemperatureNewTau13BvanillaNewLoss___finally")
 # export ckpt_ls=("${POD_save_dir}NewTemperatureNewTau13BLoRD-VIINewLoss___period500" "${POD_save_dir}NewTemperatureNewTau13BvanillaNewLoss___finally")
-export ckpt_ls=("${POD_save_dir}NewTemperatureNewTau22BLoRD-VIIINewLoss___period500")
+# export ckpt_ls=("${POD_save_dir}NewTemperatureNewTau22BLoRD-VIIINewLoss___period500")
+export ckpt_ls=("${POD_save_dir}NewTemperatureNewTau22BLoRD-IXNewLoss___period500")
 # export ckpt_ls=("${POD_save_dir}NewTemperatureNewTau22BvanillaNewLoss___finally" "${POD_save_dir}NewTemperatureNewTau22BLoRD-VIIINewLoss___period500")
 
 for fmp in ${ckpt_ls[*]}
