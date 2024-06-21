@@ -25,15 +25,15 @@ export cudals=(0 1 2 3 4 5 6)
 
 length=${#model_ckpts[@]}
 
-# for (( i=0; i<$length; i++ )); do
-#     export model_ckpt=${model_ckpts[$i]}
-#     export cudanum=${cudals[$i]}
-#     export ckpt_part=$(echo "${model_ckpt}" | cut -d'/' -f2)
-#     echo "cuda: $cudanum"
+for (( i=0; i<$length; i++ )); do
+    export model_ckpt=${model_ckpts[$i]}
+    export cudanum=${cudals[$i]}
+    export ckpt_part=$(echo "${model_ckpt}" | cut -d'/' -f2)
+    echo "cuda: $cudanum"
 
-# # nohup bash ${root_dir}/scripts/7.3.varymodel_size.sh ${model_ckpt} ${cudanum} > "0617--TrainVaryingModelSize${ckpt_part}${cudanum}.log" &
-#     nohup bash ${root_dir}/scripts/7.3.varymodel_size.sh ${model_ckpt} ${cudanum} > "0620--TrainVaryingModelSize${ckpt_part}${cudanum}.log" &
-# done
+# nohup bash ${root_dir}/scripts/7.3.varymodel_size.sh ${model_ckpt} ${cudanum} > "0617--TrainVaryingModelSize${ckpt_part}${cudanum}.log" &
+    nohup bash ${root_dir}/scripts/7.3.varymodel_size.sh ${model_ckpt} ${cudanum} > "0620--TrainVaryingModelSize${ckpt_part}${cudanum}.log" &
+done
 
 # echo "sleep 3 hours Now."
 # sleep 10800

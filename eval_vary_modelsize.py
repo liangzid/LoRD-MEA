@@ -39,8 +39,8 @@ from qa_process import infer_qa, eval_qaacc
 def wmt_curve_trainNums():
     method_ls = [
         "vanilla",
-        # "LoRD-VIII",
-        "LoRD-VI",
+        "LoRD-VIII",
+        # "LoRD-VI",
         # "kd",
         # "google/gemma-2b",
         # "lord",

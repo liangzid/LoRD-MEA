@@ -17,8 +17,8 @@ echo "HOME: ${HOME}"
 export python=${HOME}/anaconda3/envs/align/bin/python3
 export root_dir="${HOME}/alignmentExtraction/"
 export POD_save_dir="${root_dir}/SCALE_VARYING_CKPTS/"
-export TRAIN_NUMS=(64)
-# export TRAIN_NUMS=(16)
+# export TRAIN_NUMS=(64)
+export TRAIN_NUMS=(16)
 # export from_path_ls=("meta-llama/Meta-Llama-3-8B-Instruct")
 export from_path=$1
 export cudals=($2)
@@ -32,8 +32,8 @@ export msl=140
 export task_ls=("cs-en" "de-en")
 # export train_taskls=("vanilla" "LoRD-VI")
 # export train_taskls=("LoRD-VIII" "vanilla")
-export train_taskls=("LoRD-VIII")
-# export train_taskls=("LoRD-VI")
+# export train_taskls=("LoRD-VIII")
+export train_taskls=("LoRD-VI")
 # export train_taskls=("vanilla")
 
 export is_black_box=1
@@ -42,7 +42,7 @@ export use_lora=1
 # export epoch=3
 # export period=3
 
-export epoch=1
+export epoch=2
 export period=1
 
 export sub_set_num=1
@@ -66,7 +66,7 @@ export tau1=0.80
 export tau2=0.85
 
 
-export lambda1=0.2
+export lambda1=0.5
 
 length=${#TRAIN_NUMS[@]}
 
