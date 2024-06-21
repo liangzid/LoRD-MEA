@@ -894,7 +894,7 @@ def eval_varying_modelsize():
     mls = [
         "vanilla",
         # "LoRD-VIII",
-        "LoRD-VIII",
+        "LoRD-VI",
         # "kd",
         # "LoRD-II",
         ]

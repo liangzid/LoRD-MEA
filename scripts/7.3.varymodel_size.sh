@@ -42,7 +42,7 @@ export use_lora=1
 # export epoch=3
 # export period=3
 
-export epoch=2
+export epoch=1
 export period=1
 
 export sub_set_num=1
