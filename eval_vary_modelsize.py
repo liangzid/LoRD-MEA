@@ -39,8 +39,8 @@ from qa_process import infer_qa, eval_qaacc
 def wmt_curve_trainNums():
     method_ls = [
         "vanilla",
-        "LoRD-VIII",
-        # "LoRD-VI",
+        # "LoRD-VIII",
+        "LoRD-VI",
         # "kd",
         # "google/gemma-2b",
         # "lord",
@@ -77,7 +77,8 @@ def wmt_curve_trainNums():
         # "3",
     ]
     # train_nums = ["8", "16", "32", "64", "128", "256", "512"]
-    train_nums = ["64"]
+    # train_nums = ["64"]
+    train_nums = ["16"]
     base1_pth_ls=[
         "EleutherAI/pythia-410m",
         "EleutherAI/pythia-1.4b",
@@ -259,20 +260,21 @@ def wmt_curve_trainNums():
                 # print(f"y-mean-ls: {ymeanls}.")
 
                 # axs[i][j].set_xscale("log")
-                axs[i][j].plot(
-                    x1_ls,
-                    y1meanls,
-                    label=method,
-                    linewidth=lw,
-                    marker=marker[method],
-                    markevery=1,
-                    markersize=15,
-                    markeredgewidth=lw,
-                    markerfacecolor="none",
-                    alpha=1.0,
-                    linestyle=model_line_style[method],
-                    color=model_color_dict[method],
-                )
+                # axs[i][j].plot(
+                #     x1_ls,
+                #     y1meanls,
+                #     label=method,
+                #     linewidth=lw,
+                #     marker=marker[method],
+                #     markevery=1,
+                #     markersize=15,
+                #     markeredgewidth=lw,
+                #     markerfacecolor="none",
+                #     alpha=1.0,
+                #     linestyle=model_line_style[method],
+                #     color=model_color_dict[method],
+                # )
+
                 axs[i][j].plot(
                     x2_ls,
                     y2meanls,

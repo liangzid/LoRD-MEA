@@ -69,11 +69,14 @@ def load_text2sql_datals(tokenizer,
                          topk=5,
                          max_length=512,
                          is_test=0,
-                         openai_tmp_save_pth="./STEALED_PKLS/wmt_data_saveto_"):
+                         openai_tmp_save_pth="./STEALED_PKLS/wmt_data_saveto_",
+                         tokenizer_name=None,
+                         ):
 
     lm_tokenizer = tokenizer
 
-    V = lm_tokenizer.vocab_size
+    # V = lm_tokenizer.vocab_size
+    V = len(lm_tokenizer)
     tasks_we_used = [
         "wikisql",
         "spider",
@@ -93,7 +96,8 @@ def load_text2sql_datals(tokenizer,
             question = item["question"]
             table = item["table"]
             sql = item["sql"]["human_readable"]
-            text = f"Qestion: {question}\n\n Table: {table}."
+            # text = f"Qestion: {question}\n\n Table: {table}."
+            text = f"Qestion: {question}."
             inp_ls.append(text)
     elif task_name == tasks_we_used[1]:
         if is_test==1:
@@ -118,10 +122,37 @@ def load_text2sql_datals(tokenizer,
     for p in prompts:
         p_idxls.append(lm_tokenizer(p, return_tensors="pt").input_ids[0])
 
+    print("---------------------------------")
+    print(f"Tokenizer name: {tokenizer_name}")
+    print(f" Vocab size: {V}")
+    print("---------------------------------")
+
     if is_test==1:
-        openai_tmp_save_pth += f"T2SQLtask_{task_name}-trainNUM_{train_num}.pkl.test"
+        if tokenizer_name is None:
+            print(">>>> Using default tokenizer name file.")
+            openai_tmp_save_pth += f"T2SQLtask_{task_name}-trainNUM_{train_num}.pkl.test"
+        elif "opt" in tokenizer_name:
+            print(">>>> Using opt's tokenizer.")
+            openai_tmp_save_pth += f"T2SQLtask_{task_name}-trainNUM_{train_num}_opt.pkl.test"
+        elif "pythia" in tokenizer_name:
+            print(">>>> Using pythia's tokenizer.")
+            openai_tmp_save_pth += f"T2SQLtask_{task_name}-trainNUM_{train_num}_pythia.pkl.test"
+        else:
+            print(">>>> Using default tokenizer name file.")
+            openai_tmp_save_pth += f"T2SQLtask_{task_name}-trainNUM_{train_num}.pkl.test"
     else:
-        openai_tmp_save_pth += f"T2SQLtask_{task_name}-trainNUM_{train_num}.pkl"
+        if tokenizer_name is None:
+            print(">>>> Using default tokenizer name file.")
+            openai_tmp_save_pth += f"T2SQLtask_{task_name}-trainNUM_{train_num}.pkl"
+        elif "opt" in tokenizer_name:
+            print(">>>> Using opt's tokenizer.")
+            openai_tmp_save_pth += f"T2SQLtask_{task_name}-trainNUM_{train_num}_opt.pkl"
+        elif "pythia" in tokenizer_name:
+            print(">>>> Using pythia's tokenizer.")
+            openai_tmp_save_pth += f"T2SQLtask_{task_name}-trainNUM_{train_num}_pythia.pkl"
+        else:
+            print(">>>> Using default tokenizer name file.")
+            openai_tmp_save_pth += f"T2SQLtask_{task_name}-trainNUM_{train_num}.pkl"
 
     return commonly_used_openai_post_process(
         openai_tmp_save_pth,
