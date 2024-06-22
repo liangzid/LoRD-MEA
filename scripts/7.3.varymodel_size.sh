@@ -35,8 +35,8 @@ export task_ls=("wikisql" "spider")
 # export train_taskls=("vanilla" "LoRD-VI")
 # export train_taskls=("LoRD-VIII" "vanilla")
 # export train_taskls=("LoRD-VIII")
-export train_taskls=("LoRD-VI")
-# export train_taskls=("vanilla")
+# export train_taskls=("LoRD-VI")
+export train_taskls=("vanilla")
 
 export is_black_box=1
 export use_lora=1
@@ -44,7 +44,7 @@ export use_lora=1
 # export epoch=3
 # export period=3
 
-export epoch=1
+export epoch=2
 export period=1
 
 export sub_set_num=1

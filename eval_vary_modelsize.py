@@ -36,7 +36,7 @@ from wmt_process import eval_wmt, infer_wmt
 from qa_process import infer_qa, eval_qaacc
 
 
-def wmt_curve_trainNums():
+def wmt_curve_trainNums(overall_name="wmt16", taskls=["cs-en","de-en",]):
     method_ls = [
         "vanilla",
         # "LoRD-VIII",
@@ -67,10 +67,6 @@ def wmt_curve_trainNums():
         "LoRD-VI": "#f78fb3",
         # "google/gemma-2b": "#778beb",
     }
-    taskls = [
-        "cs-en",
-        "de-en",
-    ]
     train_times = [
         "1",
         # "2",
@@ -119,7 +115,8 @@ def wmt_curve_trainNums():
     rg_f1_dict = {}
     bl_1_dict = {}
 
-    infer_save_pth = "./vary_modelsize_overall_res_wmt16.json"
+    # infer_save_pth = "./vary_modelsize_overall_res_wmt16.json"
+    infer_save_pth = f"./vary_modelsize_overall_res_{overall_name}.json"
 
     if not os.path.exists(infer_save_pth):
         dir_p = "./wmt_0617_varymodelsize_dataset_res/"
@@ -328,15 +325,19 @@ def wmt_curve_trainNums():
     plt.subplots_adjust(bottom=0.33, top=0.85)
     # plt.show()
 
-    plt.savefig("./vary_modelsize_wmt16.pdf", pad_inches=0.1)
-    print("Save wmt16-varing trainnum experiments DONE.")
+    # plt.savefig("./vary_modelsize_wmt16.pdf", pad_inches=0.1)
+    # print("Save wmt16-varing trainnum experiments DONE.")
+    plt.savefig(f"./vary_modelsize_{overall_name}.pdf", pad_inches=0.1)
+    print(f"Save {overall_name}-varing trainnum experiments DONE.")
     pass
 
 
 ## running entry
 if __name__=="__main__":
     # main()
-    wmt_curve_trainNums()
+    # wmt_curve_trainNums()
+    wmt_curve_trainNums(overall_name="t2s",
+                        taskls=["wikisql","spider",])
     print("EVERYTHING DONE.")
 
 
