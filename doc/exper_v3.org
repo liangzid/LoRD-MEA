@@ -579,7 +579,6 @@ CLOSED: [2024-06-11 Tue 09:49]
 |-----|------:|----------------|-----:|-----------|-----:|---|-----:|
 |gsm8k|      3|strict-match    |     5|exact_match|0.7293|±  |0.0122|
 |     |       |flexible-extract|     5|exact_match|0.7422|±  |0.0120|
-*** 
 ** SHORT-TEXT [Llama2-13B]
 *** DONE Pretrained
 CLOSED: [2024-06-13 Thu 07:32]
@@ -1433,7 +1432,7 @@ CLOSED: [2024-06-18 Tue 09:03]
 |-------+---------+------------------+--------+-------------+--------+---+--------|
 | gsm8k |       3 | strict-match     |      5 | exact_match | 0.0000 | ± | 0.0000 |
 |       |         | flexible-extract |      5 | exact_match | 0.0076 | ± | 0.0024 |
-*** DONE LoRD
+*** DONE LoRD-VIII
 CLOSED: [2024-06-18 Tue 09:09]
 
 |    Tasks    |Version|Filter|n-shot| Metric |Value |   |Stderr|
@@ -1721,6 +1720,66 @@ CLOSED: [2024-06-20 Thu 16:30]
 | gsm8k |       3 | strict-match     |      5 | exact_match | 0.0000 | ± | 0.0000 |
 |       |         | flexible-extract |      5 | exact_match | 0.0038 | ± | 0.0017 |
 
+*** TODO LoRD-IX
+|    Tasks    |Version|Filter|n-shot| Metric |Value |   |Stderr|
+|-------------|------:|------|-----:|--------|-----:|---|-----:|
+|arc_challenge|      1|none  |    25|acc     |0.2218|±  |0.0121|
+|             |       |none  |    25|acc_norm|0.2611|±  |0.0128|
+
+|  Tasks  |Version|Filter|n-shot| Metric |Value |   |Stderr|
+|---------|------:|------|-----:|--------|-----:|---|-----:|
+|hellaswag|      1|none  |    10|acc     |0.2668|±  |0.0044|
+|         |       |none  |    10|acc_norm|0.2754|±  |0.0045|
+
+|      Tasks      |Version|Filter|n-shot|  Metric   | Value |   |Stderr|
+|-----------------|-------|------|-----:|-----------|------:|---|-----:|
+|truthfulqa       |N/A    |none  |     0|bleu_diff  | 0.0176|±  |0.0162|
+|                 |       |none  |     0|rougeL_acc | 0.2925|±  |0.0159|
+|                 |       |none  |     0|rouge1_acc | 0.3097|±  |0.0162|
+|                 |       |none  |     0|rouge2_diff| 0.0765|±  |0.0395|
+|                 |       |none  |     0|rougeL_diff|-0.0372|±  |0.0655|
+|                 |       |none  |     0|rouge2_acc | 0.1200|±  |0.0114|
+|                 |       |none  |     0|bleu_acc   | 0.2362|±  |0.0149|
+|                 |       |none  |     0|rouge1_max | 2.1261|±  |0.1086|
+|                 |       |none  |     0|rouge2_max | 0.4939|±  |0.0428|
+|                 |       |none  |     0|rouge1_diff|-0.0475|±  |0.0684|
+|                 |       |none  |     0|acc        | 0.3831|±  |0.0113|
+|                 |       |none  |     0|rougeL_max | 1.9603|±  |0.0837|
+|                 |       |none  |     0|bleu_max   | 0.3391|±  |0.0271|
+| - truthfulqa_gen|      3|none  |     0|bleu_max   | 0.3391|±  |0.0271|
+|                 |       |none  |     0|bleu_acc   | 0.2362|±  |0.0149|
+|                 |       |none  |     0|bleu_diff  | 0.0176|±  |0.0162|
+|                 |       |none  |     0|rouge1_max | 2.1261|±  |0.1086|
+|                 |       |none  |     0|rouge1_acc | 0.3097|±  |0.0162|
+|                 |       |none  |     0|rouge1_diff|-0.0475|±  |0.0684|
+|                 |       |none  |     0|rouge2_max | 0.4939|±  |0.0428|
+|                 |       |none  |     0|rouge2_acc | 0.1200|±  |0.0114|
+|                 |       |none  |     0|rouge2_diff| 0.0765|±  |0.0395|
+|                 |       |none  |     0|rougeL_max | 1.9603|±  |0.0837|
+|                 |       |none  |     0|rougeL_acc | 0.2925|±  |0.0159|
+|                 |       |none  |     0|rougeL_diff|-0.0372|±  |0.0655|
+| - truthfulqa_mc1|      2|none  |     0|acc        | 0.2693|±  |0.0155|
+| - truthfulqa_mc2|      2|none  |     0|acc        | 0.4970|±  |0.0164|
+
+|  Groups  |Version|Filter|n-shot|  Metric   | Value |   |Stderr|
+|----------|-------|------|-----:|-----------|------:|---|-----:|
+|truthfulqa|N/A    |none  |     0|bleu_diff  | 0.0176|±  |0.0162|
+|          |       |none  |     0|rougeL_acc | 0.2925|±  |0.0159|
+|          |       |none  |     0|rouge1_acc | 0.3097|±  |0.0162|
+|          |       |none  |     0|rouge2_diff| 0.0765|±  |0.0395|
+|          |       |none  |     0|rougeL_diff|-0.0372|±  |0.0655|
+|          |       |none  |     0|rouge2_acc | 0.1200|±  |0.0114|
+|          |       |none  |     0|bleu_acc   | 0.2362|±  |0.0149|
+|          |       |none  |     0|rouge1_max | 2.1261|±  |0.1086|
+|          |       |none  |     0|rouge2_max | 0.4939|±  |0.0428|
+|          |       |none  |     0|rouge1_diff|-0.0475|±  |0.0684|
+|          |       |none  |     0|acc        | 0.3831|±  |0.0113|
+|          |       |none  |     0|rougeL_max | 1.9603|±  |0.0837|
+|          |       |none  |     0|bleu_max   | 0.3391|±  |0.0271|
+
+|  Tasks   |Version|Filter|n-shot|Metric|Value |   |Stderr|
+|----------|------:|------|-----:|------|-----:|---|-----:|
+|winogrande|      1|none  |     5|acc   |0.5185|±  | 0.014|
 
 *** DONE vanilla
 CLOSED: [2024-06-20 Thu 16:24]
