@@ -336,8 +336,12 @@ def wmt_curve_trainNums(overall_name="wmt16", taskls=["cs-en","de-en",]):
 if __name__=="__main__":
     # main()
     # wmt_curve_trainNums()
-    wmt_curve_trainNums(overall_name="t2s",
-                        taskls=["wikisql","spider",])
+
+    # wmt_curve_trainNums(overall_name="t2s",
+    #                     taskls=["wikisql","spider",])
+
+    wmt_curve_trainNums(overall_name="mix",
+                        taskls=["wikisql","de-en",])
     print("EVERYTHING DONE.")
 
 

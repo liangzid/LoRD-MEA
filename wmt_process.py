@@ -890,7 +890,8 @@ def eval_varying_modelsize():
     taskls = [
         "cs-en",
         "de-en",
-        # "fi-en",
+        # "ru-en",
+        "fi-en",
         ]
     mls = [
         "vanilla",

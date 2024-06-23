@@ -37,7 +37,7 @@ length=${#model_ckpts[@]}
 
 # echo "sleep 3 hours Now."
 # # sleep 10800
-# sleep 3600
+# sleep 1800
 # echo "sleep DONE."
 
 export model_ckpts=("facebook/opt-350m" "facebook/opt-1.3b" "facebook/opt-2.7b" "facebook/opt-6.7b" "facebook/opt-13b" )
@@ -69,6 +69,7 @@ done
 # echo "sleep DONE."
 
 # $python "${root_dir}wmt_process.py"
+# $python "${root_dir}text2sql_process.py"
 
 # rm "${root_dir}vary_modelsize_overall_res_wmt16.json"
 # $python "${root_dir}eval_vary_modelsize.py"

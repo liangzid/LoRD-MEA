@@ -19,7 +19,9 @@ if __name__ == "__main__":
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,2,7"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,6,7"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "3,7"
-    os.environ["CUDA_VISIBLE_DEVICES"] = "5,6,7"
+    # os.environ["CUDA_VISIBLE_DEVICES"] = "5,6,7"
+    # os.environ["CUDA_VISIBLE_DEVICES"] = "5"
+    os.environ["CUDA_VISIBLE_DEVICES"] = ""
     os.environ["TORCH_USE_CUDA_DSA"]="1"
 
 import torch
@@ -273,16 +275,19 @@ def infer_t2s(modelname, task_name, res_pth,
             inps, summary=d
             final_inps = "Instruction: " + pp +\
                 " User: "+inps+" Assistant: "
-            inps_idx=tokenizer.encode(final_inps,max_length=512,
+            inps_idx=tokenizer.encode(final_inps,max_length=128,
                                       padding="longest",
                                       return_tensors="pt")
 
             # print(inps_idx)
-            inps_idx=inps_idx.to("cuda:0")
-            res = model.generate(inps_idx,
-                                 max_new_tokens=mnt,)
-            # print(res)
-            res=tokenizer.decode(res[0])
+            try:
+                inps_idx=inps_idx.to("cuda:0")
+                res = model.generate(inps_idx,
+                                    max_new_tokens=mnt,)
+                # print(res)
+                res=tokenizer.decode(res[0])
+            except:
+                res="."
             if final_inps in res:
                 res = res.split(final_inps)[1]
             elif "Assistant: " in res:
@@ -432,7 +437,7 @@ def eval_varying_train_num():
 def eval_varying_modelsize():
     taskls = [
         "wikisql",
-        "spider",
+        # "spider",
         ]
     mls = [
         "vanilla",
@@ -451,9 +456,9 @@ def eval_varying_modelsize():
         ]
     train_nums = [
         # "8",
-        # "16",
+        "16",
         # "32",
-        "64",
+        # "64",
         # "128",
         # "256",
         # "512",
