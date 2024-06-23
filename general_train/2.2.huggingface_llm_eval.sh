@@ -30,7 +30,8 @@ export train_task="LoRD-VI"
 # export ckpt_ls=("${POD_save_dir}NewTemperatureNewTau13BvanillaNewLoss___finally")
 # export ckpt_ls=("${POD_save_dir}NewTemperatureNewTau13BLoRD-VIINewLoss___period500" "${POD_save_dir}NewTemperatureNewTau13BvanillaNewLoss___finally")
 # export ckpt_ls=("${POD_save_dir}NewTemperatureNewTau22BLoRD-VIIINewLoss___period500")
-export ckpt_ls=("${POD_save_dir}NewTemperatureNewTau22BLoRD-IXNewLoss___period500")
+# export ckpt_ls=("${POD_save_dir}NewTemperatureNewTau22BLoRD-IXNewLoss___period500")
+export ckpt_ls=("${POD_save_dir}NewTemperatureNewTau8BLoRD-IXNewLoss___period500")
 # export ckpt_ls=("${POD_save_dir}NewTemperatureNewTau22BvanillaNewLoss___finally" "${POD_save_dir}NewTemperatureNewTau22BLoRD-VIIINewLoss___period500")
 
 for fmp in ${ckpt_ls[*]}
@@ -76,7 +77,7 @@ $eval --model hf \
     --tasks ${evaltasks}\
     --num_fewshot=${fewshot_number}\
     --device cuda\
-    --batch_size auto:5
+    --batch_size auto:6
 
 export evaltasks=winogrande
 export fewshot_number=5
