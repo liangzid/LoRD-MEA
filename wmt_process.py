@@ -322,6 +322,7 @@ def commonly_used_openai_post_process(
                                    ).input_ids[0][0]
 
             idx2 = p_idxls[iii_bgn].tolist()
+            # print(f"p_idx: {p_idxls[iii_bgn][1:]}")
             logits_distr = torch.nn.functional.one_hot(
                 p_idxls[iii_bgn][1:],
                 num_classes=V,
@@ -889,12 +890,13 @@ def eval_varying_modelsize():
     taskls = [
         "cs-en",
         "de-en",
-        # "fi-en",
+        # "ru-en",
+        "fi-en",
         ]
     mls = [
         "vanilla",
         # "LoRD-VIII",
-        "LoRD-VIII",
+        "LoRD-VI",
         # "kd",
         # "LoRD-II",
         ]
@@ -908,9 +910,9 @@ def eval_varying_modelsize():
         ]
     train_nums = [
         # "8",
-        # "16",
+        "16",
         # "32",
-        "64",
+        # "64",
         # "128",
         # "256",
         # "512",
