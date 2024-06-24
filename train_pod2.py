@@ -904,9 +904,12 @@ def one_period(args, lm,
                 # print(f"mask11: {mask11}")
                 # print(f"mask12: {mask12}")
 
-                los2=-1*(torch.sum(logits2_cons*mask2[:,:-1])/torch.sum(mask2[:,:-1]))
-                loss11=-1*(torch.sum(logits11*mask11[:,:-1])/torch.sum(mask11[:,:-1]))
-                loss12=1*(torch.sum(logits12*mask12[:,:-1])/torch.sum(mask12[:,:-1]))
+                # los2=-1*(torch.sum(logits2_cons*mask2[:,:-1])/torch.sum(mask2[:,:-1]))
+                # loss11=-1*(torch.sum(logits11*mask11[:,:-1])/torch.sum(mask11[:,:-1]))
+                # loss12=1*(torch.sum(logits12*mask12[:,:-1])/torch.sum(mask12[:,:-1]))
+                los2=-1*torch.mean(logits2_cons)
+                loss11=-1*torch.mean(logits11)
+                loss12=1*torch.mean(logits12)
 
                 loss = los2+loss11+2*loss12
 
@@ -922,7 +925,8 @@ def one_period(args, lm,
                     # loss=sigmoid((los2+loss12)/loss11+(loss11+loss12)/los2)
                     loss=2*sigmoid(args.lambda1*(los2+loss12)/loss11+(1-args.lambda1)*(loss11+loss12)/los2)
                 elif method=="LoRD-IX":
-                    loss=2*sigmoid(args.lambda1*(los2+loss12)/(loss11.item())+(1-args.lambda1)*(loss11+loss12)/(los2.item()))
+                    # loss=2*sigmoid(args.lambda1*(los2+loss12)/(loss11.item())+(1-args.lambda1)*(loss11+loss12)/(los2.item()))
+                    loss=sigmoid(args.lambda1*(los2+loss12)*(-1*loss11)+(1-args.lambda1)*(loss11+loss12)*(-1*los2))
                 else:
                     loss=sigmoid(loss)
                     # loss=sigmoid(loss/loss12)
