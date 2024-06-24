@@ -579,7 +579,8 @@ CLOSED: [2024-06-11 Tue 09:49]
 |-----|------:|----------------|-----:|-----------|-----:|---|-----:|
 |gsm8k|      3|strict-match    |     5|exact_match|0.7293|±  |0.0122|
 |     |       |flexible-extract|     5|exact_match|0.7422|±  |0.0120|
-*** LoRD-IX
+*** CANCELED LoRD-IX
+CLOSED: [2024-06-24 Mon 08:34]
 ** SHORT-TEXT [Llama2-13B]
 *** DONE Pretrained
 CLOSED: [2024-06-13 Thu 07:32]
@@ -725,7 +726,8 @@ CLOSED: [2024-06-13 Thu 07:32]
 |-------+---------+------------------+--------+-------------+--------+---+--------|
 | gsm8k |       3 | strict-match     |      5 | exact_match | 0.3465 | ± | 0.0131 |
 |       |         | flexible-extract |      5 | exact_match | 0.3548 | ± | 0.0132 |
-*** Pre-trained (NEW)
+*** DONE Pre-trained (NEW)
+CLOSED: [2024-06-24 Mon 08:34]
 
 |    Tasks    |Version|Filter|n-shot| Metric |Value |   |Stderr|
 |-------------|------:|------|-----:|--------|-----:|---|-----:|
