@@ -889,7 +889,7 @@ def eval_varying_train_num():
 def eval_varying_modelsize():
     taskls = [
         # "cs-en",
-        # "de-en",
+        "de-en",
         "ru-en",
         # "fi-en",
         ]

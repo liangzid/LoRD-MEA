@@ -30,6 +30,7 @@ export msl=140
 # export task_ls=("cs-en")
 # export task_ls=("de-en")
 # export task_ls=("cs-en" "de-en")
+# export task_ls=("de-en")
 export task_ls=("ru-en")
 # export task_ls=("wikisql" "spider")
 # export train_taskls=("vanilla" "LoRD-VI")

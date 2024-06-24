@@ -224,11 +224,11 @@ def wmt_curve_trainNums(overall_name="wmt16", taskls=["cs-en","de-en",]):
     res_dict = {}
     for task in taskls:
         res_dict[task] = {}
+        res_dict[task]["BLEU"] = bl_1_dict[task]
+        res_dict[task]["Rouge-L F1"] = rg_f1_dict[task]
+        res_dict[task]["BERTScore F1"] = bs_f1_dict[task]
         res_dict[task]["BERTScore Precision"] = bs_p_dict[task]
         res_dict[task]["BERTScore Recall"] = bs_r_dict[task]
-        res_dict[task]["BERTScore F1"] = bs_f1_dict[task]
-        res_dict[task]["Rouge-L F1"] = rg_f1_dict[task]
-        res_dict[task]["BLEU"] = bl_1_dict[task]
 
     fig, axs = plt.subplots(2, 5, figsize=(26, 9.37))
 
