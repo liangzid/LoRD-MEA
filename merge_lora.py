@@ -16,7 +16,8 @@ This file is to merge LoRA with pretrained models.
 import os
 if __name__ == "__main__":
     # os.environ["CUDA_VISIBLE_DEVICES"] = "3,7"
-    os.environ["CUDA_VISIBLE_DEVICES"] = "5,6,7"
+    # os.environ["CUDA_VISIBLE_DEVICES"] = "5,6,7"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "1"
     os.environ["TORCH_USE_CUDA_DSA"]="1"
 
 import torch
@@ -38,12 +39,13 @@ import numpy as np
 
 def main():
     pretrained_p="meta-llama/Meta-Llama-3-8B-Instruct"
-    lora_p="./general_train/ckpts/boring_test/NewTemperatureLoRD-VIINewLoss___period1000/"
-    save_p="./general_train/ckpts/MERGED/llama38b-LoRD-Claude3short256/"
+    # lora_p="./general_train/ckpts/boring_test/NewTemperatureLoRD-VIINewLoss___period1000/"
+    lora_p="./general_train/ckpts/boring_test/NewTemperatureNewTau8BvanillaNewLoss___finally/"
+    save_p="./general_train/ckpts/MERGED/llama38b-vanilla-Claude3short256/"
     upload_p="liangzid/llama38b-LoRD-Claude3short256"
 
-    # mergelora(pretrained_p,lora_p,save_p,)
-    uploadmodel(save_p, upload_p,)
+    mergelora(pretrained_p,lora_p,save_p,)
+    # uploadmodel(save_p, upload_p,)
 
 def mergelora(pretrained_p,
               lora_p,
@@ -64,17 +66,17 @@ def mergelora(pretrained_p,
     tokenizer.save_pretrained(save_p)
     print("TOKENIZER AND THE MODEL SAVED DONE.")
 
-def uploadmodel(model_p,upload_p):
+# def uploadmodel(model_p,upload_p):
 
-    print("First valid the model loading...")
+#     print("First valid the model loading...")
 
-    from transformers import AutoConfig, AutoModel, AutoTokenizer
-    config = AutoConfig.from_pretrained(
-        model_p, revision=revision)
-    model = AutoModel.from_pretrained(
-        model_p, revision=revision)
-    tokenizer = AutoTokenizer.from_pretrained(
-        model_p, revision=revision)
+#     from transformers import AutoConfig, AutoModel, AutoTokenizer
+#     config = AutoConfig.from_pretrained(
+#         model_p, revision=revision)
+#     model = AutoModel.from_pretrained(
+#         model_p, revision=revision)
+#     tokenizer = AutoTokenizer.from_pretrained(
+#         model_p, revision=revision)
 
 
 ## running entry

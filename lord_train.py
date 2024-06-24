@@ -677,6 +677,7 @@ def main():
         "liangzid/claude3_chat3.3k",
         "liangzid/claude3_short256",
         "teknium/GPT4-LLM-Cleaned",
+        "BAAI/Infinity-Instruct",
     ]
 
     tasks_supported = tasks_glue.copy()

@@ -34,7 +34,8 @@ export task_ls=("liangzid/claude3_short256")
 # export epoch=2
 # export train_taskls=("LoRD-VII" "LoRD-VI")
 # export train_taskls=("LoRD-VIII")
-export train_taskls=("LoRD-IX")
+# export train_taskls=("LoRD-VIII")
+export train_taskls=("LoRD-VII" "LoRD-VI")
 # export train_taskls=("vanilla")
 
 export epoch=1
