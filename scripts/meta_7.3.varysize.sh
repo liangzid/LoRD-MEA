@@ -25,24 +25,6 @@ export cudals=(0 1 2 3 4 5 6)
 
 length=${#model_ckpts[@]}
 
-# for (( i=0; i<$length; i++ )); do
-#     export model_ckpt=${model_ckpts[$i]}
-#     export cudanum=${cudals[$i]}
-#     export ckpt_part=$(echo "${model_ckpt}" | cut -d'/' -f2)
-#     echo "cuda: $cudanum"
-
-# # nohup bash ${root_dir}/scripts/7.3.varymodel_size.sh ${model_ckpt} ${cudanum} > "0617--TrainVaryingModelSize${ckpt_part}${cudanum}.log" &
-#     nohup bash ${root_dir}/scripts/7.3.varymodel_size.sh ${model_ckpt} ${cudanum} > "0620--TrainVaryingModelSize${ckpt_part}${cudanum}.log" &
-# done
-
-# echo "sleep 3 hours Now."
-# # sleep 10800
-# sleep 1800
-# echo "sleep DONE."
-
-export model_ckpts=("facebook/opt-350m" "facebook/opt-1.3b" "facebook/opt-2.7b" "facebook/opt-6.7b" "facebook/opt-13b" )
-length=${#model_ckpts[@]}
-
 for (( i=0; i<$length; i++ )); do
     export model_ckpt=${model_ckpts[$i]}
     export cudanum=${cudals[$i]}
@@ -50,9 +32,27 @@ for (( i=0; i<$length; i++ )); do
     echo "cuda: $cudanum"
 
 # nohup bash ${root_dir}/scripts/7.3.varymodel_size.sh ${model_ckpt} ${cudanum} > "0617--TrainVaryingModelSize${ckpt_part}${cudanum}.log" &
-    nohup bash ${root_dir}/scripts/7.3.varymodel_size.sh ${model_ckpt} ${cudanum} > "0619--TrainVaryingModelSize${ckpt_part}${cudanum}.log" &
-
+    nohup bash ${root_dir}/scripts/7.3.varymodel_size.sh ${model_ckpt} ${cudanum} > "0620--TrainVaryingModelSize${ckpt_part}${cudanum}.log" &
 done
+
+# echo "sleep 3 hours Now."
+# # sleep 10800
+# sleep 1800
+# echo "sleep DONE."
+
+# export model_ckpts=("facebook/opt-350m" "facebook/opt-1.3b" "facebook/opt-2.7b" "facebook/opt-6.7b" "facebook/opt-13b" )
+# length=${#model_ckpts[@]}
+
+# for (( i=0; i<$length; i++ )); do
+#     export model_ckpt=${model_ckpts[$i]}
+#     export cudanum=${cudals[$i]}
+#     export ckpt_part=$(echo "${model_ckpt}" | cut -d'/' -f2)
+#     echo "cuda: $cudanum"
+
+# # nohup bash ${root_dir}/scripts/7.3.varymodel_size.sh ${model_ckpt} ${cudanum} > "0617--TrainVaryingModelSize${ckpt_part}${cudanum}.log" &
+#     nohup bash ${root_dir}/scripts/7.3.varymodel_size.sh ${model_ckpt} ${cudanum} > "0619--TrainVaryingModelSize${ckpt_part}${cudanum}.log" &
+
+# done
 
 
 # bash ${root_dir}/scripts/7.2.varytrainnum__wmt.sh 256 5 > "0615--trainvaryingtrainnum${trainnum}${cudanum}.log"

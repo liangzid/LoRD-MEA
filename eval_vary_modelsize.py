@@ -341,7 +341,7 @@ if __name__=="__main__":
     #                     taskls=["wikisql","spider",])
 
     wmt_curve_trainNums(overall_name="mix",
-                        taskls=["wikisql","de-en",])
+                        taskls=["ru-en","de-en",])
     print("EVERYTHING DONE.")
 
 
