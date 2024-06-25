@@ -31,13 +31,13 @@ export msl=140
 # export task_ls=("de-en")
 # export task_ls=("cs-en" "de-en")
 # export task_ls=("de-en")
-export task_ls=("ru-en")
+export task_ls=("ru-en" "de-en")
 # export task_ls=("wikisql" "spider")
 # export train_taskls=("vanilla" "LoRD-VI")
 # export train_taskls=("LoRD-VIII" "vanilla")
 # export train_taskls=("LoRD-VIII")
-export train_taskls=("LoRD-VI")
-# export train_taskls=("vanilla")
+# export train_taskls=("LoRD-VI")
+export train_taskls=("LoRD-VI" "vanilla")
 
 export is_black_box=1
 export use_lora=1

@@ -923,6 +923,7 @@ def eval_varying_modelsize():
         "EleutherAI/pythia-2.8b",
         "EleutherAI/pythia-6.9b",
 
+        "facebook/opt-125m",
         "facebook/opt-350m",
         "facebook/opt-1.3b",
         "facebook/opt-2.7b",

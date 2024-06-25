@@ -40,7 +40,7 @@ length=${#model_ckpts[@]}
 # sleep 1800
 # echo "sleep DONE."
 
-# export model_ckpts=("facebook/opt-350m" "facebook/opt-1.3b" "facebook/opt-2.7b" "facebook/opt-6.7b" "facebook/opt-13b" )
+# export model_ckpts=("facebook/opt-125m" "facebook/opt-350m" "facebook/opt-1.3b" "facebook/opt-2.7b" "facebook/opt-6.7b" "facebook/opt-13b" "facebook/opt-30b" "facebook.opt-66b")
 # export model_ckpts=("facebook/opt-6.7b" "facebook/opt-13b" )
 # length=${#model_ckpts[@]}
 
@@ -56,7 +56,7 @@ length=${#model_ckpts[@]}
 # done
 
 
-bash ${root_dir}/scripts/7.3.varymodel_size.sh "facebook/opt-1.3b" 2 
+bash ${root_dir}/scripts/7.3.varymodel_size.sh "facebook/opt-30b" 2 
 
 # bash ${root_dir}/scripts/7.2.varytrainnum__wmt.sh 512 5 > "0615--trainvaryingtrainnum${trainnum}${cudanum}.log"
 

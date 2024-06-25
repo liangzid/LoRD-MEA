@@ -84,6 +84,7 @@ def wmt_curve_trainNums(overall_name="wmt16", taskls=["cs-en","de-en",]):
         ]
 
     base2_pth_ls=[
+        "facebook/opt-125m",
         "facebook/opt-350m",
         "facebook/opt-1.3b",
         "facebook/opt-2.7b",
@@ -94,8 +95,9 @@ def wmt_curve_trainNums(overall_name="wmt16", taskls=["cs-en","de-en",]):
     base_pth_ls.extend(base2_pth_ls)
 
     x1_ls=[0.41,1.4,2.8,6.9,]
-    x2_ls=[0.35,1.3,2.7,6.7,13,]
-    xls=[0.3, 1.0, 2.5, 4.0, 6.5, 8.0, 9.5, 11.0, 12.5, 14.0]
+    x2_ls=[0.12,0.35,1.3,2.7,6.7,13,]
+    # xls=[0.3, 1.0, 2.5, 4.0, 6.5, 8.0, 9.5, 11.0, 12.5, 14.0]
+    xls=x2_ls
 
     a = 0.4
     lw = 1.7
@@ -272,6 +274,7 @@ def wmt_curve_trainNums(overall_name="wmt16", taskls=["cs-en","de-en",]):
                 #     color=model_color_dict[method],
                 # )
 
+                axs[i][j].set_xscale("log")
                 axs[i][j].plot(
                     x2_ls,
                     y2meanls,
@@ -341,7 +344,9 @@ if __name__=="__main__":
     #                     taskls=["wikisql","spider",])
 
     wmt_curve_trainNums(overall_name="mix",
-                        taskls=["ru-en","de-en",])
+                        # taskls=["ru-en","de-en",],
+                        taskls=["de-en","ru-en",],
+                        )
     print("EVERYTHING DONE.")
 
 

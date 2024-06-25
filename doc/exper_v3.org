@@ -298,6 +298,13 @@ CLOSED: [2024-06-12 Wed 09:43]
 |       |         | flexible-extract |      5 | exact_match | 0.7483 | ± |  0.012 |
 
 
+*** TODO Vanilla [Epoch 1]
+
+|    Tasks    |Version|Filter|n-shot| Metric |Value |   |Stderr|
+|-------------|------:|------|-----:|--------|-----:|---|-----:|
+|arc_challenge|      1|none  |    25|acc     |0.6007|±  |0.0143|
+|             |       |none  |    25|acc_norm|0.6459|±  |0.0140|
+
 *** DONE NewTemperatureNewTauLoRD-VIIINewLoss___period500
 CLOSED: [2024-06-11 Tue 09:49]
 shot: 25, batch_size: auto (16)
@@ -439,6 +446,8 @@ shot: 25, batch_size: auto (16)
 |-------+---------+------------------+--------+-------------+--------+---+--------|
 | gsm8k |       3 | strict-match     |      5 | exact_match | 0.7111 | ± | 0.0125 |
 |       |         | flexible-extract |      5 | exact_match | 0.7195 | ± | 0.0124 |
+
+
 *** CANCELED NewTemperatureNewLoss___period500
 CLOSED: [2024-06-11 Tue 09:49]
 
@@ -581,6 +590,45 @@ CLOSED: [2024-06-11 Tue 09:49]
 |     |       |flexible-extract|     5|exact_match|0.7422|±  |0.0120|
 *** CANCELED LoRD-IX
 CLOSED: [2024-06-24 Mon 08:34]
+*** DONE LoRD-VI
+CLOSED: [2024-06-25 Tue 14:33]
+
+| Tasks         | Version | Filter | n-shot | Metric   |  Value |   | Stderr |
+|---------------+---------+--------+--------+----------+--------+---+--------|
+| arc_challenge |       1 | none   |     25 | acc      | 0.5862 | ± | 0.0144 |
+|               |         | none   |     25 | acc_norm | 0.6399 | ± | 0.0140 |
+
+
+| Tasks     | Version | Filter | n-shot | Metric   |  Value |   | Stderr |
+|-----------+---------+--------+--------+----------+--------+---+--------|
+| hellaswag |       1 | none   |     10 | acc      | 0.5348 | ± | 0.0050 |
+|           |         | none   |     10 | acc_norm | 0.8127 | ± | 0.0039 |
+
+
+| Tasks | Version | Filter           | n-shot | Metric      |  Value |   | Stderr |
+|-------+---------+------------------+--------+-------------+--------+---+--------|
+| gsm8k |       3 | strict-match     |      5 | exact_match | 0.7202 | ± | 0.0124 |
+|       |         | flexible-extract |      5 | exact_match | 0.7263 | ± | 0.0123 |
+
+*** DONE LoRD-VII
+CLOSED: [2024-06-25 Tue 14:33]
+
+| Tasks         | Version | Filter | n-shot | Metric   |  Value |   | Stderr |
+|---------------+---------+--------+--------+----------+--------+---+--------|
+| arc_challenge |       1 | none   |     25 | acc      | 0.5947 | ± | 0.0143 |
+|               |         | none   |     25 | acc_norm | 0.6502 | ± | 0.0139 |
+
+|  Tasks  |Version|Filter|n-shot| Metric |Value |   |Stderr|
+|---------|------:|------|-----:|--------|-----:|---|-----:|
+|hellaswag|      1|none  |    10|acc     |0.5515|±  |0.0050|
+|         |       |none  |    10|acc_norm|0.8224|±  |0.0038|
+
+| Tasks | Version | Filter           | n-shot | Metric      |  Value |   | Stderr |
+|-------+---------+------------------+--------+-------------+--------+---+--------|
+| gsm8k |       3 | strict-match     |      5 | exact_match | 0.7180 | ± | 0.0124 |
+|       |         | flexible-extract |      5 | exact_match | 0.7301 | ± | 0.0122 |
+
+
 ** SHORT-TEXT [Llama2-13B]
 *** DONE Pretrained
 CLOSED: [2024-06-13 Thu 07:32]
