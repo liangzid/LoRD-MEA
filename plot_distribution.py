@@ -158,8 +158,8 @@ def visualize_heat(
         # ce_ckpt="./GLUE_ckpts/colavanilla256100___finally/",
         # kd_ckpt="./POD_SAVE_CKPTs/vary_period0306cs-en/kd_256cs-en_newkd___finally/",
 
-        lord_ckpt="./text2sql_ckpts/text2sqlspider161vanilla___finally/",
-        ce_ckpt="./text2sql_ckpts/text2sqlspider161LoRD-VI___period256/",
+        ce_ckpt="./text2sql_ckpts/text2sqlspider161vanilla___finally/",
+        lord_ckpt="./text2sql_ckpts/text2sqlspider161LoRD-VI___period256/",
         kd_ckpt=None,
         pretrained_model_pth="meta-llama/Meta-Llama-3-8B-Instruct",
         select_num=8,
@@ -309,6 +309,8 @@ def visualize_3d(
                             only_original=False,
                             using_test_set=using_test_set,
                             )
+    else:
+        print("INFO: NOT prepared for KD.")
 
     res_dict = OrderedDict({"Victim Model": origin_mat,
                             "Local Model": init_mat,
@@ -329,8 +331,8 @@ def visualize_3d(
 
     fs = 13
     ii = 0
-    for col in range(select_num):
-        for row in range(4):
+    for row in range(4):
+        for col in range(select_num):
             axs = fig.add_subplot(4, 8, ii+1, projection="3d")
             ii += 1
             s1, s2 = res_dict[xls[row]][col].shape
@@ -392,21 +394,39 @@ if __name__ == "__main__":
     #     pretrained_model_pth="meta-llama/Meta-Llama-3-8B-Instruct",
     #     select_num=8,
     #     train_num=16,
-    #     task_name="wikisql",
+    #     task_name="spider",
     #     save_path="distribute_heat_res_test.pdf",
     #     using_test_set=1,
     #     )
 
-    visualize_3d(
-        ce_ckpt="./text2sql_ckpts/text2sqlwikisql161vanilla___finally/",
-        lord_ckpt="./text2sql_ckpts/text2sqlwikisql161LoRD-VI___period256/",
+    # visualize_heat()
+
+    visualize_heat(
+        # lord_ckpt="./GLUE_ckpts/colaComplex-lord256100___period2/",
+        # ce_ckpt="./GLUE_ckpts/colavanilla256100___finally/",
+        # kd_ckpt="./POD_SAVE_CKPTs/vary_period0306cs-en/kd_256cs-en_newkd___finally/",
+
+        ce_ckpt="./text2sql_ckpts/text2sqlspider161vanilla___finally/",
+        lord_ckpt="./text2sql_ckpts/text2sqlspider161LoRD-VI___period256/",
         kd_ckpt=None,
         pretrained_model_pth="meta-llama/Meta-Llama-3-8B-Instruct",
         select_num=8,
         train_num=16,
-        task_name="wikisql",
+        task_name="spider",
         save_path="distribute_heat_res_test.pdf",
         using_test_set=1,
         )
+
+    # visualize_3d(
+    #     ce_ckpt="./text2sql_ckpts/text2sqlwikisql161vanilla___finally/",
+    #     lord_ckpt="./text2sql_ckpts/text2sqlwikisql161LoRD-VI___period256/",
+    #     kd_ckpt=None,
+    #     pretrained_model_pth="meta-llama/Meta-Llama-3-8B-Instruct",
+    #     select_num=8,
+    #     train_num=16,
+    #     task_name="wikisql",
+    #     save_path="distribute_3d_res.pdf",
+    #     using_test_set=1,
+    #     )
 
     # visualize_3d()
