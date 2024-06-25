@@ -208,7 +208,7 @@ def visualize_heat(
     #                       only_original=False,
     #                       )
 
-    res_dict = OrderedDict({"Victim model": origin_mat,
+    res_dict = OrderedDict({"Victim Model": origin_mat,
                             "Local Model": init_mat,
                             "LoRD": lord_mat,
                             "Cross-Entropy": ce_mat,
@@ -254,43 +254,67 @@ def visualize_heat(
 
 
 def visualize_3d(
-        lord_ckpt="./GLUE_ckpts/colaComplex-lord256100___period2/",
+        lord_ckpt="./text2sql_ckpts/text2sqlwikisql161vanilla___finally/",
         ce_ckpt="./GLUE_ckpts/colavanilla256100___finally/",
         # kd_ckpt="./GLUE_ckpts/colakd256100___finally/",
         kd_ckpt="./POD_SAVE_CKPTs/vary_period0306cs-en/kd_256cs-en_newkd___finally/",
+        pretrained_model_pth="meta-llama/Meta-Llama-3-8B-Instruct",
         select_num=8,
+        train_num=16,
+        task_name="spider",
         save_path="distribute_3d_res.pdf",
+        using_test_set=0,
 ):
 
-    origin_mat = get_dist_mat(ckpt_pth=lord_ckpt,
-                              task_name="cola",
+    origin_mat,_ = get_dist_mat(ckpt_pth=lord_ckpt,
+                              pretrained_model=pretrained_model_pth,
+                              task_name=task_name,
                               select_num=select_num,
-                              train_num=100,
+                              train_num=train_num,
                               only_original=True,
+                              using_test_set=using_test_set,
                               )
-    lord_mat = get_dist_mat(ckpt_pth=lord_ckpt,
-                            task_name="cola",
+    lord_mat,_ = get_dist_mat(ckpt_pth=lord_ckpt,
+                            pretrained_model=pretrained_model_pth,
+                            task_name=task_name,
                             select_num=select_num,
-                            train_num=100,
+                            train_num=train_num,
                             only_original=False,
+                            using_test_set=using_test_set,
                             )
-    ce_mat = get_dist_mat(ckpt_pth=ce_ckpt,
-                          task_name="cola",
+    ce_mat,_ = get_dist_mat(ckpt_pth=ce_ckpt,
+                          pretrained_model=pretrained_model_pth,
+                          task_name=task_name,
                           select_num=select_num,
-                          train_num=100,
+                          train_num=train_num,
                           only_original=False,
-                          )
-    kd_mat = get_dist_mat(ckpt_pth=kd_ckpt,
-                          task_name="cola",
-                          select_num=select_num,
-                          train_num=100,
-                          only_original=False,
+                          using_test_set=using_test_set,
                           )
 
-    res_dict = OrderedDict({"Victim model": origin_mat,
+    init_mat,_ = get_dist_mat(ckpt_pth=pretrained_model_pth,
+                          pretrained_model=None,
+                          task_name=task_name,
+                          select_num=select_num,
+                          train_num=train_num,
+                          only_original=False,
+                          using_test_set=using_test_set,
+                          )
+
+    if kd_ckpt is not None:
+        kd_mat,_ = get_dist_mat(ckpt_pth=kd_ckpt,
+                            pretrained_model=pretrained_model_pth,
+                            task_name=task_name,
+                            select_num=select_num,
+                            train_num=train_num,
+                            only_original=False,
+                            using_test_set=using_test_set,
+                            )
+
+    res_dict = OrderedDict({"Victim Model": origin_mat,
+                            "Local Model": init_mat,
                             "LoRD": lord_mat,
                             "Cross-Entropy": ce_mat,
-                            "Distillation": kd_mat,
+                            # "Distillation": kd_mat,
                             })
     with open("./3d_res.pkkl", 'wb') as f:
         pickle.dump(res_dict, f,)
@@ -361,9 +385,21 @@ if __name__ == "__main__":
     #     task_name="wikisql",
     #     save_path="distribute_heat_res.pdf",)
 
-    visualize_heat(
-        lord_ckpt="./text2sql_ckpts/text2sqlwikisql161vanilla___finally/",
-        ce_ckpt="./text2sql_ckpts/text2sqlwikisql161LoRD-VI___period256/",
+    # visualize_heat(
+    #     ce_ckpt="./text2sql_ckpts/text2sqlwikisql161vanilla___finally/",
+    #     lord_ckpt="./text2sql_ckpts/text2sqlwikisql161LoRD-VI___period256/",
+    #     kd_ckpt=None,
+    #     pretrained_model_pth="meta-llama/Meta-Llama-3-8B-Instruct",
+    #     select_num=8,
+    #     train_num=16,
+    #     task_name="wikisql",
+    #     save_path="distribute_heat_res_test.pdf",
+    #     using_test_set=1,
+    #     )
+
+    visualize_3d(
+        ce_ckpt="./text2sql_ckpts/text2sqlwikisql161vanilla___finally/",
+        lord_ckpt="./text2sql_ckpts/text2sqlwikisql161LoRD-VI___period256/",
         kd_ckpt=None,
         pretrained_model_pth="meta-llama/Meta-Llama-3-8B-Instruct",
         select_num=8,
