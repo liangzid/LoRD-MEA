@@ -7,6 +7,23 @@
 
 
 * General Train
+** Phi-3 MINI experiments
+
+|    Tasks    |Version|Filter|n-shot| Metric |Value |   |Stderr|
+|-------------|------:|------|-----:|--------|-----:|---|-----:|
+|arc_challenge|      1|none  |    25|acc     |0.6135|±  |0.0142|
+|             |       |none  |    25|acc_norm|0.6348|±  |0.0141|
+
+
+
+
+
+
+
+
+
+
+
 ** SHORT-TEXT [0609][on huggingface benchmark]
 *** DONE Pretrained llama3-8B
 CLOSED: [2024-06-11 Tue 19:55]

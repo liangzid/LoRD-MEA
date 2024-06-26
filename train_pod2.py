@@ -612,7 +612,7 @@ def train_pod(lm,
                     delta11=temppp
                 # if max(p11, p12) < tau1 or abs(p11-p12)<0.01:
                 # if delta11 < tau1:
-                if max(p11, p12) < tau1 and delta11<tau_delta and False:
+                if max(p11, p12) < tau1 and delta11<tau_delta:
                     print("RED:->BUT still use the VIC's labels.")
                     # print(f"shape of 11: {p_i_11_ls.shape}")
                     # print(f"shape of 2: {idx2ls.shape}")
@@ -927,7 +927,8 @@ def one_period(args, lm,
                 elif method=="LoRD-IX":
                     # loss=sigmoid(args.lambda1*(los2+loss12)*(-1*loss11)+(1-args.lambda1)*(loss11+loss12)*(-1*los2))
                     # loss=args.lambda1*(logits2_cons-logits12)*(-logits11)+(1-args.lambda1)*(logits11-logits12)*(-logits2_cons)
-                    loss=args.lambda1*log_clip(logits2_cons-logits12)*(-logits11)+(1-args.lambda1)*log_clip(logits11-logits12)*(-logits2_cons)
+                    # loss=args.lambda1*log_clip(logits2_cons-logits12)*(-logits11)+(1-args.lambda1)*log_clip(logits11-logits12)*(-logits2_cons)
+                    loss=args.lambda1*log_clip(logits2_cons-logits12)+(1-args.lambda1)*log_clip(logits11-logits12)
                     # loss=torch.mean(sigmoid(loss))
                     loss=torch.mean(loss)
                 else:
