@@ -305,6 +305,16 @@ CLOSED: [2024-06-12 Wed 09:43]
 |arc_challenge|      1|none  |    25|acc     |0.6007|±  |0.0143|
 |             |       |none  |    25|acc_norm|0.6459|±  |0.0140|
 
+|  Tasks  |Version|Filter|n-shot| Metric |Value |   |Stderr|
+|---------|------:|------|-----:|--------|-----:|---|-----:|
+|hellaswag|      1|none  |    10|acc     |0.5990|±  |0.0049|
+|         |       |none  |    10|acc_norm|0.8102|±  |0.0039|
+
+|Tasks|Version|     Filter     |n-shot|  Metric   |Value |   |Stderr|
+|-----|------:|----------------|-----:|-----------|-----:|---|-----:|
+|gsm8k|      3|strict-match    |     5|exact_match|0.7271|±  |0.0123|
+|     |       |flexible-extract|     5|exact_match|0.7286|±  |0.0122|
+
 *** DONE NewTemperatureNewTauLoRD-VIIINewLoss___period500
 CLOSED: [2024-06-11 Tue 09:49]
 shot: 25, batch_size: auto (16)
