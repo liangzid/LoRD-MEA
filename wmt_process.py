@@ -918,17 +918,17 @@ def eval_varying_modelsize():
         # "512",
         ]
     base_model_list=[
-        "EleutherAI/pythia-410m",
-        "EleutherAI/pythia-1.4b",
-        "EleutherAI/pythia-2.8b",
-        "EleutherAI/pythia-6.9b",
+        # "EleutherAI/pythia-410m",
+        # "EleutherAI/pythia-1.4b",
+        # "EleutherAI/pythia-2.8b",
+        # "EleutherAI/pythia-6.9b",
 
-        "facebook/opt-125m",
-        "facebook/opt-350m",
-        "facebook/opt-1.3b",
-        "facebook/opt-2.7b",
-        "facebook/opt-6.7b",
-        "facebook/opt-13b",
+        # "facebook/opt-125m",
+        # "facebook/opt-350m",
+        # "facebook/opt-1.3b",
+        # "facebook/opt-2.7b",
+        # "facebook/opt-6.7b",
+        # "facebook/opt-13b",
         "facebook/opt-30b",
         ]
     # base_model_name1="meta-llama/Meta-Llama-3-8B-Instruct"

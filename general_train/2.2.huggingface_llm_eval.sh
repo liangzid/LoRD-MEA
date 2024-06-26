@@ -32,7 +32,7 @@ export train_task="LoRD-VI"
 # export ckpt_ls=("${POD_save_dir}NewTemperatureNewTau22BLoRD-VIIINewLoss___period500")
 # export ckpt_ls=("${POD_save_dir}NewTemperatureNewTau22BLoRD-IXNewLoss___period500")
 # export ckpt_ls=("${POD_save_dir}NewTemperatureNewTau8BLoRD-VINewLoss___period500"  "${POD_save_dir}NewTemperatureNewTau8BLoRD-VIINewLoss___period500")
-export ckpt_ls=("${POD_save_dir}longtextLoRD-VI___period3000" "${POD_save_dir}longtextLoRD-VI___period6000" )
+export ckpt_ls=("${POD_save_dir}longtextLoRD-VI___period3000" "${POD_save_dir}longtextvanilla___finally" )
 # export ckpt_ls=("${POD_save_dir}NewTemperatureNewTau8BvanillaNewLoss___finally")
 # export ckpt_ls=("${POD_save_dir}NewTemperatureNewTau8BLoRD-VIINewLoss___period500")
 # export ckpt_ls=("${POD_save_dir}NewTemperatureNewTau22BvanillaNewLoss___finally" "${POD_save_dir}NewTemperatureNewTau22BLoRD-VIIINewLoss___period500")
@@ -165,6 +165,7 @@ done
 #     --device cuda\
 #     --batch_size auto
 
+$python ${root_dir}/wmt_process.py
 
 echo "RUNNING 2.2.huggingface_llm_eval.sh DONE."
 # 2.2.huggingface_llm_eval.sh ends here
