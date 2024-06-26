@@ -31,13 +31,14 @@ export train_task="LoRD-VI"
 # export ckpt_ls=("${POD_save_dir}NewTemperatureNewTau13BLoRD-VIINewLoss___period500" "${POD_save_dir}NewTemperatureNewTau13BvanillaNewLoss___finally")
 # export ckpt_ls=("${POD_save_dir}NewTemperatureNewTau22BLoRD-VIIINewLoss___period500")
 # export ckpt_ls=("${POD_save_dir}NewTemperatureNewTau22BLoRD-IXNewLoss___period500")
-export ckpt_ls=("${POD_save_dir}NewTemperatureNewTau8BLoRD-VINewLoss___period500"  "${POD_save_dir}NewTemperatureNewTau8BLoRD-VIINewLoss___period500")
+# export ckpt_ls=("${POD_save_dir}NewTemperatureNewTau8BLoRD-VINewLoss___period500"  "${POD_save_dir}NewTemperatureNewTau8BLoRD-VIINewLoss___period500")
+export ckpt_ls=("${POD_save_dir}longtextLoRD-VI___period3000" "${POD_save_dir}longtextLoRD-VI___period6000" )
+# export ckpt_ls=("${POD_save_dir}NewTemperatureNewTau8BvanillaNewLoss___finally")
 # export ckpt_ls=("${POD_save_dir}NewTemperatureNewTau8BLoRD-VIINewLoss___period500")
 # export ckpt_ls=("${POD_save_dir}NewTemperatureNewTau22BvanillaNewLoss___finally" "${POD_save_dir}NewTemperatureNewTau22BLoRD-VIIINewLoss___period500")
 
 for fmp in ${ckpt_ls[*]}
 do
-
 
 echo "================================================================"
 echo "EVALUATION MODEL: pretrained: ${pmp} lora: ${fmp}"

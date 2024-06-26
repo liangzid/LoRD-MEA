@@ -12,7 +12,7 @@ WMT dataset process scripts.
 
 import os
 if __name__ == "__main__":
-    os.environ["CUDA_VISIBLE_DEVICES"] = "5"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "1"
     os.environ["TORCH_USE_CUDA_DSA"]="1"
 
 from gen_pipeline_open import InferObj
@@ -929,6 +929,7 @@ def eval_varying_modelsize():
         "facebook/opt-2.7b",
         "facebook/opt-6.7b",
         "facebook/opt-13b",
+        "facebook/opt-30b",
         ]
     # base_model_name1="meta-llama/Meta-Llama-3-8B-Instruct"
 

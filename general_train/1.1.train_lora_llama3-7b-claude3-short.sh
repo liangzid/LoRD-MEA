@@ -35,8 +35,8 @@ export task_ls=("liangzid/claude3_short256")
 # export train_taskls=("LoRD-VII" "LoRD-VI")
 # export train_taskls=("LoRD-VIII")
 # export train_taskls=("LoRD-VIII")
-export train_taskls=("LoRD-VII" "LoRD-VI")
-# export train_taskls=("vanilla")
+# export train_taskls=("LoRD-VII" "LoRD-VI")
+export train_taskls=("vanilla")
 
 export epoch=1
 # export train_taskls=("LoRD-II")
@@ -161,7 +161,7 @@ echo "{{{{THEN WE TEST THE LONG TEXT TRAINING.}}}}"
 
 # bash ${root_dir}/general_train/1.2.train_longtext.sh
 
-bash ${root_dir}/general_train/2.2.huggingface_llm_eval.sh
+# bash ${root_dir}/general_train/2.2.huggingface_llm_eval.sh
 
 
 # $python ${root_dir}/watermark/watermark_detect.py
