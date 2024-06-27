@@ -8,14 +8,17 @@
 
 * General Train
 ** Phi-3 MINI experiments
-
+*** LoRD-VI
 |    Tasks    |Version|Filter|n-shot| Metric |Value |   |Stderr|
 |-------------|------:|------|-----:|--------|-----:|---|-----:|
 |arc_challenge|      1|none  |    25|acc     |0.6135|±  |0.0142|
 |             |       |none  |    25|acc_norm|0.6348|±  |0.0141|
-
-
-
+*** Vanilla
+|    Tasks    |Version|Filter|n-shot| Metric |Value |   |Stderr|
+|-------------|------:|------|-----:|--------|-----:|---|-----:|
+|arc_challenge|      1|none  |    25|acc     |0.6305|±  |0.0141|
+|             |       |none  |    25|acc_norm|0.6416|±  |0.0140|
+*** 
 
 
 
