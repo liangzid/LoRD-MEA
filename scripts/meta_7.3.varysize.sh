@@ -56,7 +56,8 @@ length=${#model_ckpts[@]}
 # done
 
 
-bash ${root_dir}/scripts/7.3.varymodel_size.sh "facebook/opt-30b" 1
+# bash ${root_dir}/scripts/7.3.varymodel_size.sh "facebook/opt-30b" 1
+bash ${root_dir}/scripts/7.3.varymodel_size.sh "facebook/opt-66b" 1
 
 # bash ${root_dir}/scripts/7.2.varytrainnum__wmt.sh 512 5 > "0615--trainvaryingtrainnum${trainnum}${cudanum}.log"
 
