@@ -724,7 +724,7 @@ def main():
         elif args.dataset_task in tasks_code:
             print(f"RUN code task: {args.dataset_task}")
             from code_process import load_code_datals
-            raw_train_datals = load_wmt_datals(
+            raw_train_datals = load_code_datals(
                 tokenizer,
                 task_name=args.dataset_task,
                 train_num=args.train_num,

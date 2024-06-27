@@ -16,7 +16,7 @@ if __name__ == "__main__":
     # os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,6,7"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "6,7"
-    os.environ["CUDA_VISIBLE_DEVICES"] = "3"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "1"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5"
     os.environ["TORCH_USE_CUDA_DSA"]="1"
 
@@ -60,6 +60,7 @@ def load_code_datals(tokenizer,
     tasks_we_used = [
         "deepmind/code_contests",
     ]
+    p=""
     assert task_name in tasks_we_used
     dataset_name = task_name
     inp_ls = []
@@ -114,6 +115,7 @@ def infer_code(modelname, task_name, res_pth,
 
     inp_ls = []
 
+    pp=""
     if task_name == tasks_we_used[0]:
         trainset_text = load_dataset(task_name,
                                      split=f"test")\
@@ -208,6 +210,7 @@ def eval_code(res_ls):
     ## note that here we need to add a evaluation comparison.
     # TODO!!!
     res_dict1=overall_metrics(hyps, refs)
+    return res_dict1
 
 def eval_varying_train_num():
     taskls = [
@@ -215,7 +218,7 @@ def eval_varying_train_num():
         ]
     mls = [
         "vanilla",
-        # "LoRD-VI",
+        "LoRD-VI",
         # "pretrained",
         # "gpt-3.5-turbo-1106",
         # "kd",
@@ -230,11 +233,16 @@ def eval_varying_train_num():
         ]
     train_nums = [
         "2",
-        # "16",
-        # "64",
-        # "128",
-        # "256",
-        # "512",
+        "4",
+        "8",
+        "16",
+        "32",
+        "64",
+        "128",
+        "256",
+        "512",
+        "1024",
+        "2048",
         ]
     base_model_name1="meta-llama/Meta-Llama-3-8B-Instruct"
 
