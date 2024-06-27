@@ -649,8 +649,12 @@ def main():
     tasks_qa = [
         "piqa",
         "truthful_qa",
-        "allenai/ai2_arc"
+        "allenai/ai2_arc",
     ]
+
+    tasks_code = [
+        "deepmind/code_contests",
+        ]
 
     tasks_data2text = [
         "e2e_nlg",
@@ -686,6 +690,7 @@ def main():
     tasks_supported.extend(tasks_qa)
     tasks_supported.extend(tasks_data2text)
     tasks_supported.extend(tasks_text2sql)
+    tasks_supported.extend(tasks_code)
     tasks_supported.extend(tasks_general)
     tasks_supported.append("wmt_mix")
     tasks_supported.extend(tasks_data2text_wrmk)
@@ -714,6 +719,21 @@ def main():
                     max_length=args.max_length
                 )
             else:
+                nonlabel_trainls = None
+
+        elif args.dataset_task in tasks_code:
+            print(f"RUN code task: {args.dataset_task}")
+            from code_process import load_code_datals
+            raw_train_datals = load_wmt_datals(
+                tokenizer,
+                task_name=args.dataset_task,
+                train_num=args.train_num,
+                max_length=args.max_length,
+                tokenizer_name=args.from_path,
+
+            )
+
+            if args.extra_nonlabel_data == 1:
                 nonlabel_trainls = None
 
         elif args.dataset_task in tasks_wmt16:
