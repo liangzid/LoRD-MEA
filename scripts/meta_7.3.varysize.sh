@@ -56,7 +56,8 @@ length=${#model_ckpts[@]}
 # done
 
 
-bash ${root_dir}/scripts/7.3.varymodel_size.sh "facebook/opt-30b" 1
+# bash ${root_dir}/scripts/7.3.varymodel_size.sh "facebook/opt-30b" 1
+bash ${root_dir}/scripts/7.3.varymodel_size.sh "facebook/opt-66b" 1
 
 # bash ${root_dir}/scripts/7.2.varytrainnum__wmt.sh 512 5 > "0615--trainvaryingtrainnum${trainnum}${cudanum}.log"
 
@@ -76,7 +77,7 @@ $python "${root_dir}wmt_process.py"
 # $python "${root_dir}eval_vary_modelsize.py"
 
 
-bash ${root_dir}/general_train/1.2.train_longtext.sh
+# bash ${root_dir}/general_train/1.2.train_longtext.sh
 
 echo "RUNNING meta_7.3.varysize.sh DONE."
 # meta_7.3.varysize.sh ends here

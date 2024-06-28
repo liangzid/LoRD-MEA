@@ -61,6 +61,7 @@ def load_sum_nonlabel(tokenizer,
         "UCL-DARK/openai-tldr-filtered",
         "cnn_dailymail",
         "samsum",
+        "knkarthick/dialogsum",
     ]
     assert task_name in tasks_we_used
     dataset_name = task_name
@@ -91,7 +92,14 @@ def load_sum_nonlabel(tokenizer,
 
         trainset_text = load_dataset(dataset_name,
                                      split=f"train[:{train_num}]")
-
+        for item in trainset_text:
+            post = item["dialogue"]
+            summary = item["summary"]
+            text = f"dialogue: {post}"
+            inp_ls.append(text)
+    elif task_name == tasks_we_used[3]:
+        trainset_text = load_dataset(dataset_name,
+                                     split=f"train[:{train_num}]")
         for item in trainset_text:
             post = item["dialogue"]
             summary = item["summary"]
@@ -124,6 +132,7 @@ def load_sum_datals(tokenizer,
         "UCL-DARK/openai-tldr-filtered",
         "cnn_dailymail",
         "samsum",
+        "knkarthick/dialogsum",
     ]
     assert task_name in tasks_we_used
     dataset_name = task_name
@@ -160,6 +169,15 @@ def load_sum_datals(tokenizer,
             summary = item["summary"]
             text = f"dialogue: {post}"
             inp_ls.append(text)
+    elif task_name == tasks_we_used[3]:
+        trainset_text = load_dataset(dataset_name,
+                                     split=f"train[:{train_num}]")
+        for item in trainset_text:
+            post = item["dialogue"]
+            summary = item["summary"]
+            text = f"dialogue: {post}"
+            inp_ls.append(text)
+
     assert inp_ls != []
 
     pp = "Please **summerize** the content given by user."
@@ -196,6 +214,7 @@ def infer_sum(modelname, task_name, res_pth,
         "UCL-DARK/openai-tldr-filtered",
         "cnn_dailymail",
         "samsum",
+        "knkarthick/dialogsum",
     ]
     assert task_name in tasks_we_used
 
@@ -203,6 +222,7 @@ def infer_sum(modelname, task_name, res_pth,
         "UCL-DARK/openai-tldr-filtered": 2048,
         "cnn_dailymail": 4096,
         "samsum": 2048,
+        "knkarthick/dialogsum":1024,
     }
 
     prompt = "Please **summerize** the content given by user."
@@ -250,6 +270,14 @@ def infer_sum(modelname, task_name, res_pth,
             summary = item["summary"]
             text = f"dialogue: {post}"
             inp_ls.append((text, summary))
+    elif task_name == tasks_we_used[3]:
+        trainset_text = load_dataset(dataset_name,
+                                     split=f"train[:{train_num}]")
+        for item in trainset_text:
+            post = item["dialogue"]
+            summary = item["summary"]
+            text = f"dialogue: {post}"
+            inp_ls.append(text)
     assert inp_ls != []
 
     res_ls = []
