@@ -68,14 +68,21 @@ def load_code_datals(tokenizer,
     inp_ls = []
     if task_name == tasks_we_used[0]:
         trainset_text = load_dataset(dataset_name,
-                                     split=f"train[:{train_num}]")
+                                     split=f"train")\
+            .shuffle(20240307)\
+            .to_iterable_dataset()
+
         for item in trainset_text:
             prompt = item["description"]
             tests = item["public_tests"]
+            if len(tests["input"])==0:
+                continue
             inp=tests["input"][0]
             outp=tests["output"][0]
             text = f"User: {prompt}.\nNow the input is: {inp}, What is the answer? Assistant: "
             inp_ls.append(text)
+            if len(inp_ls)>=train_num:
+                break
 
     assert inp_ls != []
 
