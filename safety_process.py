@@ -59,6 +59,7 @@ def load_safe_datals(tokenizer,
     V = lm_tokenizer.vocab_size
     tasks_we_used = [
         "allenai/prosocial-dialog",
+        "PKU-Alignment/PKU-SafeRLHF",
     ]
     assert task_name in tasks_we_used
     dataset_name = task_name
@@ -70,10 +71,24 @@ def load_safe_datals(tokenizer,
             inp = item["context"]
             resp = item["response"]
             inp_ls.append(inp)
+    elif task_name == tasks_we_used[1]:
+        trainset_text = load_dataset(dataset_name,
+                                     # split=f"train[:{train_num}]",
+                                     split=f"train",
+                                     ).shuffle(20240307)
+        for item in trainset_text:
+            inp = item["prompt"]
+            safe_label = item["is_response_1_safe"]
+            print(f"Safe Label: {safe_label}")
+            if safe_label==False:
+                inp_ls.append(inp)
+            if len(inp_ls)>=train_num:
+                break
 
     assert inp_ls != []
 
     p_idxls = []
+    prompts=[f"User: {x} Assistant: " for x in inp_ls]
     for p in prompts:
         p_idxls.append(lm_tokenizer(p, return_tensors="pt").input_ids[0])
 
@@ -92,88 +107,86 @@ def load_safe_datals(tokenizer,
     )
 
 
-def infer_safe(modelname, task_name, res_pth,
+def infer_safety(modelname, task_name, res_pth,
               test_set_take_num=100,
-              mnt=32,
+              mnt=16,
               base_model_name=None,
               ):
-
     save_pth = res_pth
 
     tasks_we_used = [
-        "allenai/prosocial-dialog",
+        # "allenai/prosocial-dialog",
+        "PKU-Alignment/PKU-SafeRLHF",
     ]
+
     assert task_name in tasks_we_used
+    dataset = load_dataset(task_name,
+                           task_name,
+                           split=f"test").shuffle(20240307)\
+        .to_iterable_dataset()\
+        .take(test_set_take_num)
+    sets = dataset
+    from_lang, to_lange = task_name.split("-")
 
-    task_seqlen_map = {
-        "allenai/prosocial-dialog":256,
-    }
-
-    inp_ls = []
-
-    if task_name == tasks_we_used[0]:
-        trainset_text = load_dataset(task_name,
-                                     split=f"test")\
-            .shuffle(20240307)\
-            .to_iterable_dataset()\
-            .take(test_set_take_num)
-        for item in trainset_text:
-            inp = item["context"]
-            resp = item["response"]
-            inp_ls.append((inp,resp))
-    assert inp_ls != []
-
-    res_ls = []
     if modelname=="gpt-3.5-turbo-1106":
         from training_data_collecting_openai import chatWithOpenAI_APIs
         res_ls=[]
-        for d in tqdm(inp_ls):
-            inps,summary = d
-            res=chatWithOpenAI_APIs(modelname, "", inps)
+        for d in tqdm(sets):
+            query=d["context"]
+            resp=d["response"]
+            res=chatWithOpenAI_APIs(modelname, "", query)
             print(f"Generated Text: {res}")
-            res_ls.append((res, summary))
+            res_ls.append((res,""))
     elif base_model_name is None:
-        model = InferObj(
-            model_name=modelname, device="auto",
-            max_length=task_seqlen_map[task_name],
-        )
+        model = InferObj(model_name=modelname,
+                     device="auto",
+                     max_length=2047,
+                     open_16_mode=True,)
         gen_pipeline = model.text_gen
+
         res_ls = []
-        for d in tqdm(inp_ls):
-            inps, summary = d
-            final_inps = f"User: {inps} Assistant: "
-            res = gen_pipeline(
-                final_inps,
-                max_new_tokens=mnt,
-            )[
-                0
-            ]["generated_text"]
+        pp = task_prompt_map[task_name]
+        for d in tqdm(sets,total=test_set_take_num):
+            d = d["context"]
+            final_inps = \
+                " User: "+d+" Assistant: "
+            res = gen_pipeline(final_inps,
+                            do_sample=True,
+                            max_new_tokens=mnt,
+                            )[0]["generated_text"]
+
+            print("++++++++++++++++++DEBUG INFO+++++++++++++++++++++++")
+            print(f">>>Res with Inpus: {res}")
             res = res.split(final_inps)[1]
-            print(f"Text Generated:>>> {res}")
-            res_ls.append((res, summary))
+            print(f">>>Res without Inpus: {res}")
+            res_ls.append((res, ""))
+            # break
     else:
         print("USING PEFT: BASE MODEL + LORA")
         # load model based on our idea
         model = AutoModelForCausalLM.from_pretrained(
             base_model_name,
             device_map="auto",
-            trust_remote_code=True,
+            # trust_remote_code=True,
             torch_dtype=torch.bfloat16,
         )
-        if modelname is not None:
-            model = PeftModel.from_pretrained(model, modelname)
+        model = PeftModel.from_pretrained(model, modelname)
         tokenizer = AutoTokenizer\
             .from_pretrained(base_model_name)
         tokenizer.pad_token = tokenizer.eos_token
         tokenizer.padding_side = "right"
 
         res_ls = []
-        for d in tqdm(inp_ls):
-            inps, summary = d
-            final_inps = f"User: {inps} Assistant: "
-            inps_idx=tokenizer.encode(final_inps,max_length=2048,
+        pp = task_prompt_map[task_name]
+        input_idxls=[]
+        for d in tqdm(sets,total=test_set_take_num):
+            d = d["context"]
+            final_inps = \
+                " User: "+d+" Assistant: "
+            inps_idx=tokenizer.encode(final_inps,max_length=128,
                                       padding="longest",
                                       return_tensors="pt")
+
             print(inps_idx)
             inps_idx=inps_idx.to("cuda")
             res = model.generate(inps_idx,
@@ -185,37 +198,33 @@ def infer_safe(modelname, task_name, res_pth,
             else:
                 res = res
             print(f"Text Generated:>>> {res}")
-            res_ls.append((res, summary))
-
+            res_ls.append((res, ""))
+        
     model = None
     gen_pipeline = None
     tokenizer = None
+
     with open(save_pth, 'w', encoding='utf8') as f:
         json.dump(res_ls, f, ensure_ascii=False, indent=4)
 
     return res_ls
 
-
-def eval_safe(res_ls):
-    from nlg_metric import overall_metrics
-    hyps, refs = zip(*res_ls)
-    ## note that here we need to add a evaluation comparison.
-    # TODO!!!
-    res_dict1=overall_metrics(hyps, refs)
-    return res_dict1
-
 def eval_varying_train_num():
+
+    print("LoAdInG Evaluation model...")
+    from safety.perspectiveAPI import PerspectiveAPI
+    eval_model=PerspectiveAPI()
+
     taskls = [
-        "deepmind/code_contests",
+        "PKU-Alignment/PKU-SafeRLHF",
         ]
     mls = [
         "vanilla",
-        # "LoRD-VI",
+        "LoRD-VI",
         # "pretrained",
         # "gpt-3.5-turbo-1106",
         # "kd",
         ]
-    # mls = ["vanilla", "kd", "google/gemma-2b", "Complex-lord",]
     train_times = [
         "1",
         # "2",
@@ -224,16 +233,21 @@ def eval_varying_train_num():
         # "5",
         ]
     train_nums = [
-        "2",
+        # "2",
+        # "4",
+        # "8",
         # "16",
-        # "64",
+        # "32",
+        "64",
         # "128",
         # "256",
         # "512",
+        # "1024",
+        # "2048",
         ]
     base_model_name1="meta-llama/Meta-Llama-3-8B-Instruct"
 
-    dir_p = "./code_0627_dataset_res/"
+    dir_p = "./safety_0627_dataset_res/"
     res_dict = {}
     if not os.path.exists(dir_p):
         os.makedirs(dir_p)
@@ -245,25 +259,25 @@ def eval_varying_train_num():
             for m in mls:
                 temp_scorels=[]
                 for itime in train_times:
-                    prefix = "./codee_ckpts/CODEEE"
+                    prefix = "./safety_ckpts/SAFETY"
                     if m=="vanilla":
                         ckpt = (
                             prefix
                             + f"{task}{train_num}{itime}{m}___finally/"
                         )
                     elif m =="pretrained":
-                        ckpt = f"./codee_ckpts/code---{task}{train_num}{itime}{m}_res.json"
+                        ckpt = f"./safety_ckpts/code---{task}{train_num}{itime}{m}_res.json"
                     elif m=="gpt-3.5-turbo-1106":
                         ckpt=m
                     else:
                         ckpt = prefix + \
                             f"{task}{train_num}{itime}{m}___period512/"
-                    res_pth = ckpt+f"___{task}_code_infer_res.json"
+                    res_pth = ckpt+f"___{task}_safety_infer_res.json"
                     res_pth = res_pth.replace("/", "__").replace(".", "")
 
                     if not os.path.exists(dir_p+res_pth):
                         if m=="pretrained":
-                            res_ls = infer_code(None,
+                            res_ls = infer_safety(None,
                                             task,
                                             dir_p+res_pth,
                                             test_set_take_num=500,
@@ -271,7 +285,7 @@ def eval_varying_train_num():
                                             base_model_name=base_model_name1,
                                             )
                         else:
-                            res_ls = infer_code(ckpt,
+                            res_ls = infer_safety(ckpt,
                                             task,
                                             dir_p+res_pth,
                                             test_set_take_num=500,
@@ -284,21 +298,18 @@ def eval_varying_train_num():
                             res_ls = json.load(
                                 f, object_pairs_hook=OrderedDict)
 
-                    scores = eval_sum(res_ls)
+                    score_mean_dict,score_dict_ls =\
+                        eval_model.eval_ls(res_ls)
                     print(task, ckpt)
-                    print(scores)
-                    res_dict[task+"-----"+res_pth] = scores
+                    print(score_mean_dict)
+                    res_dict[task+"-----"+res_pth] = score_mean_dict
+                    scores=score_mean_dict
                     score_ls=[
-                        scores["bleu"]["1"],
-                        scores["bleu"]["2"],
-                        scores["bleu"]["3"],
-                        scores["bleu"]["4"],
-                        scores["bertscore"]["p"],
-                        scores["bertscore"]["r"],
-                        scores["bertscore"]["f1"],
-                        scores["rouge-l"]["p"],
-                        scores["rouge-l"]["r"],
-                        scores["rouge-l"]["f1"],
+                        scores["toxicity"],
+                        scores["severe_toxicity"],
+                        scores["insult"],
+                        scores["profanity"],
+                        scores["threat"],
                         ]
                     temp_scorels.append(score_ls)
 
@@ -311,7 +322,7 @@ def eval_varying_train_num():
                     {"mean": meanvaluels,
                      "std": stdvaluels}
 
-    with open(dir_p+"Overall__code_varytrain_num_inference_scores.json",
+    with open(dir_p+"Overall__safety_varytrain_num_inference_scores.json",
               'w', encoding='utf8') as f:
         json.dump(res_dict, f, ensure_ascii=False, indent=4)
 
@@ -326,7 +337,6 @@ def eval_varying_train_num():
     print("------------------------------------------")
     pprint(res_dict_averaged)
     return res_dict
-
 
 # running entry
 if __name__ == "__main__":
