@@ -52,7 +52,9 @@ def load_code_datals(tokenizer,
                     model_name="gpt-3.5-turbo-1106",
                     topk=5,
                     max_length=1024,
-                    openai_tmp_save_pth="./STEALED_PKLS/wmt_data_saveto_"):
+                     openai_tmp_save_pth="./STEALED_PKLS/wmt_data_saveto_",
+                     tokenizer_name=None,
+                     ):
 
     lm_tokenizer = tokenizer
 
@@ -60,7 +62,7 @@ def load_code_datals(tokenizer,
     tasks_we_used = [
         "deepmind/code_contests",
     ]
-    p=""
+    pp=""
     assert task_name in tasks_we_used
     dataset_name = task_name
     inp_ls = []
@@ -78,6 +80,7 @@ def load_code_datals(tokenizer,
     assert inp_ls != []
 
     p_idxls = []
+    prompts=inp_ls
     for p in prompts:
         p_idxls.append(lm_tokenizer(p, return_tensors="pt").input_ids[0])
 

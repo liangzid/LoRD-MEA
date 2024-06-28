@@ -117,7 +117,10 @@ do
 done
 
 
-$python ${root_dir}code_process.py
+# $python ${root_dir}code_process.py
+
+
+# bash ${root_dir}scripts/meta_7.3.varysize.sh
 
 
 echo "RUNNING 6.7.code_train.sh DONE."

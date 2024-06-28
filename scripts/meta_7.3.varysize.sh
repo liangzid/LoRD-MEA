@@ -77,7 +77,7 @@ $python "${root_dir}wmt_process.py"
 # $python "${root_dir}eval_vary_modelsize.py"
 
 
-bash ${root_dir}/general_train/1.2.train_longtext.sh
+# bash ${root_dir}/general_train/1.2.train_longtext.sh
 
 echo "RUNNING meta_7.3.varysize.sh DONE."
 # meta_7.3.varysize.sh ends here
