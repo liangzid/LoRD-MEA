@@ -677,6 +677,10 @@ def main():
         "spider",
     ]
 
+    tasks_safety = [
+        "PKU-Alignment/PKU-SafeRLHF",
+        ]
+
     tasks_general = [
         "liangzid/claude3_chat3.3k",
         "liangzid/claude3_short256",
@@ -691,6 +695,7 @@ def main():
     tasks_supported.extend(tasks_data2text)
     tasks_supported.extend(tasks_text2sql)
     tasks_supported.extend(tasks_code)
+    tasks_supported.extend(tasks_safety)
     tasks_supported.extend(tasks_general)
     tasks_supported.append("wmt_mix")
     tasks_supported.extend(tasks_data2text_wrmk)
@@ -731,6 +736,20 @@ def main():
                 max_length=args.max_length,
                 tokenizer_name=args.from_path,
 
+            )
+
+            if args.extra_nonlabel_data == 1:
+                nonlabel_trainls = None
+
+        elif args.dataset_task in tasks_safety:
+            print(f"RUN safety task: {args.dataset_task}")
+            from safety_process import load_safety_datals
+            raw_train_datals = load_safety_datals(
+                tokenizer,
+                task_name=args.dataset_task,
+                train_num=args.train_num,
+                max_length=args.max_length,
+                tokenizer_name=args.from_path,
             )
 
             if args.extra_nonlabel_data == 1:

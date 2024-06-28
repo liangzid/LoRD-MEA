@@ -17,6 +17,7 @@ export root_dir="${HOME}/alignmentExtraction/"
 export POD_save_dir="${root_dir}/safety_ckpts/"
 export from_path="meta-llama/Meta-Llama-3-8B-Instruct"
 export TRAIN_NUMS=(64)
+# export TRAIN_NUMS=(2)
 # export TRAIN_NUMS=(2 4 8 16 32 64 128 256 512 1024 2048)
 # export train_times=(2 3 4 5)
 export train_times=(1)
@@ -110,9 +111,12 @@ do
     done
 done
 
-echo "Then Evaluating with P-API..."
+echo "Then Evaluating with P-API......"
 
 $python ${root_dir}safety_process.py
+
+echo "Code Related Inference Experiments......"
+$python ${root_dir}code_process.py
 
 echo "RUNNING 1.1.safety_eval.sh DONE."
 # 1.1.safety_eval.sh ends here

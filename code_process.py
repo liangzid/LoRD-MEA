@@ -252,7 +252,7 @@ def eval_varying_train_num():
         "256",
         "512",
         "1024",
-        "2048",
+        # "2048",
         ]
     base_model_name1="meta-llama/Meta-Llama-3-8B-Instruct"
 
@@ -307,7 +307,7 @@ def eval_varying_train_num():
                             res_ls = json.load(
                                 f, object_pairs_hook=OrderedDict)
 
-                    scores = eval_sum(res_ls)
+                    scores = eval_code(res_ls)
                     print(task, ckpt)
                     print(scores)
                     res_dict[task+"-----"+res_pth] = scores

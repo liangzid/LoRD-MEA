@@ -16,7 +16,7 @@ if __name__ == "__main__":
     # os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,6,7"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "6,7"
-    os.environ["CUDA_VISIBLE_DEVICES"] = "3"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "1"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5"
     os.environ["TORCH_USE_CUDA_DSA"]="1"
 
@@ -46,15 +46,17 @@ import torch
 from pprint import pprint
 import numpy as np
 
-def load_safe_datals(tokenizer,
+def load_safety_datals(tokenizer,
                     task_name="allenai/prosocial-dialog",
                     train_num=100,
                     model_name="gpt-3.5-turbo-1106",
                     topk=5,
                     max_length=1024,
-                    openai_tmp_save_pth="./STEALED_PKLS/wmt_data_saveto_"):
+                       openai_tmp_save_pth="./STEALED_PKLS/wmt_data_saveto_",
+                       tokenizer_name=None,):
 
     lm_tokenizer = tokenizer
+    pp=""
 
     V = lm_tokenizer.vocab_size
     tasks_we_used = [
@@ -121,12 +123,10 @@ def infer_safety(modelname, task_name, res_pth,
 
     assert task_name in tasks_we_used
     dataset = load_dataset(task_name,
-                           task_name,
                            split=f"test").shuffle(20240307)\
         .to_iterable_dataset()\
         .take(test_set_take_num)
     sets = dataset
-    from_lang, to_lange = task_name.split("-")
 
     if modelname=="gpt-3.5-turbo-1106":
         from training_data_collecting_openai import chatWithOpenAI_APIs
@@ -177,10 +177,10 @@ def infer_safety(modelname, task_name, res_pth,
         tokenizer.padding_side = "right"
 
         res_ls = []
-        pp = task_prompt_map[task_name]
+        pp = ""
         input_idxls=[]
         for d in tqdm(sets,total=test_set_take_num):
-            d = d["context"]
+            d = d["prompt"]
             final_inps = \
                 " User: "+d+" Assistant: "
             inps_idx=tokenizer.encode(final_inps,max_length=128,
