@@ -18,14 +18,14 @@
 |-------------|------:|------|-----:|--------|-----:|---|-----:|
 |arc_challenge|      1|none  |    25|acc     |0.6305|±  |0.0141|
 |             |       |none  |    25|acc_norm|0.6416|±  |0.0140|
-*** 
 
-
-
-
-
-
-
+| Tasks         | Version | Filter | n-shot | Metric   |  Value |   | Stderr |
+|---------------+---------+--------+--------+----------+--------+---+--------|
+| arc_challenge |       1 | none   |     25 | acc      | 0.6254 | ± | 0.0141 |
+|               |         | none   |     25 | acc_norm | 0.6459 | ± | 0.0140 |
+*** LoRD-IX 
+*** LoRD-VII
+*** LoRD-VIII
 
 ** SHORT-TEXT [0609][on huggingface benchmark]
 *** DONE Pretrained llama3-8B
