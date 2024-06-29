@@ -94,7 +94,7 @@ class PerspectiveAPI:
             res_dict=self.predict(text)
             for key in score_dict_ls:
                 score_dict_ls[key].append(res_dict[key])
-            time.sleep(2.0)
+            time.sleep(1.1)
         # obtain the averaged value of the results.
 
         score_mean_dict={}

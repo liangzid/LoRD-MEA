@@ -60,20 +60,21 @@ def load_safety_datals(tokenizer,
 
     V = lm_tokenizer.vocab_size
     tasks_we_used = [
-        "allenai/prosocial-dialog",
         "PKU-Alignment/PKU-SafeRLHF",
+        "thu-coai/diasafety",
+        "allenai/prosocial-dialog",
     ]
     assert task_name in tasks_we_used
     dataset_name = task_name
     inp_ls = []
-    if task_name == tasks_we_used[0]:
+    if task_name == tasks_we_used[2]:
         trainset_text = load_dataset(dataset_name,
                                      split=f"train[:{train_num}]")
         for item in trainset_text:
             inp = item["context"]
             resp = item["response"]
             inp_ls.append(inp)
-    elif task_name == tasks_we_used[1]:
+    elif task_name == tasks_we_used[0]:
         trainset_text = load_dataset(dataset_name,
                                      # split=f"train[:{train_num}]",
                                      split=f"train",
@@ -84,6 +85,16 @@ def load_safety_datals(tokenizer,
             print(f"Safe Label: {safe_label}")
             if safe_label==False:
                 inp_ls.append(inp)
+            if len(inp_ls)>=train_num:
+                break
+    elif task_name == tasks_we_used[1]:
+        trainset_text = load_dataset(dataset_name,
+                                     # split=f"train[:{train_num}]",
+                                     split=f"train",
+                                     ).shuffle(20240307)
+        for item in trainset_text:
+            inp = item["context"]
+            inp_ls.append(inp)
             if len(inp_ls)>=train_num:
                 break
 
@@ -117,23 +128,50 @@ def infer_safety(modelname, task_name, res_pth,
     save_pth = res_pth
 
     tasks_we_used = [
-        # "allenai/prosocial-dialog",
         "PKU-Alignment/PKU-SafeRLHF",
+        "thu-coai/diasafety",
+        # "allenai/prosocial-dialog",
     ]
 
     assert task_name in tasks_we_used
-    dataset = load_dataset(task_name,
-                           split=f"test").shuffle(20240307)\
-        .to_iterable_dataset()\
-        .take(test_set_take_num)
-    sets = dataset
+
+    if task_name == tasks_we_used[0]:
+        dataset = load_dataset(task_name,
+                            split=f"test").shuffle(20240307)\
+            .to_iterable_dataset()
+            # .take(test_set_take_num)
+        # sets = dataset
+        sets = []
+        for item in dataset:
+            if item["is_response_1_safe"]==False:
+                sets.append(item)
+            if len(sets) >= test_set_take_num:
+                break
+    elif task_name == tasks_we_used[1]:
+        dataset = load_dataset(task_name,
+                            split=f"test").shuffle(20240307)\
+            .to_iterable_dataset()
+            # .take(test_set_take_num)
+        # sets = dataset
+        sets = []
+        for item in dataset:
+            if item["label"]=="Unsafe":
+                sets.append(item)
+            if len(sets) >= test_set_take_num:
+                break
 
     if modelname=="gpt-3.5-turbo-1106":
         from training_data_collecting_openai import chatWithOpenAI_APIs
         res_ls=[]
         for d in tqdm(sets):
-            query=d["context"]
-            resp=d["response"]
+            if task_name == tasks_we_used[0]:
+                d = d["context"]
+            elif task_name == tasks_we_used[1]:
+                inp = d["context"]
+                out = d["response"]
+                category = d["category"]
+                label = d["label"]
+                d = inp
             res=chatWithOpenAI_APIs(modelname, "", query)
             print(f"Generated Text: {res}")
             res_ls.append((res,""))
@@ -147,7 +185,14 @@ def infer_safety(modelname, task_name, res_pth,
         res_ls = []
         pp = task_prompt_map[task_name]
         for d in tqdm(sets,total=test_set_take_num):
-            d = d["context"]
+            if task_name == tasks_we_used[0]:
+                d = d["context"]
+            elif task_name == tasks_we_used[1]:
+                inp = d["context"]
+                out = d["response"]
+                category = d["category"]
+                label = d["label"]
+                d = inp
             final_inps = \
                 " User: "+d+" Assistant: "
             res = gen_pipeline(final_inps,
@@ -180,7 +225,14 @@ def infer_safety(modelname, task_name, res_pth,
         pp = ""
         input_idxls=[]
         for d in tqdm(sets,total=test_set_take_num):
-            d = d["prompt"]
+            if task_name == tasks_we_used[0]:
+                d = d["context"]
+            elif task_name == tasks_we_used[1]:
+                inp = d["context"]
+                out = d["response"]
+                category = d["category"]
+                label = d["label"]
+                d = inp
             final_inps = \
                 " User: "+d+" Assistant: "
             inps_idx=tokenizer.encode(final_inps,max_length=128,
@@ -216,7 +268,8 @@ def eval_varying_train_num():
     eval_model=PerspectiveAPI()
 
     taskls = [
-        "PKU-Alignment/PKU-SafeRLHF",
+        # "PKU-Alignment/PKU-SafeRLHF",
+        "thu-coai/diasafety",
         ]
     mls = [
         "vanilla",

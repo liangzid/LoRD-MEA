@@ -22,7 +22,8 @@ export TRAIN_NUMS=(64)
 # export train_times=(2 3 4 5)
 export train_times=(1)
 export msl=256
-export task_ls=("PKU-Alignment/PKU-SafeRLHF")
+# export task_ls=("PKU-Alignment/PKU-SafeRLHF")
+export task_ls=("thu-coai/diasafety")
 export train_taskls=("vanilla" "LoRD-VI")
 # export train_taskls=("vanilla")
 # export train_taskls=("LoRD-VI")
@@ -115,8 +116,8 @@ echo "Then Evaluating with P-API......"
 
 $python ${root_dir}safety_process.py
 
-echo "Code Related Inference Experiments......"
-$python ${root_dir}code_process.py
+# echo "Code Related Inference Experiments......"
+# $python ${root_dir}code_process.py
 
 echo "RUNNING 1.1.safety_eval.sh DONE."
 # 1.1.safety_eval.sh ends here
