@@ -298,8 +298,9 @@ def eval_varying_train_num():
                             res_ls = json.load(
                                 f, object_pairs_hook=OrderedDict)
 
+                    query_ls,resls=zip(*res_ls)
                     score_mean_dict,score_dict_ls =\
-                        eval_model.eval_ls(res_ls)
+                        eval_model.eval_ls(query_ls)
                     print(task, ckpt)
                     print(score_mean_dict)
                     res_dict[task+"-----"+res_pth] = score_mean_dict
