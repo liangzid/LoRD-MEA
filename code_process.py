@@ -279,7 +279,14 @@ def eval_varying_train_num():
                     elif m=="gpt-3.5-turbo-1106":
                         ckpt=m
                     else:
-                        ckpt = prefix + \
+                        if train_num=="1024":
+                            ckpt = prefix + \
+                            f"{task}{train_num}{itime}{m}___period1024/"
+                        elif train_num=="2048":
+                            ckpt = prefix + \
+                            f"{task}{train_num}{itime}{m}___period2048/"
+                        else:
+                            ckpt = prefix + \
                             f"{task}{train_num}{itime}{m}___period512/"
                     res_pth = ckpt+f"___{task}_code_infer_res.json"
                     res_pth = res_pth.replace("/", "__").replace(".", "")
