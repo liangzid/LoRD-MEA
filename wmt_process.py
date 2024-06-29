@@ -67,8 +67,8 @@ def load_wmt_nonlabel(tokenizer,
 
     V = lm_tokenizer.vocab_size
     dataset_name = "wmt16"
-    trainset_text = load_dataset(dataset_name, task_name,
-                                 split=f"train[:{train_num}]")
+    # trainset_text = load_dataset(dataset_name, task_name,
+    #                              split=f"train[:{train_num}]")
     trainset_text = load_dataset(dataset_name, task_name,
                                  split=f"train")\
         .shuffle(20240306)\
@@ -130,8 +130,8 @@ def load_wmt_datals(tokenizer,
 
     V = lm_tokenizer.vocab_size
     dataset_name = "wmt16"
-    trainset_text = load_dataset(dataset_name, task_name,
-                                 split=f"train[:{train_num}]")
+    # trainset_text = load_dataset(dataset_name, task_name,
+    #                              split=f"train[:{train_num}]")
     trainset_text = load_dataset(dataset_name, task_name,
                                  split=f"train")\
         .shuffle(20240306)\
@@ -163,6 +163,8 @@ def load_wmt_datals(tokenizer,
             openai_tmp_save_pth += f"WMTtask_{task_name}-trainNUM_{train_num}_opt.pkl"
         elif "pythia" in tokenizer_name:
             openai_tmp_save_pth += f"WMTtask_{task_name}-trainNUM_{train_num}_pythia.pkl"
+        else:
+            openai_tmp_save_pth += f"WMTtask_{task_name}-trainNUM_{train_num}.pkl"
             
         return commonly_used_openai_post_process(
             openai_tmp_save_pth,
