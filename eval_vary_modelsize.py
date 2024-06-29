@@ -90,12 +90,13 @@ def wmt_curve_trainNums(overall_name="wmt16", taskls=["cs-en","de-en",]):
         "facebook/opt-2.7b",
         "facebook/opt-6.7b",
         "facebook/opt-13b",
+        "facebook/opt-30b",
         ]
     base_pth_ls=[x for x in base1_pth_ls]
     base_pth_ls.extend(base2_pth_ls)
 
     x1_ls=[0.41,1.4,2.8,6.9,]
-    x2_ls=[0.12,0.35,1.3,2.7,6.7,13,]
+    x2_ls=[0.12,0.35,1.3,2.7,6.7,13,30]
     # xls=[0.3, 1.0, 2.5, 4.0, 6.5, 8.0, 9.5, 11.0, 12.5, 14.0]
     xls=x2_ls
 
@@ -114,8 +115,11 @@ def wmt_curve_trainNums(overall_name="wmt16", taskls=["cs-en","de-en",]):
     bs_p_dict = {}
     bs_r_dict = {}
     bs_f1_dict = {}
+    rg_p_dict = {}
+    rg_r_dict = {}
     rg_f1_dict = {}
     bl_1_dict = {}
+    bl_4_dict = {}
 
     # infer_save_pth = "./vary_modelsize_overall_res_wmt16.json"
     infer_save_pth = f"./vary_modelsize_overall_res_{overall_name}.json"
@@ -129,37 +133,52 @@ def wmt_curve_trainNums(overall_name="wmt16", taskls=["cs-en","de-en",]):
             bs_p_dict[task] = {}
             bs_r_dict[task] = {}
             bs_f1_dict[task] = {}
+            rg_p_dict[task] = {}
+            rg_r_dict[task] = {}
             rg_f1_dict[task] = {}
             bl_1_dict[task] = {}
+            bl_4_dict[task] = {}
             for m in method_ls:
                 results_dict[task][m] = {}
                 bs_p_dict[task][m] = {}
                 bs_r_dict[task][m] = {}
                 bs_f1_dict[task][m] = {}
+                rg_p_dict[task][m] = {}
+                rg_r_dict[task][m] = {}
                 rg_f1_dict[task][m] = {}
                 bl_1_dict[task][m] = {}
+                bl_4_dict[task][m] = {}
                 for tn in train_nums:
                     results_dict[task][m][tn] = {}
                     bs_p_dict[task][m][tn] = {}
                     bs_r_dict[task][m][tn] = {}
                     bs_f1_dict[task][m][tn] = {}
+                    rg_p_dict[task][m][tn] = {}
+                    rg_r_dict[task][m][tn] = {}
                     rg_f1_dict[task][m][tn] = {}
                     bl_1_dict[task][m][tn] = {}
+                    bl_4_dict[task][m][tn] = {}
                     for base_pth in base_pth_ls:
                         results_dict[task][m][tn][base_pth] = {}
                         bs_p_dict[task][m][tn][base_pth] = {}
                         bs_r_dict[task][m][tn][base_pth] = {}
                         bs_f1_dict[task][m][tn][base_pth] = {}
+                        rg_p_dict[task][m][tn][base_pth] = {}
+                        rg_r_dict[task][m][tn][base_pth] = {}
                         rg_f1_dict[task][m][tn][base_pth] = {}
                         bl_1_dict[task][m][tn][base_pth] = {}
+                        bl_4_dict[task][m][tn][base_pth] = {}
                         for train_time in train_times:
                             results_dict[task][m][tn][base_pth][train_time] = {}
                             results_dict[task][m][tn][base_pth][train_time] = {}
                             bs_p_dict[task][m][tn][base_pth][train_time] = {}
                             bs_r_dict[task][m][tn][base_pth][train_time] = {}
                             bs_f1_dict[task][m][tn][base_pth][train_time] = {}
+                            rg_p_dict[task][m][tn][base_pth][train_time] = {}
+                            rg_r_dict[task][m][tn][base_pth][train_time] = {}
                             rg_f1_dict[task][m][tn][base_pth][train_time] = {}
                             bl_1_dict[task][m][tn][base_pth][train_time] = {}
+                            bl_4_dict[task][m][tn][base_pth][train_time] = {}
 
                             if m == "google/gemma-2b":
                                 pth = m
@@ -207,12 +226,16 @@ def wmt_curve_trainNums(overall_name="wmt16", taskls=["cs-en","de-en",]):
                             bs_p_dict[task][m][tn][base_pth][train_time] = ss["bertscore"]["p"]
                             bs_r_dict[task][m][tn][base_pth][train_time] = ss["bertscore"]["r"]
                             bs_f1_dict[task][m][tn][base_pth][train_time] = ss["bertscore"]["f1"]
+                            rg_p_dict[task][m][tn][base_pth][train_time] = ss["rouge-l"]["p"]
+                            rg_r_dict[task][m][tn][base_pth][train_time] = ss["rouge-l"]["r"]
                             rg_f1_dict[task][m][tn][base_pth][train_time] = ss["rouge-l"]["f1"]
                             bl_1_dict[task][m][tn][base_pth][train_time] = ss["bleu"]["1"]
+                            bl_4_dict[task][m][tn][base_pth][train_time] = ss["bleu"]["4"]
         with open(infer_save_pth, "w", encoding="utf8") as f:
             json.dump(
                 [results_dict, bs_p_dict, bs_r_dict,
-                    bs_f1_dict, rg_f1_dict, bl_1_dict],
+                    bs_f1_dict, rg_p_dict, rg_r_dict, rg_f1_dict,
+                 bl_1_dict, bl_4_dict, ],
                 f,
                 ensure_ascii=False,
                 indent=4,
@@ -221,18 +244,19 @@ def wmt_curve_trainNums(overall_name="wmt16", taskls=["cs-en","de-en",]):
         # from collections import OrderedDict
         with open(infer_save_pth, "r", encoding="utf8") as f:
             data = json.load(f, object_pairs_hook=OrderedDict)
-            results_dict, bs_p_dict, bs_r_dict, bs_f1_dict, rg_f1_dict, bl_1_dict = data
+            results_dict, bs_p_dict, bs_r_dict, bs_f1_dict, rg_p_dict, rg_r_dict, rg_f1_dict, bl_1_dict, bl_4_dict = data
 
     res_dict = {}
     for task in taskls:
         res_dict[task] = {}
-        res_dict[task]["BLEU"] = bl_1_dict[task]
-        res_dict[task]["Rouge-L F1"] = rg_f1_dict[task]
-        res_dict[task]["BERTScore F1"] = bs_f1_dict[task]
-        res_dict[task]["BERTScore Precision"] = bs_p_dict[task]
+        res_dict[task]["BLEU-1"] = bl_1_dict[task]
+        # res_dict[task]["BLEU-4"] = bl_4_dict[task]
+        res_dict[task]["Rouge-L Recall"] = rg_r_dict[task]
+        # res_dict[task]["Rouge-L F1"] = rg_f1_dict[task]
         res_dict[task]["BERTScore Recall"] = bs_r_dict[task]
+        res_dict[task]["BERTScore F1"] = bs_f1_dict[task]
 
-    fig, axs = plt.subplots(2, 5, figsize=(26, 9.37))
+    fig, axs = plt.subplots(2, 4, figsize=(21, 9.37))
 
     for i, task in enumerate(list(res_dict.keys())):
         for j, metricName in enumerate(list(res_dict[task].keys())):
@@ -300,7 +324,7 @@ def wmt_curve_trainNums(overall_name="wmt16", taskls=["cs-en","de-en",]):
                 # )
 
                 axs[i][j].set_xlabel("# Model Parameters (Billion)", fontsize=font_size)
-                axs[i][j].set_ylabel(metricName, fontsize=font_size - 5)
+                axs[i][j].set_ylabel(metricName, fontsize=font_size - 2)
                 axs[i][j].set_xticks(xls, xls, rotation=48, size=font_size - 4)
                 axs[i][j].tick_params(
                     axis="y",
@@ -317,7 +341,7 @@ def wmt_curve_trainNums(overall_name="wmt16", taskls=["cs-en","de-en",]):
         "size": font_size - 1,
     }
     plt.legend(
-        loc=(-3.21, 2.6),
+        loc=(-1.91, 2.6),
         prop=font_legend,
         ncol=6,
         frameon=False,
@@ -345,7 +369,8 @@ if __name__=="__main__":
 
     wmt_curve_trainNums(overall_name="mix",
                         # taskls=["ru-en","de-en",],
-                        taskls=["de-en","ru-en",],
+                        # taskls=["ru-en","de-en",],
+                        taskls=["ru-en","de-en",],
                         )
     print("EVERYTHING DONE.")
 
