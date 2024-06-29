@@ -773,8 +773,9 @@ def eval_all():
 
 def eval_varying_train_num():
     taskls = [
-        "cs-en",
-        "de-en",
+        # "cs-en",
+        # "de-en",
+        "ru-en",
         # "fi-en",
         ]
     mls = [
@@ -800,6 +801,7 @@ def eval_varying_train_num():
         "128",
         "256",
         "512",
+        "1024",
         ]
     base_model_name1="meta-llama/Meta-Llama-3-8B-Instruct"
 
@@ -822,9 +824,9 @@ def eval_varying_train_num():
                             prefix
                             + f"{task}{train_num}{itime}{m}___finally/"
                         )
-                    elif train_num=="256" or train_num=="512":
+                    elif train_num=="1024":
                         ckpt = prefix + \
-                            f"{task}{train_num}{itime}{m}___period2048/"
+                            f"{task}{train_num}{itime}{m}___period1024/"
                     else:
                         ckpt = prefix + \
                             f"{task}{train_num}{itime}{m}___period512/"
@@ -1152,7 +1154,7 @@ if __name__ == "__main__":
     # main()
     # evaluation_datas()
     # eval_all()
-    # eval_varying_train_num()
-    eval_varying_modelsize()
+    eval_varying_train_num()
+    # eval_varying_modelsize()
     # eval_tau1_res()
     print("EVERYTHING DONE.")
