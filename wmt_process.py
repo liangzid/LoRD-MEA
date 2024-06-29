@@ -105,6 +105,8 @@ def load_wmt_datals(tokenizer,
                     openai_tmp_save_pth="./STEALED_PKLS/wmt_data_saveto_",
                     use_local_model_with_wrmk=None,
                     tokenizer_name=None,
+                    is_test=0,
+                    use_opensource=0,
                     ):
 
     lm_tokenizer = tokenizer
@@ -132,11 +134,18 @@ def load_wmt_datals(tokenizer,
     dataset_name = "wmt16"
     # trainset_text = load_dataset(dataset_name, task_name,
     #                              split=f"train[:{train_num}]")
-    trainset_text = load_dataset(dataset_name, task_name,
-                                 split=f"train")\
-        .shuffle(20240306)\
-        .to_iterable_dataset()\
-        .take(train_num)
+    if is_test==0:
+        trainset_text = load_dataset(dataset_name, task_name,
+                                    split=f"train")\
+            .shuffle(20240306)\
+            .to_iterable_dataset()\
+            .take(train_num)
+    else:
+        trainset_text = load_dataset(dataset_name, task_name,
+                                    split=f"test")\
+            .shuffle(20240306)\
+            .to_iterable_dataset()\
+            .take(train_num)
     # print(trainset_text[0])
     # print("------------------------")
 
@@ -157,17 +166,40 @@ def load_wmt_datals(tokenizer,
         p_idxls.append(lm_tokenizer(p, return_tensors="pt").input_ids[0])
 
     if use_local_model_with_wrmk is None:
-        if tokenizer_name is None:
-            openai_tmp_save_pth += f"WMTtask_{task_name}-trainNUM_{train_num}.pkl"
-        elif "opt" in tokenizer_name:
-            openai_tmp_save_pth += f"WMTtask_{task_name}-trainNUM_{train_num}_opt.pkl"
-        elif "pythia" in tokenizer_name:
-            openai_tmp_save_pth += f"WMTtask_{task_name}-trainNUM_{train_num}_pythia.pkl"
+        if is_test==0:
+            if tokenizer_name is None:
+                openai_tmp_save_pth += f"WMTtask_{task_name}-trainNUM_{train_num}.pkl"
+            elif "opt" in tokenizer_name:
+                openai_tmp_save_pth += f"WMTtask_{task_name}-trainNUM_{train_num}_opt.pkl"
+            elif "pythia" in tokenizer_name:
+                openai_tmp_save_pth += f"WMTtask_{task_name}-trainNUM_{train_num}_pythia.pkl"
+            else:
+                openai_tmp_save_pth += f"WMTtask_{task_name}-trainNUM_{train_num}.pkl"
         else:
-            openai_tmp_save_pth += f"WMTtask_{task_name}-trainNUM_{train_num}.pkl"
+            if tokenizer_name is None:
+                openai_tmp_save_pth += f"WMTtask_{task_name}-trainNUM_{train_num}.pkl.test"
+            elif "opt" in tokenizer_name:
+                openai_tmp_save_pth += f"WMTtask_{task_name}-trainNUM_{train_num}_opt.pkl.test"
+            elif "pythia" in tokenizer_name:
+                openai_tmp_save_pth += f"WMTtask_{task_name}-trainNUM_{train_num}_pythia.pkl.test"
+            else:
+                openai_tmp_save_pth += f"WMTtask_{task_name}-trainNUM_{train_num}.pkl.test"
             
-        return commonly_used_openai_post_process(
-            openai_tmp_save_pth,
+        if use_opensource==0:
+            return commonly_used_openai_post_process(
+                openai_tmp_save_pth,
+                inp_ls,
+                pp,
+                model_name,
+                topk,
+                max_length,
+                p_idxls,
+                V,
+                lm_tokenizer,
+            )
+        else:
+            return commonly_used_opensource_post_process(
+            openai_tmp_save_pth+".open",
             inp_ls,
             pp,
             model_name,
@@ -176,7 +208,8 @@ def load_wmt_datals(tokenizer,
             p_idxls,
             V,
             lm_tokenizer,
-        )
+            victim="meta-llama/Meta-Llama-3-70B-Instruct",
+            )
     else:
         from watermark.llama3_watermark_gen import commonly_used_wrmk_post_process
         openai_tmp_save_pth += f"WaterMark-----WMTtask_{task_name}-trainNUM_{train_num}.pkl"
@@ -408,6 +441,65 @@ def commonly_used_openai_post_process(
 
     return p_idxls, text2ls, probsls, idx2_dist_ls
 
+def commonly_used_opensource_post_process(
+        save_pth,
+        inp_ls,
+        pp,
+        model_name,
+        topk,
+        max_length,
+        p_idxls,
+        V,
+        lm_tokenizer,
+        victim="meta-llama/Meta-Llama-3-70B-Instruct",
+        ):
+
+    if not os.path.exists(save_pth):
+        model=AutoModelForCausalLM.from_pretrained(
+            victim,
+            device_map="auto",
+            torch_dtype=torch.bfloat16,
+            trust_remote_code=True,
+            )
+        tokenizer=lm_tokenizer
+
+        print(f"RUNNING {victim} Stealing...")
+        text2ls = []
+        idx2_dist_ls = []
+        probsls = []
+
+        for i_for, inp in tqdm(enumerate(inp_ls),
+                               desc="Steal Progress: "):
+            outp_idx = model.generate(
+                p_idxls[i_for].unsqueeze(0),
+                do_sample=True,
+                )
+            # shape: [bs, sql-1,V]
+            outp_dist=model(outp_idx[:,:-1]).logits
+            # shape: [sql-1,topk]
+            outp_dist=outp_dist[0,:,:topk]
+            outp_idx=outp_idx.squeeze(0)
+            
+            text2ls.append(outp_idx.to("cpu"))
+            probsls.append(outp_dist[:,0].to("cpu"))
+            idx2_dist_ls.append(outp_dist.to("cpu"))
+            outp_idx=None
+            outp_dist=None
+
+        with open(save_pth,
+                  'wb') as f:
+            pickle.dump([text2ls, probsls, idx2_dist_ls],
+                        f,)
+    else:
+        print("Directly Loading...")
+        # from collections import OrderedDict
+        with open(save_pth, 'rb') as f:
+            data = pickle.load(f,)
+        text2ls = data[0]
+        probsls = data[1]
+        idx2_dist_ls = data[2]
+
+    return p_idxls, text2ls, probsls, idx2_dist_ls
 
 def infer_wmt(modelname, task_name, res_pth,
               test_set_take_num=100,
@@ -774,7 +866,7 @@ def eval_all():
 def eval_varying_train_num():
     taskls = [
         # "cs-en",
-        # "de-en",
+        "de-en",
         "ru-en",
         # "fi-en",
         ]
@@ -906,11 +998,11 @@ def eval_varying_modelsize():
         ]
     # mls = ["vanilla", "kd", "google/gemma-2b", "Complex-lord",]
     train_times = [
-        "1",
-        # "2",
-        # "3",
-        # "4",
-        # "5",
+        # "1",
+        "2",
+        "3",
+        "4",
+        "5",
         ]
     train_nums = [
         # "8",
@@ -927,12 +1019,12 @@ def eval_varying_modelsize():
         # "EleutherAI/pythia-2.8b",
         # "EleutherAI/pythia-6.9b",
 
-        "facebook/opt-125m",
-        "facebook/opt-350m",
-        "facebook/opt-1.3b",
-        "facebook/opt-2.7b",
-        "facebook/opt-6.7b",
-        "facebook/opt-13b",
+        # "facebook/opt-125m",
+        # "facebook/opt-350m",
+        # "facebook/opt-1.3b",
+        # "facebook/opt-2.7b",
+        # "facebook/opt-6.7b",
+        # "facebook/opt-13b",
         "facebook/opt-30b",
         # "facebook/opt-66b",
         ]
@@ -1155,6 +1247,6 @@ if __name__ == "__main__":
     # evaluation_datas()
     # eval_all()
     eval_varying_train_num()
-    # eval_varying_modelsize()
+    eval_varying_modelsize()
     # eval_tau1_res()
     print("EVERYTHING DONE.")

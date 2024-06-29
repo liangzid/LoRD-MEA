@@ -50,7 +50,11 @@ def get_dist_mat(ckpt_pth, task_name,
                  only_original=False,
                  dataset_name="text2sql",
                  using_test_set=0,
+                 use_opensource=0,
+                 topk=5,
                  ):
+    if task_name in ["de-en","ru-en"]:
+        dataset_name="wmt16"
 
     # model = InferObj(model_name=ckpt_pth,
     #                  device="auto",
@@ -111,6 +115,18 @@ def get_dist_mat(ckpt_pth, task_name,
             is_test=using_test_set,
             )
         p_ls, idx2ls, logits2ls, idx2_distls = raw_train_datals
+    elif dataset_name=="wmt16":
+        from wmt_process import load_wmt_datals
+        raw_train_datals = load_wmt_datals(
+            tokenizer,
+            task_name=task_name,
+            train_num=train_num,
+            max_length=max_length,
+            is_test=using_test_set,
+            use_opensource=use_opensource,
+            topk=topk,
+            )
+        p_ls, idx2ls, logits2ls, idx2_distls = raw_train_datals
 
     matrix_ls = []
     for i in range(select_num):
@@ -139,7 +155,7 @@ def get_dist_mat(ckpt_pth, task_name,
         sampled_logits = sampled_logits.squeeze(0).to("cpu").numpy()
         # print(sampled_logits)
         if not only_original:
-            matrix_ls.append(sampled_logits[:5])
+            matrix_ls.append(sampled_logits[:topk])
         else:
             ssll = sl
             per_data = logits2ls[i]
@@ -148,7 +164,7 @@ def get_dist_mat(ckpt_pth, task_name,
             tmp_ts = torch.ones((sl, v), dtype=torch.float)
             for jjjj, per_token_logit in enumerate(per_data):
                 tmp_ts[jjjj] = torch.tensor(per_token_logit,)
-            original_logits = tmp_ts.numpy()[ssll-1:,][:5]
+            original_logits = tmp_ts.numpy()[ssll-1:,][:topk]
             matrix_ls.append(original_logits)
 
     return matrix_ls, idx2_distls
@@ -168,6 +184,8 @@ def visualize_heat(
         task_name="spider",
         save_path="distribute_heat_res.pdf",
         using_test_set=0,
+        use_opensource=0,
+        topk=5,
         ):
 
     origin_mat, idx2distls = get_dist_mat(ckpt_pth=lord_ckpt,
@@ -177,6 +195,8 @@ def visualize_heat(
                               train_num=train_num,
                               only_original=True,
                               using_test_set=using_test_set,
+                              use_opensource=use_opensource,
+                              topk=topk,
                               )
     lord_mat,_ = get_dist_mat(ckpt_pth=lord_ckpt,
                             pretrained_model=pretrained_model_pth,
@@ -185,6 +205,8 @@ def visualize_heat(
                             train_num=train_num,
                             only_original=False,
                             using_test_set=using_test_set,
+                            use_opensource=use_opensource,
+                            topk=topk,
                             )
     ce_mat,_ = get_dist_mat(ckpt_pth=ce_ckpt,
                           pretrained_model=pretrained_model_pth,
@@ -193,6 +215,8 @@ def visualize_heat(
                           train_num=train_num,
                           only_original=False,
                           using_test_set=using_test_set,
+                          use_opensource=use_opensource,
+                          topk=topk,
                           )
     init_mat,_ = get_dist_mat(ckpt_pth=pretrained_model_pth,
                           pretrained_model=None,
@@ -201,6 +225,8 @@ def visualize_heat(
                           train_num=train_num,
                           only_original=False,
                           using_test_set=using_test_set,
+                          use_opensource=use_opensource,
+                          topk=topk,
                           )
     # kd_mat = get_dist_mat(ckpt_pth=kd_ckpt,
     #                       task_name="cola",
@@ -486,35 +512,31 @@ if __name__ == "__main__":
     #     task_name="wikisql",
     #     save_path="distribute_heat_res.pdf",)
 
-    visualize_heat(
-        ce_ckpt="./text2sql_ckpts/text2sqlwikisql161vanilla___finally/",
-        lord_ckpt="./text2sql_ckpts/text2sqlwikisql161LoRD-VI___period256/",
-        kd_ckpt=None,
-        pretrained_model_pth="meta-llama/Meta-Llama-3-8B-Instruct",
-        select_num=8,
-        train_num=16,
-        task_name="spider",
-        save_path="distribute_heat_res.pdf",
-        using_test_set=0,
-        )
+    # visualize_heat(
+    #     ce_ckpt="./text2sql_ckpts/text2sqlwikisql161vanilla___finally/",
+    #     lord_ckpt="./text2sql_ckpts/text2sqlwikisql161LoRD-VI___period256/",
+    #     kd_ckpt=None,
+    #     pretrained_model_pth="meta-llama/Meta-Llama-3-8B-Instruct",
+    #     select_num=8,
+    #     train_num=16,
+    #     task_name="wikisql",
+    #     save_path="distribute_heat_res.pdf",
+    #     using_test_set=0,
+    #     )
 
-    # visualize_heat()
+    # # visualize_heat()
 
-    visualize_heat(
-        # lord_ckpt="./GLUE_ckpts/colaComplex-lord256100___period2/",
-        # ce_ckpt="./GLUE_ckpts/colavanilla256100___finally/",
-        # kd_ckpt="./POD_SAVE_CKPTs/vary_period0306cs-en/kd_256cs-en_newkd___finally/",
-
-        ce_ckpt="./text2sql_ckpts/text2sqlspider161vanilla___finally/",
-        lord_ckpt="./text2sql_ckpts/text2sqlspider161LoRD-VI___period256/",
-        kd_ckpt=None,
-        pretrained_model_pth="meta-llama/Meta-Llama-3-8B-Instruct",
-        select_num=8,
-        train_num=16,
-        task_name="spider",
-        save_path="distribute_heat_res_test.pdf",
-        using_test_set=1,
-        )
+    # visualize_heat(
+    #     ce_ckpt="./text2sql_ckpts/text2sqlwikisql161vanilla___finally/",
+    #     lord_ckpt="./text2sql_ckpts/text2sqlwikisql161LoRD-VI___period256/",
+    #     kd_ckpt=None,
+    #     pretrained_model_pth="meta-llama/Meta-Llama-3-8B-Instruct",
+    #     select_num=8,
+    #     train_num=16,
+    #     task_name="wikisql",
+    #     save_path="distribute_heat_res_test.pdf",
+    #     using_test_set=1,
+    #     )
 
     # visualize_3d(
     #     ce_ckpt="./text2sql_ckpts/text2sqlwikisql161vanilla___finally/",
@@ -529,3 +551,33 @@ if __name__ == "__main__":
     #     )
 
     # visualize_3d()
+
+    visualize_heat(
+        ce_ckpt="./visual_ckpts/wmtde-en161vanilla___finally",
+        lord_ckpt="./visual_ckpts/wmtde-en161LoRD-VI___period512",
+        kd_ckpt=None,
+        pretrained_model_pth="meta-llama/Meta-Llama-3-8B-Instruct",
+        select_num=8,
+        train_num=16,
+        task_name="de-en",
+        save_path="distribute_heat_res.pdf",
+        using_test_set=0,
+        is_opensource=1,
+        topk=100,
+        )
+
+    # visualize_heat()
+
+    visualize_heat(
+        ce_ckpt="./visual_ckpts/wmtde-en161vanilla___finally",
+        lord_ckpt="./visual_ckpts/wmtde-en161LoRD-VI___period512",
+        kd_ckpt=None,
+        pretrained_model_pth="meta-llama/Meta-Llama-3-8B-Instruct",
+        select_num=8,
+        train_num=16,
+        task_name="de-en",
+        save_path="distribute_heat_res_test.pdf",
+        using_test_set=1,
+        is_opensource=1,
+        topk=100,
+        )
