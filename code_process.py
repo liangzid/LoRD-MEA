@@ -252,7 +252,7 @@ def eval_varying_train_num():
         "256",
         "512",
         "1024",
-        "2048",
+        # "2048",
         ]
     base_model_name1="meta-llama/Meta-Llama-3-8B-Instruct"
 
@@ -279,7 +279,14 @@ def eval_varying_train_num():
                     elif m=="gpt-3.5-turbo-1106":
                         ckpt=m
                     else:
-                        ckpt = prefix + \
+                        if train_num=="1024":
+                            ckpt = prefix + \
+                            f"{task}{train_num}{itime}{m}___period1024/"
+                        elif train_num=="2048":
+                            ckpt = prefix + \
+                            f"{task}{train_num}{itime}{m}___period2048/"
+                        else:
+                            ckpt = prefix + \
                             f"{task}{train_num}{itime}{m}___period512/"
                     res_pth = ckpt+f"___{task}_code_infer_res.json"
                     res_pth = res_pth.replace("/", "__").replace(".", "")
@@ -307,7 +314,7 @@ def eval_varying_train_num():
                             res_ls = json.load(
                                 f, object_pairs_hook=OrderedDict)
 
-                    scores = eval_sum(res_ls)
+                    scores = eval_code(res_ls)
                     print(task, ckpt)
                     print(scores)
                     res_dict[task+"-----"+res_pth] = scores

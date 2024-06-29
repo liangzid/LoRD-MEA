@@ -69,8 +69,9 @@ class PerspectiveAPI:
             print(value)
             print(value_dict)
             print(res)
-        except:
+        except Exception as e:
             print(f"Error {self.times} times.")
+            print(e)
             self.times+=1
             print(f"the incorrect query is: {text}")
             # value=0.
@@ -93,7 +94,7 @@ class PerspectiveAPI:
             res_dict=self.predict(text)
             for key in score_dict_ls:
                 score_dict_ls[key].append(res_dict[key])
-            time.sleep(1.3)
+            time.sleep(1.1)
         # obtain the averaged value of the results.
 
         score_mean_dict={}
