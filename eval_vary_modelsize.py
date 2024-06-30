@@ -69,8 +69,10 @@ def wmt_curve_trainNums(overall_name="wmt16", taskls=["cs-en","de-en",]):
     }
     train_times = [
         "1",
-        # "2",
-        # "3",
+        "2",
+        "3",
+        "4",
+        "5",
     ]
     # train_nums = ["8", "16", "32", "64", "128", "256", "512"]
     # train_nums = ["64"]
@@ -90,13 +92,15 @@ def wmt_curve_trainNums(overall_name="wmt16", taskls=["cs-en","de-en",]):
         "facebook/opt-2.7b",
         "facebook/opt-6.7b",
         "facebook/opt-13b",
-        "facebook/opt-30b",
+        # "facebook/opt-30b",
         ]
-    base_pth_ls=[x for x in base1_pth_ls]
-    base_pth_ls.extend(base2_pth_ls)
+    # base_pth_ls=[x for x in base1_pth_ls]
+    # base_pth_ls.extend(base2_pth_ls)
+    base_pth_ls=base2_pth_ls
 
     x1_ls=[0.41,1.4,2.8,6.9,]
-    x2_ls=[0.12,0.35,1.3,2.7,6.7,13,30]
+    x2_ls=[0.12,0.35,1.3,2.7,6.7,13]
+    # x2_ls=[0.12,0.35,1.3,2.7,6.7,13,30]
     # xls=[0.3, 1.0, 2.5, 4.0, 6.5, 8.0, 9.5, 11.0, 12.5, 14.0]
     xls=x2_ls
 
@@ -275,9 +279,8 @@ def wmt_curve_trainNums(overall_name="wmt16", taskls=["cs-en","de-en",]):
                 # ymaxls = np.max(ylss, axis=0)
                 # yminls = np.min(ylss, axis=0)
                 ystdls = np.std(ylss, axis=1)
-
-                y1meanls=ymeanls[:len(base1_pth_ls)]
-                y2meanls=ymeanls[len(base1_pth_ls):]
+                # y1meanls=ymeanls[:len(base1_pth_ls)]
+                y2meanls=ymeanls
 
                 # print(f"train nums: {train_nums}.")
                 # print(f"y-mean-ls: {ymeanls}.")
@@ -314,14 +317,14 @@ def wmt_curve_trainNums(overall_name="wmt16", taskls=["cs-en","de-en",]):
                     color=model_color_dict[method],
                 )
 
-                # axs[i][j].fill_between(
-                #     xls,
-                #     ymeanls - ystdls,
-                #     ymeanls + ystdls,
-                #     alpha=a,
-                #     linewidth=0.0,
-                #     color=model_color_dict2[method],
-                # )
+                axs[i][j].fill_between(
+                    x2_ls,
+                    ymeanls - ystdls,
+                    ymeanls + ystdls,
+                    alpha=a,
+                    linewidth=0.0,
+                    color=model_color_dict2[method],
+                )
 
                 axs[i][j].set_xlabel("# Model Parameters (Billion)", fontsize=font_size)
                 axs[i][j].set_ylabel(metricName, fontsize=font_size - 2)

@@ -905,10 +905,10 @@ def eval_varying_modelsize():
     # mls = ["vanilla", "kd", "google/gemma-2b", "Complex-lord",]
     train_times = [
         "1",
-        # "2",
-        # "3",
-        # "4",
-        # "5",
+        "2",
+        "3",
+        "4",
+        "5",
         ]
     train_nums = [
         # "8",
@@ -931,7 +931,7 @@ def eval_varying_modelsize():
         "facebook/opt-2.7b",
         "facebook/opt-6.7b",
         "facebook/opt-13b",
-        "facebook/opt-30b",
+        # "facebook/opt-30b",
         # "facebook/opt-66b",
         ]
     # base_model_name1="meta-llama/Meta-Llama-3-8B-Instruct"
