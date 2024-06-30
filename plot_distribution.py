@@ -35,6 +35,7 @@ from transformers import AutoTokenizer, AutoConfig, AutoModel
 from glue_process import load_glue_datals
 
 import numpy as np
+import scipy
 from matplotlib import pyplot as plt
 from collections import OrderedDict
 
@@ -49,7 +50,11 @@ def get_dist_mat(ckpt_pth, task_name,
                  only_original=False,
                  dataset_name="text2sql",
                  using_test_set=0,
+                 use_opensource=0,
+                 topk=5,
                  ):
+    if task_name in ["de-en","ru-en"]:
+        dataset_name="wmt16"
 
     # model = InferObj(model_name=ckpt_pth,
     #                  device="auto",
@@ -110,6 +115,18 @@ def get_dist_mat(ckpt_pth, task_name,
             is_test=using_test_set,
             )
         p_ls, idx2ls, logits2ls, idx2_distls = raw_train_datals
+    elif dataset_name=="wmt16":
+        from wmt_process import load_wmt_datals
+        raw_train_datals = load_wmt_datals(
+            tokenizer,
+            task_name=task_name,
+            train_num=train_num,
+            max_length=max_length,
+            is_test=using_test_set,
+            use_opensource=use_opensource,
+            topk=topk,
+            )
+        p_ls, idx2ls, logits2ls, idx2_distls = raw_train_datals
 
     matrix_ls = []
     for i in range(select_num):
@@ -138,7 +155,7 @@ def get_dist_mat(ckpt_pth, task_name,
         sampled_logits = sampled_logits.squeeze(0).to("cpu").numpy()
         # print(sampled_logits)
         if not only_original:
-            matrix_ls.append(sampled_logits[:5])
+            matrix_ls.append(sampled_logits[:topk])
         else:
             ssll = sl
             per_data = logits2ls[i]
@@ -147,7 +164,7 @@ def get_dist_mat(ckpt_pth, task_name,
             tmp_ts = torch.ones((sl, v), dtype=torch.float)
             for jjjj, per_token_logit in enumerate(per_data):
                 tmp_ts[jjjj] = torch.tensor(per_token_logit,)
-            original_logits = tmp_ts.numpy()[ssll-1:,][:5]
+            original_logits = tmp_ts.numpy()[ssll-1:,][:topk]
             matrix_ls.append(original_logits)
 
     return matrix_ls, idx2_distls
@@ -167,6 +184,8 @@ def visualize_heat(
         task_name="spider",
         save_path="distribute_heat_res.pdf",
         using_test_set=0,
+        use_opensource=0,
+        topk=5,
         ):
 
     origin_mat, idx2distls = get_dist_mat(ckpt_pth=lord_ckpt,
@@ -176,6 +195,8 @@ def visualize_heat(
                               train_num=train_num,
                               only_original=True,
                               using_test_set=using_test_set,
+                              use_opensource=use_opensource,
+                              topk=topk,
                               )
     lord_mat,_ = get_dist_mat(ckpt_pth=lord_ckpt,
                             pretrained_model=pretrained_model_pth,
@@ -184,6 +205,8 @@ def visualize_heat(
                             train_num=train_num,
                             only_original=False,
                             using_test_set=using_test_set,
+                            use_opensource=use_opensource,
+                            topk=topk,
                             )
     ce_mat,_ = get_dist_mat(ckpt_pth=ce_ckpt,
                           pretrained_model=pretrained_model_pth,
@@ -192,6 +215,8 @@ def visualize_heat(
                           train_num=train_num,
                           only_original=False,
                           using_test_set=using_test_set,
+                          use_opensource=use_opensource,
+                          topk=topk,
                           )
     init_mat,_ = get_dist_mat(ckpt_pth=pretrained_model_pth,
                           pretrained_model=None,
@@ -200,6 +225,8 @@ def visualize_heat(
                           train_num=train_num,
                           only_original=False,
                           using_test_set=using_test_set,
+                          use_opensource=use_opensource,
+                          topk=topk,
                           )
     # kd_mat = get_dist_mat(ckpt_pth=kd_ckpt,
     #                       task_name="cola",
@@ -207,6 +234,38 @@ def visualize_heat(
     #                       train_num=train_num,
     #                       only_original=False,
     #                       )
+
+    # print(f"Shape of the distribution.")
+    # print(f"Shape of the distribution: {len(origin_mat)}")
+    # print(f"Shape of the distribution: {len(origin_mat[0])}")
+    # print(f"Shape of the distribution: {origin_mat}")
+
+    ikld,ie1,ie2,isc=distSim(origin_mat, init_mat) 
+    lkld,le1,le2,lsc=distSim(origin_mat, lord_mat) 
+    ckld,ce1,ce2,csc=distSim(origin_mat, ce_mat) 
+    quantitive_res={
+        "Victim Model":{"entropy":ie1,},
+
+        "Local Model":{
+            "KL":ikld,
+            "Entropy":ie2,
+            "Spearman Correlation":isc,
+            },
+
+        "LoRD":{
+            "KL":lkld,
+            "Entropy":le2,
+            "Spearman Correlation":lsc,
+            },
+
+        "MLE":{
+            "KL":ckld,
+            "Entropy":ce2,
+            "Spearman Correlation":csc,
+            },
+        }
+    print(quantitive_res)
+    print("---------------------------------------------------------")
 
     res_dict = OrderedDict({"Victim Model": origin_mat,
                             "Local Model": init_mat,
@@ -221,10 +280,10 @@ def visualize_heat(
                             "Cross-Entropy": ce_mat,
                             # "Distillation": kd_mat,
                             })
-    with open("./3d_res.pkkl", 'wb') as f:
+    with open("./heat_res.pkkl", 'wb') as f:
         pickle.dump(res_dict, f,)
 
-    with open("./3d_res.pkkl", 'rb') as f:
+    with open("./heat_res.pkkl", 'rb') as f:
         res_dict = pickle.load(f)
 
 
@@ -364,6 +423,72 @@ def visualize_3d(
     print("SAVE DONE.")
 
 
+def _get_ranks(x: torch.Tensor) -> torch.Tensor:
+    tmp = x.argsort()
+    ranks = torch.zeros_like(tmp)
+    ranks[tmp] = torch.arange(len(x))
+    return ranks
+
+def spearman_correlation(x: torch.Tensor, y: torch.Tensor):
+    """Compute correlation between 2 1-D vectors
+    Args:
+        x: Shape (N, )
+        y: Shape (N, )
+    """
+    x_rank = _get_ranks(x)
+    y_rank = _get_ranks(y)
+    
+    n = x.size(0)
+    upper = 6 * torch.sum((x_rank - y_rank).pow(2))
+    down = n * (n ** 2 - 1.0)
+    return 1.0 - (upper / down)
+
+def averaged_spearman(x1s,x2s):
+    num_samples=x1s.shape[0]
+    res_ls=[]
+    for ns in range(num_samples):
+        res=spearman_correlation(x1s[ns],x2s[ns])
+        res_ls.append(res)
+    return sum(res_ls)/len(res_ls)
+
+import torch
+def distSim(dist1,dist2):
+    dist1=torch.tensor(dist1)
+    dist2=torch.tensor(dist2)
+
+    dist1=dist1.reshape(-1, 5)
+    dist2=dist2.reshape(-1, 5)
+    # print(dist1.shape, dist2.shape)
+
+    exp_dist1=torch.exp(dist1)
+    exp_dist2=torch.exp(dist2)
+
+    kl_d=torch.nn.functional.kl_div(dist2, exp_dist1)
+    entropy1=torch.\
+        distributions.Categorical(
+            exp_dist1).entropy()
+    entropy2=torch.\
+        distributions.Categorical(
+            exp_dist2).entropy()
+    entropy1=sum(entropy1)/len(entropy1)
+    entropy2=sum(entropy2)/len(entropy2)
+    spearman_c=averaged_spearman(dist1,dist2)
+
+    # compute the KL divergence
+
+    # dist1=[list(range(len(dist1[0]))) for x in dist1]
+
+    # dist1=[np.argsort(-x) for x in dist1]
+    # dist2=[np.argsort(-x) for x in dist2]
+    # spearman_res=scipy.stats.spearmanr(dist1,dist2)
+    # print(f"KL-D: {kl_d}")
+    # print(f"Entropy 1: {entropy1}")
+    # print(f"Entropy 2: {entropy2}")
+    # print(f"SpearMan: {spearman_c}")
+    # print(f"Spearman Results: {spearman_res}")
+    # return kl_d,spearman_res
+    return float(kl_d),float(entropy1),float(entropy2),float(spearman_c)
+
 if __name__ == "__main__":
     # visualize_heat()
 
@@ -394,28 +519,24 @@ if __name__ == "__main__":
     #     pretrained_model_pth="meta-llama/Meta-Llama-3-8B-Instruct",
     #     select_num=8,
     #     train_num=16,
-    #     task_name="spider",
+    #     task_name="wikisql",
+    #     save_path="distribute_heat_res.pdf",
+    #     using_test_set=0,
+    #     )
+
+    # # visualize_heat()
+
+    # visualize_heat(
+    #     ce_ckpt="./text2sql_ckpts/text2sqlwikisql161vanilla___finally/",
+    #     lord_ckpt="./text2sql_ckpts/text2sqlwikisql161LoRD-VI___period256/",
+    #     kd_ckpt=None,
+    #     pretrained_model_pth="meta-llama/Meta-Llama-3-8B-Instruct",
+    #     select_num=8,
+    #     train_num=16,
+    #     task_name="wikisql",
     #     save_path="distribute_heat_res_test.pdf",
     #     using_test_set=1,
     #     )
-
-    # visualize_heat()
-
-    visualize_heat(
-        # lord_ckpt="./GLUE_ckpts/colaComplex-lord256100___period2/",
-        # ce_ckpt="./GLUE_ckpts/colavanilla256100___finally/",
-        # kd_ckpt="./POD_SAVE_CKPTs/vary_period0306cs-en/kd_256cs-en_newkd___finally/",
-
-        ce_ckpt="./text2sql_ckpts/text2sqlspider161vanilla___finally/",
-        lord_ckpt="./text2sql_ckpts/text2sqlspider161LoRD-VI___period256/",
-        kd_ckpt=None,
-        pretrained_model_pth="meta-llama/Meta-Llama-3-8B-Instruct",
-        select_num=8,
-        train_num=16,
-        task_name="spider",
-        save_path="distribute_heat_res_test.pdf",
-        using_test_set=1,
-        )
 
     # visualize_3d(
     #     ce_ckpt="./text2sql_ckpts/text2sqlwikisql161vanilla___finally/",
@@ -430,3 +551,33 @@ if __name__ == "__main__":
     #     )
 
     # visualize_3d()
+
+    visualize_heat(
+        ce_ckpt="./visual_ckpts/wmtde-en161vanilla___finally",
+        lord_ckpt="./visual_ckpts/wmtde-en161LoRD-VI___period512",
+        kd_ckpt=None,
+        pretrained_model_pth="meta-llama/Meta-Llama-3-8B-Instruct",
+        select_num=8,
+        train_num=16,
+        task_name="de-en",
+        save_path="distribute_heat_res.pdf",
+        using_test_set=0,
+        is_opensource=1,
+        topk=100,
+        )
+
+    # visualize_heat()
+
+    visualize_heat(
+        ce_ckpt="./visual_ckpts/wmtde-en161vanilla___finally",
+        lord_ckpt="./visual_ckpts/wmtde-en161LoRD-VI___period512",
+        kd_ckpt=None,
+        pretrained_model_pth="meta-llama/Meta-Llama-3-8B-Instruct",
+        select_num=8,
+        train_num=16,
+        task_name="de-en",
+        save_path="distribute_heat_res_test.pdf",
+        using_test_set=1,
+        is_opensource=1,
+        topk=100,
+        )

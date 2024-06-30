@@ -533,6 +533,8 @@ def setup_train_args():
     parser.add_argument('--with_early_shut',
                         default=0, type=int,
                         required=False)
+    parser.add_argument('--use_opensource', default=0, type=int,
+                        required=False)
 
     parser.add_argument('--lambda1', default=0.5, type=float,
                         required=False)
@@ -765,7 +767,7 @@ def main():
                 train_num=args.train_num,
                 max_length=args.max_length,
                 tokenizer_name=args.from_path,
-
+                use_opensource=args.use_opensource,
             )
 
             if args.extra_nonlabel_data == 1:

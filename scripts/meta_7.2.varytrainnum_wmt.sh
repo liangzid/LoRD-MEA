@@ -34,7 +34,6 @@ bash ${root_dir}/scripts/7.2.varytrainnum__wmt.sh ${trainnum} ${cudanum} > "0629
 done
 
 
-
 # bash ${root_dir}/scripts/7.2.varytrainnum__wmt.sh 256 5 > "0615--trainvaryingtrainnum${trainnum}${cudanum}.log"
 
 # bash ${root_dir}/scripts/7.2.varytrainnum__wmt.sh 512 5 > "0615--trainvaryingtrainnum${trainnum}${cudanum}.log"
