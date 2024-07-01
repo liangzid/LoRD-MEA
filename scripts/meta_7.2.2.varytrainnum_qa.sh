@@ -30,5 +30,11 @@ for (( i=0; i<$length; i++ )); do
 nohup bash ${root_dir}/scripts/7.2.2.varytrainnum_qa.sh ${trainnum} ${cudanum} > "0630_trainvaryingtrainnum${trainnum}${cudanum}.log" &
 done
 
+
+
+sleep 21600
+
+$python ${root_dir}qa_process.py
+
 echo "RUNNING meta_7.2.2.varytrainnum_qa.sh DONE."
 # meta_7.2.2.varytrainnum_qa.sh ends here
