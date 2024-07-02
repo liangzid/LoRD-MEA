@@ -33,6 +33,7 @@ from pprint import pprint as ppp
 
 from wmt_process import eval_varying_train_num
 from wmt_process import eval_wmt, infer_wmt
+from code_process import eval_code
 from qa_process import infer_qa, eval_qaacc
 
 
@@ -611,6 +612,8 @@ def code_curve_trainNums():
     bs_f1_dict = {}
     rg_f1_dict = {}
     bl_1_dict = {}
+    fuzzy_dict = {}
+    jaccard_dict = {}
 
     infer_save_pth = "./vary_query_num_overall_res_code.json"
     # infer_save_pth = "./wmt_0613_dataset_res/Overall__wmt_varytrain_num_inference_scores.json"
@@ -627,6 +630,8 @@ def code_curve_trainNums():
             bs_f1_dict[task] = {}
             rg_f1_dict[task] = {}
             bl_1_dict[task] = {}
+            fuzzy_dict[task] = {}
+            jaccard_dict[task] = {}
             for m in method_ls:
                 results_dict[task][m] = {}
                 bs_p_dict[task][m] = {}
@@ -634,6 +639,8 @@ def code_curve_trainNums():
                 bs_f1_dict[task][m] = {}
                 rg_f1_dict[task][m] = {}
                 bl_1_dict[task][m] = {}
+                fuzzy_dict[task][m] = {}
+                jaccard_dict[task][m] = {}
                 for tn in train_nums:
                     results_dict[task][m][tn] = {}
                     bs_p_dict[task][m][tn] = {}
@@ -641,6 +648,8 @@ def code_curve_trainNums():
                     bs_f1_dict[task][m][tn] = {}
                     rg_f1_dict[task][m][tn] = {}
                     bl_1_dict[task][m][tn] = {}
+                    fuzzy_dict[task][m][tn] = {}
+                    jaccard_dict[task][m][tn] = {}
                     for train_time in train_times:
                         results_dict[task][m][tn][train_time] = {}
                         results_dict[task][m][tn][train_time] = {}
@@ -649,6 +658,8 @@ def code_curve_trainNums():
                         bs_f1_dict[task][m][tn][train_time] = {}
                         rg_f1_dict[task][m][tn][train_time] = {}
                         bl_1_dict[task][m][tn][train_time] = {}
+                        fuzzy_dict[task][m][tn][train_time] = {}
+                        jaccard_dict[task][m][tn][train_time] = {}
 
                         if m == "google/gemma-2b":
                             pth = m
@@ -700,6 +711,8 @@ def code_curve_trainNums():
                         bs_f1_dict[task][m][tn][train_time] = ss["bertscore"]["f1"]
                         rg_f1_dict[task][m][tn][train_time] = ss["rouge-l"]["f1"]
                         bl_1_dict[task][m][tn][train_time] = ss["bleu"]["1"]
+                        fuzzy_dict[task][m][tn][train_time] = ss["fuzzy"]
+                        jaccard_dict[task][m][tn][train_time] = ss["jaccard"] 
         with open(infer_save_pth, "w", encoding="utf8") as f:
             json.dump(
                 [results_dict, bs_p_dict, bs_r_dict,
@@ -717,13 +730,15 @@ def code_curve_trainNums():
     res_dict = {}
     for task in taskls:
         res_dict[task] = {}
-        res_dict[task]["BERTScore Precision"] = bs_p_dict[task]
-        res_dict[task]["BERTScore Recall"] = bs_r_dict[task]
-        res_dict[task]["BERTScore F1"] = bs_f1_dict[task]
+        # res_dict[task]["BERTScore Precision"] = bs_p_dict[task]
+        # res_dict[task]["BERTScore Recall"] = bs_r_dict[task]
+        # res_dict[task]["BERTScore F1"] = bs_f1_dict[task]
+        res_dict[task]["Fuzzy Match Rate"] = fuzzy_dict[task]
+        res_dict[task]["Jaccard Similarity"] = jaccard_dict[task]
         res_dict[task]["Rouge-L F1"] = rg_f1_dict[task]
         res_dict[task]["BLEU"] = bl_1_dict[task]
 
-    fig, axs = plt.subplots(1, 5, figsize=(26, 4.67))
+    fig, axs = plt.subplots(1, 4, figsize=(26, 4.67))
 
     for i, task in enumerate(list(res_dict.keys())):
         for j, metricName in enumerate(list(res_dict[task].keys())):
@@ -973,6 +988,6 @@ def glue_curve_trainNums():
 if __name__ == "__main__":
     # glue()
     # wmt_curve_trainNums()
-    # code_curve_trainNums()
-    qa_curve_trainNums()
+    code_curve_trainNums()
+    # qa_curve_trainNums()
     print("EVERYTHING DONE.")
