@@ -31,10 +31,10 @@ export msl=140
 # export task_ls=("cs-en" "de-en" "fi-en" "ro-en")
 # export task_ls=("ru-en" "de-en")
 # export task_ls=("piqa" "truthful_qa")
-export task_ls=("allenai/ai2_arc")
-export train_taskls=("vanilla" "LoRD-VI")
+export task_ls=("piqa")
+# export train_taskls=("vanilla" "LoRD-VI")
 # export train_taskls=("LoRD-VIII" "vanilla")
-# export train_taskls=("LoRD-VI")
+export train_taskls=("LoRD-VI")
 # export train_taskls=("vanilla")
 
 export is_black_box=1
@@ -47,7 +47,7 @@ export epoch=1
 export period=1
 
 export sub_set_num=1
-export sub_stage_num=512
+# export sub_stage_num=512
 # export sub_stage_num=2048
 # export max_new_tokens=64
 export max_new_tokens=32
@@ -94,13 +94,15 @@ for (( i=0; i<$length; i++ )); do
 		echo "+++++++train_task: ${train_task}+++++++"
 		echo "====================================================="
 
-	if [[ "${train_num}" == "1024" ]]; then
-	    export sub_stage_num="1024"
-	fi
+	# if [[ "${train_num}" == "1024" ]]; then
+	#     export sub_stage_num="1024"
+	# fi
 
-	if [[ "${train_num}" == "2048" ]]; then
-	    export sub_stage_num="2048"
-	fi
+	# if [[ "${train_num}" == "2048" ]]; then
+	#     export sub_stage_num="2048"
+	# fi
+        export sub_stage_num=$((train_num * 4))
+	echo "Sub-stage-num: ${sub_stage_num}"
 
 		export save_path="${POD_save_dir}text2sql${task}${train_num}${train_time}${train_task}"
 
