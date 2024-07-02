@@ -25,12 +25,13 @@ export cudals=($2)
 # export TRAIN_NUMS=(32)
 # export cudals=(0)
 
-# export train_times=(2 3 4 5)
+# export train_times=(1 2 3 4 5)
 export train_times=(1)
 export msl=140
 # export task_ls=("cs-en" "de-en" "fi-en" "ro-en")
 # export task_ls=("ru-en" "de-en")
-export task_ls=("piqa" "truthful_qa")
+# export task_ls=("piqa" "truthful_qa")
+export task_ls=("allenai/ai2_arc")
 export train_taskls=("vanilla" "LoRD-VI")
 # export train_taskls=("LoRD-VIII" "vanilla")
 # export train_taskls=("LoRD-VI")
@@ -130,7 +131,7 @@ for (( i=0; i<$length; i++ )); do
 		    --use_kld=$use_kld\
 		    --max_length=$msl \
 		    --dataset_task=$task \
-		    --save_path=$save_path >0630--qa-train${train_time}${task}${train_tas}${i}.log
+		    --save_path=$save_path
 
 		echo "DONE FOR ONE TRAIN NUMBERS...."
 

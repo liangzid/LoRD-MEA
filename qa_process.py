@@ -18,7 +18,7 @@ if __name__ == "__main__":
     # os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,6,7"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "6,7"
-    os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "2"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5"
     os.environ["TORCH_USE_CUDA_DSA"]="1"
 
@@ -684,13 +684,13 @@ def eval_tau2_res():
 def eval_varytrainum_res():
     taskls = [
         "piqa",
-        "truthful_qa",
-        "allenai/ai2_arc",
+        # "truthful_qa",
+        # "allenai/ai2_arc",
     ]
     mls = [
-        # "LoRD-VI",
+        "LoRD-VI",
         # "vanilla",
-        "kd",
+        # "kd",
         ]
     train_times = [
         "1",
@@ -700,14 +700,18 @@ def eval_varytrainum_res():
         "5",
     ]
     train_nums = [
-        "64",
+        # "8",
+        # "16",
+        # "32",
+        # "64",
         # "128",
-        # "256",
-        # "512",
+        "256",
+        "512",
+        # "1024",
         ]
     base_model_name1="meta-llama/Meta-Llama-3-8B-Instruct"
 
-    dir_p = "./qa_0513_dataset_res/"
+    dir_p = "./qa_0630_dataset_res/"
     res_dict = {}
 
     if not os.path.exists(dir_p):
@@ -721,12 +725,15 @@ def eval_varytrainum_res():
             for m in mls:
                 temp_scorels=[]
                 for itime in train_times:
-                    prefix = "./qa_ckpts/QAAAnew"
+                    prefix = "./NEW_VARYING_QUERYTIME_CKPTS/text2sql"
                     if m=="vanilla" or m =="kd":
                         ckpt = (
                             prefix
                             + f"{task}{train_num}{itime}{m}___finally/"
                         )
+                    elif train_num=="1024":
+                        ckpt = prefix + \
+                            f"{task}{train_num}{itime}{m}___period1024/"
                     else:
                         ckpt = (
                             prefix
@@ -738,7 +745,7 @@ def eval_varytrainum_res():
                     if not os.path.exists(dir_p+res_pth):
                         res_ls = infer_qa(ckpt, task, dir_p+res_pth,
                                           test_set_take_num=500,
-                                          mnt=8,
+                                          mnt=32,
                                           base_model_name=base_model_name1,
                                           )
                     else:
