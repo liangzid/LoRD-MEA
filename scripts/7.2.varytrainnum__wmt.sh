@@ -27,8 +27,8 @@ export cudals=($2)
 # export TRAIN_NUMS=(32)
 # export cudals=(0)
 
-# export train_times=(2 3 4 5)
-export train_times=(1)
+export train_times=(2 3 4 5)
+# export train_times=(1)
 # export msl=256
 export msl=140
 # export task_ls=("cs-en" "de-en" "fi-en" "ro-en")

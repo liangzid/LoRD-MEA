@@ -92,15 +92,15 @@ def wmt_curve_trainNums(overall_name="wmt16", taskls=["cs-en","de-en",]):
         "facebook/opt-2.7b",
         "facebook/opt-6.7b",
         "facebook/opt-13b",
-        # "facebook/opt-30b",
+        "facebook/opt-30b",
         ]
     # base_pth_ls=[x for x in base1_pth_ls]
     # base_pth_ls.extend(base2_pth_ls)
     base_pth_ls=base2_pth_ls
 
     x1_ls=[0.41,1.4,2.8,6.9,]
-    x2_ls=[0.12,0.35,1.3,2.7,6.7,13]
-    # x2_ls=[0.12,0.35,1.3,2.7,6.7,13,30]
+    # x2_ls=[0.12,0.35,1.3,2.7,6.7,13]
+    x2_ls=[0.12,0.35,1.3,2.7,6.7,13,30]
     # xls=[0.3, 1.0, 2.5, 4.0, 6.5, 8.0, 9.5, 11.0, 12.5, 14.0]
     xls=x2_ls
 
