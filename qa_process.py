@@ -18,7 +18,7 @@ if __name__ == "__main__":
     # os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,6,7"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "6,7"
-    os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "2"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5"
     os.environ["TORCH_USE_CUDA_DSA"]="1"
 
@@ -684,12 +684,12 @@ def eval_tau2_res():
 def eval_varytrainum_res():
     taskls = [
         "piqa",
-        "truthful_qa",
+        # "truthful_qa",
         # "allenai/ai2_arc",
     ]
     mls = [
         "LoRD-VI",
-        "vanilla",
+        # "vanilla",
         # "kd",
         ]
     train_times = [
@@ -700,14 +700,14 @@ def eval_varytrainum_res():
         "5",
     ]
     train_nums = [
-        "8",
-        "16",
-        "32",
-        "64",
-        "128",
+        # "8",
+        # "16",
+        # "32",
+        # "64",
+        # "128",
         "256",
         "512",
-        "1024",
+        # "1024",
         ]
     base_model_name1="meta-llama/Meta-Llama-3-8B-Instruct"
 

@@ -69,7 +69,7 @@ def qa_curve_trainNums():
 
     model_color_dict2 = {
         "vanilla": "#9c27b0",
-        "LoRD-IV": "#f78fb3",
+        "LoRD-VI": "#f78fb3",
         # "kd": "#98c8f3",
         # "Complex-lord": "#f78fb3",
         # "LoRD-II": "#f78fb3",
@@ -85,11 +85,15 @@ def qa_curve_trainNums():
 
     train_times = [
         "1",
-        # "2",
-        # "3",
+        "2",
+        "3",
+        "4",
+        "5",
     ]
 
-    train_nums = ["4", "8", "16", "32", "64", "128", "256", "512",
+    train_nums = [
+        # "4",
+        "8", "16", "32", "64", "128", "256", "512",
                   "1024",
                   ]
 
@@ -117,7 +121,7 @@ def qa_curve_trainNums():
     if not os.path.exists(infer_save_pth):
         dir_p = "./qa_0630_dataset_res/"
         # using existing results of the paths.
-        prefix = "./varytrainnum_ckpts/qa"
+        prefix = "./NEW_VARYING_QUERYTIME_CKPTS/text2sql"
         for task in taskls:
             results_dict[task] = {}
             acc_dict[task] = {}
@@ -247,14 +251,14 @@ def qa_curve_trainNums():
                     color=model_color_dict[method],
                 )
 
-                # axs[i][j].fill_between(
-                #     xls,
-                #     ymeanls - ystdls,
-                #     ymeanls + ystdls,
-                #     alpha=a,
-                #     linewidth=0.0,
-                #     color=model_color_dict2[method],
-                # )
+                axs[i][j].fill_between(
+                    xls,
+                    ymeanls - ystdls,
+                    ymeanls + ystdls,
+                    alpha=a,
+                    linewidth=0.0,
+                    color=model_color_dict2[method],
+                )
 
                 axs[i][j].set_xlabel("# Training Samples", fontsize=font_size)
                 axs[i][j].set_ylabel(metricName, fontsize=font_size - 5)
