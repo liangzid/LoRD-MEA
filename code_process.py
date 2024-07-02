@@ -216,10 +216,13 @@ def infer_code(modelname, task_name, res_pth,
 
 def eval_code(res_ls):
     from nlg_metric import overall_metrics
+    from nlg_metric import fuzzy_match
+    from nlg_metric import jaccard_sim
     hyps, refs = zip(*res_ls)
     ## note that here we need to add a evaluation comparison.
-    # TODO!!!
     res_dict1=overall_metrics(hyps, refs)
+    res_dict1["fuzzy"]=fuzzy_match(hyps,refs)
+    res_dict1["jaccard"]=jaccard_sim(hyps,refs)
     return res_dict1
 
 def eval_varying_train_num():

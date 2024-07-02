@@ -10,7 +10,44 @@ Some commonly used NLG metrics for generaiton evaluation.
 ======================================================================
 """
 import torch
+import json
+from typing import List, Tuple, Dict
+import random
+from pprint import pprint as ppp
 
+# from transformers import (
+#     AutoModelForCausalLM,
+#     AutoTokenizer,
+#     BitsAndBytesConfig,
+#     TrainingArguments,
+#     pipeline
+# )
+
+def fuzzy_match(gens, ps):
+    from thefuzz import fuzz
+    hit_num = 0.
+    res_ls=[]
+    for i, g in enumerate(gens):
+        res=fuzz.partial_ratio(ps[i], g)
+        res_ls.append(res)
+    return sum(res_ls)/len(res_ls)
+
+def jaccard_sim(gens, ps):
+    resls=[]
+    for i in range(len(gens)):
+        g=gens[i]
+        p=ps[i]
+        # gg=set(g.split())
+        # pp=set(p.split())
+        gg=set([x for x in g])
+        pp=set([x for x in p])
+
+        A = gg.intersection(pp)
+        B = gg.union(pp)
+
+        res=float(len(A))/float(len(B))
+        resls.append(res)
+    return sum(resls)/len(resls)
 
 def bleu_1to4(hyp_ls, ref_ls):
     p_ls = ref_ls
