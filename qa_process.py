@@ -694,10 +694,10 @@ def eval_varytrainum_res():
         ]
     train_times = [
         "1",
-        # "2",
-        # "3",
-        # "4",
-        # "5",
+        "2",
+        "3",
+        "4",
+        "5",
     ]
     train_nums = [
         # "8",
@@ -705,8 +705,8 @@ def eval_varytrainum_res():
         # "32",
         # "64",
         # "128",
-        # "256",
-        # "512",
+        "256",
+        "512",
         "1024",
         ]
     base_model_name1="meta-llama/Meta-Llama-3-8B-Instruct"

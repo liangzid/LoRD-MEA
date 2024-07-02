@@ -26,7 +26,8 @@ export cudals=($2)
 # export cudals=(0)
 
 # export train_times=(1 2 3 4 5)
-export train_times=(1)
+export train_times=(2 3 4 5)
+# export train_times=(1)
 export msl=140
 # export task_ls=("cs-en" "de-en" "fi-en" "ro-en")
 # export task_ls=("ru-en" "de-en")
@@ -66,10 +67,7 @@ export use_entropy=0
 export tau1=0.80
 export tau2=0.85
 
-
-
 length=${#TRAIN_NUMS[@]}
-
 
 for (( i=0; i<$length; i++ )); do
 # for train_num in ${TRAIN_NUMS[*]}

@@ -12,7 +12,7 @@ Process GLUE dataset.
 
 import os
 if __name__ == "__main__":
-    os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "7"
 
 # ------------------------ Code --------------------------------------
 import torch
@@ -34,6 +34,9 @@ from training_data_collecting_openai import chatWithOpenAI_APIs
 from training_data_collecting_openai import chatWithOpenAI__LogLogits
 
 from gen_pipeline_open import InferObj
+from transformers import AutoModelForCausalLM,AutoTokenizer
+from peft import PeftModel
+import numpy as np
 
 task_prompt_map = {
     "cola": "Assess the following sentence and classify it as 'acceptable' or 'unacceptable'.",
@@ -311,29 +314,29 @@ def load_glue_datals(lm_tokenizer,
 
     return p_idxls, text2ls, probsls, idx2_dist_ls
 
-
 def infer_glue(modelname, task_name, res_pth,
-               test_set_take_num=1000,
+               test_set_take_num=500,
+               mnt=32,
+               base_model=None,
                ):
     """Infer the hf's pretraining models in GLUE"""
     save_pth = res_pth
 
-    model = InferObj(model_name=modelname,
-                     device="auto",
-                     max_length=2047)
-    gen_pipeline = model.text_gen
+    if base_model is not None:
+        # load model based on our idea
+        model = AutoModelForCausalLM.from_pretrained(
+            base_model,
+            device_map="auto",
+            # trust_remote_code=True,
+            torch_dtype=torch.bfloat16,
+        )
+        model = PeftModel.from_pretrained(model, modelname)
+        tokenizer = AutoTokenizer\
+            .from_pretrained(base_model)
+        tokenizer.pad_token = tokenizer.eos_token
+        tokenizer.padding_side = "right"
 
     prompt = task_prompt_map[task_name]
-
-    # models to be evaluted
-    model_ls = [
-        "lmsys/vicuna-7b-v1.5-16k",
-        "microsoft/phi-1_5",
-        "NousResearch/Llama-2-7b-chat-hf",
-        "Qwen/Qwen-7B-Chat",
-        "01-ai/Yi-6B",
-        "mistralai/Mistral-7B-Instruct-v0.1",
-        "openchat/openchat_3.5"]
 
     # tasks for evaluation
     tasks_name = ["valid_parentheses", "bool_logic",
@@ -389,7 +392,7 @@ def infer_glue(modelname, task_name, res_pth,
             sets = dataset["validation"]
         # sets=sets.shuffle(seed=20240307)
         iii = 0
-        for d in tqdm(sets):
+        for d in tqdm(sets,total=test_set_take_num,):
             iii += 1
             if iii == 1 or iii == test_set_take_num:
                 print(d)
@@ -398,30 +401,52 @@ def infer_glue(modelname, task_name, res_pth,
             label = task_label_map[task_name][str(label)]
             final_inps = "Instruction: " + prompt +\
                 " User: "+inps+" Assistant: "
-            print("Inps: ", final_inps)
-            res = gen_pipeline(final_inps,
-                               max_new_tokens=16,)[0]["generated_text"]
-            res = res.split(final_inps)[1]
+            inpsidx=tokenizer.encode(
+                final_inps,
+                max_length=128,
+                padding="longest",
+                return_tensors="pt",
+                )
+            inpsidx=inpsidx.to("cuda")
+            res = model.generate(
+                inpsidx,
+                max_new_tokens=mnt,)[0]
+            res = tokenizer.decode(res)
+            if final_inps in res:
+                res = res.split(final_inps)[1]
+            else:
+                res = res
             res_ls.append((res, label))
             print("Generations: ", res)
             # break
-
     elif task_name == "mnli":
         if len(dataset["validation_matched"]) > test_set_take_num:
             sets = dataset["validation_matched"]\
                 .to_iterable_dataset().take(test_set_take_num)
         else:
             sets = dataset["validation_matched"]
-        for d in tqdm(sets):
+        for d in tqdm(sets,total=test_set_take_num,):
             inps = d["premise"]+"SEP"+d["hypothesis"]
             label = d["label"]
             label = task_label_map[task_name][str(label)]
 
             final_inps = "Instruction: " + prompt +\
                 " User: "+inps+" Assistant: "
-            res = gen_pipeline(final_inps,
-                               max_new_tokens=16,)[0]["generated_text"]
-            res = res.split(final_inps)[1]
+            inpsidx=tokenizer.encode(
+                final_inps,
+                max_length=128,
+                padding="longest",
+                return_tensors="pt",
+                )
+            inpsidx=inpsidx.to("cuda")
+            res = model.generate(
+                inpsidx,
+                max_new_tokens=mnt,)[0]
+            res = tokenizer.decode(res)
+            if final_inps in res:
+                res = res.split(final_inps)[1]
+            else:
+                res = res
             res_ls.append((res, label))
     elif task_name in double_input_tasks:
         if len(dataset["validation"]) > test_set_take_num:
@@ -429,7 +454,7 @@ def infer_glue(modelname, task_name, res_pth,
                 .to_iterable_dataset().take(test_set_take_num)
         else:
             sets = dataset["validation"]
-        for d in tqdm(sets):
+        for d in tqdm(sets,total=test_set_take_num,):
             inps = d[task_key_map[task_name][0]]+"SEP" +\
                 d[task_key_map[task_name][1]]
             label = d["label"]
@@ -437,9 +462,21 @@ def infer_glue(modelname, task_name, res_pth,
             label = task_label_map[task_name][str(label)]
             final_inps = "Instruction: " + prompt +\
                 " User: "+inps+" Assistant: "
-            res = gen_pipeline(final_inps,
-                               max_new_tokens=16,)[0]["generated_text"]
-            res = res.split(final_inps)[1]
+            inpsidx=tokenizer.encode(
+                final_inps,
+                max_length=128,
+                padding="longest",
+                return_tensors="pt",
+                )
+            inpsidx=inpsidx.to("cuda")
+            res = model.generate(
+                inpsidx,
+                max_new_tokens=mnt,)[0]
+            res = tokenizer.decode(res)
+            if final_inps in res:
+                res = res.split(final_inps)[1]
+            else:
+                res = res
             res_ls.append((res, label))
             # break
     else:
@@ -447,6 +484,7 @@ def infer_glue(modelname, task_name, res_pth,
     with open(save_pth, 'w', encoding='utf8') as f:
         json.dump(res_ls, f, ensure_ascii=False, indent=4)
 
+    model=None
     return res_ls
 
 
@@ -636,6 +674,108 @@ def glue_big_evals():
     print("OVERALL Save DONE.")
     pprint(res_dict)
 
+def eval_varying_train_num():
+    taskls = [
+        "cola",
+        ]
+    mls = [
+        "vanilla",
+        "LoRD-VI",
+        ]
+    train_times = [
+        "1",
+        # "2",
+        # "3",
+        # "4",
+        # "5",
+        ]
+    train_nums = [
+        # "8",
+        # "16",
+        # "32",
+        # "64",
+        # "128",
+        # "256",
+        # "512",
+        "1024",
+        ]
+    base_model_name1="meta-llama/Meta-Llama-3-8B-Instruct"
+
+    dir_p = "./glue_0702_dataset_res/"
+    res_dict = {}
+    if not os.path.exists(dir_p):
+        os.makedirs(dir_p)
+
+    res_dict_averaged={}
+
+    for task in taskls:
+        for train_num in train_nums:
+            for m in mls:
+                temp_scorels=[]
+                for itime in train_times:
+                    # prefix = "./wmt16_ckpts/WMTTT0519"
+                    prefix = "./NEW_VARYING_QUERYTIME_CKPTS/text2sql"
+                    if m=="vanilla" or m =="kd":
+                        ckpt = (
+                            prefix
+                            + f"{task}{train_num}{itime}{m}___finally/"
+                        )
+                    elif train_num in ["256", "512", "1024"]:
+                        num=str(int(4*int(train_num)))
+                        ckpt = prefix + \
+                            f"{task}{train_num}{itime}{m}___period{num}/"
+                    else:
+                        ckpt = prefix + \
+                            f"{task}{train_num}{itime}{m}___period512/"
+                    res_pth = ckpt+f"___{task}_glue_infer_res.json"
+                    res_pth = res_pth.replace("/", "__").replace(".", "")
+
+                    if not os.path.exists(dir_p+res_pth):
+                        res_ls = infer_glue(ckpt,
+                                           task,
+                                           dir_p+res_pth,
+                                           test_set_take_num=500,
+                                           mnt=32,
+                                    base_model=base_model_name1,
+                                           )
+                    else:
+                        # from collections import OrderedDict
+                        with open(dir_p+res_pth,
+                                  'r', encoding='utf8') as f:
+                            res_ls = json.load(
+                                f, object_pairs_hook=OrderedDict)
+
+                    scores = eval_glue(task, res_ls)
+                    print(task, ckpt)
+                    print(scores)
+                    res_dict[task+"-----"+res_pth] = scores
+                    score_ls=scores
+                    temp_scorels.append(score_ls)
+
+                # obtain the mean value
+                # obtain the std value
+                temp_scorels=np.array(temp_scorels)
+                meanvaluels=np.mean(temp_scorels,axis=0).tolist()
+                stdvaluels=np.std(temp_scorels,axis=0,ddof=1).tolist()
+                res_dict_averaged[task+"--"+res_pth]=\
+                    {"mean": meanvaluels,
+                     "std": stdvaluels}
+
+    with open(dir_p+"Overall__glue_varytrain_num_inference_scores.json",
+              'w', encoding='utf8') as f:
+        json.dump(res_dict, f, ensure_ascii=False, indent=4)
+
+    with open(
+        dir_p + "OverallScoresAveraged.json",
+            "w", encoding="utf8"
+    ) as f:
+        json.dump(res_dict_averaged, f, ensure_ascii=False, indent=4)
+
+    print("OVERALL Save DONE.")
+    pprint(res_dict)
+    print("------------------------------------------")
+    pprint(res_dict_averaged)
+    return res_dict
 
 if __name__ == "__main__":
     # from transformers import AutoTokenizer
@@ -662,4 +802,6 @@ if __name__ == "__main__":
     # print("-------------------------")
 
     # evaluation_datas()
-    glue_big_evals()
+    # glue_big_evals()
+
+    eval_varying_train_num()

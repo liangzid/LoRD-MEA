@@ -34,8 +34,8 @@ nohup bash ${root_dir}/scripts/7.2.2.varytrainnum_qa.sh ${trainnum} ${cudanum} >
 done
 
 
-# sleep 21600
-# $python ${root_dir}qa_process.py
+sleep 10800
+$python ${root_dir}qa_process.py
 
 echo "RUNNING meta_7.2.2.varytrainnum_qa.sh DONE."
 # meta_7.2.2.varytrainnum_qa.sh ends here
