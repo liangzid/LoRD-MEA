@@ -1246,7 +1246,7 @@ if __name__ == "__main__":
     # main()
     # evaluation_datas()
     # eval_all()
-    eval_varying_train_num()
+    # eval_varying_train_num()
     eval_varying_modelsize()
     # eval_tau1_res()
     print("EVERYTHING DONE.")
