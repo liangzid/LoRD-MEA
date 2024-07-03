@@ -12,7 +12,7 @@ Evaluate the code of varying train nums.
 
 import os
 if __name__ == "__main__":
-    os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "5"
     os.environ["TORCH_USE_CUDA_DSA"]="1"
 
 # ------------------------ Code --------------------------------------
@@ -87,10 +87,10 @@ def qa_curve_trainNums():
 
     train_times = [
         "1",
-        # "2",
-        # "3",
-        # "4",
-        # "5",
+        "2",
+        "3",
+        "4",
+        "5",
     ]
 
     train_nums = [
@@ -227,7 +227,7 @@ def qa_curve_trainNums():
                     ylss.append(templs)
                 ylss = np.array(ylss)
 
-                xls = [float(x) for x in train_nums]
+                xls = [int(x) for x in train_nums]
 
                 ymeanls = np.mean(ylss, axis=1)
                 # ymaxls = np.max(ylss, axis=0)
@@ -326,14 +326,18 @@ def wmt_curve_trainNums():
 
     taskls = [
         "ru-en",
-        "de-en",
+        # "de-en",
     ]
     train_times = [
         "1",
         # "2",
         # "3",
+        # "4",
+        # "5",
     ]
-    train_nums = ["8", "16", "32", "64", "128", "256", "512", "1024",]
+    train_nums = ["8", "16", "32", "64", "128", "256", "512",
+                  # "1024",
+                  ]
 
     a = 0.4
     lw = 1.7
@@ -357,7 +361,7 @@ def wmt_curve_trainNums():
 
     if not os.path.exists(infer_save_pth):
         # dir_p = "./vary_train_num_WMT16_infers/"
-        dir_p = "./wmt_0613_dataset_res/"
+        dir_p = "./wmt_0703_dataset_res/"
         # using existing results of the paths.
         prefix = "./NEW_VARYING_QUERYTIME_CKPTS/text2sql"
         for task in taskls:
@@ -505,14 +509,14 @@ def wmt_curve_trainNums():
                     color=model_color_dict[method],
                 )
 
-                # axs[i][j].fill_between(
-                #     xls,
-                #     ymeanls - ystdls,
-                #     ymeanls + ystdls,
-                #     alpha=a,
-                #     linewidth=0.0,
-                #     color=model_color_dict2[method],
-                # )
+                axs[i][j].fill_between(
+                    xls,
+                    ymeanls - ystdls,
+                    ymeanls + ystdls,
+                    alpha=a,
+                    linewidth=0.0,
+                    color=model_color_dict2[method],
+                )
 
                 axs[i][j].set_xlabel("# Training Samples", fontsize=font_size)
                 axs[i][j].set_ylabel(metricName, fontsize=font_size - 5)
@@ -1060,8 +1064,8 @@ def glue_curve_trainNums():
 # running entry
 if __name__ == "__main__":
     # glue()
-    glue_curve_trainNums()
-    # wmt_curve_trainNums()
+    # glue_curve_trainNums()
+    wmt_curve_trainNums()
     # code_curve_trainNums()
     # qa_curve_trainNums()
     print("EVERYTHING DONE.")

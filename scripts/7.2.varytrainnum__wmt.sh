@@ -15,7 +15,8 @@ echo "HOME: ${HOME}"
 export python=${HOME}/anaconda3/envs/align/bin/python3
 export root_dir="${HOME}/alignmentExtraction/"
 export POD_save_dir="${root_dir}/NEW_VARYING_QUERYTIME_CKPTS/"
-export from_path="meta-llama/Meta-Llama-3-8B-Instruct"
+# export from_path="meta-llama/Meta-Llama-3-8B-Instruct"
+export from_path="facebook/opt-6.7b"
 # export TRAIN_NUMS=(64)
 # export TRAIN_NUMS=(8 16 32 64 128 256)
 # export cudals=(0 1 2 3 4 5)
@@ -27,17 +28,17 @@ export cudals=($2)
 # export TRAIN_NUMS=(32)
 # export cudals=(0)
 
-export train_times=(2 3 4 5)
-# export train_times=(1)
+# export train_times=(2 3 4 5)
+export train_times=(1)
 # export msl=256
 export msl=140
 # export task_ls=("cs-en" "de-en" "fi-en" "ro-en")
 # export task_ls=("ru-en" "de-en")
-# export task_ls=("ru-en")
-export task_ls=("de-en")
-# export train_taskls=("vanilla" "LoRD-VI")
+export task_ls=("ru-en")
+# export task_ls=("de-en")
+export train_taskls=("vanilla" "LoRD-VI")
 # export train_taskls=("LoRD-VIII" "vanilla")
-export train_taskls=("LoRD-VI")
+# export train_taskls=("LoRD-VI")
 # export train_taskls=("vanilla")
 
 export is_black_box=1
@@ -104,7 +105,7 @@ for (( i=0; i<$length; i++ )); do
 	# if [[ "${train_num}" == "2048" ]]; then
 	#     export sub_stage_num="2048"
 	# fi
-        export sub_stage_num=$((train_num * 4))
+        # export sub_stage_num=$((train_num * 4))
 	echo "Sub-stage-num: ${sub_stage_num}"
 
 		export save_path="${POD_save_dir}text2sql${task}${train_num}${train_time}${train_task}"

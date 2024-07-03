@@ -12,7 +12,7 @@ WMT dataset process scripts.
 
 import os
 if __name__ == "__main__":
-    os.environ["CUDA_VISIBLE_DEVICES"] = "0"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "4"
     os.environ["TORCH_USE_CUDA_DSA"]="1"
 
 from gen_pipeline_open import InferObj
@@ -866,12 +866,12 @@ def eval_all():
 def eval_varying_train_num():
     taskls = [
         # "cs-en",
-        "de-en",
-        # "ru-en",
+        # "de-en",
+        "ru-en",
         # "fi-en",
         ]
     mls = [
-        # "vanilla",
+        "vanilla",
         # "LoRD-VIII",
         "LoRD-VI",
         # "kd",
@@ -880,10 +880,10 @@ def eval_varying_train_num():
     # mls = ["vanilla", "kd", "google/gemma-2b", "Complex-lord",]
     train_times = [
         "1",
-        "2",
-        "3",
-        "4",
-        "5",
+        # "2",
+        # "3",
+        # "4",
+        # "5",
         ]
     train_nums = [
         # "8",
@@ -891,13 +891,15 @@ def eval_varying_train_num():
         # "32",
         # "64",
         # "128",
-        "256",
+        # "256",
         "512",
-        "1024",
-        ]
-    base_model_name1="meta-llama/Meta-Llama-3-8B-Instruct"
 
-    dir_p = "./wmt_0613_dataset_res/"
+        # "1024",
+        ]
+    # base_model_name1="meta-llama/Meta-Llama-3-8B-Instruct"
+    base_model_name1="facebook/opt-6.7b"
+
+    dir_p = "./wmt_0703_dataset_res/"
     res_dict = {}
     if not os.path.exists(dir_p):
         os.makedirs(dir_p)

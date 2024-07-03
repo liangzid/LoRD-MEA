@@ -21,8 +21,9 @@ export root_dir="${HOME}/alignmentExtraction/"
 # export cudals=(1 1 1 1 1 1 1 1)
 # export TRAIN_NUMS=(16)
 # export cudals=(0 1 2 3 4 5 6)
-export TRAIN_NUMS=(256 512 1024)
-export cudals=(3 4 5 6 7)
+# export TRAIN_NUMS=(8 16 32 64)
+export TRAIN_NUMS=(128 256 512)
+export cudals=(2 3 4 5)
 
 
 length=${#TRAIN_NUMS[@]}
@@ -58,9 +59,9 @@ done
 
 
 
-sleep 10800
+# sleep 10800
 
-$python "${root_dir}wmt_process.py"
+# $python "${root_dir}wmt_process.py"
 
 echo "RUNNING meta_7.2.varytrainnum_wmt.sh DONE."
 # meta_7.2.varytrainnum_wmt.sh ends here
