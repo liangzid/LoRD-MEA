@@ -18,7 +18,7 @@ if __name__ == "__main__":
     # os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,6,7"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "6,7"
-    os.environ["CUDA_VISIBLE_DEVICES"] = "5"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "1"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5"
     os.environ["TORCH_USE_CUDA_DSA"]="1"
 
@@ -63,8 +63,13 @@ def load_qa_datals(
     dataset_name = task_name
     inp_ls = []
     if task_name == tasks_we_used[0]:
+        # trainset_text = load_dataset(
+        #     dataset_name, split=f"train[:{train_num}]")
         trainset_text = load_dataset(
-            dataset_name, split=f"train[:{train_num}]")
+            dataset_name, split=f"train")\
+        .shuffle(20240306)\
+        .to_iterable_dataset()\
+        .take(train_num)
 
         for item in trainset_text:
             question = item["goal"]
@@ -689,7 +694,7 @@ def eval_varytrainum_res():
     ]
     mls = [
         "LoRD-VI",
-        "vanilla",
+        # "vanilla",
         # "kd",
         ]
     train_times = [
@@ -704,10 +709,10 @@ def eval_varytrainum_res():
         # "16",
         # "32",
         # "64",
-        # "128",
-        "256",
-        "512",
-        "1024",
+        "128",
+        # "256",
+        # "512",
+        # "1024",
         ]
     base_model_name1="meta-llama/Meta-Llama-3-8B-Instruct"
 
@@ -732,6 +737,9 @@ def eval_varytrainum_res():
                             + f"{task}{train_num}{itime}{m}___finally/"
                         )
                     elif train_num=="1024":
+                        ckpt = prefix + \
+                            f"{task}{train_num}{itime}{m}___period1024/"
+                    elif train_num in ["64", "128"]:
                         ckpt = prefix + \
                             f"{task}{train_num}{itime}{m}___period1024/"
                     else:

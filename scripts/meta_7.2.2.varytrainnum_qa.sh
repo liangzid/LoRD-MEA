@@ -17,10 +17,11 @@ export root_dir="${HOME}/alignmentExtraction/"
 
 
 # export TRAIN_NUMS=(8 16 32 64 128 256 512 1024)
-export TRAIN_NUMS=(256 512 1024)
+# export TRAIN_NUMS=(256 512 1024)
+export TRAIN_NUMS=(64 128)
 # export cudals=(2 3)
 # export cudals=(0 1 2 3 4 5 6 7)
-export cudals=(0 1 2)
+export cudals=(2 3)
 
 
 length=${#TRAIN_NUMS[@]}
@@ -34,8 +35,8 @@ nohup bash ${root_dir}/scripts/7.2.2.varytrainnum_qa.sh ${trainnum} ${cudanum} >
 done
 
 
-sleep 10800
-$python ${root_dir}qa_process.py
+# sleep 10800
+# $python ${root_dir}qa_process.py
 
 echo "RUNNING meta_7.2.2.varytrainnum_qa.sh DONE."
 # meta_7.2.2.varytrainnum_qa.sh ends here

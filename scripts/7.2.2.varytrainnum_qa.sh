@@ -26,7 +26,7 @@ export cudals=($2)
 # export cudals=(0)
 
 # export train_times=(1 2 3 4 5)
-export train_times=(2 3 4 5)
+export train_times=(1 2 3 4 5)
 # export train_times=(1)
 export msl=140
 # export task_ls=("cs-en" "de-en" "fi-en" "ro-en")
@@ -48,7 +48,8 @@ export epoch=1
 export period=1
 
 export sub_set_num=1
-# export sub_stage_num=512
+export sub_stage_num=512
+# export sub_stage_num=1024
 # export sub_stage_num=2048
 # export max_new_tokens=64
 export max_new_tokens=32
@@ -99,8 +100,8 @@ for (( i=0; i<$length; i++ )); do
 	# if [[ "${train_num}" == "2048" ]]; then
 	#     export sub_stage_num="2048"
 	# fi
-        export sub_stage_num=$((train_num * 4))
-	echo "Sub-stage-num: ${sub_stage_num}"
+        # export sub_stage_num=$((train_num * 4))
+	# echo "Sub-stage-num: ${sub_stage_num}"
 
 		export save_path="${POD_save_dir}text2sql${task}${train_num}${train_time}${train_task}"
 
