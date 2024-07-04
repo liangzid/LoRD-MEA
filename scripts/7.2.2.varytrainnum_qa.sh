@@ -35,8 +35,8 @@ export msl=140
 export task_ls=("piqa")
 # export train_taskls=("vanilla" "LoRD-VI")
 # export train_taskls=("LoRD-VIII" "vanilla")
-# export train_taskls=("LoRD-VI")
-export train_taskls=("vanilla")
+export train_taskls=("LoRD-VI")
+# export train_taskls=("vanilla")
 
 export is_black_box=1
 export use_lora=1
@@ -48,9 +48,9 @@ export epoch=1
 export period=1
 
 export sub_set_num=1
-export sub_stage_num=512
+# export sub_stage_num=512
 # export sub_stage_num=1024
-# export sub_stage_num=2048
+export sub_stage_num=4096
 # export max_new_tokens=64
 export max_new_tokens=32
 export infer_batch_size=1

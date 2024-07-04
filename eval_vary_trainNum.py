@@ -101,7 +101,7 @@ def qa_curve_trainNums():
     train_nums_original = [
         "4",
         "8", "16", "32", "64", "128", "256", "512",
-                  "1024",
+                  "1024", "2048",
                   ]
     train_nums_ss = [
         "4",
@@ -304,7 +304,7 @@ def qa_curve_trainNums():
                 xls = [int(x) for x in train_nums_original]
                 xlabells = [
                     "$2^2$","$2^3$","$2^4$","$2^5$","$2^6$",
-                    "$2^7$","$2^8$","$2^9$","$2^{10}$",
+                    "$2^7$","$2^8$","$2^9$","$2^{10}$","$2^{11}$"
                             ]
                 axs[j].set_xticks(xls, xls,
                                      rotation=0,
