@@ -49,6 +49,11 @@ def qa_curve_trainNums():
         # "LoRD-IV",
     ]
 
+    method_map={
+        "vanilla":"MLE",
+        "LoRD-VI":"LoRD",
+        }
+
     marker = {
         "vanilla": "s",
         # "kd": "D",
@@ -60,8 +65,8 @@ def qa_curve_trainNums():
     }
 
     model_color_dict = {
-        "vanilla": "#4a148c",
-        "LoRD-VI": "#eb3b5a",
+        "vanilla": "#ff0a22",
+        "LoRD-VI": "#428eda",
         # "kd": "#469de9",
         # "Complex-lord": "#eb3b5a",
         # "LoRD-II": "#eb3b5a",
@@ -70,8 +75,8 @@ def qa_curve_trainNums():
     }
 
     model_color_dict2 = {
-        "vanilla": "#9c27b0",
-        "LoRD-VI": "#f78fb3",
+        "vanilla": "#fba1a9",
+        "LoRD-VI": "#96c0ea",
         # "kd": "#98c8f3",
         # "Complex-lord": "#f78fb3",
         # "LoRD-II": "#f78fb3",
@@ -222,9 +227,17 @@ def qa_curve_trainNums():
         res_dict[task]["Accurary"] = acc_dict[task]
         res_dict[task]["Precision"] = p_dict[task]
         res_dict[task]["Recall"] = r_dict[task]
-        res_dict[task]["F1"] = f1_dict[task]
+        res_dict[task]["F1 Score"] = f1_dict[task]
 
-    fig, axs = plt.subplots(2, 4, figsize=(20.8, 9.04))
+
+    fig, axs = plt.subplots(1, 4, figsize=(20.8, 5.04))
+
+    y_pretrained=[
+            [0.694,0.696,0.693,0.693,],
+        ]
+    # y_victim=[
+    #         [0.842,0.842,0.842,0.842,],
+    #     ]
 
     for i, task in enumerate(list(res_dict.keys())):
         for j, metricName in enumerate(list(res_dict[task].keys())):
@@ -252,11 +265,11 @@ def qa_curve_trainNums():
                 # print(f"train nums: {train_nums}.")
                 # print(f"y-mean-ls: {ymeanls}.")
 
-                axs[i][j].set_xscale("log")
-                axs[i][j].plot(
+                axs[j].set_xscale("log")
+                axs[j].plot(
                     xls,
                     ymeanls,
-                    label=method,
+                    label=method_map[method],
                     linewidth=lw,
                     marker=marker[method],
                     markevery=1,
@@ -268,25 +281,42 @@ def qa_curve_trainNums():
                     color=model_color_dict[method],
                 )
 
-                axs[i][j].fill_between(
+                axs[j].fill_between(
                     xls,
                     ymeanls - ystdls,
                     ymeanls + ystdls,
                     alpha=a,
-                    linewidth=0.0,
+                    linewidth=1.5,
                     color=model_color_dict2[method],
                 )
 
-                axs[i][j].set_xlabel("# Training Samples", fontsize=font_size)
-                axs[i][j].set_ylabel(metricName, fontsize=font_size - 5)
-                axs[i][j].set_xticks(xls, xls, rotation=48, size=font_size - 4)
-                axs[i][j].tick_params(
+                axs[j].axhline(y=y_pretrained[i][j],
+                           color='g', linestyle='--',
+                           linewidth=1)
+                # axs[i][j].axhline(y=y_victim[i][j],
+                #            color='r', linestyle='--',
+                #            linewidth=1)
+
+                axs[j].set_xlabel("Query Times",
+                                     fontsize=font_size-3)
+                axs[j].set_ylabel(metricName, fontsize=font_size - 3)
+
+                xls = [int(x) for x in train_nums_original]
+                xlabells = [
+                    "$2^2$","$2^3$","$2^4$","$2^5$","$2^6$",
+                    "$2^7$","$2^8$","$2^9$","$2^{10}$",
+                            ]
+                axs[j].set_xticks(xls, xls,
+                                     rotation=0,
+                                     size=font_size - 4)
+                axs[j].set_xticklabels(xlabells,)
+                axs[j].tick_params(
                     axis="y",
                     labelsize=font_size - 6,
-                    rotation=65,
+                    # rotation=65,
                     width=2,
                     length=2,
-                    pad=0,
+                    pad=1.5,
                     direction="in",
                     which="both",
                 )
@@ -295,7 +325,7 @@ def qa_curve_trainNums():
         "size": font_size - 1,
     }
     plt.legend(
-        loc=(-1.91, 4.2),
+        loc=(-1.75, 1.0),
         prop=font_legend,
         ncol=6,
         frameon=False,
