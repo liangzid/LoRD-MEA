@@ -39,6 +39,95 @@ from peft import PeftModel
 import torch
 import numpy as np
 
+from general_train.general_preprocess import data_format_transform
+from training_data_collecting_openai import chatWithOpenAI_APIs
+
+def load_data2text_nolabel(tokenizer,
+                          task_name="e2e_nlg",
+                          train_num=100,
+                          model_name="gpt-3.5-turbo-1106",
+                          max_length=512,
+                          openai_tmp_save_pth="./STEALED_PKLS/d2t_data_saveto_",):
+
+    lm_tokenizer = tokenizer
+
+    V = lm_tokenizer.vocab_size
+
+    tasks_we_used = [
+        "e2e_nlg",
+        "allenai/common_gen",
+    ]
+    assert task_name in tasks_we_used
+    dataset_name = task_name
+    inp_ls = []
+
+    pls = {
+        "e2e_nlg": "Please translate the following information to a sentence with natural language:",
+        "allenai/common_gen": "Please generate a sentence based on the words: ",
+    }
+    pp = pls[task_name]
+
+    if task_name == tasks_we_used[0]:
+        trainset_text = load_dataset(dataset_name,
+                                     split=f"train")\
+        .shuffle(20240306)\
+        .to_iterable_dataset()\
+        .take(train_num)
+
+        for item in trainset_text:
+            question = item["meaning_representation"]
+            label = item["human_reference"]
+            inp_ls.append(f"{pp}{question}.")
+
+    elif task_name == tasks_we_used[1]:
+
+        trainset_text = load_dataset(dataset_name,
+                                     split=f"train")\
+            .shuffle(20240306)\
+            .to_iterable_dataset()\
+            .take(train_num)
+
+        for item in trainset_text:
+            question = item["concepts"]
+            question = ", ".join(question)
+            label = item["target"]
+            inp_ls.append(f"{pp}{question}.")
+    assert inp_ls != []
+
+    fpth=openai_tmp_save_pth+f"{task_name}-trainNUM_{train_num}.json"
+        
+    if not os.path.exists(fpth):
+        print(f"Now Stealing {model_name}...")
+        res_ls=[]
+        for q in inp_ls:
+            qd = [{"role": "system", "content": ""},
+                    {"role": "user", "content": q}]
+            # res = chatWithOpenAI__LogLogits(
+            #     model_name,
+            #     qd,
+            #     1,
+            # )
+            resp = chatWithOpenAI_APIs(
+                model_name,
+                utter=q
+                )
+            res_ls.append(resp)
+        with open(fpth,
+                'w',encoding='utf8') as f:
+            json.dump([inp_ls,res_ls],f,ensure_ascii=False,indent=4)
+    else:
+        # from collections import OrderedDict
+        with open(fpth, 'r',encoding='utf8') as f:
+            data=json.load(f,object_pairs_hook=OrderedDict)
+            inp_ls=data[0]
+            res_ls=data[1]
+
+    return data_format_transform(inp_ls,res_ls,
+                                 tokenizer,
+                                 train_num,
+                                 max_length,
+                                 topk=1)
+
 def load_data2text_datals(tokenizer,
                           task_name="e2e_nlg",
                           train_num=100,
@@ -448,9 +537,133 @@ def eval_d2t_res():
     print("OVERALL Save DONE.")
     pprint(res_dict)
 
+
+def eval_fidelity():
+    taskls = [
+        "e2e_nlg",
+        # "allenai/common_gen",
+        ]
+    mls = [
+        "vanilla",
+        "LoRD-VI",
+        ]
+    train_times = [
+        "1",
+        # "2",
+        # "3",
+        # "4",
+        # "5",
+        ]
+    train_nums = [
+        # "8",
+        # "16",
+        "64",
+        # "128",
+        # "256",
+        # "512",
+        ]
+    base_model_name1="meta-llama/Meta-Llama-3-8B-Instruct"
+    fmph_ls=[
+        "microsoft/Phi-3-mini-4k-instruct",
+        "Qwen/Qwen2-7B-Instruct",
+        "facebook/opt-6.7b",
+        "mistralai/Mistral-7B-Instruct-v0.3",
+        "meta-llama/Meta-Llama-3-8B-Instruct",
+        ]
+    vicph_ls=[
+        "gpt-4o",
+        "gpt-4",
+        "gpt-3.5-turbo",
+        ]
+
+    dir_p = "./d2t_cross_0704_dataset_res/"
+    res_dict = {}
+    if not os.path.exists(dir_p):
+        os.makedirs(dir_p)
+
+    res_dict_averaged={}
+
+    for task in taskls:
+        for fmph in fmph_ls:
+            for m in mls:
+                temp_scorels=[]
+                for vicph in vicph_ls:
+                    prefix = "./cross_fidelity/text2sql"
+                    if m=="vanilla":
+                        ckpt = (
+                            prefix
+                            + f"{task}{m}{vicph}{fmph}___finally/"
+                        )
+                    elif m in vicph_ls:
+                        ckpt=m
+                    else:
+                        ckpt = prefix + \
+                            f"{task}{m}{vicph}{fmph}___period512/"
+                    res_pth = ckpt+f"___{task}_d2t_infer_res.json"
+                    res_pth = res_pth.replace("/", "__").replace(".", "")
+
+                    if not os.path.exists(dir_p+res_pth):
+                        res_ls = infer_d2t(ckpt,
+                                        task,
+                                        dir_p+res_pth,
+                                        test_set_take_num=500,
+                                        mnt=64,
+                                        base_model_name=fmph,
+                                        )
+                    else:
+                        # from collections import OrderedDict
+                        with open(dir_p+res_pth, 'r', encoding='utf8') as f:
+                            res_ls = json.load(
+                                f, object_pairs_hook=OrderedDict)
+
+                    scores = eval_d2ttt(res_ls)
+                    print(task, ckpt)
+                    print(scores)
+                    res_dict[task+"-----"+res_pth] = scores
+                    score_ls=[
+                        scores["bleu"]["1"],
+                        scores["bleu"]["2"],
+                        scores["bleu"]["3"],
+                        scores["bleu"]["4"],
+                        scores["bertscore"]["p"],
+                        scores["bertscore"]["r"],
+                        scores["bertscore"]["f1"],
+                        scores["rouge-l"]["p"],
+                        scores["rouge-l"]["r"],
+                        scores["rouge-l"]["f1"],
+                        ]
+                    temp_scorels.append(score_ls)
+
+                # obtain the mean value
+                # obtain the std value
+                temp_scorels=np.array(temp_scorels)
+                meanvaluels=np.mean(temp_scorels,axis=0).tolist()
+                stdvaluels=np.std(temp_scorels,axis=0,ddof=1).tolist()
+                res_dict_averaged[task+"--"+res_pth]=\
+                    {"mean": meanvaluels,
+                     "std": stdvaluels}
+
+    with open(dir_p+"Overall__d2t_varytrain_num_inference_scores.json",
+              'w', encoding='utf8') as f:
+        json.dump(res_dict, f, ensure_ascii=False, indent=4)
+
+    with open(
+        dir_p + "OverallScoresAveraged.json",
+            "w", encoding="utf8"
+    ) as f:
+        json.dump(res_dict_averaged, f, ensure_ascii=False, indent=4)
+
+    print("OVERALL Save DONE.")
+    pprint(res_dict)
+    pprint("-------------------------")
+    pprint(res_dict_averaged)
+    return res_dict
+
+
 # running entry
 if __name__ == "__main__":
     # main()
     # eval_d2t_res()
-    eval_varying_train_num()
+    # eval_varying_train_num()
+    eval_fidelity()
     print("EVERYTHING DONE.")
