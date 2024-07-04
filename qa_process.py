@@ -18,7 +18,7 @@ if __name__ == "__main__":
     # os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,6,7"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "6,7"
-    os.environ["CUDA_VISIBLE_DEVICES"] = "3"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "4"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5"
     os.environ["TORCH_USE_CUDA_DSA"]="1"
 
@@ -812,14 +812,14 @@ def eval_varytrainum_res():
         # "kd",
         ]
     train_times = [
-        "1",
-        "2",
-        "3",
-        "4",
+        # "1",
+        # "2",
+        # "3",
+        # "4",
         "5",
     ]
     train_nums = [
-        "4",
+        # "4",
         # "8",
         # "16",
         # "32",
@@ -828,6 +828,7 @@ def eval_varytrainum_res():
         # "256",
         # "512",
         # "1024",
+        "2048",
         ]
     base_model_name1="meta-llama/Meta-Llama-3-8B-Instruct"
 

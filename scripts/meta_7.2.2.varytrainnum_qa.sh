@@ -18,7 +18,7 @@ export root_dir="${HOME}/alignmentExtraction/"
 
 # export TRAIN_NUMS=(8 16 32 64 128 256 512 1024)
 # export TRAIN_NUMS=(256 512 1024)
-export TRAIN_NUMS=(4)
+export TRAIN_NUMS=(2048)
 # export cudals=(2 3)
 # export cudals=(0 1 2 3 4 5 6 7)
 export cudals=(0)
