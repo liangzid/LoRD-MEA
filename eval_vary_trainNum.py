@@ -93,10 +93,14 @@ def qa_curve_trainNums():
         "5",
     ]
 
-    train_nums = [
-        # "4",
+    train_nums_original = [
+        "4",
         "8", "16", "32", "64", "128", "256", "512",
                   "1024",
+                  ]
+    train_nums_ss = [
+        "4",
+        "8", "16", "32", "64", "128",
                   ]
 
     a = 0.4
@@ -137,6 +141,11 @@ def qa_curve_trainNums():
                 p_dict[task][m] = {}
                 r_dict[task][m] = {}
                 f1_dict[task][m] = {}
+
+                if m=="LoRD-VI":
+                    train_nums=train_nums_ss
+                else:
+                    train_nums = train_nums_original
                 for tn in train_nums:
                     results_dict[task][m][tn] = {}
                     acc_dict[task][m][tn] = {}
@@ -161,6 +170,8 @@ def qa_curve_trainNums():
                                 "kd",
                             ]:
                                 pth += "finally/"
+                            elif tn in ["64","128",]:
+                                pth += "period512/"
                             elif tn=="1024":
                                 pth += "period1024/"
                             elif tn=="2048":
@@ -219,6 +230,10 @@ def qa_curve_trainNums():
         for j, metricName in enumerate(list(res_dict[task].keys())):
             adict = res_dict[task][metricName]
             for method in adict.keys():
+                if method == "LoRD-VI":
+                    train_nums = train_nums_ss
+                else:
+                    train_nums = train_nums_original
                 ylss = []
                 for tn in train_nums:
                     templs = []
@@ -1065,7 +1080,7 @@ def glue_curve_trainNums():
 if __name__ == "__main__":
     # glue()
     # glue_curve_trainNums()
-    wmt_curve_trainNums()
+    # wmt_curve_trainNums()
     # code_curve_trainNums()
-    # qa_curve_trainNums()
+    qa_curve_trainNums()
     print("EVERYTHING DONE.")

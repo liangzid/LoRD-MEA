@@ -33,9 +33,9 @@ export msl=140
 # export task_ls=("ru-en" "de-en")
 # export task_ls=("piqa" "truthful_qa")
 export task_ls=("piqa")
-# export train_taskls=("vanilla" "LoRD-VI")
+export train_taskls=("vanilla" "LoRD-VI")
 # export train_taskls=("LoRD-VIII" "vanilla")
-export train_taskls=("LoRD-VI")
+# export train_taskls=("LoRD-VI")
 # export train_taskls=("vanilla")
 
 export is_black_box=1
