@@ -60,7 +60,7 @@ export tau2=0.85
 
 for from_path in ${from_path_ls[*]}
 do
-    for victim_model in ${victim_path_ls[*]}
+    for victim_path in ${victim_path_ls[*]}
     do
 	for task in ${task_ls[*]}
 	do

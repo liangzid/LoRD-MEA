@@ -18,7 +18,7 @@ if __name__ == "__main__":
     # os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,6,7"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "6,7"
-    os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "3"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5"
     os.environ["TORCH_USE_CUDA_DSA"]="1"
 from datasets import load_dataset
@@ -564,10 +564,10 @@ def eval_fidelity():
         ]
     base_model_name1="meta-llama/Meta-Llama-3-8B-Instruct"
     fmph_ls=[
-        "microsoft/Phi-3-mini-4k-instruct",
-        "Qwen/Qwen2-7B-Instruct",
-        "facebook/opt-6.7b",
-        "mistralai/Mistral-7B-Instruct-v0.3",
+        # "microsoft/Phi-3-mini-4k-instruct",
+        # "Qwen/Qwen2-7B-Instruct",
+        # "facebook/opt-6.7b",
+        # "mistralai/Mistral-7B-Instruct-v0.3",
         "meta-llama/Meta-Llama-3-8B-Instruct",
         ]
     vicph_ls=[
