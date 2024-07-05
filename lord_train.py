@@ -587,7 +587,7 @@ def setup_train_args():
                         type=int, required=False)
 
     parser.add_argument('--victim_path', default='gpt-3.5-turbo',
-                        type=str, required=True,)
+                        type=str, required=False,)
     parser.add_argument('--from_path', default='bert-tiny',
                         type=str, required=True,)
     parser.add_argument('--save_path',
