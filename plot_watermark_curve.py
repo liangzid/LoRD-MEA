@@ -218,9 +218,14 @@ def main1():
     # row_ls=["CommonGen", "E2E NLG",]
     # row_ls=["CommonGen", "cs-en",]
     row_ls=["WMT (cs-en)", "WMT (de-en)",]
+    # column_ls=["P-value(↑)",
+    #            "Z-score(↓)",
+    #            "WM Frac.(↓)",
+    #            "Rouge-L(↑)",]
+
     column_ls=["P-value(↑)",
                "Z-score(↓)",
-               "WM Frac.(↓)",
+               # "WM Frac.(↓)",
                "Rouge-L(↑)",]
 
     method_ls=[
@@ -229,7 +234,8 @@ def main1():
         "LoRD",
         ]
 
-    fig, axs = plt.subplots(2, 4, figsize=(20, 7.0))
+    # fig, axs = plt.subplots(2, 4, figsize=(20, 7.0))
+    fig, axs = plt.subplots(3, 2, figsize=(10,10.5,))
 
     font_size = 21
     a=0.2
@@ -264,12 +270,12 @@ def main1():
         "LoRD",
         ]
 
-    for i_row, row in enumerate(row_ls):
-        for i_col, col in enumerate(column_ls):
+    for i_col, col in enumerate(column_ls):
+        for i_row, row in enumerate(row_ls):
             data=overall_data[col][row]
             for method in method_ls:
                 # print("data[method]",data[method])
-                axs[i_row][i_col].plot(x_ls,
+                axs[i_col][i_row].plot(x_ls,
                                        data[method],
                                     label=method,
                                     linewidth=lw,
@@ -292,14 +298,14 @@ def main1():
                 xlabelname="WMT (cs-en)"
             else:
                 xlabelname="WMT (de-en)\n$\lambda_1$"
-            axs[i_row][i_col].set_xlabel(xlabelname,
+            axs[i_col][i_row].set_xlabel(xlabelname,
                                          fontsize=font_size-3)
-            axs[i_row][i_col].set_ylabel(col,
+            axs[i_col][i_row].set_ylabel(col,
                                          fontsize=font_size-5)
-            axs[i_row][i_col].set_xticks(x_ls, x_ls,
+            axs[i_col][i_row].set_xticks(x_ls, x_ls,
                                 # rotation=48,
                                          size=font_size-4)
-            axs[i_row][i_col].tick_params(axis='y',
+            axs[i_col][i_row].tick_params(axis='y',
                                     labelsize=font_size-6,
                                     rotation=65,
                                     width=2, length=2,
@@ -311,7 +317,7 @@ def main1():
         'size': font_size-1,
     }
 
-    plt.legend(loc=(-1.81, 2.60),
+    plt.legend(loc=(-0.47, 4.20),
                prop=font1, ncol=6, frameon=False,
                handletextpad=0., handlelength=1.2)  # 设置信息框
     fig.subplots_adjust(wspace=0.26, hspace=0.6)
