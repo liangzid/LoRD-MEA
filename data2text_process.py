@@ -266,7 +266,7 @@ def infer_d2t(modelname, task_name, res_pth,
 
     assert inp_ls != []
 
-    if modelname=="gpt-3.5-turbo-1106":
+    if modelname in ["gpt-4o", "gpt-4", "gpt-3.5-turbo",]:
         from training_data_collecting_openai import chatWithOpenAI_APIs
         res_ls=[]
         for d in tqdm(inp_ls):
@@ -546,6 +546,9 @@ def eval_fidelity():
     mls = [
         "vanilla",
         "LoRD-VI",
+        # "gpt-4o",
+        # "gpt-4",
+        # "gpt-3.5-turbo",
         ]
     train_times = [
         "1",
@@ -564,13 +567,18 @@ def eval_fidelity():
         ]
     base_model_name1="meta-llama/Meta-Llama-3-8B-Instruct"
     fmph_ls=[
-        # "microsoft/Phi-3-mini-4k-instruct",
-        # "Qwen/Qwen2-7B-Instruct",
-        # "facebook/opt-6.7b",
-        # "mistralai/Mistral-7B-Instruct-v0.3",
+        "microsoft/Phi-3-mini-4k-instruct",
+        "Qwen/Qwen2-7B-Instruct",
+        "facebook/opt-6.7b",
+        "mistralai/Mistral-7B-Instruct-v0.3",
         "meta-llama/Meta-Llama-3-8B-Instruct",
         ]
     vicph_ls=[
+        "gpt-4o",
+        "gpt-4",
+        "gpt-3.5-turbo",
+        ]
+    vicph_original_ls=[
         "gpt-4o",
         "gpt-4",
         "gpt-3.5-turbo",
@@ -594,7 +602,7 @@ def eval_fidelity():
                             prefix
                             + f"{task}{m}{vicph}{fmph}___finally/"
                         )
-                    elif m in vicph_ls:
+                    elif m in vicph_original_ls:
                         ckpt=m
                     else:
                         ckpt = prefix + \
@@ -612,7 +620,8 @@ def eval_fidelity():
                                         )
                     else:
                         # from collections import OrderedDict
-                        with open(dir_p+res_pth, 'r', encoding='utf8') as f:
+                        with open(dir_p+res_pth, 'r',
+                                  encoding='utf8') as f:
                             res_ls = json.load(
                                 f, object_pairs_hook=OrderedDict)
 

@@ -43,36 +43,95 @@ from peft import PeftModel
 def visualize_heat(
         ):
 
-    # victim_ls=[
-    #     "gpt-4o","gpt-4","gpt-3.5-turbo",
-    #     ]
+    color="white"
+    interp="nearest"
+    # interp="bilinear"
+    
+    victim_raw_ls=[
+        "gpt-4o","gpt-4","gpt-3.5-turbo",
+        ]
     victim_ls=[
         "GPT-4o","GPT-4","GPT-3.5",
         ]
-    # local_ls=[
-    #     "microsoft/Phi-3-mini-4k-instruct",
-    #     "Qwen/Qwen2-7B-Instruct",
-    #     "facebook/opt-6.7b",
-    #     "mistralai/Mistral-7B-Instruct-v0.3",
-    #     "meta-llama/Meta-Llama-3-8B-Instruct",
-    #     ]
+    local_raw_ls=[
+        "microsoft/Phi-3-mini-4k-instruct",
+        "facebook/opt-6.7b",
+        "Qwen/Qwen2-7B-Instruct",
+        "mistralai/Mistral-7B-Instruct-v0.3",
+        "meta-llama/Meta-Llama-3-8B-Instruct",
+        ]
     local_ls=[
-        "Phi-3",
-        "Qwen2-7B",
+        "Phi3-3.8B",
         "OPT-6.7B",
-        "Mistral-7B",
+        "Qwen2-7B",
+        "MistralV3-7B",
         "Llama3-8B",
         ]
-    res_mat=np.random.random((len(local_ls),len(victim_ls),))
+    # res_mat=np.random.random((len(local_ls),len(victim_ls),))
+    res_mat_dict={
+        "BLEU":np.zeros(((len(local_ls),len(victim_ls),))),
+        "Rouge-L":np.zeros(((len(local_ls),len(victim_ls),))),
+        "BERTScore":np.zeros(((len(local_ls),len(victim_ls),))),
+        }
+    res_vic_dict={
+        "BLEU":np.zeros(((len(victim_ls),))),
+        "Rouge-L":np.zeros(((len(victim_ls),))),
+        "BERTScore":np.zeros(((len(victim_ls),))),
+        }
+
+    with open("./d2t_cross_0704_dataset_res/Overall__d2t_varytrain_num_inference_scores.json",
+              'r',encoding='utf8') as f:
+        data=json.load(f,object_pairs_hook=OrderedDict)
+        
+    from pprint import pprint
+    pprint(data)
+    for i,local in enumerate(local_raw_ls):
+        for j,victim in enumerate(victim_raw_ls):
+            # ......
+            keyName=f"e2e_nlg-----__cross_fidelity__text2sqle2e_nlgvanilla{victim}{local}___finally_____e2e_nlg_d2t_infer_resjson"
+            keyName=keyName.replace("/","__").replace(".","")
+            adict=data[keyName]
+
+            bleu4_score=adict["bleu"]["4"]
+            bertscore=adict["bertscore"]["f1"]
+            rougel=adict["rouge-l"]["f1"]
+            res_mat_dict["BLEU"][i,j]=bleu4_score
+            res_mat_dict["Rouge-L"][i,j]=rougel
+            res_mat_dict["BERTScore"][i,j]=bertscore
+
+    with open("./d2t_cross_0704_dataset_res/victim_scores.json",
+              'r',encoding='utf8') as f:
+        data=json.load(f,object_pairs_hook=OrderedDict)
+    # print(data)
+    for i,victim in enumerate(victim_raw_ls):
+        keyName=f"e2e_nlg-----{victim}___e2e_nlg_d2t_infer_resjson"
+        keyName=keyName.replace("/","__").replace(".","")
+        adict=data[keyName]
+
+        bleu4_score=adict["bleu"]["4"]
+        bertscore=adict["bertscore"]["f1"]
+        rougel=adict["rouge-l"]["f1"]
+
+        res_vic_dict["BLEU"][i]=bleu4_score
+        res_vic_dict["Rouge-L"][i]=rougel
+        res_vic_dict["BERTScore"][i]=bertscore
+
+    pprint(res_mat_dict)
+    pprint(res_vic_dict)
+    for key in res_mat_dict:
+        for i in range(len(local_ls)):
+            for j in range(len(victim_ls)):
+                res_mat_dict[key][i,j]/=res_vic_dict[key][j]
     
     # fig, axs = plt.subplots(1, 1, figsize=(9.5, 5.3))
     fig, axs = plt.subplots(1, 3, figsize=(17.5, 9.5,))
     fig.subplots_adjust(wspace=0.01, hspace=0.5)
 
+    res_mat=res_mat_dict["BLEU"]
     fs = 19
     axs[0].imshow(res_mat,
                cmap=plt.cm.Reds,
-               interpolation="nearest",
+               interpolation=interp,
                )
     axs[0].set_yticks([0, 1, 2, 3, 4,])
     axs[0].set_xticks([0, 1, 2])
@@ -80,7 +139,7 @@ def visualize_heat(
     axs[0].set_xticklabels(victim_ls, fontsize=fs-2,)
     axs[0].set_ylabel("Local Models", fontsize=fs)
     axs[0].set_xlabel("Victim Models", fontsize=fs)
-    text = f"BLEU"
+    text = f"BLEU-4"
     axs[0].title.set_text(text)
     axs[0].title.set_fontsize(fs)
 
@@ -90,14 +149,15 @@ def visualize_heat(
         axs[0].text(j,i,"{:.2f}".format(value),
                  ha="center",
                  va="center",
-                 color="white",
+                 color=color,
                  fontsize=fs+2,)
 
     ## second
-    res_mat=np.random.random((len(local_ls),len(victim_ls),))
+    # res_mat=np.random.random((len(local_ls),len(victim_ls),))
+    res_mat=res_mat_dict["Rouge-L"]
     axs[1].imshow(res_mat,
                cmap=plt.cm.Reds,
-               interpolation="nearest",
+               interpolation=interp,
                )
     axs[1].set_yticks([0, 1, 2, 3, 4,])
     axs[1].set_xticks([0, 1, 2])
@@ -106,7 +166,7 @@ def visualize_heat(
     axs[1].set_xticklabels(victim_ls, fontsize=fs-2,)
     # axs[1].set_ylabel("Local Models", fontsize=fs)
     axs[1].set_xlabel("Victim Models", fontsize=fs)
-    text = f"Rouge-L"
+    text = f"Rouge-L (F1)"
     axs[1].title.set_text(text)
     axs[1].title.set_fontsize(fs)
 
@@ -114,14 +174,14 @@ def visualize_heat(
         axs[1].text(j,i,"{:.2f}".format(value),
                  ha="center",
                  va="center",
-                 color="white",
+                 color=color,
                  fontsize=fs+2,)
 
     ## third
-    res_mat=np.random.random((len(local_ls),len(victim_ls),))
+    res_mat=res_mat_dict["BERTScore"]
     axs[2].imshow(res_mat,
                cmap=plt.cm.Reds,
-               interpolation="nearest",
+               interpolation=interp,
                )
     axs[2].set_yticks([0, 1, 2, 3, 4,])
     axs[2].set_xticks([0, 1, 2])
@@ -131,7 +191,7 @@ def visualize_heat(
     axs[2].set_xticklabels(victim_ls, fontsize=fs-2,)
     # axs[1].set_ylabel("Local Models", fontsize=fs)
     axs[2].set_xlabel("Victim Models", fontsize=fs)
-    text = f"BERTScore"
+    text = f"BERTScore (F1)"
     axs[2].title.set_text(text)
     axs[2].title.set_fontsize(fs)
 
@@ -139,13 +199,8 @@ def visualize_heat(
         axs[2].text(j,i,"{:.2f}".format(value),
                  ha="center",
                  va="center",
-                 color="white",
+                 color=color,
                  fontsize=fs+2,)
-
-
-
-
-
 
 
     save_path="fidelity-results.pdf"
