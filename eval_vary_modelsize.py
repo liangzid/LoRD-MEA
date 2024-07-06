@@ -52,19 +52,22 @@ def wmt_curve_trainNums(overall_name="wmt16", taskls=["cs-en","de-en",]):
         # "google/gemma-2b": "*",
         "LoRD-VIII": "o",
         "LoRD-VI": "o",
+        "Initial Local Model": "D",
     }
     model_color_dict = {
-        "vanilla": "#4a148c",
+        "vanilla": "#428eda",
         # "kd": "#469de9",
-        "LoRD-VIII": "#eb3b5a",
-        "LoRD-VI": "#eb3b5a",
+        # "LoRD-VIII": "#eb3b5a",
+        "LoRD-VI": "#ff0a22",
+        "Initial Local Model": "#9c27b0",
         # "google/gemma-2b": "#3867d6",
     }
     model_color_dict2 = {
-        "vanilla": "#9c27b0",
+        "vanilla": "#96c0ea",
         # "kd": "#98c8f3",
-        "LoRD-VIII": "#f78fb3",
-        "LoRD-VI": "#f78fb3",
+        # "LoRD-VIII": "#f78fb3",
+        "LoRD-VI": "#fba1a9",
+        "Initial Local Model": "#9c27b0",
         # "google/gemma-2b": "#778beb",
     }
     train_times = [
@@ -111,6 +114,7 @@ def wmt_curve_trainNums(overall_name="wmt16", taskls=["cs-en","de-en",]):
         "kd": "-.",
         "LoRD-VIII": "-",
         "LoRD-VI": "-",
+        "Initial Local Model": "dotted",
         "google/gemma-2b": "-",
     }
     font_size = 21
@@ -253,12 +257,42 @@ def wmt_curve_trainNums(overall_name="wmt16", taskls=["cs-en","de-en",]):
     res_dict = {}
     for task in taskls:
         res_dict[task] = {}
-        res_dict[task]["BLEU-1"] = bl_1_dict[task]
+        res_dict[task]["BLEU"] = bl_1_dict[task]
         # res_dict[task]["BLEU-4"] = bl_4_dict[task]
         res_dict[task]["Rouge-L Recall"] = rg_r_dict[task]
         # res_dict[task]["Rouge-L F1"] = rg_f1_dict[task]
-        res_dict[task]["BERTScore Recall"] = bs_r_dict[task]
         res_dict[task]["BERTScore F1"] = bs_f1_dict[task]
+        res_dict[task]["BERTScore Recall"] = bs_r_dict[task]
+
+    # from collections import OrderedDict
+    # with open("./vary_train_num_qa_infers/pretrained_results.json",
+    #           'r',encoding='utf8') as f:
+    #     data=json.load(f,object_pairs_hook=OrderedDict)
+    from vary_train_num_qa_infers.pretrained_results\
+        import PRETRAINED_DICT as data
+    y_pretrained={}
+    for task in list(res_dict.keys()):
+        y_pretrained[task]={}
+        for metricName in res_dict[task]:
+            print(metricName)
+            adict=res_dict[task][metricName]
+            y_pretrained[task][metricName]=[]
+            for base_path in base_pth_ls:
+                fpth=f"{task}-----{base_path}___{task}_wmt_infer_resjson"
+                fpth=fpth.replace("/","__").replace(".","")
+                scores=data[fpth]
+                if "BLEU"==metricName:
+                    y_pretrained[task][metricName]\
+                        .append(scores["bleu"]["1"])
+                elif "Rouge-L Recall"==metricName:
+                    y_pretrained[task][metricName]\
+                        .append(scores["rouge-l"]["r"])
+                elif "BERTScore Recall"==metricName:
+                    y_pretrained[task][metricName]\
+                        .append(scores["bertscore"]["r"])
+                elif "BERTScore F1"==metricName:
+                    y_pretrained[task][metricName]\
+                        .append(scores["bertscore"]["f1"])
 
     fig, axs = plt.subplots(2, 4, figsize=(21, 9.37))
 
@@ -326,25 +360,51 @@ def wmt_curve_trainNums(overall_name="wmt16", taskls=["cs-en","de-en",]):
                     color=model_color_dict2[method],
                 )
 
-                axs[i][j].set_xlabel("# Model Parameters (Billion)", fontsize=font_size)
+                if i==0:
+                    xtext="WMT (ru-en)"
+                else:
+                    xtext="WMT (de-en)\n# Model Parameters (Billion)"
+                axs[i][j].set_xlabel(xtext, fontsize=font_size)
                 axs[i][j].set_ylabel(metricName, fontsize=font_size - 2)
-                axs[i][j].set_xticks(xls, xls, rotation=48, size=font_size - 4)
+                axs[i][j].set_xticks(xls, xls,
+                                     # rotation=48,
+                                     size=font_size - 4)
                 axs[i][j].tick_params(
                     axis="y",
                     labelsize=font_size - 6,
-                    rotation=65,
+                    # rotation=65,
                     width=2,
                     length=2,
                     pad=0,
                     direction="in",
                     which="both",
                 )
+
+            # print("++++++++++++++++++++++++++++++++++++++++++++++++++")
+            # print(x2_ls)
+            # print(y_pretrained[task][metricName])
+            # print("//////////////////////////////////////////////////")
+            pmethod="Initial Local Model"
+            axs[i][j].plot(
+                x2_ls,
+                y_pretrained[task][metricName],
+                label=pmethod,
+                linewidth=lw,
+                marker=marker[pmethod],
+                markevery=1,
+                markersize=15,
+                markeredgewidth=lw,
+                markerfacecolor="none",
+                alpha=1.0,
+                linestyle=model_line_style[pmethod],
+                color=model_color_dict[pmethod],
+            )
     font_legend = {
         "weight": "normal",
         "size": font_size - 1,
     }
     plt.legend(
-        loc=(-1.91, 2.6),
+        loc=(-2.35, 2.6),
         prop=font_legend,
         ncol=6,
         frameon=False,
