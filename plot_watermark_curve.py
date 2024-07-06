@@ -297,7 +297,9 @@ def main1():
             if i_row==0:
                 xlabelname="WMT (cs-en)"
             else:
-                xlabelname="WMT (de-en)\n$\lambda_1$"
+                xlabelname="WMT (de-en)"
+            if i_col==2:
+                xlabelname+="\n$\lambda_1$"
             axs[i_col][i_row].set_xlabel(xlabelname,
                                          fontsize=font_size-3)
             axs[i_col][i_row].set_ylabel(col,
