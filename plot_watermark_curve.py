@@ -47,7 +47,7 @@ def dictfindValue(data,key,dataset,method,lambda1):
     for KEY in data.keys():
         if dataset in KEY and method in KEY and lambda1 in KEY:
             va=data[KEY][key]
-            if key=="bertscore":
+            if key=="bertscore" or key=="rouge-l":
                 va=va["f1"]
             is_find=1
             break
@@ -82,13 +82,13 @@ def parse_json_file():
         "pretrained":"Watermarked Victim Model",
         }
     key_ls=[
-        "p_value","z_score","green_fraction","bertscore",
+        "p_value","z_score","green_fraction","rouge-l",
         ]
     key_label_ls={
-        key_ls[0]:"P-value",
-        key_ls[1]:"Z-score",
-        key_ls[2]:"Watermark Frac.",
-        key_ls[3]:"BERTScore",
+        key_ls[0]:"P-value(↑)",
+        key_ls[1]:"Z-score(↓)",
+        key_ls[2]:"WM Frac.(↓)",
+        key_ls[3]:"Rouge-L(↑)",
         }
 
     # from collections import OrderedDict
@@ -218,7 +218,15 @@ def main1():
     # row_ls=["CommonGen", "E2E NLG",]
     # row_ls=["CommonGen", "cs-en",]
     row_ls=["WMT (cs-en)", "WMT (de-en)",]
-    column_ls=["P-value", "Z-score", "Watermark Frac.","BERTScore",]
+    # column_ls=["P-value(↑)",
+    #            "Z-score(↓)",
+    #            "WM Frac.(↓)",
+    #            "Rouge-L(↑)",]
+
+    column_ls=["P-value(↑)",
+               "Z-score(↓)",
+               # "WM Frac.(↓)",
+               "Rouge-L(↑)",]
 
     method_ls=[
         "Watermarked Victim Model",
@@ -226,15 +234,16 @@ def main1():
         "LoRD",
         ]
 
-    fig, axs = plt.subplots(2, 4, figsize=(20, 7.0))
+    # fig, axs = plt.subplots(2, 4, figsize=(20, 7.0))
+    fig, axs = plt.subplots(3, 2, figsize=(10,10.5,))
 
     font_size = 21
     a=0.2
-    lw=1.7
+    lw=2.5
     marker = {
-        method_ls[0]: "o",
+        method_ls[0]: "x",
         method_ls[1]: "s",
-        method_ls[2]: "x",
+        method_ls[2]: "o",
     }
     model_color_dict = {
         method_ls[0]: "#eb3b5a",
@@ -252,7 +261,7 @@ def main1():
     model_line_style = {
         method_ls[0]: "-",
         method_ls[1]: "-.",
-        method_ls[2]: "dotted",
+        method_ls[2]: "-",
     }
 
     method_ls=[
@@ -261,12 +270,12 @@ def main1():
         "LoRD",
         ]
 
-    for i_row, row in enumerate(row_ls):
-        for i_col, col in enumerate(column_ls):
+    for i_col, col in enumerate(column_ls):
+        for i_row, row in enumerate(row_ls):
             data=overall_data[col][row]
             for method in method_ls:
                 # print("data[method]",data[method])
-                axs[i_row][i_col].plot(x_ls,
+                axs[i_col][i_row].plot(x_ls,
                                        data[method],
                                     label=method,
                                     linewidth=lw,
@@ -285,13 +294,18 @@ def main1():
                 #                     # alpha=1.0,
                 #                     color=model_color_dict2[method])
 
-            axs[i_row][i_col].set_xlabel("$\lambda_1$",
-                                         fontsize=font_size)
-            axs[i_row][i_col].set_ylabel(col,
+            if i_row==0:
+                xlabelname="WMT (cs-en)"
+            else:
+                xlabelname="WMT (de-en)\n$\lambda_1$"
+            axs[i_col][i_row].set_xlabel(xlabelname,
+                                         fontsize=font_size-3)
+            axs[i_col][i_row].set_ylabel(col,
                                          fontsize=font_size-5)
-            axs[i_row][i_col].set_xticks(x_ls, x_ls,
-                                rotation=48, size=font_size-4)
-            axs[i_row][i_col].tick_params(axis='y',
+            axs[i_col][i_row].set_xticks(x_ls, x_ls,
+                                # rotation=48,
+                                         size=font_size-4)
+            axs[i_col][i_row].tick_params(axis='y',
                                     labelsize=font_size-6,
                                     rotation=65,
                                     width=2, length=2,
@@ -303,7 +317,7 @@ def main1():
         'size': font_size-1,
     }
 
-    plt.legend(loc=(-1.81, 2.60),
+    plt.legend(loc=(-0.47, 4.20),
                prop=font1, ncol=6, frameon=False,
                handletextpad=0., handlelength=1.2)  # 设置信息框
     fig.subplots_adjust(wspace=0.26, hspace=0.6)

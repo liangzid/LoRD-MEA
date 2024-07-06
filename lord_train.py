@@ -523,6 +523,9 @@ def setup_train_args():
     parser.add_argument('--save_step', default=64, type=int,
                         required=False)
 
+    parser.add_argument('--use_pure_blackbox',
+                        default=0, type=int,
+                        required=False)
     parser.add_argument('--extra_nonlabel_data',
                         default=0, type=int,
                         required=False)
@@ -583,6 +586,8 @@ def setup_train_args():
     parser.add_argument("--max_new_tokens", default=16,
                         type=int, required=False)
 
+    parser.add_argument('--victim_path', default='gpt-3.5-turbo',
+                        type=str, required=False,)
     parser.add_argument('--from_path', default='bert-tiny',
                         type=str, required=True,)
     parser.add_argument('--save_path',
@@ -814,7 +819,7 @@ def main():
             nonlabel_trainls = None
 
         elif args.dataset_task in tasks_qa:
-            print(f"RUN wmt task: {args.dataset_task}")
+            print(f"RUN qa task: {args.dataset_task}")
             from qa_process import load_qa_datals
             raw_train_datals = load_qa_datals(
                 tokenizer,
@@ -836,29 +841,28 @@ def main():
             nonlabel_trainls = None
 
         elif args.dataset_task in tasks_data2text:
-            print(f"RUN wmt task: {args.dataset_task}")
+            print(f"RUN d2t task: {args.dataset_task}")
             from data2text_process import load_data2text_datals
-            raw_train_datals = load_data2text_datals(
-                tokenizer,
-                task_name=args.dataset_task,
-                train_num=args.train_num,
-                max_length=args.max_length
-            )
-
-            # if args.extra_nonlabel_data == 1:
-            #     nonlabel_trainls = load_wmt_nonlabel(
-            #         tokenizer,
-            #         task_name=args.dataset_task,
-            #         train_num=args.nonlabel_data_num,
-            #         max_length=args.max_length
-            #     )
-
-            # else:
-            #     nonlabel_trainls = None
-            nonlabel_trainls = None
+            from data2text_process import load_data2text_nolabel
+            if args.use_pure_blackbox==0:
+                raw_train_datals = load_data2text_datals(
+                    tokenizer,
+                    task_name=args.dataset_task,
+                    train_num=args.train_num,
+                    max_length=args.max_length,
+                )
+                nonlabel_trainls = None
+            else:
+                raw_train_datals = load_data2text_nolabel(
+                    tokenizer,
+                    task_name=args.dataset_task,
+                    train_num=args.train_num,
+                    max_length=args.max_length,
+                )
+                nonlabel_trainls = None
 
         elif args.dataset_task in tasks_data2text_wrmk:
-            print(f"RUN wmt task: {args.dataset_task}")
+            print(f"RUN d2t task: {args.dataset_task}")
             from data2text_process import load_data2text_datals
             dataset_task=args.dataset_task.split("@")[0]
             raw_train_datals = load_data2text_datals(
@@ -882,7 +886,7 @@ def main():
             nonlabel_trainls = None
 
         elif args.dataset_task in tasks_text2sql:
-            print(f"RUN wmt task: {args.dataset_task}")
+            print(f"RUN t2s task: {args.dataset_task}")
             from text2sql_process import load_text2sql_datals
             raw_train_datals = load_text2sql_datals(
                 tokenizer,

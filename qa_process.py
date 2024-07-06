@@ -18,7 +18,7 @@ if __name__ == "__main__":
     # os.environ["CUDA_VISIBLE_DEVICES"] = "0,1,2,3"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5,6,7"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "6,7"
-    os.environ["CUDA_VISIBLE_DEVICES"] = "2"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "4"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "4,5"
     os.environ["TORCH_USE_CUDA_DSA"]="1"
 
@@ -63,8 +63,13 @@ def load_qa_datals(
     dataset_name = task_name
     inp_ls = []
     if task_name == tasks_we_used[0]:
+        # trainset_text = load_dataset(
+        #     dataset_name, split=f"train[:{train_num}]")
         trainset_text = load_dataset(
-            dataset_name, split=f"train[:{train_num}]")
+            dataset_name, split=f"train")\
+        .shuffle(20240306)\
+        .to_iterable_dataset()\
+        .take(train_num)
 
         for item in trainset_text:
             question = item["goal"]
@@ -230,6 +235,39 @@ def infer_qa(modelname, task_name, res_pth, test_set_take_num=100,
             inps,summary = d
             res=chatWithOpenAI_APIs(modelname, pp, inps)
             print(f"Generated Text: {res}")
+            res_ls.append((res, summary))
+    elif modelname=="meta-llama/Meta-Llama-3-8B-Instruct":
+        print("USING PRE-TRAINED BASE MODEL")
+        # load model based on our idea
+        model = AutoModelForCausalLM.from_pretrained(
+            base_model_name,
+            device_map="auto",
+            trust_remote_code=True,
+            torch_dtype=torch.bfloat16,
+        )
+        tokenizer = AutoTokenizer\
+            .from_pretrained(base_model_name)
+        tokenizer.pad_token = tokenizer.eos_token
+        tokenizer.padding_side = "right"
+
+        res_ls = []
+        for d in tqdm(inp_ls):
+            inps, summary = d
+            final_inps = "Instruction: " + pp + " User: " + inps + " Assistant: "
+            inps_idx=tokenizer.encode(final_inps,max_length=128,
+                                      padding="longest",
+                                      return_tensors="pt")
+            print(inps_idx)
+            inps_idx=inps_idx.to("cuda")
+            res = model.generate(inps_idx,
+                                 max_new_tokens=mnt,)
+            print(res)
+            res=tokenizer.decode(res[0])
+            if final_inps in res:
+                res = res.split(final_inps)[1]
+            else:
+                res = res
+            print(f"Text Generated:>>> {res}")
             res_ls.append((res, summary))
     elif base_model_name is None:
         model = InferObj(
@@ -681,6 +719,87 @@ def eval_tau2_res():
     pprint(res_dict_averaged)
 
 
+def eval_pretraind_or_victim():
+    taskls = [
+        "piqa",
+        # "truthful_qa",
+        # "allenai/ai2_arc",
+    ]
+    train_times = [
+        "1",
+    ]
+    train_nums = [
+        "4",
+        ]
+    victim_model="gpt-3.5-turbo-1106"
+    pretrained_model="meta-llama/Meta-Llama-3-8B-Instruct"
+    mls = [
+        victim_model,
+        pretrained_model,
+        ]
+
+    dir_p = "./qa_0630_dataset_res/"
+    res_dict = {}
+
+    if not os.path.exists(dir_p):
+        os.makedirs(dir_p)
+    # ===============================================================
+
+    res_dict_averaged={}
+
+    for task in taskls:
+        for train_num in train_nums:
+            for m in mls:
+                temp_scorels=[]
+                for itime in train_times:
+                    ckpt = m
+                    res_pth = ckpt + f"___{task}_qa_infer_res.json"
+                    res_pth = res_pth.replace("/", "__").replace(".", "")
+
+                    if not os.path.exists(dir_p+res_pth):
+                        res_ls = infer_qa(ckpt, task, dir_p+res_pth,
+                                          test_set_take_num=500,
+                                          mnt=32,
+                                          base_model_name=ckpt,
+                                          )
+                    else:
+                        print(
+                            f"{dir_p+res_pth} file already exists. directly loading...")
+                        # from collections import OrderedDict
+                        with open(dir_p + res_pth, "r",
+                                  encoding="utf8") as f:
+                            res_ls = json.load(
+                                f, object_pairs_hook=OrderedDict)
+
+                    scores = eval_qaacc(task, res_ls)
+                    res_dict[task + "-----" + res_pth] = scores
+                    temp_scorels.append(scores)
+
+                # obtain the mean value
+                # obtain the std value
+                temp_scorels=np.array(temp_scorels)
+                meanvaluels=np.mean(temp_scorels,axis=0).tolist()
+                stdvaluels=np.std(temp_scorels,axis=0,ddof=1).tolist()
+                res_dict_averaged[task+"--"+res_pth]=\
+                    {"mean": meanvaluels,
+                     "std": stdvaluels}
+
+    with open(
+        dir_p + "Overall__qa_varytrain_num_inference_scores.json", "w", encoding="utf8"
+    ) as f:
+        json.dump(res_dict, f, ensure_ascii=False, indent=4)
+
+    with open(
+        dir_p + "OverallScoresAveraged.json",
+            "w", encoding="utf8"
+    ) as f:
+        json.dump(res_dict_averaged, f, ensure_ascii=False, indent=4)
+
+    print("OVERALL Save DONE.")
+    pprint(res_dict)
+    pprint(res_dict_averaged)
+
+
 def eval_varytrainum_res():
     taskls = [
         "piqa",
@@ -688,26 +807,28 @@ def eval_varytrainum_res():
         # "allenai/ai2_arc",
     ]
     mls = [
-        "LoRD-VI",
-        # "vanilla",
+        # "LoRD-VI",
+        "vanilla",
         # "kd",
         ]
     train_times = [
-        "1",
-        "2",
-        "3",
-        "4",
+        # "1",
+        # "2",
+        # "3",
+        # "4",
         "5",
     ]
     train_nums = [
+        # "4",
         # "8",
         # "16",
         # "32",
         # "64",
         # "128",
-        "256",
-        "512",
+        # "256",
+        # "512",
         # "1024",
+        "2048",
         ]
     base_model_name1="meta-llama/Meta-Llama-3-8B-Instruct"
 
@@ -734,6 +855,11 @@ def eval_varytrainum_res():
                     elif train_num=="1024":
                         ckpt = prefix + \
                             f"{task}{train_num}{itime}{m}___period1024/"
+                    elif train_num in ["64", "128"]:
+                        # ckpt = prefix + \
+                        #     f"{task}{train_num}{itime}{m}___period1024/"
+                        ckpt = prefix + \
+                            f"{task}{train_num}{itime}{m}___period512/"
                     else:
                         ckpt = (
                             prefix
@@ -1047,6 +1173,7 @@ if __name__ == "__main__":
     # main()
     # eval_qa_res()
     eval_varytrainum_res()
+    # eval_pretraind_or_victim()
     # eval_varytrainum_231_ours()
     # eval_all_samles_in_dir()
     # generate_atable()

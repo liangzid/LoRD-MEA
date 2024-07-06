@@ -12,7 +12,7 @@ WMT dataset process scripts.
 
 import os
 if __name__ == "__main__":
-    os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "4"
     os.environ["TORCH_USE_CUDA_DSA"]="1"
 
 from gen_pipeline_open import InferObj
@@ -866,7 +866,7 @@ def eval_all():
 def eval_varying_train_num():
     taskls = [
         # "cs-en",
-        "de-en",
+        # "de-en",
         "ru-en",
         # "fi-en",
         ]
@@ -886,18 +886,20 @@ def eval_varying_train_num():
         # "5",
         ]
     train_nums = [
-        "8",
-        "16",
-        "32",
-        "64",
-        "128",
-        "256",
+        # "8",
+        # "16",
+        # "32",
+        # "64",
+        # "128",
+        # "256",
         "512",
-        "1024",
-        ]
-    base_model_name1="meta-llama/Meta-Llama-3-8B-Instruct"
 
-    dir_p = "./wmt_0613_dataset_res/"
+        # "1024",
+        ]
+    # base_model_name1="meta-llama/Meta-Llama-3-8B-Instruct"
+    base_model_name1="facebook/opt-6.7b"
+
+    dir_p = "./wmt_0703_dataset_res/"
     res_dict = {}
     if not os.path.exists(dir_p):
         os.makedirs(dir_p)
@@ -916,9 +918,10 @@ def eval_varying_train_num():
                             prefix
                             + f"{task}{train_num}{itime}{m}___finally/"
                         )
-                    elif train_num=="1024":
+                    elif train_num in ["256", "512", "1024"]:
+                        num=str(int(4*int(train_num)))
                         ckpt = prefix + \
-                            f"{task}{train_num}{itime}{m}___period1024/"
+                            f"{task}{train_num}{itime}{m}___period{num}/"
                     else:
                         ckpt = prefix + \
                             f"{task}{train_num}{itime}{m}___period512/"
@@ -1246,7 +1249,7 @@ if __name__ == "__main__":
     # main()
     # evaluation_datas()
     # eval_all()
-    # eval_varying_train_num()
-    eval_varying_modelsize()
+    eval_varying_train_num()
+    # eval_varying_modelsize()
     # eval_tau1_res()
     print("EVERYTHING DONE.")
