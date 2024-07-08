@@ -128,15 +128,15 @@ def visualize_heat(
     fig.subplots_adjust(wspace=0.01, hspace=0.5)
 
     res_mat=res_mat_dict["BLEU"]
-    fs = 19
+    fs = 26
     axs[0].imshow(res_mat,
                cmap=plt.cm.Reds,
                interpolation=interp,
                )
     axs[0].set_yticks([0, 1, 2, 3, 4,])
     axs[0].set_xticks([0, 1, 2])
-    axs[0].set_yticklabels(local_ls, fontsize=fs-2, rotation=45,)
-    axs[0].set_xticklabels(victim_ls, fontsize=fs-2,)
+    axs[0].set_yticklabels(local_ls, fontsize=fs, rotation=60,)
+    axs[0].set_xticklabels(victim_ls, fontsize=fs,)
     axs[0].set_ylabel("Local Models", fontsize=fs)
     axs[0].set_xlabel("Victim Models", fontsize=fs)
     text = f"BLEU-4"
@@ -162,8 +162,8 @@ def visualize_heat(
     axs[1].set_yticks([0, 1, 2, 3, 4,])
     axs[1].set_xticks([0, 1, 2])
     axs[1].set_yticklabels(["" for x in local_ls],
-                           fontsize=fs-2, rotation=90,)
-    axs[1].set_xticklabels(victim_ls, fontsize=fs-2,)
+                           fontsize=fs, rotation=90,)
+    axs[1].set_xticklabels(victim_ls, fontsize=fs,)
     # axs[1].set_ylabel("Local Models", fontsize=fs)
     axs[1].set_xlabel("Victim Models", fontsize=fs)
     text = f"Rouge-L (F1)"
@@ -175,7 +175,7 @@ def visualize_heat(
                  ha="center",
                  va="center",
                  color=color,
-                 fontsize=fs+2,)
+                 fontsize=fs,)
 
     ## third
     res_mat=res_mat_dict["BERTScore"]
@@ -200,7 +200,7 @@ def visualize_heat(
                  ha="center",
                  va="center",
                  color=color,
-                 fontsize=fs+2,)
+                 fontsize=fs,)
 
 
     save_path="fidelity-results.pdf"
