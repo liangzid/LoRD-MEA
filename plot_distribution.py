@@ -37,6 +37,7 @@ from glue_process import load_glue_datals
 import numpy as np
 import scipy
 from matplotlib import pyplot as plt
+import matplotlib.colors as mcolors
 from collections import OrderedDict
 
 from peft import PeftModel
@@ -532,13 +533,26 @@ def visualize_heat_twolines(
     res_tr_dict=adict["tr"]
     res_te_dict=adict["te"]
 
+    for ky in res_tr_dict:
+        res_tr_dict[ky]=np.exp(res_tr_dict[ky])
+    for ky in res_te_dict:
+        res_te_dict[ky]=np.exp(res_te_dict[ky])
+    print(res_tr_dict)
+
     fig, axs = plt.subplots(2, 4, figsize=(15.5, 7.5))
     fig.subplots_adjust(wspace=0.02, hspace=0.02)
-
+    norm = mcolors.Normalize(vmin=0.1, vmax=1.1)
     fs = 24
+    cmap=plt.get_cmap("GnBu")
+    # interp="bilinear"
+    interp="nearest"
+    # interp="mitchell"
     for col in range(4):
         axs[0, col].imshow(res_tr_dict[xls[col]][2],
-                                cmap=plt.cm.Blues,
+                                # cmap=plt.cm.Blues,
+                                cmap=cmap,
+                           norm=norm,
+               interpolation=interp,
                                 )
         if col==0:
             axs[0, col].set_ylabel("Generated Token\n(Train Set)",
@@ -557,7 +571,11 @@ def visualize_heat_twolines(
         axs[0, col].title.set_fontsize(fs)
 
         axs[1, col].imshow(res_te_dict[xls[col]][4],
-                                cmap=plt.cm.Blues,)
+                                # cmap=plt.cm.Blues,
+                                cmap=cmap,
+                           norm=norm,
+               interpolation=interp,
+                           )
         axs[1, col].set_xlabel("Top-5 Tokens", fontsize=fs)
         if col==0:
             axs[1, col].set_ylabel("Generated Token\n(Test Set)",
