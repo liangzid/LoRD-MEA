@@ -21,25 +21,27 @@ export root_dir="${HOME}/alignmentExtraction/"
 export POD_save_dir="${root_dir}/visual_ckpts/"
 export from_path="meta-llama/Meta-Llama-3-8B-Instruct"
 # export TRAIN_NUMS=(1000)
-export TRAIN_NUMS=(16)
+export TRAIN_NUMS=(64)
 # export train_times=(1 2 3 4 5)
 export train_times=(1)
+# export msl=256
 export msl=256
-export task_ls=("de-en")
-export train_taskls=("LoRD-VI" "vanilla")
+export task_ls=("e2e_nlg")
+# export train_taskls=("LoRD-VI")
+export train_taskls=("vanilla")
 
 export is_black_box=1
 export use_lora=1
 
-export epoch=1
+export epoch=2
 export period=1
 
 export sub_set_num=1
 export sub_stage_num=512
 # export sub_stage_num=2000
 export save_step=64
-# export max_new_tokens=64
-export max_new_tokens=32
+export max_new_tokens=64
+# export max_new_tokens=32
 export infer_batch_size=1
 export batch_size=1
 
@@ -56,7 +58,7 @@ export tau1=0.80
 export tau2=0.85
 export tau_delta=-0.1
 
-export use_opensource=1
+export use_opensource=0
 
 for train_num in ${TRAIN_NUMS[*]}
 do
@@ -110,9 +112,7 @@ do
     done
 done
 
-$python ${root_dir}plot_distribution.py
-
-
+# $python ${root_dir}plot_distribution.py
 
 echo "RUNNING 8.1.distribution_visualize.sh DONE."
 # 8.1.distribution_visualize.sh ends here

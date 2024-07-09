@@ -12,7 +12,7 @@ WMT dataset process scripts.
 
 import os
 if __name__ == "__main__":
-    os.environ["CUDA_VISIBLE_DEVICES"] = "4"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "1"
     os.environ["TORCH_USE_CUDA_DSA"]="1"
 
 from gen_pipeline_open import InferObj
@@ -459,7 +459,8 @@ def commonly_used_opensource_post_process(
             victim,
             device_map="auto",
             torch_dtype=torch.bfloat16,
-            trust_remote_code=True,
+            # trust_remote_code=True,
+            # off_load=True,
             )
         tokenizer=lm_tokenizer
 
@@ -468,16 +469,18 @@ def commonly_used_opensource_post_process(
         idx2_dist_ls = []
         probsls = []
 
+        device="cuda"
         for i_for, inp in tqdm(enumerate(inp_ls),
                                desc="Steal Progress: "):
+            inp_idx=p_idxls[i_for].unsqueeze(0)
+            # inp_idx=inp_idx.to(device)
+
             outp_idx = model.generate(
-                p_idxls[i_for].unsqueeze(0),
+                inp_idx,
                 do_sample=True,
                 )
             # shape: [bs, sql-1,V]
-            outp_dist=model(outp_idx[:,:-1]).logits
-            # shape: [sql-1,topk]
-            outp_dist=outp_dist[0,:,:topk]
+            outp_dist=model(outp_idx[:,:-1]).logits[0,:,:topk]
             outp_idx=outp_idx.squeeze(0)
             
             text2ls.append(outp_idx.to("cpu"))
@@ -529,6 +532,16 @@ def infer_wmt(modelname, task_name, res_pth,
         "tr-en",
     ]
 
+    pretrained_ls=[
+        "facebook/opt-125m",
+        "facebook/opt-350m",
+        "facebook/opt-1.3b",
+        "facebook/opt-2.7b",
+        "facebook/opt-6.7b",
+        "facebook/opt-13b",
+        "facebook/opt-30b",
+        ]
+
     assert task_name in tasks_we_used
     dataset = load_dataset("wmt16",
                            task_name,
@@ -579,6 +592,45 @@ def infer_wmt(modelname, task_name, res_pth,
             print(f">>>Labels: {label}")
             res_ls.append((res, label))
             # break
+    elif modelname in pretrained_ls:
+        print("USING Pretrained INFERENCE")
+        # load model based on our idea
+        model = AutoModelForCausalLM.from_pretrained(
+            base_model_name,
+            device_map="auto",
+            # trust_remote_code=True,
+            torch_dtype=torch.bfloat16,
+        )
+        tokenizer = AutoTokenizer\
+            .from_pretrained(base_model_name)
+        tokenizer.pad_token = tokenizer.eos_token
+        tokenizer.padding_side = "right"
+
+        res_ls = []
+        pp = task_prompt_map[task_name]
+        input_idxls=[]
+        for d in tqdm(sets,total=test_set_take_num):
+            d = d["translation"]
+            inps = d[from_lang]
+            label = d[to_lange]
+            final_inps = "Instruction: " + pp +\
+                " User: "+inps+" Assistant: "
+            inps_idx=tokenizer.encode(final_inps,max_length=128,
+                                      padding="longest",
+                                      return_tensors="pt")
+
+            print(inps_idx)
+            inps_idx=inps_idx.to("cuda")
+            res = model.generate(inps_idx,
+                                 max_new_tokens=mnt,)
+            print(res)
+            res=tokenizer.decode(res[0])
+            if final_inps in res:
+                res = res.split(final_inps)[1]
+            else:
+                res = res
+            print(f"Text Generated:>>> {res}")
+            res_ls.append((res, label))
     else:
         print("USING PEFT: BASE MODEL + LORA")
         # load model based on our idea
@@ -993,19 +1045,20 @@ def eval_varying_modelsize():
         # "fi-en",
         ]
     mls = [
-        "vanilla",
+        "pretrained",
+        # "vanilla",
         # "LoRD-VIII",
-        "LoRD-VI",
+        # "LoRD-VI",
         # "kd",
         # "LoRD-II",
         ]
     # mls = ["vanilla", "kd", "google/gemma-2b", "Complex-lord",]
     train_times = [
         "1",
-        "2",
-        "3",
-        "4",
-        "5",
+        # "2",
+        # "3",
+        # "4",
+        # "5",
         ]
     train_nums = [
         # "8",
@@ -1053,6 +1106,8 @@ def eval_varying_modelsize():
                                 prefix
                                 + f"{base_model_name1}{task}{train_num}{itime}{m}___finally/"
                             )
+                        elif m=="pretrained":
+                            ckpt=base_model_name1
                         elif train_num=="256" or train_num=="512":
                             ckpt = prefix + \
                                 f"{base_model_name1}{task}{train_num}{itime}{m}___period2048/"
@@ -1249,7 +1304,7 @@ if __name__ == "__main__":
     # main()
     # evaluation_datas()
     # eval_all()
-    eval_varying_train_num()
-    # eval_varying_modelsize()
+    # eval_varying_train_num()
+    eval_varying_modelsize()
     # eval_tau1_res()
     print("EVERYTHING DONE.")

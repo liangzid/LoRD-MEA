@@ -53,6 +53,8 @@ def get_dist_mat(ckpt_pth, task_name,
                  use_opensource=0,
                  topk=5,
                  ):
+    if task_name=="e2e_nlg":
+        dataset_name="data2text"
     if task_name in ["de-en","ru-en"]:
         dataset_name="wmt16"
 
@@ -108,6 +110,16 @@ def get_dist_mat(ckpt_pth, task_name,
     elif dataset_name=="text2sql":
         from text2sql_process import load_text2sql_datals
         raw_train_datals = load_text2sql_datals(
+            tokenizer,
+            task_name=task_name,
+            train_num=train_num,
+            max_length=max_length,
+            is_test=using_test_set,
+            )
+        p_ls, idx2ls, logits2ls, idx2_distls = raw_train_datals
+    elif dataset_name=="data2text":
+        from data2text_process import load_data2text_datals
+        raw_train_datals = load_data2text_datals(
             tokenizer,
             task_name=task_name,
             train_num=train_num,
@@ -311,6 +323,252 @@ def visualize_heat(
                 pad_inches=0.1)
     print("SAVE DONE.")
 
+def visualize_heat_twolines(
+        ce_ckpt="./text2sql_ckpts/text2sqlspider161vanilla___finally/",
+        lord_ckpt="./text2sql_ckpts/text2sqlspider161LoRD-VI___period256/",
+        kd_ckpt=None,
+        pretrained_model_pth="meta-llama/Meta-Llama-3-8B-Instruct",
+        select_num=8,
+        train_num=16,
+        task_name="spider",
+        save_path="distribute_heat_res_overall.pdf",
+        use_opensource=0,
+        topk=5,
+        ):
+    # origin_mat, idx2distls = get_dist_mat(ckpt_pth=lord_ckpt,
+    #                           pretrained_model=pretrained_model_pth,
+    #                           task_name=task_name,
+    #                           select_num=select_num,
+    #                           train_num=train_num,
+    #                           only_original=True,
+    #                           using_test_set=0,
+    #                           use_opensource=use_opensource,
+    #                           topk=topk,
+    #                           )
+    # lord_mat,_ = get_dist_mat(ckpt_pth=lord_ckpt,
+    #                         pretrained_model=pretrained_model_pth,
+    #                         task_name=task_name,
+    #                         select_num=select_num,
+    #                         train_num=train_num,
+    #                         only_original=False,
+    #                         using_test_set=0,
+    #                         use_opensource=use_opensource,
+    #                         topk=topk,
+    #                         )
+    # ce_mat,_ = get_dist_mat(ckpt_pth=ce_ckpt,
+    #                       pretrained_model=pretrained_model_pth,
+    #                       task_name=task_name,
+    #                       select_num=select_num,
+    #                       train_num=train_num,
+    #                       only_original=False,
+    #                       using_test_set=0,
+    #                       use_opensource=use_opensource,
+    #                       topk=topk,
+    #                       )
+    # init_mat,_ = get_dist_mat(ckpt_pth=pretrained_model_pth,
+    #                       pretrained_model=None,
+    #                       task_name=task_name,
+    #                       select_num=select_num,
+    #                       train_num=train_num,
+    #                       only_original=False,
+    #                       using_test_set=0,
+    #                       use_opensource=use_opensource,
+    #                       topk=topk,
+    #                       )
+
+    # # print(f"Origin Mat's shape: {origin_mat.shape}.")
+    # ikld,ie1,ie2,isc=distSim(origin_mat[2], init_mat[2]) 
+    # lkld,le1,le2,lsc=distSim(origin_mat[2], lord_mat[2]) 
+    # ckld,ce1,ce2,csc=distSim(origin_mat[2], ce_mat[2]) 
+    # likld,_,_,lisc=distSim(init_mat[2], lord_mat[2]) 
+    # cikld,_,_,cisc=distSim(init_mat[2], ce_mat[2]) 
+    # quantitive_res={
+    #     "Victim Model":{"entropy":ie1,},
+    #     "Local Model":{
+    #         "KL":ikld,
+    #         "Entropy":ie2,
+    #         "Spearman Correlation":isc,
+    #         },
+    #     "LoRD":{
+    #         "KL":lkld,
+    #         "Entropy":le2,
+    #         "Spearman Correlation":lsc,
+    #         },
+    #     "MLE":{
+    #         "KL":ckld,
+    #         "Entropy":ce2,
+    #         "Spearman Correlation":csc,
+    #         },
+
+    #     "LoRD-to-LocalModel":{
+    #         "KL":likld,
+    #         "Spearman Correlation":lisc,
+    #         },
+    #     "MLE-to-LocalModel":{
+    #         "KL":cikld,
+    #         "Spearman Correlation":cisc,
+    #         },
+    #     }
+    # print(quantitive_res)
+    # print("---------------------------------------------------------")
+
+    # res_dict = OrderedDict({"Victim Model": origin_mat,
+    #                         "Local Model": init_mat,
+    #                         "LoRD": lord_mat,
+    #                         "Cross-Entropy": ce_mat,
+    #                         # "Distillation": kd_mat,
+    #                         })
+    # res_dict = OrderedDict({"Victim model": origin_mat,
+    #                         "Local Model": init_mat,
+    #                         "LoRD": lord_mat,
+    #                         "Cross-Entropy": ce_mat,
+    #                         # "Distillation": kd_mat,
+    #                         })
+    # with open("./heat_res.pkkl", 'wb') as f:
+    #     pickle.dump(res_dict, f,)
+    # with open("./heat_res.pkkl", 'rb') as f:
+    #     res_tr_dict = pickle.load(f)
+
+    # xls = list(res_tr_dict.keys())
+
+    # origin_mat, idx2distls = get_dist_mat(ckpt_pth=lord_ckpt,
+    #                           pretrained_model=pretrained_model_pth,
+    #                           task_name=task_name,
+    #                           select_num=select_num,
+    #                           train_num=train_num,
+    #                           only_original=True,
+    #                           using_test_set=1,
+    #                           use_opensource=use_opensource,
+    #                           topk=topk,
+    #                           )
+    # lord_mat,_ = get_dist_mat(ckpt_pth=lord_ckpt,
+    #                         pretrained_model=pretrained_model_pth,
+    #                         task_name=task_name,
+    #                         select_num=select_num,
+    #                         train_num=train_num,
+    #                         only_original=False,
+    #                         using_test_set=1,
+    #                         use_opensource=use_opensource,
+    #                         topk=topk,
+    #                         )
+    # ce_mat,_ = get_dist_mat(ckpt_pth=ce_ckpt,
+    #                       pretrained_model=pretrained_model_pth,
+    #                       task_name=task_name,
+    #                       select_num=select_num,
+    #                       train_num=train_num,
+    #                       only_original=False,
+    #                       using_test_set=1,
+    #                       use_opensource=use_opensource,
+    #                       topk=topk,
+    #                       )
+    # init_mat,_ = get_dist_mat(ckpt_pth=pretrained_model_pth,
+    #                       pretrained_model=None,
+    #                       task_name=task_name,
+    #                       select_num=select_num,
+    #                       train_num=train_num,
+    #                       only_original=False,
+    #                       using_test_set=1,
+    #                       use_opensource=use_opensource,
+    #                       topk=topk,
+    #                       )
+
+    # ikld,ie1,ie2,isc=distSim(origin_mat[4], init_mat[4]) 
+    # lkld,le1,le2,lsc=distSim(origin_mat[4], lord_mat[4]) 
+    # ckld,ce1,ce2,csc=distSim(origin_mat[4], ce_mat[4]) 
+    # likld,_,_,lisc=distSim(init_mat[4], lord_mat[4]) 
+    # cikld,_,_,cisc=distSim(init_mat[4], ce_mat[4]) 
+    # quantitive_res={
+    #     "Victim Model":{"entropy":ie1,},
+    #     "Local Model":{
+    #         "KL":ikld,
+    #         "Entropy":ie2,
+    #         "Spearman Correlation":isc,
+    #         },
+    #     "LoRD":{
+    #         "KL":lkld,
+    #         "Entropy":le2,
+    #         "Spearman Correlation":lsc,
+    #         },
+    #     "MLE":{
+    #         "KL":ckld,
+    #         "Entropy":ce2,
+    #         "Spearman Correlation":csc,
+    #         },
+
+    #     "LoRD-to-LocalModel":{
+    #         "KL":likld,
+    #         "Spearman Correlation":lisc,
+    #         },
+    #     "MLE-to-LocalModel":{
+    #         "KL":cikld,
+    #         "Spearman Correlation":cisc,
+    #         },
+    #     }
+    # print(quantitive_res)
+    # print("---------------------------------------------------------")
+
+    # res_dict = OrderedDict({"Victim Model": origin_mat,
+    #                         "Local Model": init_mat,
+    #                         "LoRD": lord_mat,
+    #                         "Cross-Entropy": ce_mat,
+    #                         # "Distillation": kd_mat,
+    #                         })
+    # res_dict = OrderedDict({"Victim model": origin_mat,
+    #                         "Local Model": init_mat,
+    #                         "LoRD": lord_mat,
+    #                         "Cross-Entropy": ce_mat,
+    #                         # "Distillation": kd_mat,
+    #                         })
+    # with open("./heat_res_overall.pkkl", 'wb') as f:
+    #     pickle.dump({
+    #         "tr":res_tr_dict,
+    #         "te":res_dict,
+    #         "x":xls,
+    #         }, f,)
+
+    with open("./heat_res_overall.pkkl", 'rb') as f:
+        adict = pickle.load(f)
+    xls=adict["x"]
+    res_tr_dict=adict["tr"]
+    res_te_dict=adict["te"]
+
+    fig, axs = plt.subplots(2, 4, figsize=(15.5, 7.5))
+    fig.subplots_adjust(wspace=0.02, hspace=0.02)
+
+    fs = 24
+    for col in range(4):
+        axs[0, col].imshow(res_tr_dict[xls[col]][2],
+                                cmap=plt.cm.Blues,
+                                )
+        if col==0:
+            axs[0, col].set_ylabel("Generated Token\n(Train Set)",
+                                   fontsize=fs)
+        else:
+            axs[0, col].set_yticklabels(["" for x in xls])
+        axs[0, col].set_xticklabels(["" for x in xls])
+        axs[0, col].set_xlabel(" ", fontsize=fs)
+        # print("Type of dist idxes: ",type(idx2distls[col]))
+        # axs[row, col].set_xticklabels(idx2distls[col])
+        if col==3:
+            text="MLE"
+        else:
+            text = f"{xls[col]}"
+        axs[0, col].title.set_text(text)
+        axs[0, col].title.set_fontsize(fs)
+
+        axs[1, col].imshow(res_te_dict[xls[col]][4],
+                                cmap=plt.cm.Blues,)
+        axs[1, col].set_xlabel("Top-5 Tokens", fontsize=fs)
+        if col==0:
+            axs[1, col].set_ylabel("Generated Token\n(Test Set)",
+                                   fontsize=fs)
+        else:
+            axs[1, col].set_yticklabels(["" for x in xls])
+        axs[1, col].set_xticklabels(["" for x in xls])
+
+    plt.savefig(save_path,
+                pad_inches=0.1)
+    print("SAVE DONE.")
 
 def visualize_3d(
         lord_ckpt="./text2sql_ckpts/text2sqlwikisql161vanilla___finally/",
@@ -552,32 +810,45 @@ if __name__ == "__main__":
 
     # visualize_3d()
 
-    visualize_heat(
-        ce_ckpt="./visual_ckpts/wmtde-en161vanilla___finally",
-        lord_ckpt="./visual_ckpts/wmtde-en161LoRD-VI___period512",
+    # visualize_heat(
+    #     ce_ckpt="./visual_ckpts/wmte2e_nlg641vanilla___finally",
+    #     lord_ckpt="./visual_ckpts/wmte2e_nlg641LoRD-VI___period512",
+    #     kd_ckpt=None,
+    #     pretrained_model_pth="meta-llama/Meta-Llama-3-8B-Instruct",
+    #     select_num=8,
+    #     train_num=16,
+    #     task_name="e2e_nlg",
+    #     save_path="distribute_heat_res.pdf",
+    #     using_test_set=0,
+    #     # is_opensource=0,
+    #     topk=5,
+    #     )
+
+    # # visualize_heat()
+
+    # visualize_heat(
+    #     ce_ckpt="./visual_ckpts/wmte2e_nlg641vanilla___finally",
+    #     lord_ckpt="./visual_ckpts/wmte2e_nlg641LoRD-VI___period512",
+    #     kd_ckpt=None,
+    #     pretrained_model_pth="meta-llama/Meta-Llama-3-8B-Instruct",
+    #     select_num=8,
+    #     train_num=16,
+    #     task_name="e2e_nlg",
+    #     save_path="distribute_heat_res_test.pdf",
+    #     using_test_set=1,
+    #     # is_opensource=0,
+    #     topk=5,
+    #     )
+
+    visualize_heat_twolines(
+        ce_ckpt="./visual_ckpts/wmte2e_nlg641vanilla___finally",
+        lord_ckpt="./visual_ckpts/wmte2e_nlg641LoRD-VI___period512",
         kd_ckpt=None,
         pretrained_model_pth="meta-llama/Meta-Llama-3-8B-Instruct",
         select_num=8,
         train_num=16,
-        task_name="de-en",
-        save_path="distribute_heat_res.pdf",
-        using_test_set=0,
-        is_opensource=1,
-        topk=100,
-        )
-
-    # visualize_heat()
-
-    visualize_heat(
-        ce_ckpt="./visual_ckpts/wmtde-en161vanilla___finally",
-        lord_ckpt="./visual_ckpts/wmtde-en161LoRD-VI___period512",
-        kd_ckpt=None,
-        pretrained_model_pth="meta-llama/Meta-Llama-3-8B-Instruct",
-        select_num=8,
-        train_num=16,
-        task_name="de-en",
-        save_path="distribute_heat_res_test.pdf",
-        using_test_set=1,
-        is_opensource=1,
-        topk=100,
+        task_name="e2e_nlg",
+        save_path="distribute_heat_res2x4.pdf",
+        # is_opensource=0,
+        topk=5,
         )

@@ -135,6 +135,7 @@ def load_data2text_datals(tokenizer,
                           topk=5,
                           max_length=512,
                           use_local_model_with_wrmk=None,
+                          is_test=0,
                           openai_tmp_save_pth="./STEALED_PKLS/wmt_data_saveto_",):
 
     lm_tokenizer = tokenizer
@@ -148,8 +149,12 @@ def load_data2text_datals(tokenizer,
     dataset_name = task_name
     inp_ls = []
     if task_name == tasks_we_used[0]:
-        trainset_text = load_dataset(dataset_name,
-                                     split=f"train[:{train_num}]")
+        if is_test==0:
+            trainset_text = load_dataset(dataset_name,
+                                        split=f"train[:{train_num}]")
+        else:
+            trainset_text = load_dataset(dataset_name,
+                                        split=f"test[:{train_num}]")
 
         for item in trainset_text:
             question = item["meaning_representation"]
