@@ -533,16 +533,18 @@ def visualize_heat_twolines(
     res_tr_dict=adict["tr"]
     res_te_dict=adict["te"]
 
-    for ky in res_tr_dict:
-        res_tr_dict[ky]=np.exp(res_tr_dict[ky])
-    for ky in res_te_dict:
-        res_te_dict[ky]=np.exp(res_te_dict[ky])
-    print(res_tr_dict)
+    # for ky in res_tr_dict:
+    #     res_tr_dict[ky]=np.exp(res_tr_dict[ky])
+    # for ky in res_te_dict:
+    #     res_te_dict[ky]=np.exp(res_te_dict[ky])
+    # print(res_tr_dict)
 
     fig, axs = plt.subplots(2, 4, figsize=(15.5, 7.5))
     fig.subplots_adjust(wspace=0.02, hspace=0.02)
-    norm = mcolors.Normalize(vmin=0.1, vmax=1.1)
+    # norm = mcolors.Normalize(vmin=0.1, vmax=1.1)
+    norm = mcolors.Normalize(vmin=-5, vmax=0.0)
     fs = 24
+    # cmap=plt.get_cmap("Blues")
     cmap=plt.get_cmap("GnBu")
     # interp="bilinear"
     interp="nearest"
