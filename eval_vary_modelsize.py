@@ -54,6 +54,11 @@ def wmt_curve_trainNums(overall_name="wmt16", taskls=["cs-en","de-en",]):
         "LoRD-VI": "o",
         "Initial Local Model": "D",
     }
+    name_to_label={
+        "vanilla":"MLE",
+        "LoRD-VI":"LoRD",
+        "Initial Local Model":"Initial Local Model",
+        }
     model_color_dict = {
         "vanilla": "#428eda",
         # "kd": "#469de9",
@@ -339,7 +344,7 @@ def wmt_curve_trainNums(overall_name="wmt16", taskls=["cs-en","de-en",]):
                 axs[i][j].plot(
                     x2_ls,
                     y2meanls,
-                    label=method,
+                    label=name_to_label[method],
                     linewidth=lw,
                     marker=marker[method],
                     markevery=1,
