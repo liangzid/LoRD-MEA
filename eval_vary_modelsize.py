@@ -409,7 +409,7 @@ def wmt_curve_trainNums(overall_name="wmt16", taskls=["cs-en","de-en",]):
         "size": font_size - 1,
     }
     plt.legend(
-        loc=(-2.35, 2.6),
+        loc=(-2.15, 2.6),
         prop=font_legend,
         ncol=6,
         frameon=False,
