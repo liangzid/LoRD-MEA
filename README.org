@@ -1,4 +1,3 @@
-Documents: coming soon.
 
 * LoRD: Locality Reinforced Distillation
 
@@ -25,7 +24,7 @@ exploration-based stealing. Extensive experiments on domain-specific
 extractions validate the superiority of our method in extracting
 various state-of-the-art commercial LLMs.
 
-
+#+ATTR_HTML: :align center
 [[file:images/intro.png]]
 
 This figure provides a comparison between vanilla MEAs on conventional DNNs (left) and MEAs on LLMs with alignments (right).
@@ -41,18 +40,20 @@ In our paper, we show that the answer is yes. However, stealing LLMs suffers fro
 We aim to address this two drawbacks in our research.
 
 ** LoRD 
-
+#+ATTR_HTML: :align center
 [[file:images/lord.png]]
 
 
 The core idea of LoRD is to let the local model explore the correct responses under the gold response of the victim model. The victim model is the "Lord". There are three advantages for that:
 
+#+ATTR_HTML: :align center
 [[file:images/po.png]]
 
 + Query Efficiency. It can provide multiple responses under the same input query, reducing the complexity from $O(V^{N_{q}}\cdot V^{N_{r}})$ to $O(V^{N_{q}}\cdot C)$ with $C$ a constant.
 
 + Watermark resistance. It achieves a trade-off between the stealing performance and the watermark residue.
 
+#+ATTR_HTML: :align center
 [[file:images/cp.png]]
 
 + Stealing consistency. Its stealing procedure is consistent to the RL alignment procedure of LLMs.
@@ -86,15 +87,16 @@ The most convenient way is to reuse =train_pod2.py=.
 
 **** Effectiveness comparison
 
+#+ATTR_HTML: :align center
 [[file:images/mea-table.png]]
 
-
+#+ATTR_HTML: :align center
 [[file:images/mea-table2.png]]
 
-
+#+ATTR_HTML: :align center
 [[file:images/mea-table3.png]]
 
- = *The above experiments can be reproduced by running =6.X.xxxxx.sh= in =./scripts=. Here is an example:
+The above experiments can be reproduced by running =6.X.xxxxx.sh= in =./scripts=. Here is an example:
 
  
 
@@ -270,6 +272,7 @@ The most convenient way is to reuse =train_pod2.py=.
 
  This is a spectrum of results.
 
+#+ATTR_HTML: :align center
 [[file:images/spectrum.png]]
 
 **** Watermark Resistance experiments.
@@ -278,6 +281,7 @@ We use a green-set based watermarking by Kirchenbauer et al. to implement our te
 
 The original code comes from [[https://github.com/jwkirchenbauer/lm-watermarking][here]]. All rights are reserved for the original repository.
 
+#+ATTR_HTML: :align center
 [[file:images/wm-ex.png]]
 
 Our evaluation code is in =./watermark=
@@ -298,18 +302,22 @@ Detection and visualization are here:
 **** Hyper-parameter's Experiments
 
 
+#+ATTR_HTML: :align center
 [[file:images/querytime-ex.png]]
 
 
+#+ATTR_HTML: :align center
 [[file:images/model-ex.png]]
 
 
 **** Fidelity
 
+#+ATTR_HTML: :align center
 [[file:images/fidelity.png]]
 
 **** Distribution to Victim Models
 
+#+ATTR_HTML: :align center
 [[file:images/corre-dist.png]]
 
 
