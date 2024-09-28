@@ -1,3 +1,329 @@
 Documents: coming soon.
 
+* LoRD: Locality Reinforced Distillation
 
+This repository contains the source code of our pre-printed paper [[https://arxiv.org/abs/2409.02718][Alignment-Aware Model Extraction Attacks on Large Language Models]].
+
+
+
+
+Feel free to give me any feedback via issues or email (=zi1415926.liang@connect.polyu.hk=) when you reproduce our work.
+
+** Introduction of LoRD
+
+Model extraction attacks (MEAs) on large language models (LLMs) have received increasing attention in recent research. However, existing attack methods typically adapt the extraction strategies originally developed for deep neural networks (DNNs). They neglect the underlying inconsistency between the training tasks of MEA and LLM alignment, leading to suboptimal attack performance. To tackle this issue, we propose Locality Reinforced
+Distillation (LoRD), a novel model extraction algorithm
+specifically designed for LLMs. In particular, LoRD employs a newly
+defined policy-gradient-style training task that utilizes the
+responses of victim model as the signal to guide the crafting of
+preference for the local model. Theoretical analyses demonstrate that
+/i)/ The convergence procedure of
+LoRD in model extraction is consistent with the alignment procedure of
+LLMs, and /ii)/ LoRD can reduce
+query complexity while mitigating watermark protection through
+exploration-based stealing. Extensive experiments on domain-specific
+extractions validate the superiority of our method in extracting
+various state-of-the-art commercial LLMs.
+
+
+[[file:images/intro.png]]
+
+This figure provides a comparison between vanilla MEAs on conventional DNNs (left) and MEAs on LLMs with alignments (right).
+
+Consistent with the training procedure of conventional DNNs, the vanilla extracting procedure employs a supervised loss. But when extra training tasks like reinforcement learning are integrated and play an important role in the training of LLMs, such consistency no longer exists, which challenges the effectiveness of vanilla MEAs on LLMs. The question is: *is a supervised loss (e.g., MLE) compatible to extract a RL-aligned LLM?*
+
+In our paper, we show that the answer is yes. However, stealing LLMs suffers from two potential drawbacks:
+
++ Low query efficiency. Ideally, a supervised loss requires a level of $O(V^{N_{q}}\cdot V^{N_{r}})$ to learn from a LLM, where $V$ is the vocabulary size, and $N_{q}$ and $N_{r}$ denote the sequence lengths of the query and the response.
++ Vulnerable to text watermarks. Current MEAs will learn a watermarked local model when stealing.
+
+
+We aim to address this two drawbacks in our research.
+
+** LoRD 
+
+[[file:images/lord.png]]
+
+
+The core idea of LoRD is to let the local model explore the correct responses under the gold response of the victim model. The victim model is the "Lord". There are three advantages for that:
+
+[[file:images/po.png]]
+
++ Query Efficiency. It can provide multiple responses under the same input query, reducing the complexity from $O(V^{N_{q}}\cdot V^{N_{r}})$ to $O(V^{N_{q}}\cdot C)$ with $C$ a constant.
+
++ Watermark resistance. It achieves a trade-off between the stealing performance and the watermark residue.
+
+[[file:images/cp.png]]
+
++ Stealing consistency. Its stealing procedure is consistent to the RL alignment procedure of LLMs.
+
+** Evaluation
+
+*** Environments
+
+You may require a new environment with =python>3.8= and Nvidia GPU (cuda) environments.
+
+Clone this repository, =cd= where you cloned to, and then =pip install -r re.txt=. The environment setting will be done.
+
+*** Look the source Code/Use LoRD 
+
+The most convenient way is to reuse =train_pod2.py=.
+
+*** Explanations of the Source Code
+
+
++ *scripts*: all of the commands to evaluate a method. Use it by =bash XXXX.sh=.
++ *.py*: core codes.
+  + with =eval_= prefix: for evaluation
+  + with =draw_= or =plot_=: for drawing
+  + with =_process=: data process
+  + with =train=: different training methods
++ *watermark*: code for watermark experiments.
+
+ All of the other directories are dirty for storing checkpoints or results.
+
+*** Experiments
+
+**** Effectiveness comparison
+
+[[file:images/mea-table.png]]
+
+
+[[file:images/mea-table2.png]]
+
+
+[[file:images/mea-table3.png]]
+
+ = *The above experiments can be reproduced by running =6.X.xxxxx.sh= in =./scripts=. Here is an example:
+
+ 
+
+ #+BEGIN_SRC sh
+
+   #!/bin/bash
+
+   echo "HOME: ${HOME}"
+   export python=${HOME}/anaconda3/envs/align/bin/python3
+   export CUDA_VISIBLE_DEVICES="1"
+   export TORCH_USE_CUDA_DSA="1"
+   export root_dir="${HOME}/alignmentExtraction/"
+   export POD_save_dir="${root_dir}/wmt16_ckpts/"
+   export from_path="meta-llama/Meta-Llama-3-8B-Instruct"
+   export TRAIN_NUMS=(16)
+   export train_times=(1 2 3 4 5)
+   export msl=256
+   export task_ls=("cs-en" "de-en" "fi-en")
+   export train_taskls=("LoRD-II")
+
+   export is_black_box=1
+   export use_lora=1
+
+   export epoch=2
+   export period=1
+
+   export sub_set_num=1
+   export sub_stage_num=256
+   export max_new_tokens=64
+   export infer_batch_size=1
+   export batch_size=1
+
+   export beta=-1
+   export temperature=-1
+
+   export use_old_logits=1
+   export use_vic_logits=1
+   export use_kld=0
+   export use_entropy=0
+
+   # export tau1=0.85
+   export tau1=0.80
+   export tau2=0.85
+
+   for train_num in ${TRAIN_NUMS[*]}
+   do
+       for train_time in ${train_times[*]}
+       do
+           for task in ${task_ls[*]}
+           do
+               for train_task in ${train_taskls[*]}
+               do
+                   echo "====================================================="
+                   echo "+++++++train_num: ${train_num}+++++++"
+                   echo "+++++++train_time: ${train_time}+++++++"
+                   echo "+++++++task: ${task}+++++++"
+                   echo "+++++++train_task: ${train_task}+++++++"
+                   echo "====================================================="
+
+                   export save_path="${POD_save_dir}WMTTT0519${task}${train_num}${train_time}${train_task}"
+
+                   $python ${root_dir}lord_train.py\
+                       --use_lora=$use_lora \
+                       --from_path=$from_path \
+                       --is_black_box=$is_black_box \
+                       --sub_set_num=$sub_set_num \
+                       --sub_stage_num=$sub_stage_num\
+                       --infer_batch_size=$infer_batch_size\
+                       --tau1=$tau1 \
+                       --tau2=$tau2 \
+                       --task=$train_task \
+                       --device="cuda" \
+                       --epoch=$epoch \
+                       --period_num=$period \
+                       --acc_step=1 \
+                       --log_step=50 \
+                       --train_num=$train_num \
+                       --max_new_tokens=$max_new_tokens \
+                       --LR="3e-5" \
+                       --save_step=$sub_stage_num \
+                       --beta=$beta \
+                       --temperature=$temperature \
+                       --batch_size=$batch_size \
+                       --use_old_logits=$use_old_logits\
+                       --use_vic_logits=$use_vic_logits\
+                       --use_kld=$use_kld\
+                       --max_length=$msl \
+                       --dataset_task=$task \
+                       --save_path=$save_path
+                   echo "DONE FOR ONE TRAIN NUMBERS...."
+               done
+           done
+       done
+   done
+
+
+   $python ${root_dir}wmt_process.py
+ #+END_SRC
+
+ In the above script, you can simply replace your dataset with others, as shown in =./lord_train.py=.
+
+
+ #+begin_src python 
+
+    tasks_glue = [
+        "cola", "mnli",
+        "mrpc",
+        "qnli", "qqp", "rte", "sst2",
+        "wnli",]
+
+    tasks_wmt16 = [
+        "cs-en",
+        "de-en",
+        "fi-en",
+        "ro-en",
+        "ru-en",
+        "tr-en",
+    ]
+
+    tasks_wmt16_wrmk=[
+        "cs-en@wrmk",
+        "de-en@wrmk",
+        "fi-en@wrmk",
+        "ro-en@wrmk",
+        ]
+
+    tasks_qa = [
+        "piqa",
+        "truthful_qa",
+        "allenai/ai2_arc",
+    ]
+
+    tasks_code = [
+        "deepmind/code_contests",
+        ]
+
+    tasks_data2text = [
+        "e2e_nlg",
+        "allenai/common_gen",
+    ]
+
+    tasks_data2text_wrmk=[
+        "e2e_nlg@wrmk",
+        "allenai/common_gen@wrmk",
+        ]
+
+    tasks_sum = [
+        "UCL-DARK/openai-tldr-filtered",
+        "cnn_dailymail",
+        "samsum",
+    ]
+
+    tasks_text2sql = [
+        "wikisql",
+        "spider",
+    ]
+
+    tasks_safety = [
+        "PKU-Alignment/PKU-SafeRLHF",
+        "thu-coai/diasafety",
+        ]
+
+    tasks_general = [
+        "liangzid/claude3_chat3.3k",
+        "liangzid/claude3_short256",
+        "teknium/GPT4-LLM-Cleaned",
+        "BAAI/Infinity-Instruct",
+    ]
+
+#+end_src
+
+ 
+
+ This is a spectrum of results.
+
+[[file:images/spectrum.png]]
+
+**** Watermark Resistance experiments.
+
+We use a green-set based watermarking by Kirchenbauer et al. to implement our text watermarks.
+
+The original code comes from [[https://github.com/jwkirchenbauer/lm-watermarking][here]]. All rights are reserved for the original repository.
+
+[[file:images/wm-ex.png]]
+
+Our evaluation code is in =./watermark=
+
+=./watermark/llama3_watermark_gen.py= shows how to generate texts with watermark for llama3-70B.
+
+You can simply run =bash ./watermark/1.1.train_with_wtmk.sh= to obtain all experiments.
+
+Detection and visualization are here:
+#+BEGIN_SRC sh
+
+  $python ${root_dir}watermark/watermark_detect.py
+
+  $python ${root_dir}plot_watermark_curve.py
+#+END_SRC
+
+
+**** Hyper-parameter's Experiments
+
+
+[[file:images/querytime-ex.png]]
+
+
+[[file:images/model-ex.png]]
+
+
+**** Fidelity
+
+[[file:images/fidelity.png]]
+
+**** Distribution to Victim Models
+
+[[file:images/corre-dist.png]]
+
+
+** Reference
+
+#+begin_src bib
+  @misc{liang2024alignmentawaremodelextractionattacks,
+      title={Alignment-Aware Model Extraction Attacks on Large Language Models}, 
+      author={Zi Liang and Qingqing Ye and Yanyun Wang and Sen Zhang and Yaxin Xiao and Ronghua Li and Jianliang Xu and Haibo Hu},
+      year={2024},
+      eprint={2409.02718},
+      archivePrefix={arXiv},
+      primaryClass={cs.CR},
+      url={https://arxiv.org/abs/2409.02718}, 
+}
+#+end_src
+ 
