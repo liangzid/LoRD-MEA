@@ -1,13 +1,6 @@
 
 * LoRD: Locality Reinforced Distillation
 
-This repository contains the source code of our pre-printed paper [[https://arxiv.org/abs/2409.02718][Alignment-Aware Model Extraction Attacks on Large Language Models]].
-
-
-
-
-Feel free to give me any feedback via issues or email (=zi1415926.liang@connect.polyu.hk=) when you reproduce our work.
-
 ** Introduction of LoRD
 
 Model extraction attacks (MEAs) on large language models (LLMs) have received increasing attention in recent research. However, existing attack methods typically adapt the extraction strategies originally developed for deep neural networks (DNNs). They neglect the underlying inconsistency between the training tasks of MEA and LLM alignment, leading to suboptimal attack performance. To tackle this issue, we propose Locality Reinforced
@@ -321,17 +314,3 @@ Detection and visualization are here:
 [[file:images/corre-dist.png]]
 
 
-** Reference
-
-#+begin_src bib
-  @misc{liang2024alignmentawaremodelextractionattacks,
-      title={Alignment-Aware Model Extraction Attacks on Large Language Models}, 
-      author={Zi Liang and Qingqing Ye and Yanyun Wang and Sen Zhang and Yaxin Xiao and Ronghua Li and Jianliang Xu and Haibo Hu},
-      year={2024},
-      eprint={2409.02718},
-      archivePrefix={arXiv},
-      primaryClass={cs.CR},
-      url={https://arxiv.org/abs/2409.02718}, 
-}
-#+end_src
- 
