@@ -4,8 +4,8 @@
 
 # GLUE vary train numbers experiments.
 
-# Author: Zi Liang <zi1415926.liang@connect.polyu.hk>
-# Copyright © 2024, ZiLiang, all rights reserved.
+# Author: Anonymous authors
+# Copyright © 2024, Anonymous, all rights reserved.
 # Created:  2 July 2024
 ######################################################################
 

@@ -2,8 +2,8 @@
 ######################################################################
 #1.1.TRAIN_LORA_LLAMA3-7B-CLAUDE3-SHORT --- 
 
-# Author: Zi Liang <zi1415926.liang@connect.polyu.hk>
-# Copyright © 2024, ZiLiang, all rights reserved.
+# Author: Anonymous authors
+# Copyright © 2024, Anonymous, all rights reserved.
 # Created: 25 April 2024
 ######################################################################
 

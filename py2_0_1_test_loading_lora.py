@@ -4,8 +4,8 @@ PY2_0_1_TEST_LOADING_LORA ---
 
 Debug the code of loading LoRA Checkpoints.
 
-    Author: Zi Liang <zi1415926.liang@connect.polyu.hk>
-    Copyright © 2024, ZiLiang, all rights reserved.
+    Author: Anonymous authors
+    Copyright © 2024, Anonymous, all rights reserved.
     Created: 17 April 2024
 ======================================================================
 """

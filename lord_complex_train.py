@@ -5,8 +5,8 @@ LORD_COMPLEX_TRAIN ---
 The comprehensive and overall training function. In `lord_train.py` it
 is a simplified version of LoRD loss function.
 
-    Author: Zi Liang <zi1415926.liang@connect.polyu.hk>
-    Copyright © 2024, ZiLiang, all rights reserved.
+    Author: Anonymous authors
+    Copyright © 2024, Anonymous, all rights reserved.
     Created:  5 March 2024
 ======================================================================
 """

@@ -4,8 +4,8 @@ EVAL_VARY_TRAINNUM ---
 
 Evaluate the code of varying train nums.
 
-    Author: Zi Liang <zi1415926.liang@connect.polyu.hk>
-    Copyright © 2024, ZiLiang, all rights reserved.
+    Author: Anonymous authors
+    Copyright © 2024, Anonymous, all rights reserved.
     Created:  9 March 2024
 ======================================================================
 """

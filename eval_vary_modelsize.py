@@ -4,8 +4,8 @@ EVAL_VARY_MODELSIZE ---
 
 Evaluate the methods with different model sizes.
 
-    Author: Zi Liang <zi1415926.liang@connect.polyu.hk>
-    Copyright © 2024, ZiLiang, all rights reserved.
+    Author: Anonymous authors
+    Copyright © 2024, Anonymous, all rights reserved.
     Created: 19 June 2024
 ======================================================================
 """

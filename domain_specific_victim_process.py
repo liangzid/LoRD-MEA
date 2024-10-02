@@ -4,8 +4,8 @@ DOMAIN_SPECIFIC_VICTIM_PROCESS ---
 
 A Temporal script.
 
-    Author: Zi Liang <zi1415926.liang@connect.polyu.hk>
-    Copyright © 2024, ZiLiang, all rights reserved.
+    Author: Anonymous authors
+    Copyright © 2024, Anonymous, all rights reserved.
     Created: 27 May 2024
 ======================================================================
 """

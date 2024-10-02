@@ -4,8 +4,8 @@ RLHF_TRAIN ---
 
 Training Language Models with Self-designed Training Loss Function.
 
-    Author: Zi Liang <zi1415926.liang@connect.polyu.hk>
-    Copyright © 2024, ZiLiang, all rights reserved.
+    Author: Anonymous authors
+    Copyright © 2024, Anonymous, all rights reserved.
     Created: 11 February 2024
 ======================================================================
 """

@@ -4,8 +4,8 @@ MERGE_LORA ---
 
 This file is to merge LoRA with pretrained models.
 
-    Author: Zi Liang <zi1415926.liang@connect.polyu.hk>
-    Copyright © 2024, ZiLiang, all rights reserved.
+    Author: Anonymous authors
+    Copyright © 2024, Anonymous, all rights reserved.
     Created:  6 June 2024
 ======================================================================
 """

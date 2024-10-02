@@ -5,8 +5,8 @@ BLEU4 ---
 From https://github.com/zhyack/BLEU4Python/blob/master/bleu.py
 All rights belong to the original author
 
-    Author: Zi Liang <zi1415926.liang@connect.polyu.hk>
-    Copyright © 2023, ZiLiang, all rights reserved.
+    Author: Anonymous authors
+    Copyright © 2023, Anonymous, all rights reserved.
     Created: 17 November 2023
 ======================================================================
 """

@@ -4,8 +4,8 @@ WATERMARK_DETECT ---
 
 Detect whether a watermark is contained in a given text.
 
-    Author: Zi Liang <zi1415926.liang@connect.polyu.hk>
-    Copyright © 2024, ZiLiang, all rights reserved.
+    Author: Anonymous authors
+    Copyright © 2024, Anonymous, all rights reserved.
     Created: 31 May 2024
 ======================================================================
 """

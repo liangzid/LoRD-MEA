@@ -4,8 +4,8 @@ TEMP_QA_INFER ---
 
 TEMPORAL INFERENCE FOR QA.
 
-    Author: Zi Liang <zi1415926.liang@connect.polyu.hk>
-    Copyright © 2024, ZiLiang, all rights reserved.
+    Author: Anonymous authors
+    Copyright © 2024, Anonymous, all rights reserved.
     Created: 23 April 2024
 ======================================================================
 """

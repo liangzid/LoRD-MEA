@@ -2,8 +2,8 @@
 ######################################################################
 #4.0.RUN_LORD_II --- 
 
-# Author: Zi Liang <zi1415926.liang@connect.polyu.hk>
-# Copyright © 2024, ZiLiang, all rights reserved.
+# Author: Anonymous authors
+# Copyright © 2024, Anonymous, all rights reserved.
 # Created: 27 March 2024
 ######################################################################
 

@@ -2,8 +2,8 @@
 ######################################################################
 #6.6.TEXT2SQL_TRAIN --- 
 
-# Author: Zi Liang <zi1415926.liang@connect.polyu.hk>
-# Copyright © 2024, ZiLiang, all rights reserved.
+# Author: Anonymous authors
+# Copyright © 2024, Anonymous, all rights reserved.
 # Created: 19 May 2024
 ######################################################################
 
