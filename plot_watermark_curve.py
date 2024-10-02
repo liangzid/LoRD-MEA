@@ -321,7 +321,7 @@ def main1():
 
     plt.legend(loc=(-0.47, 4.20),
                prop=font1, ncol=6, frameon=False,
-               handletextpad=0., handlelength=1.2)  # 设置信息框
+               handletextpad=0., handlelength=1.2) 
     fig.subplots_adjust(wspace=0.26, hspace=0.6)
     plt.subplots_adjust(bottom=0.33, top=0.85)
     # plt.show()

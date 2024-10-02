@@ -192,7 +192,7 @@ def draw_curve():
     }
     plt.legend(loc=(-2.71, 2.60),
                prop=font_legend, ncol=6, frameon=False,
-               handletextpad=0., handlelength=1.2)  # 设置信息框
+               handletextpad=0., handlelength=1.2)  
     fig.subplots_adjust(wspace=0.26, hspace=0.6)
     plt.subplots_adjust(bottom=0.33, top=0.85)
     # plt.show()

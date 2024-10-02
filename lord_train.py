@@ -500,9 +500,6 @@ def train_pod(lm,
 
 
 def setup_train_args():
-    """
-    设置训练参数
-    """
     parser = argparse.ArgumentParser()
     parser.add_argument('--device', default="cuda", type=str,
                         required=False)

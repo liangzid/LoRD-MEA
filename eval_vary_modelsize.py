@@ -415,7 +415,7 @@ def wmt_curve_trainNums(overall_name="wmt16", taskls=["cs-en","de-en",]):
         frameon=False,
         handletextpad=0.0,
         handlelength=1.2,
-    )  # 设置信息框
+    ) 
     fig.subplots_adjust(wspace=0.26, hspace=0.6)
     plt.subplots_adjust(bottom=0.33, top=0.85)
     # plt.show()

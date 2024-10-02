@@ -143,7 +143,7 @@ def draw_spectrum(
                prop=font1,
                ncol=2, frameon=True,
                markerscale=0.5,
-               handletextpad=0., handlelength=1.2)  # 设置信息框
+               handletextpad=0., handlelength=1.2)  
 
 
     # axs.set_yticks([0, 1, 2, 3, 4,])
