@@ -25,9 +25,10 @@ export TRAIN_NUMS=(64)
 # export TRAIN_NUMS=(64 128 256)
 # export train_times=(2 3 4 5)
 export train_times=(1)
-export msl=1526
-export task_ls=("PKU-Alignment/PKU-SafeRLHF" "thu-coai/diasafety")
-# export task_ls=("wikisql")
+# export msl=1526
+export msl=1024
+# export task_ls=("PKU-Alignment/PKU-SafeRLHF" "thu-coai/diasafety")
+export task_ls=("Anthropic/hh-rlhf")
 export train_taskls=("vanilla" "LoRD-VI")
 # export train_taskls=("LoRD-VI" "vanilla")
 # export train_taskls=("vanilla")
@@ -44,7 +45,7 @@ export period=1
 
 export sub_set_num=1
 export sub_stage_num=512
-export max_new_tokens=128
+export max_new_tokens=64
 export infer_batch_size=1
 export batch_size=1
 
@@ -77,7 +78,7 @@ do
 
 		export save_path="${POD_save_dir}safety_align${task}${train_num}${train_time}${train_task}"
 
-		$python ${root_dir}lord_train.py\
+proxychains $python ${root_dir}lord_train.py\
 		    --use_lora=$use_lora \
 		    --from_path=$from_path \
 		    --is_black_box=$is_black_box \
@@ -110,8 +111,6 @@ do
 	done
     done
 done
-
-$python ${root_dir}text2sql_process.py
 
 echo "RUNNING 6.8.safety_align_train.sh DONE."
 # 6.8.safety_align_train.sh ends here
