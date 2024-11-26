@@ -881,6 +881,22 @@ def one_period(args, lm,
             #         # -1*log_clip(torch.mean(logits11-logits12))
             #     print(f"TERM1: {term1}\nTERM2: {term2}\nTERM3: {term3}\n")
             #     print(f"LOSS: {loss}\n\n")
+            elif method =="w.y_vic":
+                term3=-logits2_cons.clone().detach()
+                term3=torch.mean(term3)
+                # print(term3)
+                los2=-1*torch.mean(logits2_cons)
+                loss11=-1*torch.mean(logits11)
+                loss12=1*torch.mean(logits12)
+                loss= term3*(loss11+loss12)+(los2+loss12)
+                loss=sigmoid(loss)
+            elif method=="usey+":
+                los2=-1*torch.mean(logits2_cons)
+                loss11=-1*torch.mean(logits11)
+                loss12=1*torch.mean(logits12)
+                loss= (loss11+loss12)+(los2-loss11)
+                loss=sigmoid(loss)
+
 
             elif method in ["LoRD-VI", "LoRD-VII", "LoRD-VIII", "LoRD-IX"]:
                 if args.is_black_box == 0:
