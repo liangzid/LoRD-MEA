@@ -68,6 +68,7 @@ def load_safety_datals(
         "PKU-Alignment/PKU-SafeRLHF",
         "thu-coai/diasafety",
         "allenai/prosocial-dialog",
+        "Anthropic/hh-rlhf",
     ]
     assert task_name in tasks_we_used
     dataset_name = task_name
@@ -101,6 +102,20 @@ def load_safety_datals(
         for item in trainset_text:
             inp = item["context"]
             inp_ls.append(inp)
+            if len(inp_ls) >= train_num:
+                break
+    elif task_name == "Anthropic/hh-rlhf":
+        trainset_text = load_dataset(
+            dataset_name,
+            split="train",
+            ).shuffle(20240307)
+        for item in trainset_text:
+            inp = item["chosen"]
+            if " Assistant: " not in inp:
+                continue
+            else:
+                inp = inp.split(" Assistant: ")[0]
+                inp_ls.append(inp)
             if len(inp_ls) >= train_num:
                 break
 
@@ -140,6 +155,7 @@ def infer_safety(
         "PKU-Alignment/PKU-SafeRLHF",
         "thu-coai/diasafety",
         # "allenai/prosocial-dialog",
+        "Anthropic/hh-rlhf",
     ]
 
     assert task_name in tasks_we_used
@@ -172,6 +188,24 @@ def infer_safety(
                 sets.append(item)
             if len(sets) >= test_set_take_num:
                 break
+    elif task_name == "Anthropic/hh-rlhf":
+        dataset = (
+            load_dataset(task_name, split=f"test")
+            .shuffle(20240307)
+            .to_iterable_dataset()
+        )
+        # .take(test_set_take_num)
+        # sets = dataset
+        sets = []
+        for item in dataset:
+            inp = item["chosen"]
+            if " Assistant: " not in inp:
+                continue
+            else:
+                inp = inp.split(" Assistant: ")[0]
+                sets.append(inp)
+            if len(sets) >= test_set_take_num:
+                break
 
     if modelname == "gpt-3.5-turbo-1106":
         from training_data_collecting_openai import chatWithOpenAI_APIs
@@ -179,7 +213,7 @@ def infer_safety(
         res_ls = []
         for d in tqdm(sets):
             if task_name == tasks_we_used[0]:
-                d = d["context"]
+                d = d["prompt"]
             elif task_name == tasks_we_used[1]:
                 inp = d["context"]
                 out = d["response"]
@@ -188,6 +222,50 @@ def infer_safety(
                 d = inp
             res = chatWithOpenAI_APIs(modelname, "", query)
             print(f"Generated Text: {res}")
+            res_ls.append((res, ""))
+    elif modelname is None:
+        print("USING Pretrained Model.")
+        # load model based on our idea
+        model = AutoModelForCausalLM.from_pretrained(
+            base_model_name,
+            device_map="auto",
+            trust_remote_code=True,
+            torch_dtype=torch.bfloat16,
+        )
+        tokenizer = AutoTokenizer.from_pretrained(base_model_name)
+        tokenizer.pad_token = tokenizer.eos_token
+        tokenizer.padding_side = "right"
+
+        res_ls = []
+        pp = ""
+        input_idxls = []
+        for d in tqdm(sets, total=test_set_take_num):
+            if task_name == tasks_we_used[0]:
+                d = d["prompt"]
+            elif task_name == tasks_we_used[1]:
+                inp = d["context"]
+                out = d["response"]
+                category = d["category"]
+                label = d["label"]
+                d = inp
+            final_inps = " User: " + d + " Assistant: "
+            inps_idx = tokenizer.encode(
+                final_inps, max_length=128, padding="longest", return_tensors="pt"
+            )
+
+            print(inps_idx)
+            inps_idx = inps_idx.to("cuda")
+            res = model.generate(
+                inps_idx,
+                max_new_tokens=mnt,
+            )
+            print(res)
+            res = tokenizer.decode(res[0])
+            if final_inps in res:
+                res = res.split(final_inps)[1]
+            else:
+                res = res
+            print(f"Text Generated:>>> {res}")
             res_ls.append((res, ""))
     elif base_model_name is None:
         model = InferObj(
@@ -202,7 +280,7 @@ def infer_safety(
         pp = task_prompt_map[task_name]
         for d in tqdm(sets, total=test_set_take_num):
             if task_name == tasks_we_used[0]:
-                d = d["context"]
+                d = d["prompt"]
             elif task_name == tasks_we_used[1]:
                 inp = d["context"]
                 out = d["response"]
@@ -243,7 +321,7 @@ def infer_safety(
         input_idxls = []
         for d in tqdm(sets, total=test_set_take_num):
             if task_name == tasks_we_used[0]:
-                d = d["context"]
+                d = d["prompt"]
             elif task_name == tasks_we_used[1]:
                 inp = d["context"]
                 out = d["response"]
@@ -287,13 +365,13 @@ def eval_varying_train_num():
     eval_model = PerspectiveAPI()
 
     taskls = [
-        # "PKU-Alignment/PKU-SafeRLHF",
-        "thu-coai/diasafety",
+        "PKU-Alignment/PKU-SafeRLHF",
+        # "thu-coai/diasafety",
     ]
     mls = [
-        "vanilla",
+        # "vanilla",
         "LoRD-VI",
-        # "pretrained",
+        "pretrained",
         # "gpt-3.5-turbo-1106",
         # "kd",
     ]
@@ -331,12 +409,14 @@ def eval_varying_train_num():
             for m in mls:
                 temp_scorels = []
                 for itime in train_times:
-                    prefix = "./safety_ckpts/SAFETY"
+                    prefix = "./safety_ckpts/safety_align"
                     if m == "vanilla":
                         ckpt = prefix + f"{task}{train_num}{itime}{m}___finally/"
                     elif m == "pretrained":
                         ckpt = f"./safety_ckpts/code---{task}{train_num}{itime}{m}_res.json"
                     elif m == "gpt-3.5-turbo-1106":
+                        ckpt = m
+                    elif m == "meta-llama/Meta-Llama-3-8B":
                         ckpt = m
                     else:
                         ckpt = prefix + f"{task}{train_num}{itime}{m}___period512/"
@@ -349,7 +429,7 @@ def eval_varying_train_num():
                                 None,
                                 task,
                                 dir_p + res_pth,
-                                test_set_take_num=500,
+                                test_set_take_num=100,
                                 mnt=256,
                                 base_model_name=base_model_name1,
                             )
@@ -358,7 +438,7 @@ def eval_varying_train_num():
                                 ckpt,
                                 task,
                                 dir_p + res_pth,
-                                test_set_take_num=500,
+                                test_set_take_num=100,
                                 mnt=256,
                                 base_model_name=base_model_name1,
                             )

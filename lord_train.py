@@ -687,6 +687,7 @@ def main():
     tasks_safety = [
         "PKU-Alignment/PKU-SafeRLHF",
         "thu-coai/diasafety",
+        "Anthropic/hh-rlhf",
         ]
 
     tasks_general = [
