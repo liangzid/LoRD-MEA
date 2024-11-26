@@ -199,13 +199,15 @@ def infer_safety(
         sets = []
         for item in dataset:
             inp = item["chosen"]
-            if " Assistant: " not in inp:
+            if "Assistant: " not in inp:
+                # print(inp)
                 continue
             else:
-                inp = inp.split(" Assistant: ")[0]
+                inp = inp.split("Assistant: ")[0]
                 sets.append(inp)
             if len(sets) >= test_set_take_num:
                 break
+            print("Length of test dataset:", len(sets))
 
     if modelname == "gpt-3.5-turbo-1106":
         from training_data_collecting_openai import chatWithOpenAI_APIs
@@ -365,13 +367,14 @@ def eval_varying_train_num():
     eval_model = PerspectiveAPI()
 
     taskls = [
-        "PKU-Alignment/PKU-SafeRLHF",
+        "Anthropic/hh-rlhf",
+        # "PKU-Alignment/PKU-SafeRLHF",
         # "thu-coai/diasafety",
     ]
     mls = [
-        # "vanilla",
+        "vanilla",
         "LoRD-VI",
-        "pretrained",
+        # "pretrained",
         # "gpt-3.5-turbo-1106",
         # "kd",
     ]
@@ -429,7 +432,7 @@ def eval_varying_train_num():
                                 None,
                                 task,
                                 dir_p + res_pth,
-                                test_set_take_num=100,
+                                test_set_take_num=500,
                                 mnt=256,
                                 base_model_name=base_model_name1,
                             )
@@ -438,7 +441,7 @@ def eval_varying_train_num():
                                 ckpt,
                                 task,
                                 dir_p + res_pth,
-                                test_set_take_num=100,
+                                test_set_take_num=500,
                                 mnt=256,
                                 base_model_name=base_model_name1,
                             )

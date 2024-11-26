@@ -26,13 +26,13 @@ export TRAIN_NUMS=(64)
 # export train_times=(2 3 4 5)
 export train_times=(1)
 # export msl=1526
-export msl=1024
+export msl=512
 # export task_ls=("PKU-Alignment/PKU-SafeRLHF" "thu-coai/diasafety")
 export task_ls=("Anthropic/hh-rlhf")
-export train_taskls=("vanilla" "LoRD-VI")
+# export train_taskls=("vanilla" "LoRD-VI")
 # export train_taskls=("LoRD-VI" "vanilla")
 # export train_taskls=("vanilla")
-# export train_taskls=("LoRD-VI")
+export train_taskls=("LoRD-VI")
 
 export is_black_box=1
 export use_lora=1
