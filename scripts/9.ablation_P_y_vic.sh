@@ -25,11 +25,13 @@ export TRAIN_NUMS=(16)
 export train_times=(1)
 # export train_times=(1)
 export msl=256
-export task_ls=("cs-en" "de-en" "fi-en")
+export task_ls=("de-en")
 # export task_ls=("wmt_mix")
 # export task_ls=("cs-en")
 # export train_taskls=("LoRD-VI" "vanilla")
-export train_taskls=("LoRD-VI" "vanilla")
+# export train_taskls=("LoRD-VI" "vanilla")
+# export train_taskls=("w.y_vic" "usey+")
+export train_taskls=("w.y_vic")
 # export train_taskls=("kd")
 # export train_taskls=("LoRD-II")
 
@@ -112,7 +114,7 @@ do
 done
 
 
-$python ${root_dir}wmt_process.py
+# $python ${root_dir}wmt_process.py
 
 
 
