@@ -16,7 +16,7 @@ Detect whether a watermark is contained in a given text.
 import os
 
 if __name__ == "__main__":
-    os.environ["CUDA_VISIBLE_DEVICES"] = "4"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "1"
     os.environ["TORCH_USE_CUDA_DSA"] = "1"
     pass
 from extended_watermark_processor import WatermarkDetector
@@ -57,16 +57,16 @@ def wrmk_dtct(output_text, tokenizer, device):
 
 def eval_varying_train_num():
     taskls = [
-        # "e2e_nlg",
-        # "allenai/common_gen",
+        "e2e_nlg",
+        "allenai/common_gen",
         # "cs-en",
         # "de-en",
-        "ro-en",
+        # "ro-en",
     ]
     mls = [
-        "vanilla",
-        # "LoRD-VI",
-        "LoRD-VIII",
+        # "vanilla",
+        "LoRD-VI",
+        # "LoRD-VIII",
         # "pretrained",
         # "gpt-3.5-turbo-1106",
         # "kd",
@@ -89,6 +89,7 @@ def eval_varying_train_num():
     ]
     lambda1ls = [
         "0.0",
+        # "0.01",
         "0.2",
         "0.4",
         "0.6",
@@ -201,7 +202,7 @@ def eval_varying_train_num():
                                         ckpt,
                                         task,
                                         dir_p + res_pth,
-                                        test_set_take_num=500,
+                                        test_set_take_num=300,
                                         mnt=64,
                                         base_model_name=base_model_name1,
                                     )
@@ -277,7 +278,7 @@ def eval_varying_train_num():
                 }
 
     with open(
-        dir_p + "Overall__d2t_varytrain_num_inference_scores.json", "w", encoding="utf8"
+        dir_p + "watermark_onlyRerunPart.json", "w", encoding="utf8"
     ) as f:
         json.dump(res_dict, f, ensure_ascii=False, indent=4)
 

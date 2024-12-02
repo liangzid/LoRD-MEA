@@ -12,7 +12,7 @@ WMT dataset process scripts.
 
 import os
 if __name__ == "__main__":
-    os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+    os.environ["CUDA_VISIBLE_DEVICES"] = "0"
     os.environ["TORCH_USE_CUDA_DSA"]="1"
 
 from gen_pipeline_open import InferObj
@@ -121,7 +121,7 @@ def load_wmt_datals(tokenizer,
 
     task_prompt_map = {
         "cs-en": "Translate the sentence from Czech to English Please.",
-        "de-en": "Translate the sentence from Dutch to English Please.",
+        "de-en": "Translate the sentence from German to English Please.",
         "fi-en": "Translate the sentence from Finnish to English Please.",
         "ro-en": "Translate the sentence from Romanian to English Please.",
         "ru-en": "Translate the sentence from Russian to English Please.",
@@ -533,6 +533,9 @@ def infer_wmt(modelname, task_name, res_pth,
     ]
 
     pretrained_ls=[
+        "meta-llama/Meta-Llama-3-8B-Instruct",
+        "Qwen/Qwen2-7B-Instruct",
+        "mistralai/Mistral-7B-Instruct-v0.3",
         "facebook/opt-125m",
         "facebook/opt-350m",
         "facebook/opt-1.3b",
@@ -833,10 +836,10 @@ def evaluation_datas():
         # ["de-en","./wmt16_ckpts/WMTTTnewde-en641vanilla___finally/",],
         # ["fi-en","./wmt16_ckpts/WMTTTnewfi-en641vanilla___finally/",],
 
-        ["cs-en","./wmt16_ckpts/WMTTT0519cs-en161LoRD-VI___period256/"],
+        # ["cs-en","./wmt16_ckpts/WMTTT0519cs-en161LoRD-VI___period256/"],
         # ["de-en","./wmt16_ckpts/WMTTT0519cs-en321LoRD-VI___period512/"],
         # ["fi-en","./wmt16_ckpts/WMTTT0519cs-en321LoRD-VI___period512/"],
-        ["cs-en","./wmt16_ckpts/WMTTT0519cs-en161vanilla___finally/"],
+        # ["cs-en","./wmt16_ckpts/WMTTT0519cs-en161vanilla___finally/"],
         # ["de-en","./wmt16_ckpts/WMTTT0519cs-en321vanilla___finally/"],
         # ["fi-en","./wmt16_ckpts/WMTTT0519cs-en321vanilla___finally/"],
 
@@ -922,9 +925,14 @@ def eval_ablation():
         # "fi-en",
         ]
     mls = [
-        "w.y_vic",
-        "usey+",
-        "LoRD-VI",
+        # "w.y_vic",
+        # "usey+",
+        # "w.KL",
+        "w.o.Sigmoid",
+        # "LoRD-VI",
+        # "simPO",
+        # "simPO2",
+        # "pretrained"
         ]
     # mls = ["vanilla", "kd", "google/gemma-2b", "Complex-lord",]
     train_times = [
@@ -945,6 +953,8 @@ def eval_ablation():
         # "1024",
         ]
     base_model_name1="meta-llama/Meta-Llama-3-8B-Instruct"
+    # base_model_name1="Qwen/Qwen2-7B-Instruct"
+    # base_model_name1="Qwen/Qwen2-7B-Instruct"
     # base_model_name1="facebook/opt-6.7b"
 
     dir_p = "./wmt_0703_dataset_res/"
@@ -973,7 +983,7 @@ def eval_ablation():
                     else:
                         ckpt = prefix + \
                             f"{task}{train_num}{itime}{m}___period256/"
-                    res_pth = ckpt+f"___{task}_wmt_infer_res.json"
+                    res_pth = ckpt+base_model_name1+f"___{task}_wmt_infer_res.json"
                     res_pth = res_pth.replace("/", "__").replace(".", "")
 
                     if not os.path.exists(dir_p+res_pth):
@@ -1159,7 +1169,7 @@ def eval_varying_modelsize():
     taskls = [
         # "cs-en",
         "de-en",
-        "ru-en",
+        # "ru-en",
         # "fi-en",
         ]
     mls = [
@@ -1188,18 +1198,20 @@ def eval_varying_modelsize():
         # "512",
         ]
     base_model_list=[
+        "meta-llama/Meta-Llama-3-8B-Instruct",
+        # "Qwen/Qwen2-7B-Instruct",
         # "EleutherAI/pythia-410m",
         # "EleutherAI/pythia-1.4b",
         # "EleutherAI/pythia-2.8b",
         # "EleutherAI/pythia-6.9b",
 
-        "facebook/opt-125m",
-        "facebook/opt-350m",
-        "facebook/opt-1.3b",
-        "facebook/opt-2.7b",
-        "facebook/opt-6.7b",
-        "facebook/opt-13b",
-        "facebook/opt-30b",
+        # "facebook/opt-125m",
+        # "facebook/opt-350m",
+        # "facebook/opt-1.3b",
+        # "facebook/opt-2.7b",
+        # "facebook/opt-6.7b",
+        # "facebook/opt-13b",
+        # "facebook/opt-30b",
         # "facebook/opt-66b",
         ]
     # base_model_name1="meta-llama/Meta-Llama-3-8B-Instruct"
@@ -1294,8 +1306,8 @@ def eval_varying_modelsize():
 
 def eval_tau1_res():
     taskls = [
-        "cs-en",
-        # "de-en",
+        # "cs-en",
+        "de-en",
         # "fi-en",
     ]
     mls = [
@@ -1310,15 +1322,19 @@ def eval_tau1_res():
         # "5",
     ]
     train_nums = [
-        "64",
+        "16",
+        # "64",
         # "128",
         # "256",
         # "512",
         ]
     tau1ls= [
-        "0.4",
-        "0.5",
-        "0.6",
+        # "0.4",
+        # "0.5",
+        # "0.6",
+        "0.7",
+        # "0.8",
+        # "0.9",
         # "0.70",
         # "0.75",
         # "0.80",
@@ -1328,16 +1344,20 @@ def eval_tau1_res():
         # "1.0",
         ]
     # tau2="1.0"
+    # tau2ls=[
+    #     # "0.80",
+    #     # "0.85",
+    #     # "0.90",
+    #     # "0.95",
+    #     "1.0",
+    #     ]
     tau2ls=[
-        # "0.80",
-        # "0.85",
-        # "0.90",
-        # "0.95",
-        "1.0",
+        # "0.0","-0.1","-0.2"
+        "0.0"
         ]
     base_model_name1="meta-llama/Meta-Llama-3-8B-Instruct"
 
-    dir_p = "./wmt_0516_tau1_res/"
+    dir_p = "./wmt_0516_tau1tau2_res/"
     res_dict = {}
 
     if not os.path.exists(dir_p):
@@ -1353,17 +1373,17 @@ def eval_tau1_res():
                     for m in mls:
                         temp_scorels=[]
                         for itime in train_times:
-                            prefix = f"./qa_ckpts/WMTTT-TAU1{tau1}TAU2{tau2}"
+                            prefix = f"./ablation_ckpts/WMT_Hyperpara"
                             ckpt = (
                                 prefix
-                                + f"{task}{train_num}{itime}{m}___period512/"
+                                + f"{task}{train_num}{itime}{m}{tau1}{tau2}___period256/"
                             )
                             res_pth = ckpt + f"___{task}_qa_infer_res.json"
                             res_pth = res_pth.replace("/", "__").replace(".", "")
 
                             if not os.path.exists(dir_p+res_pth):
                                 res_ls = infer_wmt(ckpt, task, dir_p+res_pth,
-                                                test_set_take_num=500,
+                                                test_set_take_num=200,
                                                 mnt=64,
                                                 base_model_name=base_model_name1,
                                                 )
@@ -1402,7 +1422,7 @@ def eval_tau1_res():
                             "std": stdvaluels}
 
     with open(
-        dir_p + "Overall__qa_varytrain_num_inference_scores.json", "w", encoding="utf8"
+        dir_p + "Overall__qa_varytau1tau2_inference_scores.json", "w", encoding="utf8"
     ) as f:
         json.dump(res_dict, f, ensure_ascii=False, indent=4)
 

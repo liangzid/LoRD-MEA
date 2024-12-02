@@ -15,7 +15,7 @@ echo "HOME: ${HOME}"
 export python=${HOME}/anaconda3/envs/align/bin/python3
 # export CUDA_VISIBLE_DEVICES="5,6,7"
 # export CUDA_VISIBLE_DEVICES="0,1,2"
-export CUDA_VISIBLE_DEVICES="1"
+export CUDA_VISIBLE_DEVICES="0"
 export TORCH_USE_CUDA_DSA="1"
 export root_dir="${HOME}/alignmentExtraction/"
 export POD_save_dir="${root_dir}/ablation_ckpts/"
@@ -57,9 +57,11 @@ export use_vic_logits=1
 export use_kld=0
 export use_entropy=0
 
-export tau1s=(0.4 0.6 0.8 1.0)
+# export tau1s=(0.7 0.8 0.9)
+export tau1s=(0.8)
 # realistic tau2
-export taudeltas=(0.1 0.0 -0.1 -0.3)
+# export taudeltas=(0.0 -0.1 -0.2)
+export taudeltas=(-0.1)
 
 
 for tau1 in ${tau1s[*]}
@@ -82,7 +84,7 @@ do
 		echo "+++++++train_task: ${train_task}+++++++"
 		echo "====================================================="
 
-		export save_path="${POD_save_dir}WMTTT0519${task}${train_num}${train_time}${train_task}"
+		export save_path="${POD_save_dir}WMT_Hyperpara${task}${train_num}${train_time}${train_task}${tau1}${tau2}"
 
 		$python ${root_dir}lord_train.py\
 		    --use_lora=$use_lora \
@@ -93,7 +95,7 @@ do
 		    --infer_batch_size=$infer_batch_size\
 		    --tau1=$tau1 \
 		    --tau2=0.85 \
-		    --tau_delta=$taudelta
+		    --tau_delta=$tau2 \
 		    --task=$train_task \
 		    --device="cuda" \
 		    --epoch=$epoch \

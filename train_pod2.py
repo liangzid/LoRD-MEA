@@ -60,6 +60,7 @@ from transformers import AutoTokenizer, AutoConfig, AutoModel
 import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+printt=print
 print = logger.info
 
 
@@ -170,6 +171,7 @@ def train_pod(lm,
         "allenai/common_gen@wrmk",
         "cs-en@wrmk",
         "de-en@wrmk",
+        "ro-en@wrmk",
         ]
     if args.dataset_task in tasks_data2text_wrmk:
         ologits2ls=None
@@ -285,7 +287,10 @@ def train_pod(lm,
                     prompt=left_pad(prompt,lm_tokenizer.bos_token_id)
                     prompt=prompt.to(args.device)
 
-                print(f"prompt.shape: {prompt.shape}")
+                printt("++++++++++++++++++++++++++++++++++++++++++++++++")
+                printt(f"prompt.shape: {prompt.shape}")
+                printt(f"prompt: {prompt}")
+                printt(f"temperature: {args.T}")
                 gen_idx=lm.generate(
                     prompt,
                     do_sample=True,
@@ -896,6 +901,34 @@ def one_period(args, lm,
                 loss12=1*torch.mean(logits12)
                 loss= (loss11+loss12)+(los2-loss11)
                 loss=sigmoid(loss)
+            elif method=="w.KL":
+                los2=-1*torch.mean(logits2_cons)
+                loss11=-1*torch.mean(logits11)
+                loss12=1*torch.mean(logits12)
+                target = torch.exp(logits2,)
+                prediction_logsf = logits12.clone().detach()
+                KL_loss = F.kl_div(prediction_logsf, target)
+                KL_loss = torch.mean(KL_loss)
+                loss= (loss11+loss12)+KL_loss
+                loss=sigmoid(loss)
+            elif method=="w.o.Sigmoid":
+                los2=-1*torch.mean(logits2_cons)
+                loss11=-1*torch.mean(logits11)
+                loss12=1*torch.mean(logits12)
+                loss= log_clip(loss11+loss12)+log_clip(los2+loss12)
+                loss=loss
+            elif method=="simPO":
+                beta=2.5
+                gamma=0.55*beta
+                loss = beta*torch.mean(logits11)-beta*torch.mean(logits12)
+                loss = loss - gamma
+                loss=-torch.log(sigmoid(loss))
+            elif method=="simPO2":
+                beta=2.5
+                gamma=0.55*beta
+                loss = beta*torch.mean(logits2_cons)-beta*torch.mean(logits12)
+                loss = loss - gamma
+                loss=-torch.log(sigmoid(loss))
 
 
             elif method in ["LoRD-VI", "LoRD-VII", "LoRD-VIII", "LoRD-IX"]:

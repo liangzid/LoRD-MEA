@@ -15,6 +15,7 @@
 
 echo "HOME: ${HOME}"
 export python=${HOME}/anaconda3/envs/align/bin/python3
+export CUDA_VISIBLE_DEVICES="1"
 export TORCH_USE_CUDA_DSA="1"
 export root_dir="${HOME}/alignmentExtraction/"
 export POD_save_dir="${root_dir}/watermark/d2t_ckpts/"
@@ -27,8 +28,9 @@ export msl=140
 # export task_ls=("e2e_nlg@wrmk" "allenai/common_gen@wrmk")
 # export task_ls=("allenai/common_gen@wrmk")
 # export task_ls=("cs-en@wrmk" "de-en@wrmk")
-export task_ls=("ro-en@wrmk")
+export task_ls=("de-en@wrmk")
 # export task_ls=("e2e_nlg@wrmk")
+# export task_ls=("ro-en@wrmk")
 # export train_taskls=("LoRD-VI" "vanilla")
 # export train_taskls=("LoRD-VII")
 # export train_taskls=("LoRD-VI")
@@ -64,9 +66,9 @@ export tau2=0.85
 export tau_delta=-0.1
 
 # export lambda1ls=(0.0 0.2 0.4 0.6 0.8 1.0)
-export lambda1ls=(0.0)
+export lambda1ls=(0.01)
 # export cudals=(0 1 2 3 4 5)
-export cudals=(0)
+export cudals=(0 0)
 
 length=${#lambda1ls[@]}
 
@@ -139,7 +141,7 @@ done
 
 # rm "${root_dir}watermark_res/__watermark__d2t_ckpts__D2TTTde-en@wrmk641LoRD-VIII00___period512_____de-en@wrmk_d2t_infer_resjson"
 
-$python ${root_dir}watermark/watermark_detect.py
+# $python ${root_dir}watermark/watermark_detect.py
 
 # $python ${root_dir}plot_watermark_curve.py
 

@@ -1128,7 +1128,7 @@ def main():
                 raw_train_datals,
                 max_new_tokens=args.max_new_tokens,
             )
-        elif args.task in ["LoRD-VIII", "LoRD-IX", "w.y_vic", "usey+"]:
+        elif args.task in ["LoRD-VIII", "LoRD-IX", "w.y_vic", "usey+", "simPO", "simPO2", "w.KL", "w.o.Sigmoid",]:
             print("TRAIN WITH LORD-VIII!!!")
             from train_pod2 import train
 
@@ -1169,7 +1169,7 @@ def main():
             newlogits2ls = []
             if logits2ls is not None:
                 for per_data in logits2ls:
-                    # print(per_data.shape)
+                    print(">>>>>>>>>>>> PER Data's Shape: ", per_data.shape)
                     sl = len(per_data)
                     v = len(per_data[0])
                     tmp_ts = torch.ones((sl, v), dtype=torch.float)
