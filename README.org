@@ -115,7 +115,7 @@ The above experiments can be reproduced by running =6.X.xxxxx.sh= in =./scripts=
    export train_times=(1 2 3 4 5)
    export msl=256
    export task_ls=("cs-en" "de-en" "fi-en")
-   export train_taskls=("LoRD-II")
+   export train_taskls=("LoRD-VI")
 
    export is_black_box=1
    export use_lora=1
