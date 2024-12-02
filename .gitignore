@@ -12,6 +12,21 @@ vArY_TrAiN_nUm_ckpts
 *ckpt
 test/
 *512.pkl
+*.json
+NEW_VARYING_QUERYTIME_CKPTS/
+SCALE_VARYING_CKPTS/
+STEALED_PKLS
+ablation_ckpts
+code_0627_dataset_res
+codee_ckpts
+d2t_0519_dataset_res
+d2t_ckpts
+deleted
+doc/
+*.pkkl
+*.out
+*_res/
+*_ckpts/
 
 /LoRA-LoRD-ckptsvaryTrainNum___41allenai/
 /vArY_TrAiN_num_LoRA-LoRD-ckpts/
