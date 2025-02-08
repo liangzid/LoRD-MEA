@@ -70,8 +70,10 @@ def parse_json_file():
         dataset_ls[3]:"WMT (de-en)",
         }
     dataset_ls=[
-        # "e2e_nlg","allenai/common_gen",
-        "cs-en","de-en",
+        "e2e_nlg",
+        # "allenai/common_gen",
+        "cs-en",
+        # "de-en",
         ]
     method_ls=[
         "vanilla","LoRD-VI","pretrained",
@@ -217,7 +219,8 @@ def main1():
 
     # row_ls=["CommonGen", "E2E NLG",]
     # row_ls=["CommonGen", "cs-en",]
-    row_ls=["WMT (cs-en)", "WMT (de-en)",]
+    # row_ls=["WMT (cs-en)", "WMT (de-en)",]
+    row_ls=["E2E NLG", "WMT (cs-en)",]
     # column_ls=["P-value(↑)",
     #            "Z-score(↓)",
     #            "WM Frac.(↓)",
