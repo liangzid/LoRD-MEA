@@ -130,92 +130,106 @@ def parse_json_file():
 
 
 def main1():
-    x_ls=[0.0,0.2,0.4,0.6,0.8,1.0]
+    x_ls=[0.0,0.2,0.4,0.6,0.8]
 
-    # pvaluels=OrderedDict({
-    #     "cs-en":{
-    #     "LoRD":[45.36,46.58,47.64,46.63,45.60,45.09,],
-    #     "MLE":[45.28 for x in x_ls],
-    #     "Watermarked Victim Model":[0. for x in x_ls],
-    #     },
+    pvaluels=OrderedDict({
+        "WMT (cs-en)":{
+        "LoRD":[47.89,47.48,47.44,47.19,46.87,46.07,],
+        "MLE":[46.18 for x in x_ls],
+        "Watermarked Victim Model":[0. for x in x_ls],
+        },
 
-    #     "CommonGen":{
-    #     "LoRD":[47.15,45.34,46.69,47.95,45.51,44.66],
-    #     "MLE":[50.94 for x in x_ls],
-    #     "Watermarked Victim Model":[0. for x in x_ls],
-    #     },
+        "CommonGen":{
+        "LoRD":[47.15,45.34,46.69,47.95,45.51,44.66],
+        "MLE":[50.94 for x in x_ls],
+        "Watermarked Victim Model":[0. for x in x_ls],
+        },
 
-    #     "E2E NLG":{
-    #     "LoRD":[42.70,39.86,35.04,38.25,34.96,43.27,],
-    #     "MLE":[37.99 for x in x_ls],
-    #     "Watermarked Victim Model":[0. for x in x_ls],
-    #     },
-    #     })
-    # zscorels=OrderedDict({
-    #     "cs-en":{
-    #     "LoRD":[0.21,0.14,0.10,0.14,0.18,0.20,],
-    #     "MLE":[0.19 for x in x_ls],
-    #     "Watermarked Victim Model":[0. for x in x_ls],
-    #     },
+        "E2E NLG":{
+        "LoRD":[42.70,39.86,35.04,38.25,34.96,43.27,],
+        "MLE":[37.99 for x in x_ls],
+        "Watermarked Victim Model":[0. for x in x_ls],
+        },
+        })
+    zscorels=OrderedDict({
+        "WMT (cs-en)":{
+        "LoRD":[12.51,11.52,12.62,12.75,14.11,17.53],
+        "MLE":[15.76 for x in x_ls],
+        "Watermarked Victim Model":[0. for x in x_ls],
+        },
 
-    #     "CommonGen":{
-    #     "LoRD":[0.11,0.17,0.13,0.09,0.19,0.21,],
-    #     "MLE":[-0.02 for x in x_ls],
-    #     "Watermarked Victim Model":[0. for x in x_ls],
-    #     },
-    #     "E2E NLG":{
-    #     "LoRD":[0.28,0.39,0.52,0.43,0.55,0.25,],
-    #     "MLE":[0.42 for x in x_ls],
-    #     "Watermarked Victim Model":[0. for x in x_ls],
-    #     },
-    #     })
-    # greenwordfracls=OrderedDict({
-    #     "cs-en":{
-    #     "LoRD":[0.27,0.27,0.26,0.26,0.27,0.27,],
-    #     "MLE":[0.27 for x in x_ls],
-    #     "Watermarked Victim Model":[0. for x in x_ls],
-    #     },
+        "CommonGen":{
+        "LoRD":[0.11,0.17,0.13,0.09,0.19,0.21,],
+        "MLE":[-0.02 for x in x_ls],
+        "Watermarked Victim Model":[0. for x in x_ls],
+        },
+        "E2E NLG":{
+        "LoRD":[0.28,0.39,0.52,0.43,0.55,0.25,],
+        "MLE":[0.42 for x in x_ls],
+        "Watermarked Victim Model":[0. for x in x_ls],
+        },
+        })
+    greenwordfracls=OrderedDict({
+        "WMT (cs-en)":{
+        "LoRD":[0.27,0.27,0.26,0.26,0.27,0.27,],
+        "MLE":[0.27 for x in x_ls],
+        "Watermarked Victim Model":[0. for x in x_ls],
+        },
 
-    #     "CommonGen":{
-    #     "LoRD":[0.26,0.27,0.26,0.26,0.27,0.28,],
-    #     "MLE":[0.25 for x in x_ls],
-    #     "Watermarked Victim Model":[0. for x in x_ls],
-    #     },
-    #     "E2E NLG":{
-    #     "LoRD":[0.27,0.28,0.29,0.28,0.30,0.27],
-    #     "MLE":[0.28 for x in x_ls],
-    #     "Watermarked Victim Model":[0. for x in x_ls],
-    #     },
-    #     })
+        "CommonGen":{
+        "LoRD":[0.26,0.27,0.26,0.26,0.27,0.28,],
+        "MLE":[0.25 for x in x_ls],
+        "Watermarked Victim Model":[0. for x in x_ls],
+        },
+        "E2E NLG":{
+        "LoRD":[0.27,0.28,0.29,0.28,0.30,0.27],
+        "MLE":[0.28 for x in x_ls],
+        "Watermarked Victim Model":[0. for x in x_ls],
+        },
+        })
 
-    # bleu1ls=OrderedDict({
-    #     "E2E NLG":{
-    #     "LoRD":[49.27,50.01,44.98,48.30,48.66,48.42,],
-    #     "MLE":[0.28 for x in x_ls],
-    #     "Watermarked Victim Model":[0. for x in x_ls],
-    #     },
+    bleu1ls=OrderedDict({
+        "E2E NLG":{
+        "LoRD":[49.27,50.01,44.98,48.30,48.66,48.42,],
+        "MLE":[0.28 for x in x_ls],
+        "Watermarked Victim Model":[0. for x in x_ls],
+        },
 
-    #     "CommonGen":{
-    #     "LoRD":[28.79,29.54,26.79,34.73,33.70,33.03,],
-    #     "MLE":[22.80 for x in x_ls],
-    #     "Watermarked Victim Model":[0. for x in x_ls],
-    #     },
+        "CommonGen":{
+        "LoRD":[28.79,29.54,26.79,34.73,33.70,33.03,],
+        "MLE":[22.80 for x in x_ls],
+        "Watermarked Victim Model":[0. for x in x_ls],
+        },
 
-    #     "cs-en":{
-    #     "LoRD":[53.64,53.78,49.77,55.12,54.95,47.74,],
-    #     "MLE":[56.05 for x in x_ls],
-    #     "Watermarked Victim Model":[0. for x in x_ls],
-    #     },
-    #     })
+        "WMT (cs-en)":{
+        "LoRD":[53.64,53.78,49.77,55.12,54.95,47.74,],
+        "MLE":[56.05 for x in x_ls],
+        "Watermarked Victim Model":[0. for x in x_ls],
+        },
+        })
 
-    # overall_data={
-    #     "P-value":pvaluels,
-    #     "Z-score":zscorels,
-    #     "Watermark Frac.":greenwordfracls,
-    #     "BLEU-1": bleu1ls,
-    #     }
+    rougells=OrderedDict({
+        "E2E NLG":{
+        "LoRD":[43.98,44.08,42.08,43.42,44.05,-1.42,],
+        "MLE":[42.48 for x in x_ls],
+        "Watermarked Victim Model":[0. for x in x_ls],
+        },
+        "WMT (cs-en)":{
+        "LoRD":[55.26,55.92,55.60,55.83,55.08,55.47,],
+        "MLE":[54.95 for x in x_ls],
+        "Watermarked Victim Model":[0. for x in x_ls],
+        },
+        })
+
+    overall_data={
+        "P-value(↑)":pvaluels,
+        "Z-score(↓)":zscorels,
+        "Watermark Frac.":greenwordfracls,
+        "BLEU-1": bleu1ls,
+        "Rouge-L(↑)":rougells,
+        }
     
-    overall_data=parse_json_file()
+    # overall_data=parse_json_file()
 
     # row_ls=["CommonGen", "E2E NLG",]
     # row_ls=["CommonGen", "cs-en",]
@@ -279,7 +293,7 @@ def main1():
             for method in method_ls:
                 # print("data[method]",data[method])
                 axs[i_col][i_row].plot(x_ls,
-                                       data[method],
+                                       data[method][:len(x_ls)],
                                     label=method,
                                     linewidth=lw,
                                     marker=marker[method],
@@ -298,9 +312,9 @@ def main1():
                 #                     color=model_color_dict2[method])
 
             if i_row==0:
-                xlabelname="WMT (cs-en)"
+                xlabelname="E2E NLG"
             else:
-                xlabelname="WMT (de-en)"
+                xlabelname="WMT (cs-en)"
             if i_col==2:
                 xlabelname+="\n$\lambda_1$"
             axs[i_col][i_row].set_xlabel(xlabelname,
