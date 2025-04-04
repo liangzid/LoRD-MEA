@@ -58,14 +58,14 @@ def wrmk_dtct(output_text, tokenizer, device):
 def eval_varying_train_num():
     taskls = [
         "e2e_nlg",
-        "allenai/common_gen",
+        # "allenai/common_gen",
         # "cs-en",
         # "de-en",
         # "ro-en",
     ]
     mls = [
-        # "vanilla",
-        "LoRD-VI",
+        "vanilla",
+        # "LoRD-VI",
         # "LoRD-VIII",
         # "pretrained",
         # "gpt-3.5-turbo-1106",

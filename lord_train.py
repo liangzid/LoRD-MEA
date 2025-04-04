@@ -750,6 +750,10 @@ def main():
         "spider",
     ]
 
+    tasks_math = [
+        "openai/gsm8k",
+    ]
+
     tasks_safety = [
         "PKU-Alignment/PKU-SafeRLHF",
         "thu-coai/diasafety",
@@ -775,6 +779,8 @@ def main():
     tasks_supported.append("wmt_mix")
     tasks_supported.extend(tasks_data2text_wrmk)
     tasks_supported.extend(tasks_wmt16_wrmk)
+    tasks_supported.extend(tasks_math)
+    tasks_supported.append("Anthropic/hh-rlhf@fingerprint")
 
     print("---------------------------------------------------------")
     print(f"TASKS NOW Supported: {tasks_supported}")
@@ -817,6 +823,38 @@ def main():
             if args.extra_nonlabel_data == 1:
                 nonlabel_trainls = None
 
+        elif args.dataset_task in tasks_math:
+            print(f"RUN code task: {args.dataset_task}")
+            from math_process import load_math_datals
+
+            raw_train_datals = load_math_datals(
+                tokenizer,
+                task_name=args.dataset_task,
+                train_num=args.train_num,
+                max_length=args.max_length,
+                tokenizer_name=args.from_path,
+                model_name="r1",
+            )
+
+            if args.extra_nonlabel_data == 1:
+                nonlabel_trainls = None
+
+        elif args.dataset_task =="Anthropic/hh-rlhf@fingerprint":
+            print(f"RUN safety task with fingerprint victim model: {args.dataset_task}")
+            from safety_process import load_safety_datals
+
+            raw_train_datals = load_safety_datals(
+                tokenizer,
+                task_name="Anthropic/hh-rlhf",
+                train_num=args.train_num,
+                max_length=args.max_length,
+                tokenizer_name=args.from_path,
+                model_name = "fingerprint",
+            )
+
+            if args.extra_nonlabel_data == 1:
+                nonlabel_trainls = None
+
         elif args.dataset_task in tasks_safety:
             print(f"RUN safety task: {args.dataset_task}")
             from safety_process import load_safety_datals
@@ -831,7 +869,6 @@ def main():
 
             if args.extra_nonlabel_data == 1:
                 nonlabel_trainls = None
-
         elif args.dataset_task in tasks_wmt16:
             print(f"RUN wmt task: {args.dataset_task}")
             from wmt_process import load_wmt_datals, load_wmt_nonlabel
@@ -1169,7 +1206,7 @@ def main():
             newlogits2ls = []
             if logits2ls is not None:
                 for per_data in logits2ls:
-                    print(">>>>>>>>>>>> PER Data's Shape: ", per_data.shape)
+                    # print(">>>>>>>>>>>> PER Data's Shape: ", per_data.shape)
                     sl = len(per_data)
                     v = len(per_data[0])
                     tmp_ts = torch.ones((sl, v), dtype=torch.float)

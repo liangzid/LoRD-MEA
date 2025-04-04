@@ -21,7 +21,7 @@ if __name__ == "__main__":
     # os.environ["CUDA_VISIBLE_DEVICES"] = "3,7"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "5,6,7"
     # os.environ["CUDA_VISIBLE_DEVICES"] = "5"
-    os.environ["CUDA_VISIBLE_DEVICES"] = ""
+    os.environ["CUDA_VISIBLE_DEVICES"] = "1"
     os.environ["TORCH_USE_CUDA_DSA"]="1"
 
 import torch
@@ -564,11 +564,66 @@ def eval_varying_modelsize():
     return res_dict
 
 
+def eval_ood():
+    task="wikisql"
+    dir_p = "./wikisql__ood_experiment_res/"
+    res_dict = {}
+    if not os.path.exists(dir_p):
+        os.makedirs(dir_p)
+
+    base_model_name1="meta-llama/Meta-Llama-3-8B-Instruct"
+
+    res_dict_averaged={}
+
+    ckpt="./text2sql_ckpts/text2sqlspider645LoRD-VI___period512/"
+    # ckpt="./safety_ckpts/SAFETYthu-coai/diasafety641LoRD-VI___period512/"
+
+    res_pth = ckpt+f"___wikisql_wmt_infer_res.json"
+    res_pth = res_pth.replace("/", "__").replace(".", "")
+    if not os.path.exists(dir_p+res_pth):
+        res_ls = infer_t2s(ckpt,
+                        task,
+                        dir_p+res_pth,
+                        test_set_take_num=500,
+                        mnt=32,
+                        base_model_name=base_model_name1,
+                        )
+    else:
+        # from collections import OrderedDict
+        with open(dir_p+res_pth, 'r', encoding='utf8') as f:
+            res_ls = json.load(
+                f, object_pairs_hook=OrderedDict)
+
+    scores = eval_text2sql(res_ls)
+    print(task, ckpt)
+    print(scores)
+    res_dict[task+"-----"+res_pth] = scores
+    score_ls=[
+        scores["bleu"]["1"],
+        scores["bleu"]["2"],
+        scores["bleu"]["3"],
+        scores["bleu"]["4"],
+        scores["bertscore"]["p"],
+        scores["bertscore"]["r"],
+        scores["bertscore"]["f1"],
+        scores["rouge-l"]["p"],
+        scores["rouge-l"]["r"],
+        scores["rouge-l"]["f1"],
+        ]
+
+    print("OVERALL Save DONE.")
+    pprint(res_dict)
+    print("------------------------------------------")
+    pprint(res_dict_averaged)
+    return res_dict
+
+
 
 # running entry
 if __name__ == "__main__":
     # main()
     # eval_varying_train_num()
-    eval_varying_modelsize()
+    # eval_varying_modelsize()
+    eval_ood()
 
     print("EVERYTHING DONE.")

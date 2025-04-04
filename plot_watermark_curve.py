@@ -298,7 +298,8 @@ def main1():
                 #                     color=model_color_dict2[method])
 
             if i_row==0:
-                xlabelname="WMT (cs-en)"
+                # xlabelname="WMT (cs-en)"
+                xlabelname="E2E NLG"
             else:
                 xlabelname="WMT (de-en)"
             if i_col==2:

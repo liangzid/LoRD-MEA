@@ -21,6 +21,7 @@ from torch.utils.data import TensorDataset, DataLoader
 from tqdm import tqdm
 import math
 import time
+from typing import List
 # import argparse
 # from transformers import AutoModelForCausalLM
 # from transformers import AutoModelForSequenceClassification
@@ -164,6 +165,9 @@ def train_pod(lm,
     # STEP 1: DATA Preperation.
     ITER_num = args.period_num
     tb_writer = SummaryWriter(log_dir=args.save_path+"___log_writer")
+
+    # print(f"{raw_train_datals=}")
+    # print(f"{raw_train_datals[0]=}")
     op_ls, oidx2ls, ologits2ls, oidx2_dist = raw_train_datals
 
     tasks_data2text_wrmk=[
@@ -174,6 +178,9 @@ def train_pod(lm,
         "ro-en@wrmk",
         ]
     if args.dataset_task in tasks_data2text_wrmk:
+        ologits2ls=None
+        oidxs2_dist=None
+    if args.dataset_task == "Anthropic/hh-rlhf@fingerprint":
         ologits2ls=None
         oidxs2_dist=None
 
@@ -483,7 +490,7 @@ def train_pod(lm,
         if vic_logits2ls[0] is not None:
             newvic_logits2ls = []
             for per_data in vic_logits2ls:
-                # print(f"PER_DATA: {per_data}")
+                print(f"PER_DATA: {per_data=}")
                 sl = len(per_data)
                 v = len(per_data[0])
                 tmp_ts = torch.ones((sl, v), dtype=torch.float)

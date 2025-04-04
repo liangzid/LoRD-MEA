@@ -17,8 +17,6 @@ if __name__ == "__main__":
     os.environ["TORCH_USE_CUDA_DSA"] = "1"
 
 from gen_pipeline_open import InferObj
-from training_data_collecting_openai import chatWithOpenAI__LogLogits
-from training_data_collecting_openai import chatWithOpenAI_APIs
 from sklearn.metrics import precision_score, accuracy_score, recall_score, f1_score
 from tqdm import tqdm
 import pickle
@@ -440,17 +438,32 @@ def commonly_used_openai_post_process(
                 {"role": "system", "content": "Instruction: " + pp},
                 {"role": "user", "content": q},
             ]
-            res = chatWithOpenAI__LogLogits(
-                model_name,
-                qd,
-                topk,
-            )
-            resp, logprb = res
+            print(f"model name: {model_name=}")
+            if model_name=="r1":
+                from training_data_collecting_deepseek import onetimequery
+                from training_data_collecting_deepseek import chatWithDS__LogLogits
+                # a_model_name = "deepseek-chat"
+                a_model_name = "deepseek-reasoner"
+                res = chatWithDS__LogLogits(
+                    a_model_name,
+                    qd,
+                    topk,
+                    )
+                resp, logprb = res
+            else:
+                from training_data_collecting_openai import chatWithOpenAI__LogLogits
+                from training_data_collecting_openai import chatWithOpenAI_APIs
+                res = chatWithOpenAI__LogLogits(
+                    model_name,
+                    qd,
+                    topk,
+                )
+                resp, logprb = res
             bgn_idx = lm_tokenizer(
                 [resp],
                 # padding="longest",
                 truncation=True,
-                max_length=max_length,
+                max_length=128,
                 return_tensors="pt",
             ).input_ids[0][0]
 
@@ -563,6 +576,9 @@ def commonly_used_opensource_post_process(
             # trust_remote_code=True,
             # off_load=True,
         )
+        vic_tokenizer=AutoTokenizer.from_pretrained(
+            victim,
+            )
         tokenizer = lm_tokenizer
 
         print(f"RUNNING {victim} Stealing...")
@@ -572,14 +588,23 @@ def commonly_used_opensource_post_process(
 
         device = "cuda"
         for i_for, inp in tqdm(enumerate(inp_ls), desc="Steal Progress: "):
+            
             inp_idx = p_idxls[i_for].unsqueeze(0)
-            # inp_idx=inp_idx.to(device)
+            decoded_text=tokenizer.decode(inp_idx[0])
+            inp_idx=vic_tokenizer.encode(decoded_text, return_tensors="pt")
+            print(f"{inp_idx=}")
+            inp_idx=inp_idx.to(device)
+
+            print(inp_idx)
 
             outp_idx = model.generate(
                 inp_idx,
                 do_sample=True,
+                # max_length=max_length,
+                max_new_tokens=64,
             )
             # shape: [bs, sql-1,V]
+            # print(f"{outp_idx.shape=}")
             outp_dist = model(outp_idx[:, :-1]).logits[0, :, :topk]
             outp_idx = outp_idx.squeeze(0)
 
@@ -588,6 +613,8 @@ def commonly_used_opensource_post_process(
             idx2_dist_ls.append(outp_dist.to("cpu"))
             outp_idx = None
             outp_dist = None
+            del outp_idx
+            del outp_dist
 
         with open(save_pth, "wb") as f:
             pickle.dump(
@@ -1657,6 +1684,6 @@ if __name__ == "__main__":
     # eval_varying_train_num()
     # eval_varying_modelsize()
     # eval_ablation()
-    # eval_tau1_res()
-    eval_directPrompt()
+    eval_tau1_res()
+    # eval_directPrompt()
     print("EVERYTHING DONE.")

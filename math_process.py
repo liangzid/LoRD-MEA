@@ -1,16 +1,25 @@
 """
 ======================================================================
-SAFETY_PROCESS ---
+MATH_PROCESS ---
 
-Safety related experiments.
+For mathematical reasoning extraction experiments.
 
     Author: Zi Liang <zi1415926.liang@connect.polyu.hk>
-    Copyright © 2024, ZiLiang, all rights reserved.
-    Created: 27 June 2024
+    Copyright © 2025, ZiLiang, all rights reserved.
+    Created:  2 April 2025
 ======================================================================
 """
 
+
 # ------------------------ Code --------------------------------------
+
+## normal import 
+import json
+from typing import List,Tuple,Dict
+import random
+from pprint import pprint as ppp
+
+
 import os
 
 if __name__ == "__main__":
@@ -40,8 +49,6 @@ from training_data_collecting_openai import chatWithOpenAI__LogLogits
 from gen_pipeline_open import InferObj
 from wmt_process import commonly_used_openai_post_process
 
-# from wmt_process import eval_wmt as eval_sum
-
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from peft import PeftModel
 import torch
@@ -49,12 +56,11 @@ from pprint import pprint
 import numpy as np
 
 
-def load_safety_datals(
+def load_math_datals(
     tokenizer,
     task_name="allenai/prosocial-dialog",
     train_num=100,
-    # model_name="gpt-3.5-turbo-1106",
-    model_name="gpt-4o",
+    model_name="r1",
     topk=5,
     max_length=1024,
     openai_tmp_save_pth="./STEALED_PKLS/wmt_data_saveto_",
@@ -65,59 +71,20 @@ def load_safety_datals(
 
     V = lm_tokenizer.vocab_size
     tasks_we_used = [
-        "PKU-Alignment/PKU-SafeRLHF",
-        "thu-coai/diasafety",
-        "allenai/prosocial-dialog",
-        "Anthropic/hh-rlhf",
+        "openai/gsm8k",
     ]
     assert task_name in tasks_we_used
     dataset_name = task_name
     inp_ls = []
-    if task_name == tasks_we_used[2]:
-        trainset_text = load_dataset(dataset_name, split=f"train[:{train_num}]")
+    if task_name == tasks_we_used[0]:
+        trainset_text = load_dataset(
+            dataset_name,
+            "main",
+            split=f"train[:{train_num}]")
         for item in trainset_text:
-            inp = item["context"]
-            resp = item["response"]
+            inp = item["question"]
+            resp = item["answer"]
             inp_ls.append(inp)
-    elif task_name == tasks_we_used[0]:
-        trainset_text = load_dataset(
-            dataset_name,
-            # split=f"train[:{train_num}]",
-            split=f"train",
-        ).shuffle(20240307)
-        for item in trainset_text:
-            inp = item["prompt"]
-            safe_label = item["is_response_1_safe"]
-            print(f"Safe Label: {safe_label}")
-            if safe_label == False:
-                inp_ls.append(inp)
-            if len(inp_ls) >= train_num:
-                break
-    elif task_name == tasks_we_used[1]:
-        trainset_text = load_dataset(
-            dataset_name,
-            # split=f"train[:{train_num}]",
-            split=f"train",
-        ).shuffle(20240307)
-        for item in trainset_text:
-            inp = item["context"]
-            inp_ls.append(inp)
-            if len(inp_ls) >= train_num:
-                break
-    elif task_name == "Anthropic/hh-rlhf":
-        trainset_text = load_dataset(
-            dataset_name,
-            split="train",
-            ).shuffle(20240307)
-        for item in trainset_text:
-            inp = item["chosen"]
-            if " Assistant: " not in inp:
-                continue
-            else:
-                inp = inp.split(" Assistant: ")[0]
-                inp_ls.append(inp)
-            if len(inp_ls) >= train_num:
-                break
 
     assert inp_ls != []
 
@@ -126,34 +93,19 @@ def load_safety_datals(
     for p in prompts:
         p_idxls.append(lm_tokenizer(p, return_tensors="pt").input_ids[0])
 
-    openai_tmp_save_pth += f"safetask_{task_name}-trainNUM_{train_num}.pkl"
+    openai_tmp_save_pth += f"mathtask_{task_name}-trainNUM_{train_num}.pkl"
 
-    if model_name == "fingerprint":
-        from wmt_process import commonly_used_opensource_post_process
-        return commonly_used_opensource_post_process(
-            openai_tmp_save_pth+".open",
-            inp_ls,
-            pp,
-            model_name,
-            topk,
-            max_length,
-            p_idxls,
-            V,
-            lm_tokenizer,
-            victim="cnut1648/LLaMA2-7B-fingerprinted-SFT",
-        )
-    else:
-        return commonly_used_openai_post_process(
-            openai_tmp_save_pth,
-            inp_ls,
-            pp,
-            model_name,
-            topk,
-            max_length,
-            p_idxls,
-            V,
-            lm_tokenizer,
-        )
+    return commonly_used_openai_post_process(
+        openai_tmp_save_pth,
+        inp_ls,
+        pp,
+        "r1",
+        topk,
+        max_length,
+        p_idxls,
+        V,
+        lm_tokenizer,
+    )
 
 
 def infer_safety(
@@ -511,3 +463,14 @@ def eval_varying_train_num():
 if __name__ == "__main__":
     eval_varying_train_num()
     print("EVERYTHING DONE.")
+
+
+
+
+
+
+
+
+
+
+
