@@ -1,7 +1,7 @@
 
 * LoRD: Locality Reinforced Distillation
 
-This repository contains the source code of our pre-printed paper [[https://arxiv.org/abs/2409.02718][Alignment-Aware Model Extraction Attacks on Large Language Models]].
+This repository contains the source code of our paper [[https://arxiv.org/abs/2409.02718]["Yes, My LoRD." Guiding Language Model Extraction with Locality Reinforced Distillation.]].
 
 
 
@@ -324,10 +324,10 @@ Detection and visualization are here:
 ** Reference
 
 #+begin_src bib
-  @misc{liang2024alignmentawaremodelextractionattacks,
-      title={Alignment-Aware Model Extraction Attacks on Large Language Models}, 
+  @misc{liang2025yeslordguidinglanguage,
+      title={"Yes, My LoRD." Guiding Language Model Extraction with Locality Reinforced Distillation}, 
       author={Zi Liang and Qingqing Ye and Yanyun Wang and Sen Zhang and Yaxin Xiao and Ronghua Li and Jianliang Xu and Haibo Hu},
-      year={2024},
+      year={2025},
       eprint={2409.02718},
       archivePrefix={arXiv},
       primaryClass={cs.CR},
